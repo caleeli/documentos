@@ -14,6 +14,76 @@
       <label>Área o Unidad de Empresa Pública / Firma de Auditoría</label>
       <input type="text" placeholder="Unidad de auditoria" class="form-control">
     </div>
+    <div class="form-group">
+      <div><label>Seleccione el Tipo de Referencia</label></div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              1. Evaluación de Consistencias
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              2. Auditorías
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              3. Supervisiones
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              4. Relevamientos de Información
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              5. Contrataciones Directas
+            </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              6. Evaluación de Informes de UAI's
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              7. Evaluación de Informes de POA y PEI de UAI
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              8. Solicitudes y Denuncias
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              9. Tareas Administrativas
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipo_referencia" value="option1" checked="">
+              10. Otros
+            </label>
+          </div>
+        </div>
+      </div>
+      <input type="text" placeholder="otro..." class="form-control">
+    </div>
   </div>
 </template>
 
