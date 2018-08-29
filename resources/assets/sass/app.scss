@@ -1,0 +1,57 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+//@import "variables";
+
+// Bootswatch variables
+@import '~bootswatch/dist/litera/variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+//Import Font Awesome 5
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+/**
+ * Permite a la aplicacion tomar toda la pagina
+ */
+html, body, #app{
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+}
+#app {
+    display: grid;
+    grid-template-rows: 4em auto;
+}
+.app-body {
+    width: 100%;
+    height: 100%;
+}
+
+/**
+ * Inline button: Boton que tiene el tamaño de un texto normal
+ */
+.btn-inline {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-size: inherit;
+    margin-top: -2px;
+    margin-bottom: -2px;
+}
+/**
+ * Formato del logo de la pagina de login
+ */
+.login-logo {
+    height: 50vh;
+    text-align: center;
+}
+.navbar-logo {
+    height: 48px;
+}
