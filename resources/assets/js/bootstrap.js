@@ -57,3 +57,5 @@ window.Echo.channel('test-event')
     .listen('ExampleEvent', (e) => {
         console.log(e);
     });
+
+console.log(window.Echo);
