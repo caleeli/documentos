@@ -18,3 +18,7 @@ Artisan::command('inspire', function () {
     $a = new \App\Nombres;
     $a->padres;
 })->describe('Display an inspiring quote');
+
+Artisan::command('message {message}', function ($message) {
+    broadcast(new \App\Events\ExampleEvent($message));
+})->describe('Send a message to the clients');
