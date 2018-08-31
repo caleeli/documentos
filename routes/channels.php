@@ -12,5 +12,7 @@
 */
 
 Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+    Illuminate\Support\Facades\Log::info(json_encode($user, $id));
+    return true;
+    //return (int) $user->id === (int) $id;
 });

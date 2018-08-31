@@ -40,7 +40,8 @@ class ExampleEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('test-event');
+        return new PrivateChannel('App.User.'.'123');
+        //return new Channel('test-event');
     }
 
     /**

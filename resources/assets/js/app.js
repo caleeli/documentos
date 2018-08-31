@@ -52,7 +52,8 @@ const app = new Vue({
         return {
             topbar: {
                 notification: {
-                    countClass: ''
+                    countClass: '',
+                    notificaciones: []
                 }
             },
             menu: {

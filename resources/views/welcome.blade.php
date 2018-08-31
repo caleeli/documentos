@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if(Auth::user())
+    <meta name="user-uid" content="{{ Auth::user()->uid }}">
+    @endif
+    <meta name="broadcaster-host" content="{{env('BROADCASTER_HOST')}}">
+    <meta name="broadcaster-key" content="{{env('BROADCASTER_KEY')}}">
     <link rel="stylesheet" href="{{mix('css/app.css')}}" media="screen">
   </head>
   <body>
@@ -21,44 +26,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="https://www.google.com/" target="_blank">Ayuda</a>
               </li>
-              <notification icon="fa fa-bell" v-bind:count-class="topbar.notification.countClass">
-                <ul>
-                  <li>
-                    <a href="mailbox.html" class="dropdown-item">
-                      <div>
-                        <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                        <span class="float-right text-muted small">4 minutes ago</span>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <a href="profile.html" class="dropdown-item">
-                      <div>
-                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                        <span class="float-right text-muted small">12 minutes ago</span>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <a href="grid_options.html" class="dropdown-item">
-                      <div>
-                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                        <span class="float-right text-muted small">4 minutes ago</span>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="dropdown-divider"></li>
-                  <li>
-                    <div class="text-center link-block">
-                      <a href="notifications.html" class="dropdown-item">
-                        <strong>See All Alerts</strong>
-                        <i class="fa fa-angle-right"></i>
-                      </a>
-                    </div>
-                  </li>
-                </ul>
+              <notification icon="fa fa-bell" v-bind:count-class="topbar.notification.countClass" v-bind:notifications="topbar.notification.notificaciones">
               </notification>
             </ul>
           </div>

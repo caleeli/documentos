@@ -12,7 +12,8 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (e) {
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -25,15 +26,24 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
+ * 
+ * @param {string} name
+ * @returns {string}
+ */
+function meta(name) {
+    let tag = document.head.querySelector('meta[name="' + name + '"]');
+    return tag ? tag.content : null;
+}
+
+/**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just
  * a simple convenience so we don't have to attach every token manually.
  */
-
-let token = document.head.querySelector('meta[name="csrf-token"]');
+let token = meta("csrf-token");
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
@@ -43,17 +53,24 @@ if (token) {
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
+import Echo from 'laravel-echo';
 
-import Echo from 'laravel-echo'
+let broadcasterHost = meta("broadcaster-host");
+if (broadcasterHost) {
+    window.io = require('socket.io-client');
 
-window.io = require('socket.io-client');
-
-window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':8001'
-});
-
-window.Echo.channel('test-event')
-    .listen('ExampleEvent', (e) => {
-        console.log(e);
+    window.Echo = new Echo({
+        broadcaster: 'socket.io',
+        host: meta("broadcaster-host"),
+        key: meta("broadcaster-key")
     });
+
+    window.Echo.channel('test-event')
+            .listen('ExampleEvent', (e) => {
+                console.log(e);
+            });
+    window.Echo.private('App.User.123')
+            .listen('ExampleEvent', (e) => {
+                console.log('private: ', e);
+            });
+}
