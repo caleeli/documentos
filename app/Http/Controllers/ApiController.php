@@ -120,6 +120,8 @@ class ApiController extends Controller
                 "success"  => true,
                 "response" => $result,
             ];
+        } else {
+            throw new \App\Exceptions\InvalidApiCall("Expected data or call property.");
         }
         return response()->json($response);
     }
@@ -237,7 +239,7 @@ class ApiController extends Controller
         }
         $fields = explode(",", $requiredFields.','.$requiredIncludes);
         foreach ($fields as $field) {
-            if (method_exists($row, $field)) {
+            if ($field && is_callable([$row, $field])) {
                 $relationships[$field] = $this->doSelect($row, [$field], '', '', static::PER_PAGE, '', '');
             }
         }

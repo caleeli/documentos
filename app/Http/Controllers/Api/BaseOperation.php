@@ -35,7 +35,9 @@ abstract class BaseOperation
             $isNumeric = !$isZero && is_numeric($route);
             $isString = !$isZero && !$isNumeric;
             if ($model === null && $isString) {
-                $model = "\App\Models\\".ucfirst($route)."\\".ucfirst(camel_case(str_singular(array_shift($routes))));
+                //$model = "\App\\". str_replace(' ', '\\', ucfirst(camel_case((implode(' ', $routesArray)))));
+                $model = guess_model('\App', $route);
+                //$model = "\App\\". str_replace(' ', '\\', ucfirst(camel_case(str_singular(implode(' ', $routesArray)))));
             } elseif (is_string($model) && $isZero) {
                 $model = new $model();
             } elseif (is_string($model) && $isNumeric) {
