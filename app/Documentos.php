@@ -5,14 +5,14 @@ use App\Traits\AutoTableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Description of Nombres
+ * Documentos
  *
  */
-class Nombres extends Model
+class Documentos extends Model
 {
 
     use AutoTableTrait;
 
-    protected $table = 'nombres';
+    protected $table = 'documentos';
 
 }

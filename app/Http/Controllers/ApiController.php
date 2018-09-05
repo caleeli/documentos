@@ -224,11 +224,13 @@ class ApiController extends Controller
     }
 
     /**
+     * Load the required relationships.
      *
-     * @param type $requiredFields
-     * @param type $requiredIncludes
-     * @param type $row
-     * @return type
+     * @param array $requiredFields
+     * @param array $requiredIncludes
+     * @param array $row
+     *
+     * @return array
      */
     protected function sparseRelationships($requiredFields, $requiredIncludes,
                                            $row)

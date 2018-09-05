@@ -1,8 +1,16 @@
 <?php
 namespace App\Traits;
 
+use Carbon\Carbon;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Types\DateTimeType;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 /**
  * Description of AutoTable
@@ -17,7 +25,42 @@ trait AutoTableTrait
     private static $attIndexes = [];
     private static $attRelationships = [];
     private static $attRules = [];
+    private static $attColumns = [];
 
+    /**
+     * Boot the AutoTableTrait.
+     *
+     */
+    public static function bootAutoTableTrait()
+    {
+        self::loadAttIndexes();
+    }
+
+    /**
+     * Get the array of fillable columns.
+     *
+     * @return array
+     */
+    public function getFillable()
+    {
+        $fillable = parent::getFillable();
+        return array_merge($fillable, self::$attColumns[$this->getTable()]['fillable']);
+    }
+
+    /**
+     * Get the array of casts of columns.
+     *
+     * @return array
+     */
+    public function getCasts()
+    {
+        $casts = parent::getCasts();
+        return array_merge($casts, self::$attColumns[$this->getTable()]['casts']);
+    }
+
+    /**
+     * Load the schema information.
+     */
     private static function loadAttIndexes()
     {
         if (empty(self::$attIndexes)) {
@@ -27,7 +70,12 @@ trait AutoTableTrait
         }
     }
 
-    private static function readAttSchema(\Doctrine\DBAL\Schema\AbstractSchemaManager $schema)
+    /**
+     * Read the schema information.
+     *
+     * @param AbstractSchemaManager $schema
+     */
+    private static function readAttSchema(AbstractSchemaManager $schema)
     {
         $tables = $schema->listTableNames();
         foreach ($tables as $table) {
@@ -41,18 +89,26 @@ trait AutoTableTrait
             }
         }
         foreach ($tables as $table) {
+            self::$attColumns[$table]['fillable'] = [];
+            self::$attColumns[$table]['casts'] = [];
             foreach ($schema->listTableColumns($table) as $column) {
                 self::readAttColumn($column, $table);
             }
         }
-        self::solveAttManytoManyRelationships();
+        self::findAttManytoManyRelationships();
     }
 
-    private static function readAttColumn(\Doctrine\DBAL\Schema\Column $column, $table)
+    /**
+     * Read the columns from schema.
+     *
+     * @param Column $column
+     * @param string $table
+     */
+    private static function readAttColumn(Column $column, $table)
     {
         $key = $column->getName();
-        self::$attRules[$table][$key] = [];
-        if ($column->getName()==='created_at') {
+        self::$attColumns[$table]['fillable'][] = $key;
+        if ($column->getName() === 'created_at') {
             //dd($column->toArray(), get_class($column->getType()));
         }
         if ($column->getNotnull() && $column->getDefault() === null && !$column->getAutoincrement()) {
@@ -61,12 +117,19 @@ trait AutoTableTrait
         if ($column->getType() === 'string') {
             self::$attRules[$table][$key][] = 'max:' . $column->getLength();
         }
-        if ($column->getType() instanceof \Doctrine\DBAL\Types\DateTimeType) {
+        if ($column->getType() instanceof DateTimeType) {
             self::$attRules[$table][$key][] = 'date';
+            self::$attColumns[$table]['casts'][$key] = 'datetime';
         }
     }
 
-    private static function readAttIndex(\Doctrine\DBAL\Schema\Index $index, $table)
+    /**
+     * Load an index.
+     *
+     * @param Index $index
+     * @param string $table
+     */
+    private static function readAttIndex(Index $index, $table)
     {
         $columns = $index->getColumns();
         sort($columns);
@@ -78,6 +141,14 @@ trait AutoTableTrait
         ];
     }
 
+    /**
+     * Get and index by table and columns.
+     *
+     * @param array $columns
+     * @param string $table
+     *
+     * @return array
+     */
     private static function getAttIndex(array $columns, $table)
     {
         self::loadAttIndexes();
@@ -87,7 +158,13 @@ trait AutoTableTrait
         return isset(self::$attIndexes[$key]) ? self::$attIndexes[$key] : null;
     }
 
-    private static function registerAttFK(\Doctrine\DBAL\Schema\ForeignKeyConstraint $fk, $table)
+    /**
+     * Register a foreign key.
+     *
+     * @param ForeignKeyConstraint $fk
+     * @param string $table
+     */
+    private static function registerAttFK(ForeignKeyConstraint $fk, $table)
     {
         $foreignTable = $fk->getForeignTableName();
         //@todo change get_namespace(static::class) to a input parameter to set the Model package.
@@ -114,12 +191,28 @@ trait AutoTableTrait
         );
     }
 
-    private static function guessAttRelationName($from, $to)
+    /**
+     * Guess the name of a relationship.
+     *
+     * @param array $from
+     * @param array $to
+     *
+     * @return string
+     */
+    private static function guessAttRelationName(array $from, array $to)
     {
         return lcfirst(Str::studly($from['index'] && $from['index']['name'] !== 'PRIMARY' ? $from['index']['name'] : $to['table']));
     }
 
-    private static function addAttRelationship($from, $to)
+    /**
+     * Register a relationship.
+     *
+     * @param array $from
+     * @param array $to
+     *
+     * @return void
+     */
+    private static function addAttRelationship(array $from, array $to)
     {
         $table = $from['table'];
         $key = self::guessAttRelationName($from, $to);
@@ -148,18 +241,27 @@ trait AutoTableTrait
         self::addAttRelationship($to, $from);
     }
 
-    private static function solveAttManytoManyRelationships()
+    /**
+     * Find many to many relationships.
+     *
+     */
+    private static function findAttManytoManyRelationships()
     {
         foreach (self::$attRelationships as $relationships) {
             foreach ($relationships as $relationship) {
                 if ($relationship[0] === 'hasMany') {
-                    self::findAttManytoManyRelationship($relationship);
+                    self::matchAttManytoManyRelationship($relationship);
                 }
             }
         }
     }
 
-    private static function findAttManytoManyRelationship($refRelationship)
+    /**
+     * Match to hasMany relationships and make a ManyToMany relationship.
+     *
+     * @param array $refRelationship
+     */
+    private static function matchAttManytoManyRelationship(array $refRelationship)
     {
         foreach (self::$attRelationships as $table => $relationships) {
             foreach ($relationships as $key => $relationship) {
@@ -183,16 +285,26 @@ trait AutoTableTrait
         }
     }
 
+    /**
+     * Get a relationship by table and name.
+     *
+     * @param string $table
+     * @param string $name
+     *
+     * @return array
+     */
     private function getDBRelationship($table, $name)
     {
-        self::loadAttIndexes();
-        //dump(self::$attRelationships);
         return isset(self::$attRelationships[$table][$name]) ? self::$attRelationships[$table][$name] : null;
     }
 
+    /**
+     * Get validation rules.
+     *
+     * @return array
+     */
     protected function getRules()
     {
-        self::loadAttIndexes();
         return self::$attRules[$this->getTable()];
     }
 
@@ -216,9 +328,30 @@ trait AutoTableTrait
             } else {
                 return parent::__call($method, $parameters);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             //dump(get_class($this), self::$attRelationships[$this->getTable()]);
             throw $e;
         }
+    }
+
+    /**
+     * Return a timestamp as DateTime object.
+     *
+     * @param mixed $value
+     *
+     * @return \Carbon\Carbon
+     */
+    protected function asDateTime($value)
+    {
+        try {
+            //Carbon::W3C is the default format used by moment.js
+            $date = Carbon::createFromFormat(Carbon::W3C, $value);
+            if ($date->toW3cString() === $value) {
+                return $date;
+            }
+        } catch (InvalidArgumentException $e) {
+            
+        }
+        return parent::asDateTime($value);
     }
 }
