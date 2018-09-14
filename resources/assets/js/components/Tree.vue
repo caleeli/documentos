@@ -4,7 +4,7 @@
       <tr v-if="header.length">
         <th v-bind:colspan="2"></th>
         <th v-for="(column, j) in header" v-bind:colspan="j == textColumnD ? (maxLevel - 1 + 1) : 1"><vnode 
-        v-bind:template="column"
+        v-bind:tpl="column"
         v-bind:data="options"
         ></vnode></th>
     </tr>
