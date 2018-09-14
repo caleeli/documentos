@@ -11,6 +11,7 @@ import moment from 'moment';
 import VueRouter from 'vue-router';
 
 window.Vue = require('vue');
+window.LocalData = require('./localData');
 window.Vue.prototype.window = window;
 window.Vue.prototype.moment = moment;
 window.Vue.prototype.dateFormat = function (date){
@@ -89,7 +90,7 @@ const app = new Vue({
                     },
                 ]
             },
-            logo: 'http://subcep.com/images/logo2.png'
+            logo: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'//'http://subcep.com/images/logo2.png'
         };
     },
     methods: {

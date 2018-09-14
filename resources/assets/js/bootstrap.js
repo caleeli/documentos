@@ -69,7 +69,7 @@ if (broadcasterHost) {
             .listen('ExampleEvent', (e) => {
                 console.log(e);
             });
-    window.Echo.private('App.User.123')
+    window.Echo.private('App.User.1')
             .listen('ExampleEvent', (e) => {
                 console.log('private: ', e);
             });

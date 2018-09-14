@@ -10,12 +10,12 @@
     </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, i) in flatTree" v-if="row.icon || row.name">
+      <tr v-for="(row, i) in flatTree" v-if="checkVif(row)">
         <td v-bind:colspan="row.$level + 1"></td>
         <td v-for="(column, j) in columns" v-bind:colspan="j == textColumnD ? (maxLevel - row.$level + 1) : 1">
     <vnode 
         v-bind:class="{'tree-open': !flatTree[row.$parent].$collapsed, 'tree-closed': flatTree[row.$parent].$collapsed}"
-        v-bind:template="column"
+        v-bind:tpl="column"
         v-bind:data="row"
         v-bind:parent="flatTree[row.$parent]"
         @collapse="collapse"
@@ -35,6 +35,7 @@
           options: Object,
           tree: Object,
           textColumn: Number,
+          vif: String,
       },
       data() {
           return {
@@ -55,6 +56,9 @@
           }
       },
       methods: {
+          checkVif(row){
+              return eval(this.vif ? this.vif : 'row.icon || row.name');
+          },
           flat(tree, level = 0, flat = [], parent = 0) {
               let row = tree;
               let index = flat.length;

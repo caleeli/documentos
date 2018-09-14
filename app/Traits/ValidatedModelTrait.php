@@ -1,8 +1,9 @@
 <?php
 namespace App\Traits;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+use InvalidArgumentException;
 
 /**
  * Validates a model
@@ -13,10 +14,11 @@ trait ValidatedModelTrait
 
     private $validationErrors;
 
-    protected function getRules()
-    {
-        return [];
-    }
+    /**
+     * Get rules of the model.
+     *
+     */
+    abstract protected function getRules();
 
     public static function bootValidatedModelTrait()
     {
@@ -26,7 +28,7 @@ trait ValidatedModelTrait
     public function validate()
     {
         $data = [];
-        foreach($this->attributes as $key => $value) {
+        foreach ($this->attributes as $key => $value) {
             $data[$key] = $this->getAttributeValue($key);
         }
         // make a new validator object
@@ -58,5 +60,26 @@ trait ValidatedModelTrait
 
         // validation pass
         return true;
+    }
+
+    /**
+     * Return a timestamp as DateTime object.
+     *
+     * @param mixed $value
+     *
+     * @return \Carbon\Carbon
+     */
+    protected function asDateTime($value)
+    {
+        try {
+            //Carbon::W3C is the default format used by moment.js
+            $date = Carbon::createFromFormat(Carbon::W3C, $value);
+            if ($date->toW3cString() === $value) {
+                return $date;
+            }
+        } catch (InvalidArgumentException $e) {
+            
+        }
+        return parent::asDateTime($value);
     }
 }

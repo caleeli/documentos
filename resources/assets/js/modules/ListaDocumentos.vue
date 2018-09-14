@@ -1,16 +1,16 @@
 <template>
   <div>
     <h2>Lista de documentación</h2>
-    <tree v-bind:tree="grid" class="table table-striped table-hover" @edit="gridEdit">
+    <tree v-bind:tree="grid" class="table table-striped table-hover" @edit="gridEdit" vif="row.attributes">
       <template slot="header">
         <div></div>
         <div>Nombre documento</div>
         <div style="white-space: pre">Fecha de envio</div>
       </template>
-      <div><i $class="row.icon"></i></div>
-      <div>{row.nombre}</div>
+      <div><i $class="row.attributes.icono"></i></div>
+      <div>{row.attributes.documento}</div>
       <div>
-        {dateFormat(row.fecha_envio)}
+        {dateFormat(row.attributes.fecha_envio)}
       </div>
     </tree>
   </div>
@@ -29,7 +29,8 @@
                       collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false},
                       edit: {name: '', icon: 'fas fa-edit'}
                   },
-                  children: [
+                  children: new LocalData('/api/users/1/documentos'),
+                  /*[
                       {
                           icon: 'fas fa-file',
                           nombre: 'Documentos',
@@ -73,7 +74,7 @@
                               collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false}
                           },
                       }
-                  ]
+                  ]*/
               }
           };
       },

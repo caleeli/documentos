@@ -151,11 +151,12 @@ class ApiController extends Controller
 
     protected function getType($model)
     {
+        \Illuminate\Support\Facades\Log::info(is_object($model) ? get_class($model) : gettype($model));
         if (is_array($model)) return isset($model[0]) ? $this->getType ($model[0]) : '';
         $class = is_string($model) ? $model : ($model instanceof Model ? get_class($model)
                         : ($model instanceof \Illuminate\Database\Eloquent\Relations\Relation ? get_class($model->getRelated()):'') );
         if (substr($class, 0, 1) != '\\') $class = '\\'.$class;
-        return str_replace('\\', '.', substr($class, 12));
+        return str_replace('\\', '.', substr($class, 1));
     }
 
     protected function resolve($routesArray, $method, $data = null,
