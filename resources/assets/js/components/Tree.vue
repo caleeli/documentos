@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, i) in flatTree" v-if="checkVif(row)">
+      <tr v-for="(row, i) in flatTree" v-if="checkVif(row)" v-bind:class="rowClass(row)">
         <td v-bind:colspan="row.$level + 1"></td>
         <td v-for="(column, j) in columns" v-bind:colspan="j == textColumnD ? (maxLevel - row.$level + 1) : 1">
     <vnode 
@@ -35,7 +35,6 @@
           options: Object,
           tree: Object,
           textColumn: Number,
-          vif: String,
       },
       data() {
           return {
@@ -43,7 +42,10 @@
               columns: [],
               flatTree: [],
               header: [],
-              textColumnD: this.textColumn === undefined ? 1 : this.textColumn
+              textColumnD: this.textColumn === undefined ? 1 : this.textColumn,
+              vif: 'row.icon || row.name',
+              vClass: '""',
+              sClass: ''
           }
       },
       watch: {
@@ -57,7 +59,10 @@
       },
       methods: {
           checkVif(row){
-              return eval(this.vif ? this.vif : 'row.icon || row.name');
+              return eval(this.vif);
+          },
+          rowClass(row){
+              return this.sClass + ' ' + eval(this.vClass);
           },
           flat(tree, level = 0, flat = [], parent = 0) {
               let row = tree;
@@ -82,18 +87,25 @@
               this.flat(this.tree, 0, this.flatTree);
           },
           click(action, node, row){
-            console.log(action, node, row);
           }
       },
       created() {
           const columns = this.columns;
           const header = this.header;
           columns.splice(0);
-          this.$slots.default.forEach(function (node) {
+          for(let node of this.$slots.default){
               if (node.tag) {
-                  columns.push(node2string(node));
+                  this.vif = node.data && node.data.attrs.vif ? node.data.attrs.vif : this.vif;
+                  this.vClass = node.data && node.data.attrs.$class ? node.data.attrs.$class : this.vClass;
+                  this.sClass = node.data && node.data.staticClass ? node.data.staticClass : this.sClass;
+                  node.children.forEach(function (node) {
+                      if (node.tag) {
+                          columns.push(node2string(node));
+                      }
+                  });
+                  break;
               }
-          });
+          };
           if (this.$slots.header) {
               this.$slots.header.forEach(function (node) {
                   if (node.tag) {

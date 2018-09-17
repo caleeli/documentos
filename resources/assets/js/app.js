@@ -11,7 +11,8 @@ import moment from 'moment';
 import VueRouter from 'vue-router';
 
 window.Vue = require('vue');
-window.LocalData = require('./localData');
+window.ApiArray = require('./ApiArray');
+window.ApiObject = require('./ApiObject');
 window.Vue.prototype.window = window;
 window.Vue.prototype.moment = moment;
 window.Vue.prototype.dateFormat = function (date){

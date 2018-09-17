@@ -43,11 +43,13 @@
                v-bind:direction="menu.direction"
                >
           <tree v-bind:tree="tree" style='width: 320px'>
-            <span><i $class="row.icon"></i></span>
-            <span>{row.name}</span>
-            <span>
-              <actions $actions="row.actions" $row='row' :action-class="menu.actionClass" #collapse="collapse"></actions>
-            </span>
+            <div>
+              <span><i $class="row.icon"></i></span>
+              <span>{row.name}</span>
+              <span>
+                <actions $actions="row.actions" $row='row' :action-class="menu.actionClass" #collapse="collapse"></actions>
+              </span>
+            </div>
           </tree>
         </panel>
         </td>
