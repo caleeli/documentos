@@ -1,17 +1,20 @@
 <template>
   <table class="grid-table">
+    <thead>
+      <tr v-if="header.length">
+        <vnode v-for="(column, j) in header" v-bind:key="j"
+           v-bind:tpl="column"
+           v-bind:data="options"
+           ></vnode>
+      </tr>
+    </thead>
     <tbody>
-      <tr v-for="(row, i) in flatTree" v-if="row.icon || row.name">
-        <td v-bind:colspan="row.$level + 1"></td>
-        <td v-for="(column, j) in columns" v-bind:colspan="j == textColumnD ? (maxLevel - row.$level + 1) : 1">
-          <vnode 
-              v-bind:class="{'tree-open': !flatTree[row.$parent].$collapsed, 'tree-closed': flatTree[row.$parent].$collapsed}"
-              v-bind:template="column"
-              v-bind:data="row"
-              v-bind:parent="flatTree[row.$parent]"
-              @collapse="collapse"
-              ></vnode>
-        </td>
+      <tr v-for="(row, i) in data" v-if="checkVif(row)" v-bind:class="rowClass(row)">
+        <vnode v-for="(column, j) in columns" v-bind:key="j"
+           v-bind:tpl="column"
+           v-bind:data="row"
+           @click="click"
+           ></vnode>
     </tr>
     </tbody>
   </table>
@@ -22,62 +25,55 @@
       components: {
       },
       props: {
+          data: Array,
           options: Object,
-          tree: Object,
           textColumn: Number,
       },
       data() {
           return {
-              maxLevel: 0,
               columns: [],
-              flatTree: [],
-              textColumnD: this.textColumn === undefined ? 1 : this.textColumn
-          }
-      },
-      watch: {
-          tree: {
-              handler(val) {
-                  this.flatTree.splice(0);
-                  this.flat(this.tree, 0, this.flatTree);
-              },
-              deep: true
+              header: [],
+              textColumnD: this.textColumn === undefined ? 1 : this.textColumn,
+              vif: 'row.icon || row.name',
+              vClass: '""',
+              sClass: ''
           }
       },
       methods: {
-          flat(tree, level = 0, flat = [], parent = 0) {
-              let row = tree;
-              let index = flat.length;
-              Vue.set(row, '$level', level);
-              Vue.set(row, '$parent', parent);
-              if (row.$collapsed === undefined) {
-                  Vue.set(row, '$collapsed', false);
-              }
-              this.maxLevel = Math.max(this.maxLevel, level);
-              flat.push(row);
-              if (tree.children) {
-                  for (let i = 0, l = tree.children.length; i < l; i++) {
-                      this.flat(tree.children[i], level + 1, flat, index);
-                  }
-              }
-              return flat;
+          checkVif(row) {
+              return eval(this.vif);
           },
-          collapse(action, node) {
-              node.data.$collapsed = action.active;
-              this.flatTree.splice(0);
-              this.flat(this.tree, 0, this.flatTree);
+          rowClass(row) {
+              return this.sClass + ' ' + eval(this.vClass);
+          },
+          click(action, node, row) {
           }
       },
       created() {
           const columns = this.columns;
+          const header = this.header;
           columns.splice(0);
-          this.$slots.default.forEach(function (node) {
+          for (let node of this.$slots.default) {
               if (node.tag) {
-                  columns.push(node2string(node));
+                  this.vif = node.data && node.data.attrs.vif ? node.data.attrs.vif : this.vif;
+                  this.vClass = node.data && node.data.attrs.$class ? node.data.attrs.$class : this.vClass;
+                  this.sClass = node.data && node.data.staticClass ? node.data.staticClass : this.sClass;
+                  node.children.forEach(function (node) {
+                      if (node.tag) {
+                          columns.push(node2string(node, 'td'));
+                      }
+                  });
+                  break;
               }
-          });
-          this.flatTree.splice(0);
-          this.maxLevel = 0;
-          this.flat(this.tree, 0, this.flatTree);
+          }
+      ;
+          if (this.$slots.header) {
+              this.$slots.header.forEach(function (node) {
+                  if (node.tag) {
+                      header.push(node2string(node, 'th'));
+                  }
+              });
+          }
       }
   }
 </script>
@@ -93,7 +89,7 @@
       width: 100%;
   }
   .grid-open {
-      
+
   }
   .grid-closed {
       display: none;

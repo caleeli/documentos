@@ -8,9 +8,9 @@ window.children2string = function (children, div) {
     });
     return div.innerHTML;
 };
-window.node2string = function (node) {
+window.node2string = function (node, rename) {
     const div = window.document.createElement('div');
-    const dom = window.node2dom(node);
+    const dom = window.node2dom(node, rename);
     div.appendChild(dom);
     return div.innerHTML;
 };
@@ -24,8 +24,8 @@ function setAttribute(dom, name, value) {
     }
 
 }
-window.node2dom = function (node) {
-    const tagName = node.tag && node.tag.substr(0, 16) === "vue-component-2-" ? node.tag.substr(16) : node.tag;
+window.node2dom = function (node, rename) {
+    const tagName = rename ? rename : (node.tag && (ma=node.tag.match(/vue-component-\d+-(.+)/)) ? ma[1] : node.tag);
     const dom = tagName ? window.document.createElement(tagName) :
             window.document.createTextNode(node.text.split('{').join('{{').split('}').join('}}'));
     if (node.data) {
