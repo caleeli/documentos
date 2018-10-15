@@ -1,0 +1,68 @@
+/* Banners
+========================================================================== */
+.banner {
+  position: relative;
+  min-height: 300px;
+  //@include background('../images/banner.jpg',center center);
+  @include background('http://via.placeholder.com/1920x1080',center center); // replace backgroud image
+
+  @include display-flex();
+  @include align-items(center);
+  text-align: center;
+
+  .banner-content {
+    & h2 { color: $brand-white; font-size: 36px; font-weight: 700; }
+    & .sub-heading { font-weight: 500; color: #ebebeb;}
+  }
+}
+
+.layer {
+  &:before {
+    display: block;
+    content: "";
+    background-color: rgba($brand-black,0.5);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.product-banner {
+  padding: 100px 130px 70px;
+  background-color: $brand-secondary;
+  margin-bottom: 50px;
+
+  @media screen and (max-width: 991px) {
+    padding: 50px 70px 30px;
+    text-align: center;
+
+    & .valign-wrapper {
+      display: block;
+    }
+
+    & .p-i-frame {
+      padding-bottom: 35%;
+
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .banner {
+    min-height: 200px;
+    & .banner-content {
+      & h2 {
+        font-size: 26px;
+      }
+    }
+  }
+
+  .widgets-section {
+    margin-top: -125px;
+  }
+}

@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, i) in data" v-if="checkVif(row)" v-bind:class="rowClass(row)">
+      <tr v-for="(row, i) in value" v-if="checkVif(row)" v-bind:class="rowClass(row)">
         <vnode v-for="(column, j) in columns" v-bind:key="j"
            v-bind:tpl="column"
            v-bind:data="row"
@@ -25,7 +25,7 @@
       components: {
       },
       props: {
-          data: Array,
+          value: Array,
           options: Object,
           textColumn: Number,
       },
@@ -33,7 +33,6 @@
           return {
               columns: [],
               header: [],
-              textColumnD: this.textColumn === undefined ? 1 : this.textColumn,
               vif: 'row.icon || row.name',
               vClass: '""',
               sClass: ''

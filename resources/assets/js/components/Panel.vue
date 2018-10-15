@@ -27,7 +27,7 @@
       },
       data() {
           return {
-              collapsed: this.actions.collapse ? this.actions.collapse.active : false,
+              collapsed: this.actions && this.actions.collapse ? this.actions.collapse.active : false,
           }
       },
       methods: {

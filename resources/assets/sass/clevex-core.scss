@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+// variables and mixins
+@import "components/variables";
+@import "components/mixins";
+
+// Colors
+@import "components/color";
+
+// components
+@import "components/global";
+@import "components/typography";
+@import "components/base";
+@import "components/sidebar";
+@import "components/header";
+@import "components/navbar";
+@import "components/dashboards";
+@import "components/views";
+@import "components/breadcrumbs";
+@import "components/panels";
+@import "components/filter";
+@import "components/pager";
+@import "components/alerts";
+@import "components/popovers";
+@import "components/tables";
+@import "components/forms";
+@import "components/input-groups";
+@import "components/labels";
+@import "components/badges";
+@import "components/navs";
+@import "components/accordions";
+@import "components/buttons";
+@import "components/progress-bars";
+@import "components/graphs";
+@import "components/mailbox";
+@import "components/icons";
+@import "components/carousel";
+@import "components/various-screens";
+@import "components/footer";
+@import "components/variants";
+@import "components/pricing-tables";
+@import "components/flex";
+@import "components/cards";
+@import "components/owl-carousel";
+@import "components/portfolio";
+@import "components/banners";
+@import "components/ecommerce-page";
+@import "components/testimonial";
+@import "components/rev-slider";
+@import "components/index";
+@import "components/blog-page";
+@import "components/right-sidebar";

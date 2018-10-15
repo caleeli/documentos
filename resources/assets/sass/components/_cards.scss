@@ -1,0 +1,141 @@
+/* Cards
+========================================================================== */
+.card {
+  @include border-radius($border-radius-base);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: $card-margin;
+
+  & .card-header {
+    padding: $card-padding;
+
+    & + .card-content {
+      padding: 0 $card-padding-x $card-padding-y;
+    }
+  }
+
+  & .card-header.card-image {
+    padding: 0;
+    & + .card-content {
+      padding: $card-padding;
+    }
+
+    & img {
+      width: 100%;
+    }
+  }
+
+  & .card-content {
+    padding: $card-padding;
+
+    & + .card-footer {
+      padding: 0 $card-padding-x $card-padding-y;
+    }
+  }
+
+  & .card-footer {
+    padding: $card-padding;
+  }
+}
+
+.card.card-large {
+  & .card-header {
+    padding: $card-padding-lg;
+
+    & + .card-content {
+      padding: 0 $card-padding-lg-x $card-padding-lg-y;
+    }
+  }
+
+  & .card-header.card-image {
+    padding: 0;
+    & + .card-content {
+      padding: $card-padding-lg;
+    }
+  }
+
+  & .card-content {
+    padding: $card-padding-lg;
+
+    & + .card-footer {
+      padding: 0 $card-padding-lg-x $card-padding-lg-y;
+    }
+  }
+
+  & .card-footer {
+    padding: $card-padding-lg;
+  }
+}
+
+.product-card {
+  .card-header {
+    border-bottom: 1px solid map_get($grey, lighten-2);
+  }
+}
+
+.card-content {
+  & p {
+    margin-bottom: 0;
+
+    &:not(:last-child) {
+      margin-bottom: 14px;
+    }
+  }
+}
+
+.card-image-center {
+  & > img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.post-designation {
+  display: block;
+  font-size: 12px;
+  color: #8f8e8e;
+  margin-bottom: 10px;
+}
+
+.right-arrow {
+  display: inline-block;
+  color: $brand-primary;
+  text-transform: capitalize;
+
+  &:after {
+    content: "\f30f";
+    font: {
+      family: 'Material-Design-Iconic-Font', serif;
+      size: 20px;
+    }
+    color: $brand-primary;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+}
+
+.card-panel {
+  @include transition(all 0.5s ease);
+
+  & .card-header {
+    padding: 24px 26px 4px;
+  }
+
+  &:hover {
+    background-color: $brand-primary;
+    @include box-shadow(2px 4px 13px 0 rgba(191, 191, 191, 0.9));
+    color: $brand-white;
+    -webkit-transform: scale(1.08);
+    -ms-transform: scale(1.08);
+    transform: scale(1.08);
+
+    & h5 a {
+      color: $brand-white;
+    }
+
+    span.icon-outline {
+      color: $brand-white;
+      border-color: $brand-white;
+    }
+  }
+}

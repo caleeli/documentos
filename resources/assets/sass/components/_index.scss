@@ -1,0 +1,220 @@
+/* Styles
+   ========================================================================== */
+.content-section {
+  padding: 50px 40px 0;
+
+  & h2 {
+    font-size: 36px;
+  }
+  & p {
+    font-size: 26px;
+  }
+}
+
+.custom-thumbnail {
+  overflow: hidden;
+}
+
+.widgets-section {
+  margin: -185px 0 50px;
+  position: relative;
+  z-index: 1;
+  & .card {
+    background-color: $gray-lighter;
+    @include transition(all 300ms ease-in-out);
+    &.hoverable:hover {
+      background-color: lighten($brand-primary, 10%);
+      color: $brand-white;
+
+      & h5 {
+        color: $brand-white;
+      }
+    }
+  }
+}
+
+.vision-section {
+  width: 60%;
+  margin: 0 auto;
+  & p {
+    font-size: 18px;
+  }
+}
+
+.team-section {
+  & .hoverable:hover {
+    @include transition(all 0.5s ease-in-out 0.1s);
+    background-color: $brand-white !important;
+  }
+}
+
+.contact-form {
+  padding: 60px;
+
+  @media screen and (max-width: 991px) {
+    padding: 30px;
+  }
+}
+
+.contact-block {
+  & .contact-info {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    @include display-flex();
+    @include align-items(stretch);
+    -webkit-align-content: stretch;
+    -ms-flex-align: stretch;
+    align-content: stretch;
+
+    & > li {
+      @include flex(1,0,0);
+      overflow: hidden;
+      padding: 10px 40px;
+      border-right: 2px solid $default-font-color;
+      word-wrap: break-word;
+
+      &:last-child {
+        border: 0 none;
+      }
+
+      & > i {
+        float: left;
+        font-size: 16px;
+        margin-right: 5px;
+      }
+
+      & .contact-body {
+        overflow: hidden;
+        & .icons-wrapper {
+          margin-top: 15px;
+          margin-left: 0;
+        }
+
+        & .icon {
+          background-color: #3b5998;
+          color: $brand-white;
+          @include border-radius($border-radius-circle);
+          margin-right: 6px;
+          margin-bottom: 6px;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+
+        & .twitter-icon {
+          background-color: #55acee;
+        }
+
+        & .google-icon {
+          background-color: #dc4e41;
+        }
+
+        & .linkedin-icon {
+          background-color: #007ab9;
+        }
+      }
+
+      @media screen and (max-width: 991px) {
+        padding: 10px 25px;
+      }
+    }
+
+    &.vertical {
+      display: block;
+      margin-bottom: 0;
+      & > li {
+        padding: 0 0 24px;
+        border-right: 0 none;
+        border-bottom: 2px solid $default-font-color;
+        margin-bottom: 24px;
+
+        &:last-child {
+          border: 0 none;
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+
+  }
+}
+
+//Map
+
+#map {
+  height: 100%;
+  min-height: 250px;
+  width: 100%;
+  background-color: grey;
+}
+
+a[href^="http://maps.google.com/maps"] {
+  display: none !important
+}
+
+a[href^="https://maps.google.com/maps"] {
+  display: none !important
+}
+
+.gmnoprint a, .gmnoprint span, .gm-style-cc {
+  display: none;
+}
+
+.gmnoprint div {
+  background: none !important;
+}
+
+@media screen and (max-width: 991px) {
+  .intro-video.center-crop-image {
+    height: 150px;
+  }
+
+  .content-section {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .vision-section {
+    width: 100%;
+    & p {
+      font-size: 14px;
+    }
+  }
+
+  .contact-block {
+    & .contact-info {
+      display: block;
+      margin-bottom: 0;
+      & > li {
+        padding: 0 0 24px;
+        border-right: 0 none;
+        border-bottom: 2px solid $default-font-color;
+        margin-bottom: 24px;
+
+        &:last-child {
+          border: 0 none;
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .content-section {
+    padding: 20px 10px 0;
+    & h2 {
+      font-size: 28px;
+    }
+    & p {
+      font-size: 18px;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .widgets-section {
+    margin-top: -125px;
+  }
+}

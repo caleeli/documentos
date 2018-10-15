@@ -32,7 +32,7 @@ window.node2dom = function (node, rename) {
         for (var a in node.data.attrs) {
             let name = a.substr(0, 1) === '#'
                     ? ('v-on:' + a.substr(1))
-                    : (a.substr(0, 1) === '$' ? 'v-bind:' + a.substr(1) : a);
+                    : (a==='$v-model' ? 'v-model' : (a.substr(0, 1) === '$' ? 'v-bind:' + a.substr(1) : a));
             setAttribute(dom, name, node.data.attrs[a]);
         }
         if (node.data.staticClass) {

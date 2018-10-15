@@ -1,0 +1,159 @@
+/* Base
+   ========================================================================== */
+section {
+  padding: 60px 0;
+}
+
+.container {
+  position: relative;
+}
+
+.page-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: table;
+  table-layout: fixed;
+  background-color: $gray-lighter;
+}
+
+.page-container.horizontal-menu {
+  padding-top: 60px;
+}
+
+.main-container {
+  background-color: #FFF;
+  padding: 0 15px;
+  position: relative;
+  display: table-cell;
+  width: 100%;
+  vertical-align: top;
+}
+
+.main-header {
+  padding: 10px;
+  background-color: $header-bg-color;
+  border-bottom: solid 1px #3367d6;
+  color: $header-color;
+}
+
+.main-header .header-logo {
+  padding: 6px 20px;
+  overflow: hidden;
+}
+
+.main-header .menu-toggle {
+  float: left;
+  margin: 0 20px 0 -25px;
+}
+
+.main-header .header-logo .site-logo {
+  float: left;
+}
+
+.main-header .menu-icon {
+  display: inline-block;
+  line-height: 1.2;
+  color: #fff;
+  font-size: 24px;
+}
+
+.sub-heading {
+  font-size: ($h2-fontsize / 1.875);
+}
+
+.header-secondary {
+  padding: 20px 10px 10px;
+}
+
+.main-content {
+  padding: 30px 10px;
+}
+
+.section-header {
+  margin-bottom: 50px;
+}
+
+@media screen and (max-width: $screen-xs-max) {
+
+  .page-container {
+    display: block;
+    height: auto;
+  }
+
+  .main-container {
+    display: block;
+    height: auto;
+  }
+
+  section {
+    padding: 40px 0;
+  }
+
+}
+
+@media screen and (max-width: 500px) {
+  body {
+    font-size: 13px;
+  }
+  h1,.h1 {
+    font-size: 30px;
+  }
+  h2,.h2 {
+    font-size: 24px
+  }
+  h3,.h3 {
+    font-size: 20px;
+  }
+
+  section {
+    padding: 30px 0;
+  }
+
+  .sub-heading {
+    font-size: 14px;
+  }
+
+  .section-header {
+    margin-bottom: 24px;
+  }
+
+  .main-header {
+    padding: 6px 0;
+  }
+  .main-header .header-logo {
+    padding: 0;
+    margin-top: 6px;
+  }
+  .main-header .menu-toggle {
+    margin: 0 8px 0 0;
+  }
+  .main-header .header-logo .site-logo {
+    width: 70%;
+    margin-top: 4px;
+  }
+  .notifications.dropdown > a .badge {
+    font-size: 8px !important;
+    line-height: 13px !important;
+    min-width: 14px !important;
+    padding: 0 !important;
+    right: 2px !important;
+    top: 2px !important;
+  }
+  .main-header .col-xs-5, .main-header .col-xs-7 {
+    padding: 0 5px;
+  }
+  .user-info .notifications.dropdown > a {
+    padding: 4px !important;
+  }
+  .user-info .notifications.dropdown > a i {
+    font-size: 16px;
+    margin: 0;
+  }
+  .notifications {
+    margin-top: 4px;
+  }
+  .notifications.dropdown .dropdown-menu {
+    width: 210px !important;
+  }
+}

@@ -73,6 +73,7 @@ trait ValidatedModelTrait
     {
         try {
             //Carbon::W3C is the default format used by moment.js
+            //moment().format() --> 2018-10-08T06:54:02-04:00
             $date = Carbon::createFromFormat(Carbon::W3C, $value);
             if ($date->toW3cString() === $value) {
                 return $date;

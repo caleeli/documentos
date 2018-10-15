@@ -1,0 +1,42 @@
+/* Blog Page
+   ========================================================================== */
+.blog-post {
+  & .card-content {
+    padding: 30px 30px 10px !important;
+  }
+
+  &.post-detail .card-content {
+    padding: 30px !important;
+  }
+
+  & .card-footer {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+
+  & .card-image img {
+    width: 100%;
+  }
+}
+
+/* Media-block
+========================================================================== */
+.comment-box {
+  padding: 40px;
+
+  & .media-block {
+    margin-bottom: 70px;
+  }
+}
+.media-block {
+  & .media-left {
+    & img { max-width: none; width: 54px; height: 54px; }
+  }
+
+  & .media-body {
+    padding-top: 12px;
+    padding-left: 5px;
+    & h6 { font-weight: 400; margin-bottom: 4px; color: $default-font-color; }
+    & p { line-height: 18px; font-size: 12px; }
+  }
+}

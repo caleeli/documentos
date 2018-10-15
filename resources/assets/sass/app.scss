@@ -6,7 +6,7 @@
 //@import "variables";
 
 // Bootswatch variables
-@import '~bootswatch/dist/litera/variables';
+//@import '~bootswatch/dist/litera/variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
@@ -16,6 +16,8 @@
 
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+@import "clevex-core.scss";
 
 /**
  * Permite a la aplicacion tomar toda la pagina
@@ -53,5 +55,13 @@ html, body, #app{
     text-align: center;
 }
 .navbar-logo {
-    height: 48px;
+    height: 3em;
+}
+.navbar{
+    border-bottom: 4px solid map-get($primary, 'base');
+}
+.login-page {
+    background-image: url(https://www.contraloria.gob.bo/portal/imagenes/fotos_rotativas/20170411_1328.jpg);
+    background-size: auto 100%;
+    background-position: center center;
 }

@@ -1,0 +1,292 @@
+/* Navs
+   ========================================================================== */
+
+/**
+ * Tabs
+ */
+
+.tabs-container {
+	margin-bottom: 30px;
+}
+
+.tab-wrapper {
+	margin-bottom: 10px;
+}
+
+.tabs-container {
+  .panel-body {
+  	border: 0 none;
+	background-color: $brand-white;
+	padding: 24px;
+  }
+}
+
+.nav-tabs {
+	border-bottom: 0 none;
+	&.nav-justified > li > a {
+		border: 0 none;
+		@include border-radius(0);
+	}
+
+	&.nav-justified > .active > a,
+	&.nav-justified > .active > a:focus,
+	&.nav-justified > .active > a:hover {
+		border: 0 none;
+	}
+
+	& > li > a {
+		padding: 26px 36px;
+		@include border-radius(0);
+		& > span[class*="icon-"]{
+			margin-right: 14px;
+			float: left;
+		}
+		& > .tabs-option {
+			display: inline-block;
+			overflow: hidden;
+			margin-top: 8px;
+			text-transform: uppercase;
+		}
+	}
+
+	& > li.active > a > span[class*="icon-"]{
+		border: 0 none;
+	}
+
+	& > li.active {
+	      & a,
+	      & a:hover,
+	      & a:focus {
+	       	border-color: transparent;
+	      }
+     }
+
+ 	& > li > a:hover {
+		color: #434343;
+		border-color: transparent;
+	}
+}
+
+.tabs-vertical {
+  & .nav-tabs {
+  	float: left;
+  	width: auto;
+  	> li {
+  	  float: none;
+  	}
+  }
+  & .tab-content {
+  	overflow: hidden;
+  }
+}
+
+
+.tabs-vertical .nav-tabs > li {
+  &  > a {
+    	border-color: transparent;
+    	border-radius: 0;
+    	margin-right: -1px;
+    	z-index: 5;
+  }
+  &.active {
+    & a,
+    & a:hover,
+    & a:focus {
+     	border-color: transparent;
+    }
+  }
+}
+
+.tabs-right .nav-tabs {
+    float: right;
+    & > li {
+      & > a {
+        	margin-right: 0;
+	     margin-left: -1px;
+      }
+      &.active {
+        & > a,
+        & > a:hover,
+        & > a:focus {
+          border-color: #ddd;
+	        border-left-color: #fff;
+        }
+      }
+    }
+}
+
+.bt-border-tab {
+	& .panel-body {
+		background-color: transparent;
+		padding: 40px 0;
+	}
+	& .nav-tabs {
+		border-bottom: 1px solid #dddddd;
+		//& > li {
+		//	padding-right: 40px !important;
+		//	&:last-child {
+		//		padding-right: 0!important;
+		//	}
+		//}
+
+		& > li > a {
+			padding: 12px;
+			background-color: transparent;
+			text-align: left;
+			@include border-radius(0);
+
+			& > .icon{
+				margin-right: 4px;
+				border: 0 none;
+			}
+			& > .tabs-option {
+				display: inline-block;
+				overflow: auto;
+				margin-top: 0;
+				vertical-align: middle;
+
+			}
+		}
+
+		& > li.active {
+			border-bottom: 3px solid $brand-primary;
+			margin-bottom: -1px;
+			& a,
+			& a:hover,
+			& a:focus {
+				background-color: transparent;
+				color: $brand-primary;
+			}
+
+			& > a > span[class*="icon-"]{
+				color: $brand-primary;
+			}
+		}
+
+		& > li > a:hover {
+			color: #434343;
+			border-color: transparent;
+		}
+	}
+}
+
+
+/**
+ * Pills
+ */
+
+.nav-pills > li {
+  & > a {
+    	padding: 4px 12px;
+    	background-color: #FFF;
+    	@include border-radius(0);
+  }
+  & > a:hover,
+  &.active > a,
+  &.active > a:hover,
+  &.active > a:focus {
+    background-color: #3367D6;
+	  color: #FFF;
+  }
+  & + li {
+    	margin-left: 0;
+  }
+  & > a:focus {
+  	background-color: #FFF;
+  	color: #434343;
+  }
+}
+
+.nav-pills-default {
+	border: solid 1px #c7c6c6;
+	border-radius: 3px;
+	& > li {
+	  & > a {
+	    background-color: #ececec;
+    	color: #8c8b8b;
+  	  }
+    	& + li {
+    	  border-left: solid 1px #c7c6c6;
+    	}
+  	 &:first-child > a {
+	   @include border-radius(3px 0 0 3px);
+  	 }
+  	 &:last-child > a {
+	   @include border-radius(0 3px 3px 0);
+  	 }
+  	 & > a:hover,
+  	 &.active > a,
+     &.active > a:hover,
+     &.active > a:focus{
+  	    background-color: #FFF;
+	      color: #4e4e4e;
+  	 }
+	}
+}
+
+
+/**
+ * Nav Icons
+ */
+
+.nav-icons {
+	font-size: 20px;
+	& li {
+	  line-height: 1.1;
+	}
+	& > li {
+	  & > a {
+	    	padding: 3px;
+      	text-align: center;
+      	min-width: 30px;
+      	& i {
+      	  	margin: 0;
+	          line-height: 1;
+      	}
+	  }
+	}
+}
+
+/**
+ * Nav backdrop overlay
+ */
+
+ .menu-backdrop.fade {
+     filter: alpha(opacity=0);
+     opacity: 0;
+ }
+
+ .menu-backdrop.in {
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+
+
+.menu-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: $brand-black;
+		display: none;
+}
+
+@media screen and (max-width: 991px) {
+	.nav-tabs > li > a {
+		padding: 8px 12px;
+		margin-right: 0;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.nav-tabs {
+		border-bottom: 1px solid #DDDDDD;
+			& > li {
+			float: none;
+			border: 1px solid #DDDDDD;
+		}
+	}
+	.tabs-vertical .nav-tabs { float: none; }
+}

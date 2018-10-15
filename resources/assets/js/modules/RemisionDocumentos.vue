@@ -8,11 +8,15 @@
     <div class="form-group">
       <label>Empresa</label>
       <select-box type="single" placeholder="seleccione una empresa" class="form-control"
-                  api="http://subcep.com/api/UserAdministration/empresas"><label>{row.attributes.nombre_empresa}</label></select-box>
+                  v-bind:data="empresas"><label>{row.attributes.nombre_empresa}</label></select-box>
     </div>
     <div class="form-group">
       <label>Área o Unidad de Empresa Pública / Firma de Auditoría</label>
       <input type="text" placeholder="Unidad de auditoria" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Fecha y hora</label>
+      <date-time v-model="v"/>
     </div>
     <div class="form-group">
       <div><label>Seleccione el Tipo de Referencia</label></div>
@@ -93,7 +97,9 @@
       },
       data() {
           return {
+              v: '',
               actionClass: 'btn-outline-secondary btn-sm',
+              empresas: new ApiArray('http://subcep.com/api/UserAdministration/empresas'),
               grid: {
                   name: '',
                   actions: {

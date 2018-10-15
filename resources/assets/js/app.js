@@ -15,9 +15,11 @@ window.ApiArray = require('./ApiArray');
 window.ApiObject = require('./ApiObject');
 window.Vue.prototype.window = window;
 window.Vue.prototype.moment = moment;
+moment.locale('es');
 window.Vue.prototype.dateFormat = function (date){
     return moment(date).format('DD/MM/YYYY HH:mm');
 };
+window.moment = moment;
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,17 +35,22 @@ Vue.component('notification', require('./components/Notification.vue'));
 Vue.component('SelectBox', require('./components/SelectBox.vue'));
 Vue.component('date-time', require('./components/DateTime'));
 Vue.component('grid', require('./components/Grid'));
+Vue.component('document', require('./components/Document'));
+Vue.component('avatar', require('./components/Avatar'));
+
 
 /**
  * MODULOS
  */
-import ListaDocumentos from './modules/ListaDocumentos.vue';
-import RemisionDocumentos from './modules/RemisionDocumentos.vue';
+const routes = [];
+const req = require.context('./modules/', true, /\.(js|vue)$/i);
+req.keys().map(key => {
+    const name = key.match(/\w+/)[0];
+    const component = Vue.component(name, req(key));
+    routes.push({path: '/' + name, component: component});
+    return component;
+});
 
-const routes = [
-  { path: '/ListaDocumentos', component: ListaDocumentos },
-  { path: '/RemisionDocumentos', component: RemisionDocumentos },
-];
 const router = new VueRouter({
   routes
 });
@@ -93,7 +100,8 @@ const app = new Vue({
                     },
                 ]
             },
-            logo: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'//'http://subcep.com/images/logo2.png'
+            logo128: '/images/logo128.png',
+            logo: '/images/logo.png'//'http://subcep.com/images/logo2.png'
         };
     },
     methods: {

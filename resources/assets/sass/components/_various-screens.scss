@@ -1,0 +1,83 @@
+/* Various Screens
+   ========================================================================== */
+   
+/**
+ * Login Page
+ */
+   
+.login-container {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.login-content {
+   width: 420px;
+   margin: auto;
+   padding: 35px 35px 20px;
+   background-color: $brand-white;
+   $shadow: 0 3px 20px -3px rgba($brand-primary, 0.6);
+   @include box-shadow($shadow);
+   @include border-radius(10px);
+   font-size: 14px;
+   max-width: 94%;
+
+	& h2 {
+		font-size: 22px;
+		font-weight: 400;
+	}
+}
+
+.login-content .form-control {
+	background-color: #f3f3f3;
+	@include border-radius(6px);
+
+	&:focus {
+		border-color: $brand-primary;
+	}
+}
+
+.login-content .btn { padding: 10px 35px; color: $brand-white; }
+
+.login-content a { color: $brand-primary }
+
+/**
+ * Error Page
+ */
+
+.page-error-container {
+	padding: 30px 0;
+	position: relative;
+}
+
+.page-error-content {
+	margin: 0 auto;
+	padding: 40px 0;
+	width: 380px;
+	max-width: 94%;
+}
+
+.error-code {
+	color: #1d1d1d;
+	font-size: 160px;
+	text-align: center;
+	line-height: 1;
+	font-weight: 600;
+	text-shadow: 10px 6px 8px rgba(117, 117, 117, 0.8);
+
+	@media screen and (max-width: 991px) {
+		font-size: 130px;
+	}
+
+	@media screen and (max-width: 767px) {
+		font-size: 100px;
+	}
+
+	@media screen and (max-width: 575px) {
+		font-size: 80px;
+	}
+}
+
+.page-error-content h4 {
+	margin-bottom: 50px;
+}

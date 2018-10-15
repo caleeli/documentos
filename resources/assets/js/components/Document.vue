@@ -1,11 +1,11 @@
 <template>
   <div v-bind:class="displayClass">
     <div>
-      <span v-bind:class="icon"></span>
-      <a class="jdd-document-text" v-bind:href="" target="_blank">{{value.name}}</a>
+      <span v-bind:class="icon" v-bind:style="{color:color}"></span>
+      <a class="jdd-document-text" v-bind:href="href" target="_blank">{{value.name}}</a>
     </div>
     <div>
-      <date-time class="jdd-document-date" v-model="value.updated_at" />
+      <small>Creado el <date-time class="jdd-document-date" v-model="value.updated_at" /></small>
     </div>
   </div>
 </template>
@@ -29,25 +29,24 @@
                   var color, icon, type;
                   switch (this.value.mime) {
                       case 'application/pdf':
-                          icon = 'fa fa-file-pdf-o';
+                          icon = 'fa fa-file-pdf';
                           color = 'rgb(226, 31, 52)';
                           type = 'pdf';
                           break;
-                      case 'application/msword':
                       case 'application/msword':
                       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
                       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.template':
                       case 'application/vnd.ms-word.document.macroEnabled.12':
                       case 'application/vnd.ms-word.template.macroEnabled.12':
-                          icon = 'fa fa-file-word-o';
-                          color = '#234486';
+                          icon = 'fa fa-file-word';
+                          color = '#2372BA';
                           type = 'word';
                           break;
                       case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
                       case 'application/vnd.ms-excel':
                       default:
                           type = 'excel';
-                          icon = 'fa fa-file-excel-o';
+                          icon = 'fa fa-file-excel';
                           color = 'rgb(0, 177, 15)';
                   }
                   this.icon = icon;
@@ -58,6 +57,12 @@
           }
       },
       computed: {
+          href() {
+            return this.value.href ? this.value.href : 'javascript:void(0)';
+          },
+          displayClass() {
+            return 'jdd-document-list-view';
+          }
       },
       mounted() {
       }
