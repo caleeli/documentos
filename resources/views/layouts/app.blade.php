@@ -41,12 +41,20 @@
               </li>
               <notification icon="fa fa-bell" v-bind:count-class="topbar.notification.countClass" v-bind:notifications="topbar.notification.notificaciones">
               </notification>
+              <li class="nav-item dropdown">
+                <a class="nav-link " data-toggle="dropdown" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  <i class="fa fa-power-off"></i>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
       </div>
+      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+      </form>
 
-        @yield('content')
+      @yield('content')
     </div>
   </body>
 </html>
