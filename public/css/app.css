@@ -27420,7 +27420,7 @@ body,
 }
 
 .login-page {
-  background-image: url(https://www.contraloria.gob.bo/portal/imagenes/fotos_rotativas/20170411_1328.jpg);
+  background-image: url(/images/fondo.jpg);
   background-size: auto 100%;
   background-position: center center;
 }
