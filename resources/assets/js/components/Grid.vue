@@ -1,21 +1,10 @@
 <template>
   <table class="grid-table">
     <thead>
-      <tr v-if="header.length">
-        <vnode v-for="(column, j) in header" v-bind:key="j"
-           v-bind:tpl="column"
-           v-bind:data="options"
-           ></vnode>
-      </tr>
+    <slot name="header" v-bind:data="value" v-bind:options="options"></slot>
     </thead>
     <tbody>
-      <tr v-for="(row, i) in value" v-if="checkVif(row)" v-bind:class="rowClass(row)">
-        <vnode v-for="(column, j) in columns" v-bind:key="j"
-           v-bind:tpl="column"
-           v-bind:data="row"
-           @click="click"
-           ></vnode>
-    </tr>
+      <slot v-for="(row, i) in value" v-bind:row="row" v-bind:options="options" @click="click"></slot>
     </tbody>
   </table>
 </template>
@@ -26,54 +15,16 @@
       },
       props: {
           value: Array,
-          options: Object,
-          textColumn: Number,
+          options: Object
       },
       data() {
           return {
-              columns: [],
-              header: [],
-              vif: 'row.icon || row.name',
-              vClass: '""',
-              sClass: ''
           }
       },
       methods: {
-          checkVif(row) {
-              return eval(this.vif);
-          },
-          rowClass(row) {
-              return this.sClass + ' ' + eval(this.vClass);
-          },
           click(action, node, row) {
           }
       },
-      created() {
-          const columns = this.columns;
-          const header = this.header;
-          columns.splice(0);
-          for (let node of this.$slots.default) {
-              if (node.tag) {
-                  this.vif = node.data && node.data.attrs.vif ? node.data.attrs.vif : this.vif;
-                  this.vClass = node.data && node.data.attrs.$class ? node.data.attrs.$class : this.vClass;
-                  this.sClass = node.data && node.data.staticClass ? node.data.staticClass : this.sClass;
-                  node.children.forEach(function (node) {
-                      if (node.tag) {
-                          columns.push(node2string(node, 'td'));
-                      }
-                  });
-                  break;
-              }
-          }
-      ;
-          if (this.$slots.header) {
-              this.$slots.header.forEach(function (node) {
-                  if (node.tag) {
-                      header.push(node2string(node, 'th'));
-                  }
-              });
-          }
-      }
   }
 </script>
 

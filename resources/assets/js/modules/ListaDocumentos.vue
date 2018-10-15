@@ -1,25 +1,26 @@
 <template>
   <panel name="Lista de documentación">
-      <grid v-model="data" class="table table-striped table-hover">
-      <template slot="header">
-        <div></div>
-        <div>Nombre documento</div>
-        <div>Propietario</div>
-        <div></div>
+    <grid v-model="data" class="table table-striped table-hover">
+      <template slot="header" slot-scope="{data, options}">
+        <th></th>
+        <th>Nombre documento</th>
+        <th>Propietario</th>
+        <th></th>
       </template>
-      <div vif="row.attributes">
-        <div><i $class="row.attributes.icono"></i></div>
-        <div style="min-width:50em"><document $v-model="row.attributes.documento"/></div>
-        <div>
+      <tr slot-scope="{row, options}" v-if="row.attributes" class="avengers">
+        <td><i :class="row.attributes.icono"></i></td>
+        <td style="min-width:50em"><document v-model="row.attributes.documento"/></td>
+        <td>
           <div>
-            <avatar $v-model="row.relationships.propietario.attributes.fotografia" />
-            {row.relationships.propietario.attributes.name}
+            <avatar v-model="row.relationships.propietario.attributes.fotografia" />
+            {{row.relationships.propietario.attributes.name}}
           </div>
-          <small>Enviado el <date-time $v-model="row.attributes.fecha_envio" /></small>
-        </div>
-        <div><actions $actions="{a:{icon:'fa fa-save'}}" /></div>
-      </div>
+          <small>Enviado el <date-time v-model="row.attributes.fecha_envio" /></small>
+        </td>
+        <td><actions :actions="{a:{icon:'fa fa-save'}}" /></td>
+        </tr>
     </grid>
+
   </panel>
 </template>
 
