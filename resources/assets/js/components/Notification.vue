@@ -1,6 +1,6 @@
 <template>
   <li class="nav-item dropdown">
-    <a class="nav-link " data-toggle="dropdown" href="#">
+    <a class="nav-link" v-bind:class="textClass" data-toggle="dropdown" href="#">
       <i v-bind:class="icon"></i>
       <span class="badge notification-count" v-bind:class="countClass" v-show="notifications.length">{{notifications.length}}</span>
     </a>
@@ -21,7 +21,8 @@
   export default {
       props: {
           icon: String,
-          countClass: String,
+          countClass: null,
+          textClass: null,
           notifications: Array,
       },
       methods: {

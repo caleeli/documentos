@@ -37,12 +37,12 @@
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="nav navbar-nav ml-auto">
               <li class="nav-item">
-                <a class="nav-link" href="https://www.google.com/" target="_blank">Ayuda</a>
+                <a class="nav-link text-primary" href="https://www.google.com/" target="_blank">Ayuda</a>
               </li>
-              <notification icon="fa fa-bell" v-bind:count-class="topbar.notification.countClass" v-bind:notifications="topbar.notification.notificaciones">
+              <notification text-class="text-primary" icon="fa fa-bell" v-bind:count-class="topbar.notification.countClass" v-bind:notifications="topbar.notification.notificaciones">
               </notification>
               <li class="nav-item dropdown">
-                <a class="nav-link " data-toggle="dropdown" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a class="nav-link text-primary" data-toggle="dropdown" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                   <i class="fa fa-power-off"></i>
                 </a>
               </li>
