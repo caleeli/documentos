@@ -1,13 +1,13 @@
 <template>
-  <panel name="Lista de documentación">
-    <grid v-model="data" class="table table-striped table-hover">
+  <panel name="Lista de documentación" class="panel-primary">
+    <grid v-model="data">
       <template slot="header" slot-scope="{data, options}">
         <th></th>
-        <th>Nombre documento</th>
-        <th>Propietario</th>
+        <th>NOMBRE DOCUMENTO</th>
+        <th>PROPIETARIO</th>
         <th></th>
       </template>
-      <tr slot-scope="{row, options}" v-if="row.attributes" class="avengers">
+      <tr slot-scope="{row, options}" v-if="row.attributes">
         <td><i :class="row.attributes.icono"></i></td>
         <td style="min-width:50em"><document v-model="row.attributes.documento"/></td>
         <td>

@@ -1,16 +1,16 @@
 <template>
-  <div v-bind:class="{'panel-vertical': !isHorizontal(), 'panel-horizontal': isHorizontal(), 'panel-collapsed': collapsed}">
+  <div class="panel" v-bind:class="{'panel-vertical': !isHorizontal(), 'panel-horizontal': isHorizontal(), 'panel-collapsed': collapsed}">
     <!-- div v-bind:class="{card: 1, 'h-100': !collapsed}" -->
-    <div class="card-header">
+    <div class="card-header panel-heading clearfix">
       <span class="panel-title">
         <i v-bind:class="icon" v-if="icon"></i> {{name}}
       </span>
-      <div class="panel-buttons">
+      <div class="panel-buttons panel-tool-options">
         <slot name="actions"></slot>
         <actions v-bind:actions="actions" v-bind:action-class="actionClass" @click="click" @collapse="collapse"></actions>
       </div>
     </div>
-    <div class="card-body" v-show="!collapsed">
+    <div class="card-body panel-body" v-show="!collapsed">
       <slot></slot>
     </div>
   </div>
@@ -55,7 +55,7 @@
   }
   .panel-vertical.panel-collapsed .card-header {
       position: relative;
-      display: inline-block;
+      /*display: inline-block;*/
       height: 100%;
   }
   .panel-vertical.panel-collapsed .panel-title {

@@ -10,7 +10,6 @@
            v-bind:icon="menu.icon"
            v-bind:name="menu.name"
            v-bind:actions="menu.actions"
-           v-bind:action-class="menu.actionClass"
            v-bind:direction="menu.direction"
            >
       <tree v-bind:tree="tree" style='width: 320px'>
@@ -24,9 +23,11 @@
       </tree>
     </panel>
     </td>
+    <td valign='top' width="1%"></td>
     <td valign="top">
     <router-view></router-view>
     </td>
+    <td valign='top' width="1%"></td>
     </tr>
   </table>
 </main>

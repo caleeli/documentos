@@ -16,6 +16,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .sourceMaps()
    .version();
 
-/*mix.webpackConfig({
+mix.webpackConfig({
     devtool: 'inline-source-map'
-});*/
+});

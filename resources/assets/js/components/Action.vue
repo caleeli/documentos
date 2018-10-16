@@ -1,6 +1,6 @@
 <template>
   <component v-bind:is="type()" v-bind:to="action.href ? action.href : ''"
-             v-bind:class="{btn: 1, 'btn-inline': 1, active: action.active===true}"
+             v-bind:class="{ active: action.active===true}"
              @click="click">
     <i v-bind:class="action.active===true && action.iconActive ? action.iconActive : action.icon"
        v-if="action.icon"></i>

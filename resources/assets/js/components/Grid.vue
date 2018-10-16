@@ -1,5 +1,5 @@
 <template>
-  <table class="grid-table">
+  <table class="grid-table table">
     <thead>
     <slot name="header" v-bind:data="value" v-bind:options="options"></slot>
     </thead>
@@ -29,19 +29,5 @@
 </script>
 
 <style lang="scss">
-  .grid-table > tbody > tr > td:first-child {
-      width: 0%;
-  }
-  .grid-table > tbody > tr > td:nth-child(2) {
-      width: 0%;
-  }
-  .grid-table > tbody > tr > td:nth-child(3) {
-      width: 100%;
-  }
-  .grid-open {
 
-  }
-  .grid-closed {
-      display: none;
-  }
 </style>

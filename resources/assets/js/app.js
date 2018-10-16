@@ -68,10 +68,10 @@ const app = new Vue({
                 }
             },
             menu: {
-                class: '',
+                class: 'panel-primary',
                 icon: '',
                 name: 'Menu principal',
-                actionClass: 'btn-outline-secondary btn-sm',
+                actionClass: 'btn btn-inline btn-outline-secondary btn-sm',
                 direction: 'vertical',
                 actions: {
                     collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false}

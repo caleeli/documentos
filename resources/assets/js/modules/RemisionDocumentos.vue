@@ -1,6 +1,5 @@
 <template>
-  <div class="col">
-    <h2>Formulario de remisión de información</h2>
+  <panel name="Formulario de remisión de información" class="panel-primary">
     <div class="form-group">
       <label>Referencia de la nota</label>
       <input type="text" placeholder="NOT - 001/2018" class="form-control">
@@ -88,7 +87,7 @@
       </div>
       <input type="text" placeholder="otro..." class="form-control">
     </div>
-  </div>
+  </panel>
 </template>
 
 <script>

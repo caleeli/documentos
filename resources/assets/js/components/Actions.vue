@@ -2,7 +2,7 @@
   <div class="btn-group" role="group">
     <action v-for="(action, key) in actions"
             v-bind:key="key"
-            v-bind:class="actionClass+' '+(action.class?action.class:'')"
+            v-bind:class="(actionClass?actionClass+' ':'')+(action.class?action.class:'')"
             @click="handle(action, key)"
             v-bind:action="action"
             >
