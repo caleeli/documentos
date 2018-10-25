@@ -1,6 +1,5 @@
 <template>
   <span v-bind:class="myClass">
-    {{readOnly ? dateFormated : ''}}
     <a v-if="!readOnly && type!='time'" href="javascript:void(0)" class="calendar-button">
       <i class="fa fa-calendar"></i>
       <input v-if="!readOnly" type="hidden">
@@ -36,7 +35,7 @@
               return moment(this.value).format(this.getDateFormat());
           },
           myClass() {
-              return this.readOnly ? '' : 'form-control';
+              return this.readOnly ? '' : 'form-control form-datetime';
           }
       },
       created() {
@@ -91,5 +90,10 @@
 <style src='clockpicker/dist/bootstrap-clockpicker.css'></style> 
 <style>
   .input-group-addon {
+  }
+  .form-datetime {
+      white-space: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
   }
 </style>

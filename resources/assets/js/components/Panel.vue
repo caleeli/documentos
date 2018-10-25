@@ -10,7 +10,7 @@
         <actions v-bind:actions="actions" v-bind:action-class="actionClass" @click="click" @collapse="collapse"></actions>
       </div>
     </div>
-    <div class="card-body panel-body" v-show="!collapsed">
+    <div class="card-body panel-body" v-show="!collapsed" style="overflow: auto">
       <slot></slot>
     </div>
   </div>

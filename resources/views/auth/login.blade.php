@@ -75,7 +75,7 @@
           @csrf
           <fieldset>
             <div class="form-group">
-              <input name="email" id="email" value="" class="form-control input-lg" placeholder="Email" type="email">
+              <input name="username" id="username" value="" class="form-control input-lg" placeholder="Usuario">
               @if ($errors->has('email'))
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $errors->first('email') }}</strong>
@@ -83,7 +83,7 @@
               @endif
             </div>
             <div class="form-group">
-              <input name="password" id="password" class="form-control input-lg" placeholder="Password" type="password">
+              <input name="password" id="password" class="form-control input-lg" placeholder="Contraseña" type="password">
               @if ($errors->has('password'))
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $errors->first('password') }}</strong>

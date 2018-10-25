@@ -29,5 +29,10 @@
 </script>
 
 <style lang="scss">
-
+  .grid-table {
+      display: block;
+      overflow: auto;
+  }
+  .grid-table td{
+  }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <panel name="Lista de documentación" class="panel-primary">
     <grid v-model="data">
-      <template slot="header" slot-scope="{data, options}">
+      <template slot="header">
         <th></th>
         <th>NOMBRE DOCUMENTO</th>
         <th>PROPIETARIO</th>
@@ -15,7 +15,7 @@
             <avatar v-model="row.relationships.propietario.attributes.fotografia" />
             {{row.relationships.propietario.attributes.name}}
           </div>
-          <small>Enviado el <date-time v-model="row.attributes.fecha_envio" /></small>
+          <small>Enviado el <date-time v-model="row.attributes.fecha_envio" read-only/></small>
         </td>
         <td><actions :actions="{a:{icon:'fa fa-save'}}" /></td>
         </tr>

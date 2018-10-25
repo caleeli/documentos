@@ -6,8 +6,13 @@
     </div>
     <div class="form-group">
       <label>Empresa</label>
-      <select-box type="single" placeholder="seleccione una empresa" class="form-control"
-                  v-bind:data="empresas"><label>{row.attributes.nombre_empresa}</label></select-box>
+      <select-box type="single" placeholder="seleccione una empresa"
+                  v-bind:data="empresas" filter-by="attributes.*">
+        <template slot-scope="{row,format}">
+          <label v-html="format(row.attributes.cod_empresa)"></label>
+          <label v-html="format(row.attributes.nombre_empresa)"></label>
+        </template>
+      </select-box>
     </div>
     <div class="form-group">
       <label>Área o Unidad de Empresa Pública / Firma de Auditoría</label>
@@ -98,7 +103,7 @@
           return {
               v: '',
               actionClass: 'btn-outline-secondary btn-sm',
-              empresas: new ApiArray('http://subcep.com/api/UserAdministration/empresas'),
+              empresas: new ApiArray('/api/empresas'),
               grid: {
                   name: '',
                   actions: {

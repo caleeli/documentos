@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 require('./components/children2string');
+String.prototype.localeIndexOf = require('locale-index-of').prototypeLocaleIndexOf(Intl);
 import moment from 'moment';
 import VueRouter from 'vue-router';
 

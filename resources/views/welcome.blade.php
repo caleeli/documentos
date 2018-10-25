@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<main>
 
   <table class="app-body">
     <tr>
-      <td valign='top' width="1%">
+      <td valign='top' width="368px" class="d-none d-md-table-cell">
     <panel v-bind:class="menu.class"
            v-bind:icon="menu.icon"
            v-bind:name="menu.name"
@@ -25,10 +24,10 @@
     </td>
     <td valign='top' width="1%"></td>
     <td valign="top">
-    <router-view></router-view>
+        <router-view></router-view>
     </td>
     <td valign='top' width="1%"></td>
     </tr>
   </table>
-</main>
+
 @endsection

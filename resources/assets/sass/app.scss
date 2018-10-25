@@ -34,8 +34,10 @@ html, body, #app{
     grid-template-rows: 4em auto;
 }
 .app-body {
-    width: 100%;
+    width: 100vw;
     height: 100%;
+    overflow: hidden;
+    table-layout: fixed;
 }
 
 /**
@@ -56,7 +58,7 @@ html, body, #app{
     text-align: center;
 }
 .navbar-logo {
-    height: 3em;
+    height: 40px; //3em;
 }
 .navbar{
     border-bottom: 4px solid map-get($primary, 'base');

@@ -41,11 +41,18 @@ function meta(name) {
  * a simple convenience so we don't have to attach every token manually.
  */
 let token = meta("csrf-token");
+let api_token = meta("api-token");
 
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+if (api_token) {
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + api_token;
+} else {
+    console.error('API token not found');
 }
 
 /**

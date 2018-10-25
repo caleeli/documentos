@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use App\Traits\AutoTableTrait;
@@ -10,6 +11,8 @@ class User extends Authenticatable
 
     use Notifiable,
         AutoTableTrait;
+
+    protected $table = 'adm_users';
 
     /**
      * The attributes that are mass assignable.
@@ -26,11 +29,24 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token'
     ];
     protected $casts = [
         //'alguna_fecha' => 'datetime'
     ];
+
     //protected $dateFormat = 'Y-m-d\TH:i:s.u+';
 
+    /**
+     * Generates a API token for the user.
+     *
+     * @return string
+     */
+    public function generateToken()
+    {
+        $this->api_token = str_random(60);
+        $this->save();
+
+        return $this->api_token;
+    }
 }
