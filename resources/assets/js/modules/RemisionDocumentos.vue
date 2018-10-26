@@ -7,9 +7,12 @@
     <div class="form-group">
       <label>Empresa</label>
       <select-box type="single" placeholder="seleccione una empresa"
-                  v-bind:data="empresas" filter-by="attributes.*">
+                  v-model="empresa"
+                  v-bind:data="empresas"
+                  id-field="id"
+                  filter-by="attributes.cod_empresa,attributes.nombre_empresa,attributes.caracter,attributes.rubro,attributes.tipologia">
         <template slot-scope="{row,format}">
-          <label v-html="format(row.attributes.cod_empresa)"></label>
+          <label v-html="format(row.attributes.cod_empresa)" class="badge"></label>
           <label v-html="format(row.attributes.nombre_empresa)"></label>
         </template>
       </select-box>
@@ -103,6 +106,7 @@
           return {
               v: '',
               actionClass: 'btn-outline-secondary btn-sm',
+              empresa: '25',
               empresas: new ApiArray('/api/empresas'),
               grid: {
                   name: '',

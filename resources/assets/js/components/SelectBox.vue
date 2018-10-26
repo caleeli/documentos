@@ -1,11 +1,12 @@
 <template>
   <div>
-    <input  class="form-control dropdown-toggle" data-toggle="dropdown"
+    <div v-if="selected && !inputFocus" class="selected-option"><slot :row="selected" :format="textValue"></slot></div>
+    <input  class="form-control selected-input dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false"
             @focus="focus" @blur="blur" @click="click"
             v-model="text">
     <ul class="dropdown-menu">
-      <li v-for="(row, index) in dataFiltered" v-bind:value="row.id" v-if="index<5" class="dropdown-item">
+      <li v-for="(row, index) in dataFiltered" v-bind:value="row.id" v-if="index<5" class="dropdown-item" @click="select(row)">
       <slot :row="row" :format="format"></slot>
       </li>
     </ul>
@@ -18,13 +19,23 @@
           placeholder: String,
           data: Array,
           value: null,
-          filterBy: String
+          filterBy: String,
+          idField: String
       },
       data() {
           return {
               localValue: null,
               text: '',
-              dataFiltered: []
+              dataFiltered: [],
+              inputFocus: false
+          }
+      },
+      computed: {
+          selected() {
+              let value = this.value;
+              return this.data.find(item => {
+                  return value == this.getIdOf(item);
+              });
           }
       },
       watch: {
@@ -36,6 +47,9 @@
           }
       },
       methods: {
+          getIdOf(row) {
+              return row.id;
+          },
           textValue(value) {
               return $('<i></i>').text(value).html();
           },
@@ -50,7 +64,7 @@
               let u = -1;
               let i;
               while ((i = value.toLowerCase().localeIndexOf(text, 'en', {sensitivity: 'base'})) > -1) {
-                  res += value.substr(0, i - u - 1);
+                  res += value.substr(0, i);
                   res += '<u>';
                   res += value.substr(i, length);
                   res += '</u>';
@@ -92,7 +106,7 @@
                   }
               } else if (att === '*') {
                   for (let a in row) {
-                      if (this.find(row[a], filter, value)) {
+                      if (!(row[a] instanceof Function) && this.find(row[a], filter, value)) {
                           return true;
                       }
                   }
@@ -108,17 +122,23 @@
               $(this.$el).find(".dropdown-toggle").dropdown("toggle");
           },
           focus() {
+              this.inputFocus = true;
               if (!this.isOpen()) {
                   $(this.$el).find(".dropdown-toggle").dropdown("toggle");
               }
           },
           blur() {
-              if (this.isOpen()) {
-                  $(this.$el).find(".dropdown-toggle").dropdown("toggle");
-              }
+              this.inputFocus = false;
+              setTimeout(() => {
+                  if (this.isOpen()) {
+                      $(this.$el).find(".dropdown-toggle").dropdown("toggle");
+                  }
+              }, 1000);
           },
-          change() {
-              this.data.filter
+          select(row) {
+              //this.selected = row;
+              this.$emit('input', this.getIdOf(row));
+              $(this.$el).find(".selected-option").focus();
           }
       },
       mounted() {
@@ -127,15 +147,18 @@
 </script>
 
 <style lang="scss" scoped>
-  .select-box {
-      position: relative;
-  }
-  .select-box input {
-      border: none;
-      width: 100%;
-      height: 100%;
+  .selected-option {
       position: absolute;
-      top: 0px;
-      left: 12px;
+      padding-left: 12px;
+      padding-top: 6px;
+      pointer-events:none;
+  }
+  .selected-input {
+      color: transparent;
+      background-color: transparent;
+  }
+  .selected-input:focus {
+      color: inherit;
+      background-color: inherit;
   }
 </style>
