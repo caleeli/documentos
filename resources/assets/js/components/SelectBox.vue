@@ -75,7 +75,9 @@
               return res;
           },
           filter() {
-              const dataFiltered = this.data.filterBy(this.filterBy, this.text, (item, value)=>{
+            var filterBy = this.filterBy.trim();
+              var filters = filterBy ? filterBy.split(',') : [];
+              const dataFiltered = this.data.filterBy(filters, this.text, (item, value)=>{
                   return this.textValue(item).localeIndexOf(value, 'en', {sensitivity: 'base'}) > -1;
               });
               this.dataFiltered.splice(0);
@@ -107,8 +109,6 @@
               this.$emit('input', this.getKey(row));
               $(this.$el).find(".selected-option").focus();
           }
-      },
-      mounted() {
       }
   }
 </script>

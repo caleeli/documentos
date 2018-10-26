@@ -10,7 +10,11 @@
                   v-model="empresa"
                   v-bind:data="empresas"
                   id-field="id"
-                  filter-by="attributes.cod_empresa,attributes.nombre_empresa,attributes.caracter,attributes.rubro,attributes.tipologia">
+                  filter-by="attributes.cod_empresa,
+                  attributes.nombre_empresa,
+                  attributes.caracter,
+                  attributes.rubro,
+                  attributes.tipologia">
         <template slot-scope="{row,format}">
           <label v-html="format(row.attributes.cod_empresa)" class="badge"></label>
           <label v-html="format(row.attributes.nombre_empresa)"></label>
@@ -22,8 +26,8 @@
       <select-box type="single" placeholder="seleccione un area, unidad o firma"
                   v-model="unidad"
                   v-bind:data="unidades"
-                  id-field="id"
-                  filter-by="attributes.cod_firma,attributes.representante_legal">
+                  filter-by="attributes.cod_firma,
+                  attributes.representante_legal">
         <template slot-scope="{row,format}">
           <label v-html="format(row.attributes.cod_firma)" class="badge"></label>
           <label v-html="format(row.attributes.representante_legal)"></label>

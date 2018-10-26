@@ -42,15 +42,15 @@ function ApiArray(url) {
     self.loadFromAPI();
     return self;
 }
-Array.prototype.filterBy = function(filterBy, text, compare)
+Array.prototype.filterBy = function(filters, text, compare)
 {
-    var filters = filterBy ? filterBy.split(',') : [];
     return this.filter(row => {
         if (!text) {
             return true;
         }
         for (let i = 0, l = filters.length; i < l; i++) {
-            if (compareBy(row, filters[i].split('.'), text, compare)) {
+            var filter = typeof filters[i] === "string" ? filters[i].trim() : false;
+            if (filter && compareBy(row, filter.split('.'), text, compare)) {
                 return true;
             }
         }
