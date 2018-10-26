@@ -6,7 +6,7 @@
             @focus="focus" @blur="blur" @click="click"
             v-model="text">
     <ul class="dropdown-menu">
-      <li v-for="(row, index) in dataFiltered" v-bind:value="row.id" v-if="index<5" class="dropdown-item" @click="select(row)">
+      <li v-for="(row, index) in dataFiltered" v-bind:value="getKey(row)" v-if="index<5" class="dropdown-item" @click="select(row)">
       <slot :row="row" :format="format"></slot>
       </li>
     </ul>
@@ -34,7 +34,7 @@
           selected() {
               let value = this.value;
               return this.data.find(item => {
-                  return value == this.getIdOf(item);
+                  return value == this.getKey(item);
               });
           }
       },
@@ -47,8 +47,8 @@
           }
       },
       methods: {
-          getIdOf(row) {
-              return row.id;
+          getKey(row) {
+              return Object.evaluateRef(row, this.idField ? this.idField : 'id');
           },
           textValue(value) {
               return $('<i></i>').text(value).html();
@@ -104,8 +104,7 @@
               }, 1000);
           },
           select(row) {
-              //this.selected = row;
-              this.$emit('input', this.getIdOf(row));
+              this.$emit('input', this.getKey(row));
               $(this.$el).find(".selected-option").focus();
           }
       },
