@@ -75,45 +75,13 @@
               return res;
           },
           filter() {
-              const filters = this.filterBy ? this.filterBy.split(',') : [];
-              const dataFiltered = this.data.filter(row => {
-                  if (!this.text) {
-                      return true;
-                  }
-                  for (let i = 0, l = filters.length; i < l; i++) {
-                      if (this.find(row, filters[i].split('.'), this.text)) {
-                          return true;
-                      }
-                  }
-                  return false;
+              const dataFiltered = this.data.filterBy(this.filterBy, this.text, (item, value)=>{
+                  return this.textValue(item).localeIndexOf(value, 'en', {sensitivity: 'base'}) > -1;
               });
               this.dataFiltered.splice(0);
               for (let i = 0, l = dataFiltered.length; i < l; i++) {
                   this.dataFiltered.push(dataFiltered[i]);
               }
-          },
-          find(row, filter, value) {
-              if (filter.length === 0) {
-                  return this.textValue(row).localeIndexOf(value, 'en', {sensitivity: 'base'}) > -1;
-              }
-              const att = filter.shift();
-              if (att === '*' && row instanceof Array) {
-                  for (let i = 0, l = row.length; i < l; i++) {
-                      if (this.find(row[i], filter, value)) {
-                          return true;
-                      }
-
-                  }
-              } else if (att === '*') {
-                  for (let a in row) {
-                      if (!(row[a] instanceof Function) && this.find(row[a], filter, value)) {
-                          return true;
-                      }
-                  }
-              } else {
-                  return this.find(row[att], filter, value);
-              }
-              return false;
           },
           isOpen() {
               return $(this.$el).find("ul:first").hasClass('show');

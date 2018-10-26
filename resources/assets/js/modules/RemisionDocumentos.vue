@@ -19,7 +19,16 @@
     </div>
     <div class="form-group">
       <label>Área o Unidad de Empresa Pública / Firma de Auditoría</label>
-      <input type="text" placeholder="Unidad de auditoria" class="form-control">
+      <select-box type="single" placeholder="seleccione un area, unidad o firma"
+                  v-model="unidad"
+                  v-bind:data="unidades"
+                  id-field="id"
+                  filter-by="attributes.cod_firma,attributes.representante_legal">
+        <template slot-scope="{row,format}">
+          <label v-html="format(row.attributes.cod_firma)" class="badge"></label>
+          <label v-html="format(row.attributes.representante_legal)"></label>
+        </template>
+      </select-box>
     </div>
     <div class="form-group">
       <label>Fecha y hora</label>
@@ -108,58 +117,8 @@
               actionClass: 'btn-outline-secondary btn-sm',
               empresa: '25',
               empresas: new ApiArray('/api/empresas'),
-              grid: {
-                  name: '',
-                  actions: {
-                      collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false},
-                      edit: {name: '', icon: 'fas fa-edit'}
-                  },
-                  children: [
-                      {
-                          icon: 'fas fa-file',
-                          nombre: 'Documentos',
-                          fecha_envio: '2018-08-01T04:00:00.000Z',
-                          $collapsed: false,
-                          actions: {
-                              collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false}
-                          },
-                      },
-                      {
-                          icon: 'fa fa-file-excel text-success',
-                          nombre: 'Balance General',
-                          fecha_envio: '2018-08-01T04:00:00.000Z',
-                          actions: {
-                              collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false}
-                          },
-                      },
-                      {
-                          icon: 'fa fa-file-excel text-success',
-                          nombre: 'Estado de resultados',
-                          fecha_envio: '2018-08-01T04:00:00.000Z',
-                          actions: {
-                              collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false}
-                          },
-                      },
-                      {
-                          icon: 'fa fa-file-word text-primary',
-                          nombre: 'Carta de respuesta',
-                          fecha_envio: '2018-08-01T04:00:00.000Z',
-                          $collapsed: false,
-                          actions: {
-                              collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false}
-                          },
-                      },
-                      {
-                          icon: 'fa fa-file-pdf text-danger',
-                          nombre: 'Carta de solicitud',
-                          fecha_envio: '2018-08-01T04:00:00.000Z',
-                          $collapsed: false,
-                          actions: {
-                              collapse: {name: '', icon: 'fas fa-minus', iconActive: 'fas fa-plus', active: false}
-                          },
-                      }
-                  ]
-              }
+              unidad: '',
+              unidades: new ApiArray('/api/firmas')
           };
       },
       methods: {

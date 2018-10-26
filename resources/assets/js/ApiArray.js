@@ -42,7 +42,7 @@ function ApiArray(url) {
     self.loadFromAPI();
     return self;
 }
-/*Array.prototype.filterBy = function(filterBy, text, compare)
+Array.prototype.filterBy = function(filterBy, text, compare)
 {
     var filters = filterBy ? filterBy.split(',') : [];
     return this.filter(row => {
@@ -50,34 +50,34 @@ function ApiArray(url) {
             return true;
         }
         for (let i = 0, l = filters.length; i < l; i++) {
-            if (compare(row, filters[i].split('.'), text)) {
+            if (compareBy(row, filters[i].split('.'), text, compare)) {
                 return true;
             }
         }
         return false;
     });
 }
-function compareBy(item, filter, value) {
+function compareBy(item, filter, value, compare) {
     if (filter.length === 0) {
-        return this.textValue(item).localeIndexOf(value, 'en', {sensitivity: 'base'}) > -1;
+        return compare(item, value);
     }
     const att = filter.shift();
     if (att === '*' && item instanceof Array) {
         for (let i = 0, l = item.length; i < l; i++) {
-            if (this.find(item[i], filter, value)) {
+            if (compareBy(item[i], filter, value, compare)) {
                 return true;
             }
 
         }
     } else if (att === '*') {
         for (let a in item) {
-            if (!(item[a] instanceof Function) && this.find(item[a], filter, value)) {
+            if (!(item[a] instanceof Function) && compareBy(item[a], filter, value, compare)) {
                 return true;
             }
         }
     } else {
-        return this.find(item[att], filter, value);
+        return compareBy(item[att], filter, value, compare);
     }
     return false;
-}*/
+}
 module.exports = ApiArray;
