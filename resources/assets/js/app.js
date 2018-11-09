@@ -34,10 +34,11 @@ Vue.component('tree', require('./components/Tree.vue'));
 Vue.component('vnode', require('./components/Vnode.vue'));
 Vue.component('notification', require('./components/Notification.vue'));
 Vue.component('SelectBox', require('./components/SelectBox.vue'));
-Vue.component('date-time', require('./components/DateTime'));
+Vue.component('datetime', require('./components/DateTime'));
 Vue.component('grid', require('./components/Grid'));
 Vue.component('document', require('./components/Document'));
 Vue.component('avatar', require('./components/Avatar'));
+Vue.component('FolderViewer', require('./components/FolderViewer'));
 
 
 /**

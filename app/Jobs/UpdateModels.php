@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -19,13 +20,20 @@ class UpdateModels implements ShouldQueue
         SerializesModels;
 
     /**
+     * Connection name.
+     *
+     * @var string $connectionName
+     */
+    public $connectionName;
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($connectionName)
     {
-        //
+        $this->connectionName = $connectionName;
     }
 
     /**
@@ -35,8 +43,10 @@ class UpdateModels implements ShouldQueue
      */
     public function handle()
     {
-        $manager = DB::connection()->getDoctrineConnection()->getSchemaManager();
+        $manager = DB::connection($this->connectionName)
+            ->getDoctrineConnection()
+            ->getSchemaManager();
         $builder = new Builder($manager, 'App');
-        Cache::forever('AutoTableTraitSchema', $builder->getConfiguration());
+        Cache::forever('AutoTableTraitSchema.' . $this->connectionName, $builder->getConfiguration());
     }
 }

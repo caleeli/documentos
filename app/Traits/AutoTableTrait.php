@@ -4,6 +4,7 @@ namespace App\Traits;
 use App\Jobs\UpdateModels;
 use App\Observers\GenericObserver;
 use Illuminate\Support\Facades\Cache;
+use Nano\SchemaLive\AutoTableTrait as AutoTableTraitBase;
 
 /**
  * Description of AutoTable
@@ -13,7 +14,7 @@ trait AutoTableTrait
 {
 
     use ValidatedModelTrait;
-    use \Nano\SchemaLive\AutoTableTrait;
+    use AutoTableTraitBase;
 
     /**
      * Boot the AutoTableTrait.
@@ -21,20 +22,23 @@ trait AutoTableTrait
      */
     public static function bootAutoTableTrait()
     {
-        if (!self::isAttConfigurationEmpty()) {
+        $connection = (new static)->getConnection()->getName();
+        if (!self::isAttConfigurationEmpty($connection)) {
             return;
         }
-        if (!Cache::has('AutoTableTraitSchema')) {
-            UpdateModels::dispatchNow();
+        $key = 'AutoTableTraitSchema.' . $connection;
+        $ttl = 'AutoTableTraitSchemaTTL.' . $connection;
+        if (!Cache::has($key)) {
+            UpdateModels::dispatchNow($connection);
         } else {
-            Cache::remember('AutoTableTraitSchemaTTL', 0.1, function () {
-                UpdateModels::dispatch();
+            Cache::remember($ttl, 0.1, function () use ($connection) {
+                UpdateModels::dispatch($connection);
                 return 1;
             });
         }
-        self::setAttConfiguration(Cache::get('AutoTableTraitSchema', [
-                'fields' => [],
-                'relationships' => [],
+        self::setAttConfiguration($connection, Cache::get($key, [
+            'fields' => [],
+            'relationships' => [],
         ]));
         static::observe(GenericObserver::class);
     }

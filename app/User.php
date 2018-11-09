@@ -13,6 +13,10 @@ class User extends Authenticatable
         AutoTableTrait;
 
     protected $table = 'adm_users';
+    
+    const RESERVED = ['correspondencia', 'archivo'];
+    const EXTERNAL_CODE = '123456';
+    const ARCHIVO = 'archivo';
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +36,7 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token'
     ];
     protected $casts = [
-        //'alguna_fecha' => 'datetime'
+        'fotografia' => 'array'
     ];
 
     //protected $dateFormat = 'Y-m-d\TH:i:s.u+';

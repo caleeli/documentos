@@ -1,5 +1,6 @@
 <template>
-  <div class="panel" v-bind:class="{'panel-vertical': !isHorizontal(), 'panel-horizontal': isHorizontal(), 'panel-collapsed': collapsed}">
+  <div class="panel" v-bind:class="{'panel-vertical': !isHorizontal(), 'panel-horizontal': isHorizontal(), 'panel-collapsed': collapsed}"
+       style="display: grid; grid-template-rows: 4em calc(100% - 4em);">
     <!-- div v-bind:class="{card: 1, 'h-100': !collapsed}" -->
     <div class="card-header panel-heading clearfix">
       <span class="panel-title">
@@ -11,7 +12,9 @@
       </div>
     </div>
     <div class="card-body panel-body" v-show="!collapsed" style="overflow: auto">
-      <slot></slot>
+        <div>
+            <slot></slot>
+        </div>
     </div>
   </div>
 </template>

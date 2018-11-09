@@ -108,6 +108,9 @@
       </div>
       <input type="text" placeholder="otro..." class="form-control">
     </div>
+    <div class="form-group">
+      <folder-viewer api="/api/folder/public" folder="/" />
+    </div>
   </panel>
 </template>
 
