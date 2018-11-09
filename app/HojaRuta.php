@@ -67,7 +67,7 @@ class HojaRuta extends Model
     public function getUsuarioDestinatarioAttribute()
     {
         $derivacion = $this->getUltimaDerivacion();
-        $user = $derivacion && $derivacion->destinatarios ? User::find($derivacion->destinatarios) : null;
+        $user = $derivacion && $derivacion->destinatarios ? User::find(explode(',', $derivacion->destinatarios)[0]) : null;
         return $user ? ['id' =>$user['id'], 'attributes'=> $user] : $user;
     }
 
