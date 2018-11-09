@@ -19,7 +19,7 @@
         <td>{{row.attributes.gestion}}</td>
         <td>{{row.attributes.referencia}}</td>
         <td>{{row.attributes.procedencia}}</td>
-        <td><avatar v-model="row.attributes.usuario_destinatario" field="fotografia" />{{row.attributes.destinatario}}</td>
+        <td><avatar v-if="row.attributes.usuario_destinatario" v-model="row.attributes.usuario_destinatario" field="fotografia" />{{row.attributes.usuario_destinatario ? (row.attributes.usuario_destinatario.attributes.nombres + ' ' + row.attributes.usuario_destinatario.attributes.apellidos) : ''}}</td>
         <td><datetime type="date" v-model="row.attributes.fecha_derivacion" read-only /></td>
         <td>{{row.attributes.estado}}</td>
         <td><datetime type="date" v-model="row.attributes.conclusion" read-only /></td>
