@@ -4,7 +4,7 @@
             <i class="fa fa-calendar"></i>
             <input type="hidden">
         </a>
-        <a v-if="readOnly && type!='time'" href="javascript:void(0)" class="calendar-button">
+        <a v-if="readOnly && type!='time' && dateFormated!=emptyDate" href="javascript:void(0)" class="calendar-button">
             {{dateFormated}}
             <input type="hidden">
         </a>
@@ -14,7 +14,7 @@
                 <span class="fa fa-clock"></span>
             </a>
         </span>
-        <template v-if="!readOnly">
+        <template v-if="!readOnly || dateFormated == emptyDate">
             {{dateFormated}}
         </template>
     </span>
@@ -30,7 +30,8 @@
             value: String,
             format: String,
             type: String, //date,time,datetime
-            readOnly: Boolean
+            readOnly: Boolean,
+            emptyDate: String
         },
         data() {
             return {
@@ -40,7 +41,7 @@
         computed: {
             dateFormated() {
                 const date = moment(this.value);
-                return date.isValid() ? date.format(this.getDateFormat()) : '';
+                return date.isValid() ? date.format(this.getDateFormat()) : this.emptyDate;
             },
             myClass() {
                 return this.readOnly ? 'text-nowrap' : 'form-control form-datetime';

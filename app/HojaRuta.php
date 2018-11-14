@@ -24,6 +24,7 @@ class HojaRuta extends Model
         'estado',
         'estado',
         'usuario_destinatario',
+        'usuario_archivo',
     ];
 
     /**
@@ -71,19 +72,14 @@ class HojaRuta extends Model
         return $user ? ['id' =>$user['id'], 'attributes'=> $user] : $user;
     }
 
-    public function g1etUsuarioDestinatarioAttribute()
+    /**
+     * Obtiene el usuario ante penultimo.
+     *
+     */
+    public function getUsuarioArchivoAttribute()
     {
-        $users = Cache::get('users',
-                function() {
-                return User::get()->toArray();
-            });
-        $user = null;
-        foreach ($users as $scepUser) {
-            if (trim($this->destinatario) === trim($scepUser['nombres'] . ' ' . $scepUser['apellidos'])) {
-                $user = $scepUser;
-                break;
-            }
-        }
+        $derivacion = $this->derivacion()->orderBy('id', 'desc')->skip(2)->first();
+        $user = $derivacion && $derivacion->destinatarios ? User::find(explode(',', $derivacion->destinatarios)[0]) : null;
         return $user ? ['id' =>$user['id'], 'attributes'=> $user] : $user;
     }
 }

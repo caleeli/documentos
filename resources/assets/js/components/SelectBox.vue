@@ -76,7 +76,7 @@
           },
           filter() {
             var filterBy = this.filterBy.trim();
-              var filters = filterBy ? filterBy.split(',') : [];
+              var filters = filterBy ? filterBy.split(/[, ]+/) : [];
               const dataFiltered = this.data.filterBy(filters, this.text, (item, value)=>{
                   return this.textValue(item).localeIndexOf(value, 'en', {sensitivity: 'base'}) > -1;
               });

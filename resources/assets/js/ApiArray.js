@@ -58,6 +58,9 @@ Array.prototype.filterBy = function(filters, text, compare)
     });
 }
 function compareBy(item, filter, value, compare) {
+    if (compare===undefined) {
+        compare = String.findInText;
+    }
     if (filter.length === 0) {
         return compare(item, value);
     }
@@ -69,15 +72,23 @@ function compareBy(item, filter, value, compare) {
             }
 
         }
-    } else if (att === '*') {
+    } else if (att === '*' && item instanceof Object) {
         for (let a in item) {
             if (!(item[a] instanceof Function) && compareBy(item[a], filter, value, compare)) {
                 return true;
             }
         }
-    } else {
+    } else if (item instanceof Object) {
         return compareBy(item[att], filter, value, compare);
     }
     return false;
+}
+String.findInText = function (text, search) {
+    return String(text).localeIndexOf(search, 'en', {sensitivity: 'base'}) > -1;
+}
+String.findInHTML = function (text, search) {
+    const element = window.document.createElement('i');
+    element.innerHTML = text;
+    return element.innerText.localeIndexOf(search, 'en', {sensitivity: 'base'}) > -1;
 }
 module.exports = ApiArray;
