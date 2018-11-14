@@ -14,19 +14,13 @@
         data() {
             return {
                 fieldName: this.field ? this.field : 'avatar',
-                avatar: {url: ""}
             };
         },
-        watch: {
-            value: {
-                handler() {
-                    this.avatar = this.value && this.value.attributes && this.value.attributes[this.fieldName]
-                            ? this.value.attributes[this.fieldName] : (this.value ? this.value : {url: ""});
-                },
-                deep: true
-            }
-        },
         computed: {
+            avatar () {
+                return this.value && this.value.attributes && this.value.attributes[this.fieldName]
+                        ? this.value.attributes[this.fieldName] : (this.value ? this.value : {url: ""});
+            },
             src() {
                 return this.avatar.url ? this.avatar.url : '';
             }
