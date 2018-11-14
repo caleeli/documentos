@@ -7,7 +7,7 @@
                  attributes.procedencia
                  attributes.usuario_destinatario.attributes.nombres
                  attributes.usuario_destinatario.attributes.apellidos
-                 attributes.conclusion
+                 attributes.estado
                  ">
       <template slot="header">
         <th width="10%">Nro HR&#x2011;SCEP</th>
@@ -42,7 +42,7 @@
           </template>
         </td>
         <td><datetime type="date" v-model="row.attributes.fecha_derivacion" read-only /></td>
-        <td>{{row.attributes.estado}}</td>
+        <td v-html="format(row.attributes.estado)"></td>
         <td><datetime type="date" v-model="row.attributes.conclusion" read-only empty-date="no concluido" /></td>
         <td><button class="btn btn-primary" type="button">Primary</button></td>
       </tr>
