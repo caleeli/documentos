@@ -11,10 +11,10 @@
     </div>
     <div class="col">
       <div class="btn-group float-right">
-        <button class="btn btn-outline-secondary">
+        <button class="btn btn-outline-secondary" :disabled="page<1" @click="page=Math.max(0,page-1)">
           <i class="fas fa-long-arrow-alt-left"></i> Previo
         </button>
-        <button class="btn btn-outline-secondary">
+        <button class="btn btn-outline-secondary" :disabled="page>=lastPage" @click="page=Math.min(lastPage,page+1)">
           Siguiente <i class="fas fa-long-arrow-alt-right"></i> 
         </button>
       </div>
@@ -32,22 +32,34 @@
 </template>
 
 <script>
+const PAGE_SIZE = 10;
 export default {
     props: {
         value: Array,
         filterBy: "",
-        options: Object
+        pageSize: Number,
+        options: Object,
     },
     computed: {
-        currentPage() {
-            let filters = this.filterBy ? this.filterBy.split(/[, ]+/) : [];
-            let page = this.value.filterBy(filters, this.search);
-            return page.slice(0, 10);
+        lastPage () {
+            const pageSize = this.pageSize ? this.pageSize : PAGE_SIZE;
+            return Math.ceil(this.filteredValue.length / pageSize) - 1;
+        },
+        filteredValue () {
+            const filters = this.filterBy ? this.filterBy.split(/[, ]+/) : [];
+            return this.value.filterBy(filters, this.search);
+        },
+        currentPage () {
+            const filters = this.filterBy ? this.filterBy.split(/[, ]+/) : [];
+            const page = this.filteredValue;
+            const pageSize = this.pageSize ? this.pageSize : PAGE_SIZE;
+            return page.slice(this.page * pageSize, (this.page + 1) * pageSize);
         }
     },
     data() {
         return {
-            search: ""
+            search: "",
+            page: 0,
         };
     },
     methods: {
@@ -72,9 +84,9 @@ export default {
                     .localeIndexOf(text, "en", { sensitivity: "base" })) > -1
             ) {
                 res += value.substr(0, i);
-                res += "<u>";
+                res += "<code>";
                 res += value.substr(i, length);
-                res += "</u>";
+                res += "</code>";
                 u = i + length;
                 value = value.substr(u);
             }
