@@ -23,25 +23,6 @@ window.Vue.prototype.dateFormat = function (date){
 window.moment = moment;
 
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-/*Vue.component('panel', require('./components/Panel.vue'));
-Vue.component('actions', require('./components/Actions.vue'));
-Vue.component('tree', require('./components/Tree.vue'));
-Vue.component('vnode', require('./components/Vnode.vue'));
-Vue.component('notification', require('./components/Notification.vue'));
-Vue.component('SelectBox', require('./components/SelectBox.vue'));
-Vue.component('datetime', require('./components/DateTime'));
-Vue.component('grid', require('./components/Grid'));
-Vue.component('document', require('./components/Document'));
-Vue.component('avatar', require('./components/Avatar'));
-Vue.component('FolderViewer', require('./components/FolderViewer'));
-*/
-
-/**
  * COMPONENTES
  */
 const com = require.context('./components/', true, /\.(vue)$/i);
@@ -67,6 +48,12 @@ req.keys().map(key => {
 const router = new VueRouter({
   routes
 });
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
 
 window.Vue.use(VueRouter);
 const app = new Vue({
