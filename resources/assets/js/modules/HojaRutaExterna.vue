@@ -21,7 +21,7 @@
         </div>
         <div class="form-group row">
             <div class="col-1"><label>Referencia:</label></div>
-            <div class="col-11"><input class="form-control" type="text" v-model="data.attributes.referencia" /></div>
+            <div class="col-11"><text-box v-model="data.attributes.referencia" /></div>
         </div>
         <div class="form-group row">
             <div class="col-1"><label>Destinatario:</label></div>
