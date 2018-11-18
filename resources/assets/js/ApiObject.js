@@ -2,23 +2,21 @@ function ApiObject(url) {
     var self = this;
     self.loadFromAPI = function() {
         var self = this;
-        window.axios.get(this.url)
+        window.axios.get(url)
                 .then(function(response) {
-                    for (var attr in response.data) {
-                        self[attr] = response.data[attr];
+                    for (var attr in response.data.data) {
+                        Vue.set(self, attr, response.data.data[attr]);
                     }
                     window.localStorage[url] = JSON.stringify(self);
                 });
     };
     //Load initial data from local storage
     var string = window.localStorage[url];
-    self.splice(0);
     if (string) {
         try {
             let data = JSON.parse(string);
-            for (var row of data) {
-                self.model = row.type;
-                self.push(row);
+            for (var attr in data) {
+                Vue.set(self, attr, data[attr]);
             }
         } catch (e) {
 

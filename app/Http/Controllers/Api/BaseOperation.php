@@ -10,16 +10,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 abstract class BaseOperation
 {
     protected $createNewRows = true;
     public $route;
     public $model;
+    private $factoryStates;
 
-    public function __construct($route, $model = null)
+    public function __construct($route, $model = null, array $factoryStates = [])
     {
         $this->route = $route;
+        $this->factoryStates = $factoryStates;
         $this->model = $this->resolve($route, $model);
     }
 
@@ -35,11 +38,9 @@ abstract class BaseOperation
             $isNumeric = !$isZero && is_numeric($route);
             $isString = !$isZero && !$isNumeric;
             if ($model === null && $isString) {
-                //$model = "\App\\". str_replace(' ', '\\', ucfirst(camel_case((implode(' ', $routesArray)))));
-                $model = guess_model('\App', $route);
-                //$model = "\App\\". str_replace(' ', '\\', ucfirst(camel_case(str_singular(implode(' ', $routesArray)))));
+                $model = guess_model('App', $route);
             } elseif (is_string($model) && $isZero) {
-                $model = new $model();
+                $model = $this->createModel($model, $this->factoryStates);
             } elseif (is_string($model) && $isNumeric) {
                 $model = $model::whereId($route)->first();
             } elseif ($model instanceof Model && $isString) {
@@ -65,6 +66,25 @@ abstract class BaseOperation
             }
         }
         return $model;
+    }
+
+    /**
+     * Create model from a $class
+     * 
+     * @param string $class
+     * @param array $states
+     */
+    private function createModel($class, array $states = [])
+    {
+        try {
+            return factory($class)->states($states)->make();
+        } catch (InvalidArgumentException $withoutFactory) {
+            if ($states) {
+                throw $withoutFactory;
+            } else {
+                return new $class();
+            }
+        }
     }
 
     private function getTarget($model, $data)

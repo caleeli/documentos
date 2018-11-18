@@ -22,7 +22,7 @@ trait AutoTableTrait
      */
     public static function bootAutoTableTrait()
     {
-        $connection = (new static)->getConnection()->getName();
+        $connection = static::getStaticConnectionName(); //(new static)->getConnection()->getName();
         if (!self::isAttConfigurationEmpty($connection)) {
             return;
         }

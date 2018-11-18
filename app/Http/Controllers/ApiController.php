@@ -21,6 +21,12 @@ class ApiController extends Controller
 
     /**
      * /api/users?page=2&filter[]=where,username,=,"david"&fields=username,firstname&include=roles,phone&sort=username
+     * 
+     * /api/users/create?factory=inactive,admin
+     *
+     * Factory se lo utiliza para aplicar uno o varios estados de un factory
+     * para crear un nuevo modelo.
+     *
      * Note que el valor del filtro debe estar en codificacion json.
      *
      */
@@ -30,7 +36,8 @@ class ApiController extends Controller
             static::PER_PAGE : $request['per_page'];
         $collection = $this->doSelect(
             null, $route, $request['fields'], $request['include'], $perPage,
-            $request['sort'], $request['filter'], $request['raw']
+            $request['sort'], $request['filter'], $request['raw'],
+            $request['factory'] ? explode(',', $request['factory']) : []
         );
         $minutes = 0.1;
         $response = response()->json(
@@ -47,9 +54,9 @@ class ApiController extends Controller
     }
 
     private function doSelect($modelBase, $route, $fields, $include, $perPage, $sort,
-                              $filter, $raw=false)
+                              $filter, $raw=false, array $factoryStates = [])
     {
-        $operation = new IndexOperation($route, $modelBase);
+        $operation = new IndexOperation($route, $modelBase, $factoryStates);
         $result = $operation->index($sort, $filter, $perPage);
         if ($raw) {
             return $result;
