@@ -65,9 +65,9 @@
               let i;
               while ((i = value.toLowerCase().localeIndexOf(text, 'en', {sensitivity: 'base'})) > -1) {
                   res += value.substr(0, i);
-                  res += '<u>';
+                  res += '<code>';
                   res += value.substr(i, length);
-                  res += '</u>';
+                  res += '</code>';
                   u = i + length;
                   value = value.substr(u);
               }
@@ -75,7 +75,7 @@
               return res;
           },
           filter() {
-            var filterBy = this.filterBy.trim();
+            var filterBy = this.filterBy ? this.filterBy.trim() : '';
               var filters = filterBy ? filterBy.split(/[, ]+/) : [];
               const dataFiltered = this.data.filterBy(filters, this.text, (item, value)=>{
                   return this.textValue(item).localeIndexOf(value, 'en', {sensitivity: 'base'}) > -1;
@@ -86,24 +86,30 @@
               }
           },
           isOpen() {
-              return $(this.$el).find("ul:first").hasClass('show');
+              return $(this.$el).find("ul:first").is(':visible');
           },
           click() {
-              $(this.$el).find(".dropdown-toggle").dropdown("toggle");
+              setTimeout(() => {
+                  if (!this.isOpen()) {
+                      $(this.$el).find(".dropdown-menu").toggle();
+                  }
+              }, 100);
           },
           focus() {
               this.inputFocus = true;
-              if (!this.isOpen()) {
-                  $(this.$el).find(".dropdown-toggle").dropdown("toggle");
-              }
+              setTimeout(() => {
+                  if (!this.isOpen()) {
+                      $(this.$el).find(".dropdown-menu").toggle();
+                  }
+              }, 100);
           },
           blur() {
               this.inputFocus = false;
               setTimeout(() => {
                   if (this.isOpen()) {
-                      $(this.$el).find(".dropdown-toggle").dropdown("toggle");
+                      $(this.$el).find(".dropdown-menu").toggle();
                   }
-              }, 1000);
+              }, 500);
           },
           select(row) {
               this.$emit('input', this.getKey(row));
