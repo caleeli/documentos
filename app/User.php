@@ -13,7 +13,7 @@ class User extends Authenticatable
         AutoTableTrait;
 
     protected $table = 'adm_users';
-    
+
     const RESERVED = ['correspondencia', 'archivo'];
     const EXTERNAL_CODE = '123456';
     const ARCHIVO = 'archivo';
@@ -38,6 +38,9 @@ class User extends Authenticatable
     protected $casts = [
         'fotografia' => 'array'
     ];
+    protected $appends = [
+        'nombre_completo'
+    ];
 
     //protected $dateFormat = 'Y-m-d\TH:i:s.u+';
 
@@ -52,5 +55,10 @@ class User extends Authenticatable
         $this->save();
 
         return $this->api_token;
+    }
+
+    public function getNombreCompletoAttribute()
+    {
+        return $this->nombres . ' ' . $this->apellidos;
     }
 }
