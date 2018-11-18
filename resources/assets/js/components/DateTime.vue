@@ -71,9 +71,11 @@
                         return !self.readOnly;
                     }
                 }).on('changeDate', (e) => {
-                    const time = self.getTime();
-                    e.date.setHours(time.hour);
-                    e.date.setMinutes(time.minute);
+                    if (self.type !== "date") {
+                        const time = self.getTime();
+                        e.date.setHours(time.hour);
+                        e.date.setMinutes(time.minute);
+                    }
                     self.$emit('input', moment(e.date).format());
                 });
                 $(this.$el).find('.clock-button').clockpicker({
