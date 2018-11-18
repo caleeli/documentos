@@ -28,7 +28,7 @@ window.moment = moment;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('panel', require('./components/Panel.vue'));
+/*Vue.component('panel', require('./components/Panel.vue'));
 Vue.component('actions', require('./components/Actions.vue'));
 Vue.component('tree', require('./components/Tree.vue'));
 Vue.component('vnode', require('./components/Vnode.vue'));
@@ -39,6 +39,17 @@ Vue.component('grid', require('./components/Grid'));
 Vue.component('document', require('./components/Document'));
 Vue.component('avatar', require('./components/Avatar'));
 Vue.component('FolderViewer', require('./components/FolderViewer'));
+*/
+
+/**
+ * COMPONENTES
+ */
+const com = require.context('./components/', true, /\.(vue)$/i);
+com.keys().map(key => {
+    const name = key.match(/\w+/)[0];
+    const component = Vue.component(name, com(key));
+    return component;
+});
 
 
 /**
