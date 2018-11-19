@@ -21,7 +21,7 @@
         </div>
         <div class="form-group row">
             <div class="col-1"><label>Referencia:</label></div>
-            <div class="col-11"><text-box v-model="data.attributes.referencia" /></div>
+            <div class="col-11"><text-box :data="hojasExternas" v-model="data.attributes.referencia" /></div>
         </div>
         <div class="form-group row">
             <div class="col-1"><label>Destinatario:</label></div>
@@ -52,6 +52,7 @@
                 data: new ApiObject('/api/hoja_rutas/create?factory=externa'),
                 procedencias: new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
+                hojasExternas: new ApiArray('/api/hoja_rutas?sort=-id&filter[]=where,tipo,=,"externa"&per_page=5000')
             };
         }
     };

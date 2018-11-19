@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="row">
+  <div class="row" v-if="!withoutNavbar">
     <div class="col" v-if="filterBy">
       <div class="btn-group input-group">
         <input type="text" class="form-control" style="height: 31px;" v-model="search">
@@ -20,7 +20,7 @@
       </div>
     </div>
   </div>
-  <table class="grid-table table">
+  <table class="grid-table table table-hover">
     <thead>
     <slot name="header" v-bind:data="value" v-bind:options="options"></slot>
     </thead>
@@ -36,9 +36,11 @@ const PAGE_SIZE = 7;
 export default {
     props: {
         value: Array,
+        filter: String,
         filterBy: "",
         pageSize: Number,
         options: Object,
+        withoutNavbar: Boolean,
     },
     computed: {
         lastPage () {
@@ -56,9 +58,14 @@ export default {
             return page.slice(this.page * pageSize, (this.page + 1) * pageSize);
         }
     },
+    watch: {
+        filter () {
+            this.search = this.filter;
+        }
+    },
     data() {
         return {
-            search: "",
+            search: this.filter,
             page: 0,
         };
     },
@@ -93,7 +100,9 @@ export default {
             res += value;
             return res;
         },
-        click(action, node, row) {}
+        click(action, node, row) {
+            console.log(arguments);
+        }
     }
 };
 </script>

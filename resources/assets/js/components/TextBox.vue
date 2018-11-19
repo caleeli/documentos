@@ -3,18 +3,43 @@
         <textarea class="form-control input" rows="2" v-model="text" @keyup="update" @mouseup="update" @scroll="update"></textarea>
         <div class="output"><span></span></div>
         <div class="dropdown-menu" :style="xy">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <grid v-model="data" :filter="code" :without-navbar="true"
+              filter-by="attributes.numero
+                         attributes.nro_de_control
+                         attributes.referencia
+                         "
+              >
+              <tr slot-scope="{row, options, format}" @click="select(row)">
+                <td v-html="format('SCEP&#x2011;' + row.attributes.numero)"></td>
+                <td v-html="format(row.attributes.nro_de_control)"></td>
+                <td v-html="format(row.attributes.referencia)"></td>
+              </tr>
+            </grid>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: {
+            data: Array
+        },
         methods: {
+            select(row) {
+                const textarea = $(this.$el).find('textarea')[0];
+                if (textarea) {
+                    console.log(row.attributes.nro_de_control, textarea);
+                    textarea.setRangeText(
+                        row.attributes.nro_de_control + ' ',
+                        textarea.selectionStart - this.code.length,
+                        textarea.selectionEnd
+                    );
+                    this.text = textarea.value;
+                    this.update();
+                    textarea.focus();
+                    textarea.setSelectionRange(textarea.selectionEnd, textarea.selectionEnd);
+                }
+            },
             update() {
                 const c = this.preSelection;
                 const output = $(this.$el).find('.output')[0];
@@ -25,13 +50,16 @@
                 const a = this.updated;
                 const textarea = $(this.$el).find('textarea')[0];
                 const selectionStart = textarea ? textarea.selectionStart : 0;
-                output.firstChild.innerHTML = this.text.substr(0, selectionStart) + ".";
+                const text = this.text.substr(0, selectionStart);
+                output.firstChild.innerHTML = text + ".";
                 var rects = output.firstChild.getClientRects(),
                         bounding = output.getBoundingClientRect(),
                         lastRect = rects[ rects.length - 1 ],
                         top = lastRect.top - input.scrollTop - bounding.top,
                         left = lastRect.left + lastRect.width - bounding.left;
-                this.xy = "top: " + top + "px;left: " + left + "px; display:block;";
+                const match = text.match(/#(\w+)$/);
+                this.code = match ? String(match[1]) : '';
+                this.xy = "top: " + top + "px;left: " + left + "px; display: " + (match ? "block": "none") + ";";
             }
         },
         data() {
@@ -39,6 +67,7 @@
                 text: '',
                 updated: 0,
                 xy: '',
+                code: '',
             };
         }
     }
