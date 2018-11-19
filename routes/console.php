@@ -23,6 +23,11 @@ Artisan::command('message {message}', function ($message) {
     broadcast(new \App\Events\ExampleEvent($message));
 })->describe('Send a message to the clients');
 
+Artisan::command('schema:update', function () {
+    App\Jobs\UpdateModels::dispatchNow('pgsql');
+    App\Jobs\UpdateModels::dispatchNow('hr');
+})->describe('Update the schema cache now.');
+
 Artisan::command('documento {icono}', function ($icono) {
     $documento = App\Documentos::find(1);
     $documento->icono = $icono;
