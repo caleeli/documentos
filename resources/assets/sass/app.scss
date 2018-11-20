@@ -76,3 +76,19 @@ code {
     background-color: #f9f2f4;
     border-radius: 4px;
 }
+#navbarSupportedContent.show {
+    background: white;
+    z-index: 3;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 48px;
+}
+#navbarSupportedContent.collapsing {
+    background: white;
+    z-index: 3;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 48px;
+}
