@@ -16,6 +16,8 @@ window.ApiArray = require('./ApiArray');
 window.ApiObject = require('./ApiObject');
 window.Vue.prototype.window = window;
 window.Vue.prototype.moment = moment;
+window.Vue.prototype.colLabel = 'col-lg-2 col-md-3 col-sm-12 col-xs-12';
+window.Vue.prototype.colField = 'col-lg-10 col-md-9 col-sm-12 col-xs-12';
 moment.locale('es');
 window.Vue.prototype.dateFormat = function (date){
     return moment(date).format('DD/MM/YYYY HH:mm');

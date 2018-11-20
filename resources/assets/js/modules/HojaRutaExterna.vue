@@ -4,12 +4,12 @@
             <div class="col-12"><h4>Tipo HR: {{data.attributes.tipo}}</h4></div>
         </div>
         <div class="form-group row">
-            <div class="col-1"><label>Fecha de recepción:</label></div>
-            <div class="col-11"><datetime type="date" v-model="data.attributes.fecha" /></div>
+            <div :class="colLabel"><label>Fecha de recepción:</label></div>
+            <div :class="colField"><datetime type="date" v-model="data.attributes.fecha" /></div>
         </div>
         <div class="form-group row">
-            <div class="col-1"><label>Procedencia:</label></div>
-            <div class="col-11">
+            <div :class="colLabel"><label>Procedencia:</label></div>
+            <div :class="colField">
                 <select-box :data="procedencias" v-model="data.attributes.procedencia"
                     filter-by="attributes.cod_empresa,attributes.nombre_empresa">
                     <template slot-scope="{row,format}">
@@ -20,12 +20,12 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-1"><label>Referencia:</label></div>
-            <div class="col-11"><text-box :data="hojasExternas" v-model="data.attributes.referencia" /></div>
+            <div :class="colLabel"><label>Referencia:</label></div>
+            <div :class="colField"><text-box :data="hojasExternas" v-model="data.attributes.referencia" /></div>
         </div>
         <div class="form-group row">
-            <div class="col-1"><label>Destinatario:</label></div>
-            <div class="col-11">
+            <div :class="colLabel"><label>Destinatario:</label></div>
+            <div :class="colField">
                 <select-box :data="destinatarios" v-model="data.attributes.destinatario"
                     filter-by="attributes.nombre_completo">
                     <template slot-scope="{row,format}">
@@ -35,12 +35,12 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-1"><label>N° de control:</label></div>
-            <div class="col-11"><input class="form-control" type="text" v-model="data.attributes.nro_de_control" /></div>
+            <div :class="colLabel"><label>N° de control:</label></div>
+            <div :class="colField"><input class="form-control" type="text" v-model="data.attributes.nro_de_control" /></div>
         </div>
         <div class="form-group row">
-            <div class="col-1"><label>Anexo Hojas:</label></div>
-            <div class="col-11"></div>
+            <div :class="colLabel"><label>Anexo Hojas:</label></div>
+            <div :class="colField"></div>
         </div>
     </panel>
 </template>
