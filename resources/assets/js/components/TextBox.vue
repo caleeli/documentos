@@ -10,7 +10,7 @@
                          "
               >
               <tr slot-scope="{row, options, format}" @click="select(row)">
-                <td v-html="format('SCEP&#x2011;' + row.attributes.numero)"></td>
+                <td>SCEP&#x2011;{{row.attributes.numero}}</td>
                 <td v-html="format(row.attributes.nro_de_control)"></td>
                 <td v-html="format(row.attributes.referencia)"></td>
               </tr>
