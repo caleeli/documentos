@@ -28,7 +28,6 @@
             select(row) {
                 const textarea = $(this.$el).find('textarea')[0];
                 if (textarea) {
-                    console.log(row.attributes.nro_de_control, textarea);
                     textarea.setRangeText(
                         row.attributes.nro_de_control + ' ',
                         textarea.selectionStart - this.code.length,

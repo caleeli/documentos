@@ -71,12 +71,12 @@ export default {
     },
     methods: {
         textValue(value) {
-            return value;$("<i></i>")
-                .text(value)
-                .html();
+            return $("<i></i>")
+                .html(value)
+                .text();
         },
         format(input) {
-            let value = String(input);
+            let value = this.textValue(input);//String(input);
             if (!this.search) {
                 return value;
             }
@@ -99,9 +99,6 @@ export default {
             }
             res += value;
             return res;
-        },
-        click(action, node, row) {
-            console.log(arguments);
         }
     }
 };

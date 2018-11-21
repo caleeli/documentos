@@ -7,6 +7,7 @@ $factory->define(Model::class,
     function (Faker $faker) {
     return [
         'fecha' => date('Y-m-d'),
+        'tipo_hoja' => 'EDC',
     ];
 });
 
