@@ -4,7 +4,7 @@
         <div class="output"><span></span></div>
         <div class="dropdown-menu" :style="xy">
             <grid v-model="data" :filter="code" :without-navbar="true"
-              filter-by="attributes.numero
+              filter-by="
                          attributes.nro_de_control
                          attributes.referencia
                          "
