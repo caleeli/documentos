@@ -1,89 +1,106 @@
 <template>
     <panel v-if="data.attributes" :name="'HOJA DE RUTA - No HR - SCEP: ' + data.attributes.numero" class="panel-primary">
-           <div class="row">
-            <div class="col-12"><h4>Tipo HR: {{data.attributes.tipo}}</h4></div>
-        </div>
-        <div class="form-group row">
-            <div :class="colLabel"><label>Fecha de recepción:</label></div>
-            <div :class="colField"><datetime type="date" v-model="data.attributes.fecha" /></div>
-        </div>
-        <div class="form-group row">
-            <div :class="colLabel"><label>Procedencia:</label></div>
-            <div :class="colField">
-                <select-box :data="procedencias" v-model="data.attributes.procedencia"
-                    filter-by="attributes.cod_empresa,attributes.nombre_empresa">
-                    <template slot-scope="{row,format}">
-                        <label v-html="format(row.attributes.cod_empresa)" class="badge"></label>
-                        <label v-html="format(row.attributes.nombre_empresa)"></label>
-                    </template>
-                </select-box>
+           <div class="container">
+            <div class="row">
+                <div class="col-12"><h4>Tipo HR: {{data.attributes.tipo}}</h4> </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <div :class="colLabel"><label>Referencia:</label></div>
-            <div :class="colField"><text-box :data="hojasExternas" v-model="data.attributes.referencia" /></div>
-        </div>
-        <div class="form-group row">
-            <div :class="colLabel"><label>Destinatario:</label></div>
-            <div :class="colField">
-                <select-box :data="destinatarios" v-model="data.attributes.destinatario"
-                    filter-by="attributes.nombre_completo">
-                    <template slot-scope="{row,format}">
-                        <label v-html="format(row.attributes.nombre_completo)"></label>
-                    </template>
-                </select-box>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Fecha de recepción:</label></div>
+                <div :class="colField"><datetime type="date" v-model="data.attributes.fecha" /></div>
             </div>
-        </div>
-        <div class="form-group row">
-            <div :class="colLabel"><label>N° de control:</label></div>
-            <div :class="colField"><input class="form-control" type="text" v-model="data.attributes.nro_de_control" /></div>
-        </div>
-        <div class="form-group row">
-            <div :class="colLabel"><label>Anexo Hojas:</label></div>
-            <div :class="colField">
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <input class="form-control text-center" type="number" :value="getFjs" @input="setFjs">
-                        <small class="form-text text-muted">fjs</small>
-                    </div>
-                    <div class="col-1 text-center">
-                        <input class="form-control text-center" type="number" :value="getArch" @input="setArch">
-                        <small class="form-text text-muted">arch</small>
-                    </div>
-                    <div class="col-1 text-center">
-                        <input class="form-control text-center" type="number" :value="getAnillados" @input="setAnillados">
-                        <small class="form-text text-muted">anillados</small>
-                    </div>
-                    <div class="col-1 text-center">
-                        <input class="form-control text-center" type="number" :value="getLegajo" @input="setLegajo">
-                        <small class="form-text text-muted">legajo</small>
-                    </div>
-                    <div class="col-1 text-center">
-                        <input class="form-control text-center" type="number" :value="getEjemplar" @input="setEjemplar">
-                        <small class="form-text text-muted">ejemplar</small>
-                    </div>
-                    <div class="col-1 text-center">
-                        <input class="form-control text-center" type="number" :value="getEngrapado" @input="setEngrapado">
-                        <small class="form-text text-muted">engrapado</small>
-                    </div>
-                    <div class="col-1 text-center">
-                        <input class="form-control text-center" type="number" :value="getCd" @input="setCd">
-                        <small class="form-text text-muted">cd</small>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Procedencia:</label></div>
+                <div :class="colField">
+                    <select-box :data="procedencias" v-model="data.attributes.procedencia"
+                        filter-by="attributes.cod_empresa,attributes.nombre_empresa">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.cod_empresa)" class="badge" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.nombre_empresa)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Referencia:</label></div>
+                <div :class="colField"><text-box :data="hojasExternas" v-model="data.attributes.referencia" /></div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Destinatario:</label></div>
+                <div :class="colField">
+                    <select-box :data="destinatarios" v-model="data.attributes.destinatario"
+                        filter-by="attributes.nombre_completo">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>N° de control:</label></div>
+                <div :class="colField"><input class="form-control" type="text" v-model="data.attributes.nro_de_control" /></div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Anexo Hojas:</label></div>
+                <div :class="colField">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 pr-0">
+                            <table class="anexos">
+                                <tr>
+                                    <td>
+                                        <input class="form-control text-center" type="number" :value="getFjs" @input="setFjs">
+                                        <small class="form-text text-muted">fjs</small>
+                                    </td>
+                                    <td>
+                                        <input class="form-control text-center" type="number" :value="getArch" @input="setArch">
+                                        <small class="form-text text-muted">arch</small>
+                                    </td>
+                                    <td>
+                                        <input class="form-control text-center" type="number" :value="getAnillados" @input="setAnillados">
+                                        <small class="form-text text-muted">anillados</small>
+                                    </td>
+                                    <td>
+                                        <input class="form-control text-center" type="number" :value="getLegajo" @input="setLegajo">
+                                        <small class="form-text text-muted">legajo</small>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-10 pl-sm-0">
+                            <table class="anexos">
+                                <tr>
+                                    <td>
+                                        <input class="form-control text-center" type="number" :value="getEjemplar" @input="setEjemplar">
+                                        <small class="form-text text-muted">ejemplar</small>
+                                    </td>
+                                    <td>
+                                        <input class="form-control text-center" type="number" :value="getEngrapado" @input="setEngrapado">
+                                        <small class="form-text text-muted">engrapado</small>
+                                    </td>
+                                    <td>
+                                        <input class="form-control text-center" type="number" :value="getCd" @input="setCd">
+                                        <small class="form-text text-muted">cd</small>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <div :class="colLabel"><label>Clasificación:</label></div>
-            <div :class="colField">
-                <div class="radio" v-for="clasificacion in clasificacionHojasRuta">
-                    <label>
-                        <input type="radio" name="hoja_edit_tipo"
-                               :value="clasificacion.attributes.sigla"
-                               v-model="data.attributes.tipo_hoja">
-                        {{clasificacion.attributes.nombre}}
-                    </label>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Clasificación:</label></div>
+                <div :class="colField">
+                    <div class="radio" v-for="clasificacion in clasificacionHojasRuta">
+                        <label>
+                            <input type="radio" name="hoja_edit_tipo"
+                                   :value="clasificacion.attributes.sigla"
+                                   v-model="data.attributes.tipo_hoja">
+                            {{clasificacion.attributes.nombre}}
+                        </label>
+                    </div>
                 </div>
+            </div>
+            <div class="form-group row">
+                <button type="button" class="btn btn-primary" @click="saveHR">Guardar</button>
             </div>
         </div>
     </panel>
@@ -91,6 +108,7 @@
 
 <script>
     export default {
+        path: "/HojaRutaExterna/:id",
         computed: {
             getFjs() {
                 return this.getAnexo("fjs");
@@ -115,6 +133,15 @@
             },
         },
         methods: {
+            saveHR() {
+                this.data.postToAPI("/api/hoja_rutas").then((response) => {
+                    console.log(response);
+                    router.push({path: this.apiBase, params: {id: response.data.id}});
+                });
+            },
+            getIdURL() {
+                return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.id : this.$route.params.id;
+            },
             setFjs(event) {
                 this.setAnexo('fjs', event.target.value);
             },
@@ -163,12 +190,24 @@
         },
         data() {
             return {
-                data: new ApiObject('/api/hoja_rutas/create?factory=externa'),
+                data: new ApiObject('/api/hoja_rutas/' + this.getIdURL()),
                 procedencias: new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
                 hojasExternas: new ApiArray('/api/hoja_rutas?sort=-id&filter[]=where,tipo,=,"externa"&per_page=5000'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
             };
+        },
+        watch: {
+            '$route.params.id'() {
+                console.log(this.$route.params.id);
+            }
         }
     };
 </script>
+
+<style lang="scss">
+    .anexos tr td {
+    }
+    .anexos tr td small {
+    }
+</style>

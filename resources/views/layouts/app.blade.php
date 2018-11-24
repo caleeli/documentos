@@ -65,9 +65,10 @@
                 Hoja de Ruta Externa
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <router-link class="dropdown-item" to="HojaRutaExterna">Registrar</router-link>
-                <router-link class="dropdown-item" to="HojaRutaExternaBusqueda">Búsqueda</router-link>
-                <router-link class="dropdown-item" to="HojaRutaExternaReporte">Reporte</router-link>
+                <router-link class="dropdown-item" to="/HojaRutaExterna/externa">Registrar</router-link>
+                <router-link class="dropdown-item" to="/HojaRutaExterna/1">Registrar</router-link>
+                <router-link class="dropdown-item" to="/HojaRutaExternaBusqueda">Búsqueda</router-link>
+                <router-link class="dropdown-item" to="/HojaRutaExternaReporte">Reporte</router-link>
               </div>
             </li>
             

@@ -41,9 +41,10 @@ com.keys().map(key => {
 const routes = [];
 const req = require.context('./modules/', true, /\.(js|vue)$/i);
 req.keys().map(key => {
+    const def = req(key);
     const name = key.match(/\w+/)[0];
-    const component = Vue.component(name, req(key));
-    routes.push({path: '/' + name, component: component});
+    const component = Vue.component(name, def);
+    routes.push({path: def.path ? def.path : '/' + name, component: component});
     return component;
 });
 

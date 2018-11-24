@@ -1,6 +1,9 @@
 function ApiObject(url) {
     var self = this;
-    self.loadFromAPI = function() {
+    self.loadFromAPI = function(newURL) {
+        if (newURL !== undefined) {
+            url = newURL;
+        }
         var self = this;
         window.axios.get(url)
                 .then(function(response) {
@@ -9,6 +12,22 @@ function ApiObject(url) {
                     }
                     window.localStorage[url] = JSON.stringify(self);
                 });
+    };
+    self.postToAPI = function(url) {
+        var attributes = Object.assign({}, this.attributes);
+        delete attributes.id;
+        console.log({
+            data: {
+                type: this.type,
+                attributes: attributes
+            }
+        });
+        return window.axios.post(url, {
+            data: {
+                type: this.type,
+                attributes: attributes
+            }
+        });
     };
     //Load initial data from local storage
     var string = window.localStorage[url];

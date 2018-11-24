@@ -19,6 +19,7 @@ class HojaRuta extends Model
 
     protected $connection = 'hr';
     protected $table = 'hoja_ruta';
+    protected $fillable = ["*"];
     protected $appends = [
         'fecha_derivacion',
         'estado',
