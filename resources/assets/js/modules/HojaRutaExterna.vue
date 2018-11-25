@@ -22,7 +22,20 @@
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Referencia:</label></div>
-                <div :class="colField"><text-box :data="hojasExternas" v-model="data.attributes.referencia" /></div>
+                <div :class="colField">
+                    <text-box v-model="data.attributes.referencia" :reference="referenciarNota">
+                        <template slot="dropdown" slot-scope="{code,select}">
+                            <grid v-model="notas" :filter="code" :without-navbar="true"
+                                  filter-by="attributes.nro_nota
+                                  attributes.referencia">
+                                <tr slot-scope="{row, options, format}" @click="select(row)">
+                                    <td v-html="format(row.attributes.nro_nota)"></td>
+                                    <td v-html="format(row.attributes.referencia)"></td>
+                                </tr>
+                            </grid>
+                        </template>
+                    </text-box>
+                </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario:</label></div>
@@ -133,6 +146,9 @@
             },
         },
         methods: {
+            referenciarNota(nota) {
+                return nota.attributes.nro_nota + " " + nota.attributes.referencia;
+            },
             saveHR() {
                 this.data.postToAPI("/api/hoja_rutas").then((response) => {
                     console.log(response);
@@ -193,7 +209,7 @@
                 data: new ApiObject('/api/hoja_rutas/' + this.getIdURL()),
                 procedencias: new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
-                hojasExternas: new ApiArray('/api/hoja_rutas?sort=-id&filter[]=where,tipo,=,"externa"&per_page=5000'),
+                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=5000'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
             };
         },

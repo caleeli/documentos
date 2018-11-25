@@ -3,18 +3,7 @@
         <textarea class="form-control input" rows="2" v-model="text" @keyup="update" @mouseup="update" @scroll="update"></textarea>
         <div class="output"><span></span></div>
         <div class="dropdown-menu" :style="xy">
-            <grid v-model="data" :filter="code" :without-navbar="true"
-              filter-by="
-                         attributes.nro_de_control
-                         attributes.referencia
-                         "
-              >
-              <tr slot-scope="{row, options, format}" @click="select(row)">
-                <td>SCEP&#x2011;{{row.attributes.numero}}</td>
-                <td v-html="format(row.attributes.nro_de_control)"></td>
-                <td v-html="format(row.attributes.referencia)"></td>
-              </tr>
-            </grid>
+            <slot name="dropdown" v-bind:code="code" v-bind:select="select"></slot>
         </div>
     </div>
 </template>
@@ -22,17 +11,18 @@
 <script>
     export default {
         props: {
-            data: Array
+            value: String,
+            reference: Function,
         },
         methods: {
             select(row) {
                 const textarea = $(this.$el).find('textarea')[0];
                 if (textarea) {
                     textarea.setRangeText(
-                        row.attributes.nro_de_control + ' ',
-                        textarea.selectionStart - this.code.length,
-                        textarea.selectionEnd
-                    );
+                            this.reference(row),
+                            textarea.selectionStart - this.code.length,
+                            textarea.selectionEnd
+                            );
                     this.text = textarea.value;
                     this.update();
                     textarea.focus();
@@ -58,12 +48,17 @@
                         left = lastRect.left + lastRect.width - bounding.left;
                 const match = text.match(/#(\w+)$/);
                 this.code = match ? String(match[1]) : '';
-                this.xy = "top: " + top + "px;left: " + left + "px; display: " + (match ? "block": "none") + ";";
+                this.xy = "top: " + top + "px;left: " + left + "px; display: " + (match ? "block" : "none") + ";";
+            }
+        },
+        watch: {
+            text() {
+                this.$emit('input', this.text);
             }
         },
         data() {
             return {
-                text: '',
+                text: this.value ? this.value : "",
                 updated: 0,
                 xy: '',
                 code: '',
