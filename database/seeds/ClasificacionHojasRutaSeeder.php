@@ -13,6 +13,9 @@ class ClasificacionHojasRutaSeeder extends Seeder
      */
     public function run()
     {
+        if ($this->onlyOnce()) {
+            return;
+        }
         DB::connection('hr')
             ->table('hoja_ruta_clasificacion')
             ->insert([
@@ -27,5 +30,13 @@ class ClasificacionHojasRutaSeeder extends Seeder
                 ['sigla' => 'TAD', 'nombre' => '9. Tareas Administrativas'],
                 ['sigla' => 'ASS', 'nombre' => '10. Alimentación del Sistema subcep.com'],
         ]);
+    }
+
+    private function onlyOnce()
+    {
+        return DB::connection('hr')
+                ->table('hoja_ruta_clasificacion')
+                ->where('nombre', '1. Evaluación de Consistencia')
+                ->first();
     }
 }

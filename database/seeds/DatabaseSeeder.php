@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ClasificacionHojasRutaSeeder::class);
+        $this->call(InstruccionesSeeder::class);
     }
 }

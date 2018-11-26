@@ -158,10 +158,10 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Instrucción</label></div>
                 <div :class="colField">
-                    <select-box :data="destinatarios" v-model="derivacion.attributes.instruccion"
-                        filter-by="attributes.nombre_completo">
+                    <select-box :data="instrucciones" v-model="derivacion.attributes.instruccion" id-field="attributes.sigla"
+                        filter-by="attributes.sigla,attributes.nombre">
                         <template slot-scope="{row,format}">
-                            <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.nombre)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
                 </div>
@@ -267,6 +267,7 @@
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=5000'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
                 derivacion: new ApiObject('/api/derivacion/create'),
+                instrucciones: new ApiArray('/api/instruccion'),
             };
         },
         watch: {
