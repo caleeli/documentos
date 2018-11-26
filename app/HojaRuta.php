@@ -17,9 +17,25 @@ class HojaRuta extends Model
 
     use AutoTableTrait;
 
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+
+    public $timestamps = false;
     protected $connection = 'hr';
     protected $table = 'hoja_ruta';
-    protected $fillable = ["*"];
+    protected $fillable = [
+        "fecha",
+        "referencia",
+        "procedencia",
+        "nro_de_control",
+        "anexo_hojas",
+        "destinatario",
+        "conclusion",
+        "tipo",
+        "gestion",
+        "numero",
+        "tipo_tarea",
+    ];
     protected $appends = [
         'fecha_derivacion',
         'estado',
@@ -57,8 +73,8 @@ class HojaRuta extends Model
                 return User::get()->toArray();
             });
         $user = $this->usuario_destinatario;
-        $despachado = $user && $user['attributes']['numero_ci'] === User::EXTERNAL_CODE
-            && !in_array($user['attributes']['username'], User::RESERVED);
+        $despachado = $user && $user['attributes']['numero_ci'] === User::EXTERNAL_CODE && !in_array($user['attributes']['username'],
+                User::RESERVED);
         return $user && $user['attributes']['username'] === User::ARCHIVO ? 'ARCHIVO' : ( $despachado ? 'DESPACHADO' : 'PENDIENTE');
     }
 
@@ -69,8 +85,9 @@ class HojaRuta extends Model
     public function getUsuarioDestinatarioAttribute()
     {
         $derivacion = $this->getUltimaDerivacion();
-        $user = $derivacion && $derivacion->destinatarios ? User::find(explode(',', $derivacion->destinatarios)[0]) : null;
-        return $user ? ['id' =>$user['id'], 'attributes'=> $user] : $user;
+        $user = $derivacion && $derivacion->destinatarios ? User::find(explode(',',
+                    $derivacion->destinatarios)[0]) : null;
+        return $user ? ['id' => $user['id'], 'attributes' => $user] : $user;
     }
 
     /**
@@ -80,7 +97,8 @@ class HojaRuta extends Model
     public function getUsuarioArchivoAttribute()
     {
         $derivacion = $this->derivacion()->orderBy('id', 'desc')->skip(2)->first();
-        $user = $derivacion && $derivacion->destinatarios ? User::find(explode(',', $derivacion->destinatarios)[0]) : null;
-        return $user ? ['id' =>$user['id'], 'attributes'=> $user] : $user;
+        $user = $derivacion && $derivacion->destinatarios ? User::find(explode(',',
+                    $derivacion->destinatarios)[0]) : null;
+        return $user ? ['id' => $user['id'], 'attributes' => $user] : $user;
     }
 }

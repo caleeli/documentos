@@ -6,8 +6,10 @@ use App\HojaRuta as Model;
 $factory->define(Model::class,
     function (Faker $faker) {
     return [
+        'gestion' => date('Y'),
         'fecha' => date('Y-m-d'),
-        'tipo_hoja' => 'EDC',
+        'tipo_tarea' => 'EDC',
+        'numero' => Model::where('gestion', date('Y'))->max('numero'),
     ];
 });
 

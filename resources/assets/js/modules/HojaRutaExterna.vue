@@ -106,7 +106,7 @@
                         <label>
                             <input type="radio" name="hoja_edit_tipo"
                                    :value="clasificacion.attributes.sigla"
-                                   v-model="data.attributes.tipo_hoja">
+                                   v-model="data.attributes.tipo_tarea">
                             {{clasificacion.attributes.nombre}}
                         </label>
                     </div>
@@ -152,7 +152,7 @@
             saveHR() {
                 this.data.postToAPI("/api/hoja_rutas").then((response) => {
                     console.log(response);
-                    router.push({path: this.apiBase, params: {id: response.data.id}});
+                    this.$router.push({path: this.apiBase, params: {id: response.data.id}});
                 });
             },
             getIdURL() {

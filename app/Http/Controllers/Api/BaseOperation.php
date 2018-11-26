@@ -101,7 +101,6 @@ abstract class BaseOperation
             $target = $model->getRelated()->findOrFail($data['id']);
         } elseif (!empty($data['attributes']) && is_string($model)) {
             if ($this->createNewRows) {
-                dump($data['attributes']);
                 $target = $model::create($data['attributes']);
             }
         } elseif (!empty($data['attributes']) && $model instanceof Model) {

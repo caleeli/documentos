@@ -29,7 +29,7 @@ trait ValidatedModelTrait
     {
         $data = [];
         foreach ($this->attributes as $key => $value) {
-            $data[$key] = $this->getAttributeValue($key);
+            $data[$key] = $this->$key;//getAttributeValue($key);
         }
         // make a new validator object
         /* @var $v \Illuminate\Validation\Validator */
