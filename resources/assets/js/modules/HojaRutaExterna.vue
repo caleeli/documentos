@@ -151,8 +151,8 @@
             },
             saveHR() {
                 this.data.postToAPI("/api/hoja_rutas").then((response) => {
-                    console.log(response);
-                    this.$router.push({path: this.apiBase, params: {id: response.data.id}});
+                    console.log(response.data);
+                    this.$router.push({path: this.apiBase, params: {id: response.data.data.id}});
                 });
             },
             getIdURL() {
@@ -215,7 +215,7 @@
         },
         watch: {
             '$route.params.id'() {
-                console.log(this.$route.params.id);
+                this.data.loadFromAPI('/api/hoja_rutas/' + this.getIdURL());
             }
         }
     };
