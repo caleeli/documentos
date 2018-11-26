@@ -113,7 +113,62 @@
                 </div>
             </div>
             <div class="form-group row">
-                <button type="button" class="btn btn-primary" @click="saveHR">Guardar</button>
+                <div :class="colLabel"></div>
+                <div :class="colField">
+                    <button type="button" class="btn btn-primary" @click="saveHR">Guardar</button>
+                </div>
+            </div>
+        </div>
+        <div class="container" v-if="derivacion.attributes && data.id">
+            <div class="row">
+                <div class="col-12"><h4>Derivaciones</h4> </div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Fecha de derivación:</label></div>
+                <div :class="colField"><datetime type="date" v-model="derivacion.attributes.fecha" /></div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Comentarios</label></div>
+                <div :class="colField">
+                    <text-box v-model="derivacion.attributes.comentarios" :reference="referenciarNota">
+                        <template slot="dropdown" slot-scope="{code,select}">
+                            <grid v-model="notas" :filter="code" :without-navbar="true"
+                                  filter-by="attributes.nro_nota
+                                  attributes.referencia">
+                                <tr slot-scope="{row, options, format}" @click="select(row)">
+                                    <td v-html="format(row.attributes.nro_nota)"></td>
+                                    <td v-html="format(row.attributes.referencia)"></td>
+                                </tr>
+                            </grid>
+                        </template>
+                    </text-box>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Destinatario:</label></div>
+                <div :class="colField">
+                    <select-box :data="destinatarios" v-model="derivacion.attributes.destinatario"
+                        filter-by="attributes.nombre_completo">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Instrucción</label></div>
+                <div :class="colField">
+                    <select-box :data="destinatarios" v-model="derivacion.attributes.instruccion"
+                        filter-by="attributes.nombre_completo">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Dias plazo:</label></div>
+                <div :class="colField"><input class="form-control" type="number" v-model="derivacion.attributes.dias_plazo" /></div>
             </div>
         </div>
     </panel>
@@ -211,6 +266,7 @@
                 destinatarios: new ApiArray('/api/users'),
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=5000'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
+                derivacion: new ApiObject('/api/derivacion/create'),
             };
         },
         watch: {
