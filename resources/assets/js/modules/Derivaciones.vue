@@ -69,10 +69,7 @@
                 </div>
             </div>
         </div>
-        <grid v-model="derivaciones"
-              filter-by="attributes.destinatario
-              attributes.comentarios
-              ">
+        <grid v-model="derivaciones">
             <template slot="header">
                 <th width="10%">Fecha de derivación</th>
                 <th width="30%">Destinatario</th>
