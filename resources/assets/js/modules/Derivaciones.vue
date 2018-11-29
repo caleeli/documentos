@@ -4,14 +4,12 @@
             <div class="row">
                 <div class="col-12"><h4>Derivaciones</h4> </div>
             </div>
-            <div class="invalid-feedback">
-                {{erroresDerivacion}}
-            </div>
+            <error v-model="erroresDerivacion" property="message"></error>
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de derivación:</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="derivacion.attributes.fecha" />
-                    <validation-error v-model="erroresDerivacion.fecha"></validation-error>
+                    <error v-model="erroresDerivacion" property="errors.fecha"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -29,7 +27,7 @@
                             </grid>
                         </template>
                     </text-box>
-                    <validation-error v-model="erroresDerivacion.comentarios"></validation-error>
+                    <error v-model="erroresDerivacion" property="errors.comentarios"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -41,7 +39,7 @@
                             <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
-                    <validation-error v-model="erroresDerivacion.destinatario"></validation-error>
+                    <error v-model="erroresDerivacion" property="errors.destinatario"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -53,14 +51,14 @@
                             <span v-html="format(row.attributes.nombre)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
-                    <validation-error v-model="erroresDerivacion.instruccion"></validation-error>
+                    <error v-model="erroresDerivacion" property="errors.instruccion"></error>
                 </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Dias plazo:</label></div>
                 <div :class="colField">
                     <input class="form-control" type="number" v-model="derivacion.attributes.dias_plazo" />
-                    <validation-error v-model="erroresDerivacion.dias_plazo"></validation-error>
+                    <error v-model="erroresDerivacion" property="errors.dias_plazo"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -105,7 +103,7 @@
 
             },
             registrarDerivacion() {
-                //this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
+                this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
                 this.derivacion.postToAPI('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion');
             },
             referenciarNota(nota) {

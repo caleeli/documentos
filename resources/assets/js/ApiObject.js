@@ -12,9 +12,9 @@ function ApiObject(url, errorsObject) {
             Vue.set(self, attr, data[attr]);
         }
     };
-    this.listenErrors = (errors) => {
-        for(var a in errors) {
-            Vue.set(errorsObject, a, errors[a]);
+    this.listenErrors = (error) => {
+        for(var a in error) {
+            Vue.set(errorsObject, a, error[a]);
         }
     };
     self.loadFromAPI = function(newURL) {
@@ -35,8 +35,7 @@ function ApiObject(url, errorsObject) {
                 attributes: attributes
             }
         }).catch(error => {
-            error.response.data.message;
-            this.listenErrors(error.response.data.errors);
+            this.listenErrors(error.response.data);
         });
     };
     self.putToAPI = function(url) {
@@ -47,8 +46,7 @@ function ApiObject(url, errorsObject) {
                 attributes: attributes
             }
         }).catch(error => {
-            error.response.data.message;
-            this.listenErrors(error.response.data.errors);
+            this.listenErrors(error.response.data);
         });
     };
     storage = new ApiStorage(url, this);

@@ -15,8 +15,7 @@ function ApiStorage(url, object) {
                     dispatch(response.data.data);
                 })
                 .catch(error => {
-                    error.response.data.message;
-                    notifyErrors(error.response.data.errors);
+                    notifyErrors(error.response.data);
                 });
     }
     function dispatch(data) {
