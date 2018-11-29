@@ -1,11 +1,10 @@
 function ApiObject(url, errorsObject) {
     var storage;
     var self = this;
-    errorsObject = errorsObject === undefined ? {} : errorsObject;
+    errorsObject = errorsObject === undefined ? {message:"", errors: []} : errorsObject;
     function cleanErrors() {
-        Object.keys(errorsObject).forEach(key => {
-            delete errorsObject[key];
-        });
+        Vue.set(errorsObject, 'message', "");
+        Vue.set(errorsObject, 'errors', []);
     }
     this.listenStorage = (data) => {
         for (var attr in data) {
@@ -50,6 +49,7 @@ function ApiObject(url, errorsObject) {
         });
     };
     storage = new ApiStorage(url, this);
+    cleanErrors();
     return self;
 }
 Object.evaluateRef = function(item, path) {
