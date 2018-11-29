@@ -115,6 +115,9 @@
                 this.$emit('input', this.getKey(row));
                 $(this.$el).find(".selected-option").focus();
             }
+        },
+        mounted() {
+            this.filter();
         }
     }
 </script>

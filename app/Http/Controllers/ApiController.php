@@ -34,20 +34,16 @@ class ApiController extends Controller
     {
         $perPage = empty($request['per_page']) ?
             static::PER_PAGE : $request['per_page'];
-        $collection = $this->doSelect(
+        $data = $this->doSelect(
             null, $route, $request['fields'], $request['include'], $perPage,
             $request['sort'], $request['filter'], $request['raw'],
             $request['factory'] ? explode(',', $request['factory']) : []
         );
         $minutes = 0.1;
-        $response = response()->json(
-            [
-            'data' => $collection
-            ], 200,
-            [
-            'Cache-Control' => 'max-age='.($minutes * 60).', public',
-            ]
-        );
+        $header = [
+            'Cache-Control' => 'max-age=' . ($minutes * 60) . ', public',
+        ];
+        $response = response()->json($data, 200, $header);
         $response->setLastModified(new \DateTime('now'));
         $response->setExpires(\Carbon\Carbon::now()->addMinutes($minutes));
         return $response;
@@ -62,7 +58,9 @@ class ApiController extends Controller
             return $result;
         }
         $type = $this->getType($operation->model);
-        return $this->packResponse($result, $type, $fields, $include);
+        $meta = ['type' => $type];
+        $data = $this->packResponse($result, $type, $fields, $include);
+        return compact('meta', 'data');
     }
 
     protected function packResponse($result, $type, $requiredFields,
@@ -250,7 +248,8 @@ class ApiController extends Controller
         $fields = explode(",", $requiredFields.','.$requiredIncludes);
         foreach ($fields as $field) {
             if ($field && is_callable([$row, $field])) {
-                $relationships[$field] = $this->doSelect($row, [$field], '', '', static::PER_PAGE, '', '');
+                $select = $this->doSelect($row, [$field], '', '', static::PER_PAGE, '', '');
+                $relationships[$field] = $select['data'];
             }
         }
         return $relationships;

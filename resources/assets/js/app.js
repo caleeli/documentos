@@ -12,6 +12,7 @@ import moment from 'moment';
 import VueRouter from 'vue-router';
 
 window.Vue = require('vue');
+window.ApiStorage = require('./ApiStorage');
 window.ApiArray = require('./ApiArray');
 window.ApiObject = require('./ApiObject');
 window.Vue.prototype.window = window;

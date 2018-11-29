@@ -1,45 +1,12 @@
 function ApiArray(url) {
     var self = new Array();
-    //Since VueJS overwrite the array prototype, we don't use prototype
-    //to add functions.
-    //self.__proto__ = LocalData.prototype;
-    self.url = url;
-    self.loadFromAPI = function() {
-        var self = this;
-        window.axios.get(this.url)
-                .then(function(response) {
-                    self.splice(0);
-                    for (var row of response.data.data) {
-                        self.model = row.type;
-                        self.push(row);
-                    }
-                    window.localStorage[self.url] = JSON.stringify(self);
-                });
-    };
-    //Load initial data from local storage
-    var string = window.localStorage[url];
-    self.splice(0);
-    if (string) {
-        try {
-            let data = JSON.parse(string);
-            for (var row of data) {
-                self.model = row.type;
-                self.push(row);
-            }
-        } catch (e) {
-
+    this.listenStorage = (data) => {
+        self.splice(0);
+        for (var row of data) {
+            self.push(row);
         }
-    }
-    //Register to model-channel
-    window.Echo
-            .channel('model-channel')
-            .listen('ModelEvent', (e) => {
-                if (e.model === self.model) {
-                    self.loadFromAPI();
-                }
-            });
-    //Load data from API
-    self.loadFromAPI();
+    };
+    new ApiStorage(url, this);
     return self;
 }
 Array.prototype.filterBy = function(filters, text, compare)
@@ -58,7 +25,7 @@ Array.prototype.filterBy = function(filters, text, compare)
     });
 }
 function compareBy(item, filter, value, compare) {
-    if (compare===undefined) {
+    if (compare === undefined) {
         compare = String.findInText;
     }
     if (filter.length === 0) {
@@ -83,12 +50,14 @@ function compareBy(item, filter, value, compare) {
     }
     return false;
 }
-String.findInText = function (text, search) {
+String.findInText = function(text, search) {
     return String(text).localeIndexOf(search, 'en', {sensitivity: 'base'}) > -1;
 }
-String.findInHTML = function (text, search) {
+String.findInHTML = function(text, search) {
     const element = window.document.createElement('i');
     element.innerHTML = text;
     return element.innerText.localeIndexOf(search, 'en', {sensitivity: 'base'}) > -1;
 }
+
+// Exports the class
 module.exports = ApiArray;
