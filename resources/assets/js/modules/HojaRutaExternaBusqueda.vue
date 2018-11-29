@@ -56,7 +56,7 @@
 export default {
   data() {
     return {
-      data: new ApiArray('/api/hoja_rutas?sort=-id&filter[]=where,tipo,=,"externa"&per_page=5000')
+      data: new ApiArray('/api/hoja_rutas?sort=-id&filter[]=where,tipo,=,"externa"&per_page=200')
     };
   }
 };

@@ -4,9 +4,13 @@
             <div class="row">
                 <div class="col-12"><h4>Tipo HR: {{data.attributes.tipo}}</h4> </div>
             </div>
+            <error v-model="erroresHojaRuta" property="message"></error>
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de recepción:</label></div>
-                <div :class="colField"><datetime type="date" v-model="data.attributes.fecha" /></div>
+                <div :class="colField">
+                    <datetime type="date" v-model="data.attributes.fecha" />
+                    <error v-model="erroresHojaRuta" property="errors.fecha"></error>
+                </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Procedencia:</label></div>
@@ -19,6 +23,7 @@
                             <span v-html="format(row.attributes.nombre_empresa)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
+                    <error v-model="erroresHojaRuta" property="errors.procedencia"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -36,6 +41,7 @@
                             </grid>
                         </template>
                     </text-box>
+                    <error v-model="erroresHojaRuta" property="errors.referencia"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -47,11 +53,15 @@
                             <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
+                    <error v-model="erroresHojaRuta" property="errors.destinatario"></error>
                 </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>N° de control:</label></div>
-                <div :class="colField"><input class="form-control" type="text" v-model="data.attributes.nro_de_control" /></div>
+                <div :class="colField">
+                    <input class="form-control" type="text" v-model="data.attributes.nro_de_control" />
+                    <error v-model="erroresHojaRuta" property="errors.nro_de_control"></error>
+                </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Anexo Hojas:</label></div>
@@ -98,6 +108,7 @@
                             </table>
                         </div>
                     </div>
+                    <error v-model="erroresHojaRuta" property="errors.anexo_hojas"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -111,6 +122,7 @@
                             {{clasificacion.attributes.nombre}}
                         </label>
                     </div>
+                    <error v-model="erroresHojaRuta" property="errors.tipo_tarea"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -219,8 +231,10 @@
             }
         },
         data() {
+            const erroresHojaRuta= {};
             return {
-                data: new ApiObject('/api/hoja_rutas/' + this.getIdURL()),
+                data: new ApiObject('/api/hoja_rutas/' + this.getIdURL(), erroresHojaRuta).loadFromAPI(),
+                erroresHojaRuta: erroresHojaRuta,
                 procedencias: new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=5000'),

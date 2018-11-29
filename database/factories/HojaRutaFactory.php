@@ -9,7 +9,7 @@ $factory->define(Model::class,
         'gestion' => date('Y'),
         'fecha' => date('Y-m-d'),
         'tipo_tarea' => 'EDC',
-        'numero' => Model::where('gestion', date('Y'))->max('numero'),
+        'numero' => Model::where('gestion', date('Y'))->max('numero') + 1,
     ];
 });
 

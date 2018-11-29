@@ -24,6 +24,7 @@ function ApiObject(url, errorsObject) {
         } else {
             storage.update();
         }
+        return this;
     };
     self.postToAPI = function(url) {
         cleanErrors();
