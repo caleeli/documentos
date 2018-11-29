@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use App\Exceptions\ValidationException as CustomValidationException;
 
 class ApiController extends Controller
 {
@@ -105,18 +107,22 @@ class ApiController extends Controller
         $data = $request->json("data");
         $call = $request->json("call");
         if ($data) {
-            $operation = new StoreOperation($route);
-            $result = $operation->store($data);
-            if (is_array($result)) {
-                $response = $result;
-            } else {
-                $response = [
-                    'data' => [
-                        'type'       => $this->getType($result),
-                        'id'         => $result->id,
-                        'attributes' => $result
-                    ]
-                ];
+            try {
+                $operation = new StoreOperation($route);
+                $result = $operation->store($data);
+                if (is_array($result)) {
+                    $response = $result;
+                } else {
+                    $response = [
+                        'data' => [
+                            'type'       => $this->getType($result),
+                            'id'         => $result->id,
+                            'attributes' => $result
+                        ]
+                    ];
+                }
+            } catch (ValidationException $exception) {
+                throw new CustomValidationException($exception);
             }
         } elseif ($call) {
             $operation = new CallOperation($route);
