@@ -19,3 +19,10 @@ $factory->state(Model::class, 'externa',
         'tipo' => 'externa',
     ];
 });
+
+$factory->state(Model::class, 'interna',
+    function (Faker $faker) {
+    return [
+        'tipo' => 'interna',
+    ];
+});

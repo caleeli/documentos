@@ -1,12 +1,29 @@
 function ApiArray(url) {
     var self = new Array();
+    var storage;
     this.listenStorage = (data) => {
         self.splice(0);
         for (var row of data) {
             self.push(row);
         }
     };
-    new ApiStorage(url, this);
+    self.listenStorage = this.listenStorage;
+    this.listenErrors = (error) => {
+        console.log(error);
+        //for(var a in error) {
+        //    Vue.set(errorsObject, a, error[a]);
+        //}
+    };
+    self.loadFromAPI = function(newURL) {
+        if (newURL !== undefined) {
+            storage.unregister(this);
+            storage = new ApiStorage(newURL, this);
+        } else {
+            storage.update();
+        }
+        return this;
+    };
+    storage = new ApiStorage(url, this);
     return self;
 }
 Array.prototype.filterBy = function(filters, text, compare)

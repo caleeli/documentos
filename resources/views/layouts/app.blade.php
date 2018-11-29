@@ -38,8 +38,18 @@
                                 Hoja de Ruta Externa
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/HojaRutaExterna/externa">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaExternaBusqueda">Búsqueda</router-link>
+                                <router-link class="dropdown-item" to="/HojaRuta/externa">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaBusqueda/externa">Búsqueda</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaExternaReporte">Reporte</router-link>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Hoja de Ruta Interna
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <router-link class="dropdown-item" to="/HojaRuta/interna">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaBusqueda/interna">Búsqueda</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaExternaReporte">Reporte</router-link>
                             </div>
                         </li>
