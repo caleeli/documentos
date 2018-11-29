@@ -51,15 +51,53 @@
                 <div :class="colLabel"><label>Dias plazo:</label></div>
                 <div :class="colField"><input class="form-control" type="number" v-model="derivacion.attributes.dias_plazo" /></div>
             </div>
+            <div class="form-group row">
+                <div :class="colLabel"></div>
+                <div :class="colField">
+                    <button type="button" class="btn btn-primary" @click="registrarDerivacion">Registrar</button>
+                    <button type="button" class="btn btn-primary" @click="terminarHojaRuta">Terminar</button>
+                </div>
+            </div>
         </div>
+        <grid v-model="derivaciones"
+              filter-by="attributes.destinatario
+              attributes.comentarios
+              ">
+            <template slot="header">
+                <th width="10%">Fecha de derivación</th>
+                <th width="10%">Destinatario</th>
+                <th width="5%">Comentarios</th>
+                <th width="20%">Instrucción</th>
+                <th width="20%">Días plazo</th>
+                <th></th>
+            </template>
+            <tr slot-scope="{row, options, format}">
+                <td><datetime v-model="row.attributes.fecha" :read-only="true"/></td>
+            <td v-html="format(row.attributes.destinatario)"></td>
+            <td v-html="format(row.attributes.comentarios)"></td>
+            <td>{{row.attributes.instruccion}}</td>
+            <td>{{row.attributes.dias_plazo}}</td>
+            <td>
+            </td>
+            </tr>
+        </grid>
     </div>
 </template>
 
 <script>
     export default {
+        props: {
+            hojaRuta: Object
+        },
         computed: {
         },
         methods: {
+            terminarHojaRuta() {
+
+            },
+            registrarDerivacion() {
+
+            },
             referenciarNota(nota) {
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
             },
@@ -70,6 +108,7 @@
                 destinatarios: new ApiArray('/api/users'),
                 derivacion: new ApiObject('/api/derivacion/create'),
                 instrucciones: new ApiArray('/api/instruccion'),
+                derivaciones: new ApiArray('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion'),
             };
         },
         watch: {

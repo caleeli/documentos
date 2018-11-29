@@ -118,8 +118,12 @@
                     <button type="button" class="btn btn-primary" @click="saveHR">Guardar</button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12">
+                    <derivaciones v-if="data.id" :hoja-ruta="data"></derivaciones>
+                </div>
+            </div>
         </div>
-        <derivaciones v-if="data.id"></derivaciones>
     </panel>
 </template>
 
