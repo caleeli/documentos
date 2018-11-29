@@ -40,7 +40,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/HojaRuta/externa">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaBusqueda/externa">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaExternaReporte">Reporte</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaReporte/externa">Reporte</router-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -50,18 +50,15 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/HojaRuta/interna">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaBusqueda/interna">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaExternaReporte">Reporte</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaReporte/interna">Reporte</router-link>
                             </div>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <form class="form-inline my-2 my-lg-0" action="{{ route('logout') }}" method="POST">
+                        {{ csrf_field() }}
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Salir</button>
                     </form>
                 </div>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    {{ csrf_field() }}
-                </form>
             </nav>
 
             @yield('content')

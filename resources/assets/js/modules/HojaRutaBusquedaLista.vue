@@ -63,7 +63,7 @@
             };
         },
         watch: {
-            type(){
+            type() {
                 this.data.loadFromAPI('/api/hoja_rutas?sort=-id&filter[]=where,tipo,=,"' + this.type + '"&per_page=200');
             }
         },
