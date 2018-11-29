@@ -10,9 +10,13 @@ function ApiStorage(url, object) {
     var type;
     this.update = function() {
         window.axios.get(url)
-                .then(function(response) {
+                .then(response => {
                     type = response.data.meta.type;
                     dispatch(response.data.data);
+                })
+                .catch(error => {
+                    error.response.data.message;
+                    notifyErrors(error.response.data.errors);
                 });
     }
     function dispatch(data) {
@@ -21,6 +25,11 @@ function ApiStorage(url, object) {
         });
         // Store
         window.localStorage[url] = JSON.stringify(data);
+    }
+    function notifyErrors(errors) {
+        observers.forEach((item) => {
+            item.listenErrors(errors);
+        });
     }
     this.register = function(item) {
         observers.push(item);

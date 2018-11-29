@@ -54,6 +54,9 @@
         watch: {
             text() {
                 this.$emit('input', this.text);
+            },
+            value() {
+                this.text = this.value;
             }
         },
         data() {

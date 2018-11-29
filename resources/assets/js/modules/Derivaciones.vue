@@ -4,9 +4,15 @@
             <div class="row">
                 <div class="col-12"><h4>Derivaciones</h4> </div>
             </div>
+            <div class="invalid-feedback">
+                {{erroresDerivacion}}
+            </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de derivación:</label></div>
-                <div :class="colField"><datetime type="date" v-model="derivacion.attributes.fecha" /></div>
+                <div :class="colField">
+                    <datetime type="date" v-model="derivacion.attributes.fecha" />
+                    <validation-error v-model="erroresDerivacion.fecha"></validation-error>
+                </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Comentarios</label></div>
@@ -23,6 +29,7 @@
                             </grid>
                         </template>
                     </text-box>
+                    <validation-error v-model="erroresDerivacion.comentarios"></validation-error>
                 </div>
             </div>
             <div class="form-group row">
@@ -34,6 +41,7 @@
                             <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
+                    <validation-error v-model="erroresDerivacion.destinatario"></validation-error>
                 </div>
             </div>
             <div class="form-group row">
@@ -45,11 +53,15 @@
                             <span v-html="format(row.attributes.nombre)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
+                    <validation-error v-model="erroresDerivacion.instruccion"></validation-error>
                 </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Dias plazo:</label></div>
-                <div :class="colField"><input class="form-control" type="number" v-model="derivacion.attributes.dias_plazo" /></div>
+                <div :class="colField">
+                    <input class="form-control" type="number" v-model="derivacion.attributes.dias_plazo" />
+                    <validation-error v-model="erroresDerivacion.dias_plazo"></validation-error>
+                </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"></div>
@@ -65,20 +77,17 @@
               ">
             <template slot="header">
                 <th width="10%">Fecha de derivación</th>
-                <th width="10%">Destinatario</th>
-                <th width="5%">Comentarios</th>
+                <th width="30%">Destinatario</th>
+                <th width="30%">Comentarios</th>
                 <th width="20%">Instrucción</th>
-                <th width="20%">Días plazo</th>
-                <th></th>
+                <th width="10%">Días plazo</th>
             </template>
             <tr slot-scope="{row, options, format}">
-                <td><datetime v-model="row.attributes.fecha" :read-only="true"/></td>
+                <td><datetime v-model="row.attributes.fecha" :read-only="true" type="date"/></td>
             <td v-html="format(row.attributes.destinatario)"></td>
             <td v-html="format(row.attributes.comentarios)"></td>
             <td>{{row.attributes.instruccion}}</td>
             <td>{{row.attributes.dias_plazo}}</td>
-            <td>
-            </td>
             </tr>
         </grid>
     </div>
@@ -96,17 +105,20 @@
 
             },
             registrarDerivacion() {
-
+                //this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
+                this.derivacion.postToAPI('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion');
             },
             referenciarNota(nota) {
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
             },
         },
         data() {
+            const erroresDerivacion = {};
             return {
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=5000'),
                 destinatarios: new ApiArray('/api/users'),
-                derivacion: new ApiObject('/api/derivacion/create'),
+                derivacion: new ApiObject('/api/derivacion/create', erroresDerivacion),
+                erroresDerivacion: erroresDerivacion,
                 instrucciones: new ApiArray('/api/instruccion'),
                 derivaciones: new ApiArray('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion'),
             };

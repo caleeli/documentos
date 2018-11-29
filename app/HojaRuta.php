@@ -43,6 +43,9 @@ class HojaRuta extends Model
         'usuario_destinatario',
         'usuario_archivo',
     ];
+    protected $casts = [
+        'fecha' => 'date',
+    ];
 
     /**
      * Fecha de derivacion
@@ -52,7 +55,7 @@ class HojaRuta extends Model
     public function getFechaDerivacionAttribute()
     {
         $derivacion = $this->getUltimaDerivacion();
-        return $derivacion ? $derivacion->fecha : null;
+        return $derivacion ? $derivacion->fecha->format($this->getDateFormat()) : null;
     }
 
     public function getUltimaDerivacion()

@@ -14,7 +14,19 @@ class Derivacion extends Model
 
     use AutoTableTrait;
 
+    public $timestamps = false;
     protected $connection = 'hr';
     protected $table = 'derivacion';
+    protected $fillable = [
+        "fecha",
+        "comentarios",
+        "destinatario",
+        "instruccion",
+        "dias_plazo",
+        "hoja_ruta_id",
+    ];
+    protected $casts = [
+        'fecha' => 'date',
+    ];
 
 }

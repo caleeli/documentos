@@ -1,12 +1,24 @@
-function ApiObject(url) {
+function ApiObject(url, errorsObject) {
     var storage;
     var self = this;
+    errorsObject = errorsObject === undefined ? {} : errorsObject;
+    function cleanErrors() {
+        Object.keys(errorsObject).forEach(key => {
+            delete errorsObject[key];
+        });
+    }
     this.listenStorage = (data) => {
         for (var attr in data) {
             Vue.set(self, attr, data[attr]);
         }
     };
+    this.listenErrors = (errors) => {
+        for(var a in errors) {
+            Vue.set(errorsObject, a, errors[a]);
+        }
+    };
     self.loadFromAPI = function(newURL) {
+        cleanErrors();
         if (newURL !== undefined) {
             storage.unregister(this);
             storage = new ApiStorage(newURL, this);
@@ -15,19 +27,28 @@ function ApiObject(url) {
         }
     };
     self.postToAPI = function(url) {
+        cleanErrors();
         var attributes = Object.assign({}, this.attributes);
         delete attributes.id;
-        console.log({
-            data: {
-                type: this.type,
-                attributes: attributes
-            }
-        });
         return window.axios.post(url, {
             data: {
-                type: this.type,
                 attributes: attributes
             }
+        }).catch(error => {
+            error.response.data.message;
+            this.listenErrors(error.response.data.errors);
+        });
+    };
+    self.putToAPI = function(url) {
+        cleanErrors();
+        var attributes = Object.assign({}, this.attributes);
+        return window.axios.put(url, {
+            data: {
+                attributes: attributes
+            }
+        }).catch(error => {
+            error.response.data.message;
+            this.listenErrors(error.response.data.errors);
         });
     };
     storage = new ApiStorage(url, this);

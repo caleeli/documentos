@@ -12,6 +12,7 @@
                 <div :class="colLabel"><label>Procedencia:</label></div>
                 <div :class="colField">
                     <select-box :data="procedencias" v-model="data.attributes.procedencia"
+                        id-field="attributes.nombre_empresa"
                         filter-by="attributes.cod_empresa,attributes.nombre_empresa">
                         <template slot-scope="{row,format}">
                             <span v-html="format(row.attributes.cod_empresa)" class="badge" style="font-size: 1rem"></span>
@@ -158,10 +159,15 @@
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
             },
             saveHR() {
-                this.data.postToAPI("/api/hoja_rutas").then((response) => {
-                    console.log(response.data);
-                    this.$router.push({path: this.apiBase, params: {id: response.data.data.id}});
-                });
+                if (this.data.id) {
+                    this.data.putToAPI("/api/hoja_rutas/" + this.data.id).then((response) => {
+                        this.$router.push({path: this.apiBase, params: {id: response.data.data.id}});
+                    });
+                } else {
+                    this.data.postToAPI("/api/hoja_rutas").then((response) => {
+                        this.$router.push({path: this.apiBase, params: {id: response.data.data.id}});
+                    });
+                }
             },
             getIdURL() {
                 return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.id : this.$route.params.id;
