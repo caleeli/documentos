@@ -1,9 +1,9 @@
 <template>
-    <hoja-ruta-reporte-form :type="$route.params.type"></hoja-ruta-reporte-form>
+    <hoja-ruta-reporte-form :type="$route.params.id"></hoja-ruta-reporte-form>
 </template>
 
 <script>
     export default {
-        path: "/HojaRutaReporte/:type",
+        path: "/HojaRutaReporte/:id",
     };
 </script>

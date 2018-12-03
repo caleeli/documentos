@@ -14,26 +14,26 @@ class CreateReportesTable extends Migration
      */
     public function up()
     {
-        Schema::create('reportes',
+        Schema::connection('hr')->create('reportes',
             function (Blueprint $table) {
             $table->increments('id');
             $table->enum('tipo',
                     ['externa', 'interna', 'solicitud', 'notas', 'comunicacion', 'informes'])
                 ->default('externa');
-            $table->date('recepcion_desde');
-            $table->date('recepcion_hasta');
-            $table->string('referencia');
-            $table->string('procedencia');
-            $table->string('nro_de_control');
-            $table->date('conclusion_desde');
-            $table->date('conclusion_hasta');
-            $table->string('gestion_desde', 4);
-            $table->string('gestion_hasta', 4);
-            $table->string('destinatario');
-            $table->string('tipo_tarea');
+            $table->date('recepcion_desde')->nullable();
+            $table->date('recepcion_hasta')->nullable();
+            $table->string('referencia')->nullable();
+            $table->string('procedencia')->nullable();
+            $table->string('nro_de_control')->nullable();
+            $table->date('conclusion_desde')->nullable();
+            $table->date('conclusion_hasta')->nullable();
+            $table->string('gestion_desde', 4)->nullable();
+            $table->string('gestion_hasta', 4)->nullable();
+            $table->string('destinatario')->nullable();
+            $table->string('tipo_tarea')->nullable();
             $table->enum('tipo_reporte',
                 ['hoja_ruta', 'derivacion', 'detallada'])->default('hoja_ruta');
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 
@@ -44,6 +44,6 @@ class CreateReportesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reportes');
+        Schema::connection('hr')->dropIfExists('reportes');
     }
 }

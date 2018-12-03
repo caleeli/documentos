@@ -14,6 +14,7 @@ class Reporte extends Model
 
     use AutoTableTrait;
 
+    public $timestamps = false;
     protected $connection = 'hr';
     protected $table = 'reportes';
     protected $fillable = [
@@ -43,7 +44,7 @@ class Reporte extends Model
      */
     public function generar()
     {
-        $connection = $this->getConnection();
+        $connection = $this->getConnection()->getPdo();
 
         $query = [];
         $params = [];
@@ -52,11 +53,11 @@ class Reporte extends Model
         $params['tipo'] = $this->tipo;
         if (!empty($this->recepcion_desde)) {
             $query[] = ' hoja_ruta.fecha >= :recepcion_desde';
-            $params['recepcion_desde'] = $this->recepcion_desde;
+            $params['recepcion_desde'] = $this->recepcion_desde->format('Y-m-d');
         }
         if (!empty($this->recepcion_hasta)) {
             $query[] = ' hoja_ruta.fecha <= :recepcion_hasta';
-            $params['recepcion_hasta'] = $this->recepcion_hasta;
+            $params['recepcion_hasta'] = $this->recepcion_hasta->format('Y-m-d');
         }
         if (!empty($this->referencia)) {
             $query[] = ' hoja_ruta.referencia like :referencia';
@@ -78,11 +79,11 @@ class Reporte extends Model
         }
         if (!empty($this->conclusion_desde)) {
             $query[] = ' hoja_ruta.conclusion >= :conclusion_desde';
-            $params['conclusion_desde'] = $this->conclusion_desde;
+            $params['conclusion_desde'] = $this->conclusion_desde->format('Y-m-d');
         }
         if (!empty($this->conclusion_hasta)) {
             $query[] = ' hoja_ruta.conclusion <= :conclusion_hasta';
-            $params['conclusion_hasta'] = $this->conclusion_hasta;
+            $params['conclusion_hasta'] = $this->conclusion_hasta->format('Y-m-d');
         }
         if (!empty($this->gestion_desde)) {
             $query[] = ' hoja_ruta.gestion >= :gestion_desde';
@@ -154,6 +155,6 @@ class Reporte extends Model
             ];
             $num++;
         }
-        echo json_encode(array_values($res));
+        return array_values($res);
     }
 }

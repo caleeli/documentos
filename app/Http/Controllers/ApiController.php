@@ -101,6 +101,20 @@ class ApiController extends Controller
         return $collection;
     }
 
+    /**
+     * POST /api/model
+     * {data:{...}}
+     * 
+     * POST /api/model
+     * {call:{method:"test",arguments:[]}}
+     *
+     * @param Request $request
+     * @param array $route
+     *
+     * @return \Illuminate\Support\Facades\Response
+     * @throws CustomValidationException
+     * @throws \App\Exceptions\InvalidApiCall
+     */
     public function store(Request $request, ...$route)
     {
         $route0 = $route;

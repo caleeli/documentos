@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
+use App\Jobs\UpdateModels;
 
 /*
   |--------------------------------------------------------------------------
@@ -34,6 +35,26 @@ Artisan::command('documento {icono}', function ($icono) {
     $documento->save();
 })->describe('Send a message to the clients');
 
+Artisan::command('migrate:update', function () {
+    $current = exec('git rev-parse HEAD');
+    $previous = file_exists('.previouscommit') ? file_get_contents('.previouscommit') : $current;
+    $res = [];
+    foreach (explode("\n", shell_exec('git diff --name-only ' . $previous)) as $path) {
+        if (substr($path, 0, 20) !== 'database/migrations/') {
+            continue;
+        }
+        $code = file_get_contents($path);
+        if (preg_match('/class\s+(\w+)\s+/', $code, $match)) {
+            require($path);
+            $class = $match[1];
+            $migration = new $class;
+            $migration->down();
+            $migration->up();
+        }
+    }
+    UpdateModels::dispatchNow('hr');
+    UpdateModels::dispatchNow('pgsql');
+})->describe('Actualiza las migrations que fueron modificadas');
 
 
 Artisan::command('fastserver', function () {

@@ -173,11 +173,11 @@
             saveHR() {
                 if (this.data.id) {
                     this.data.putToAPI("/api/hoja_rutas/" + this.data.id).then((response) => {
-                        this.$router.push({path: this.apiBase, params: {id: response.data.data.id}});
+                        this.$router.push({params: {id: response.data.data.id}});
                     });
                 } else {
                     this.data.postToAPI("/api/hoja_rutas").then((response) => {
-                        this.$router.push({path: this.apiBase, params: {id: response.data.data.id}});
+                        this.$router.push({params: {id: response.data.data.id}});
                     });
                 }
             },

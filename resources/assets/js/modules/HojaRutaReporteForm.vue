@@ -121,29 +121,79 @@
                     <button type="button" class="btn btn-primary" @click="generarExcel">Exportar Excel</button>
                 </div>
             </div>
+            <error v-model="reportErrors" property="message"></error>
+            <grid v-model="report">
+                <template slot="header">
+                    <th width="4%">#</th>
+                    <th width="6%">Tipo</th>
+                    <th width="8%">Nro Control</th>
+                    <th width="10%">Fecha derivación</th>
+                    <th width="14%">Referencia</th>
+                    <th width="14%">Destinatario</th>
+                    <th width="14%">Procecendia</th>
+                    <th width="10%">Fecha recepción</th>
+                    <th width="10%">Conclusión</th>
+                    <th width="10%">Instrucción</th>
+                </template>
+                <tr slot-scope="{row, options, format}">
+                    <td>{{row.id}} {{row.numero}}</td>
+                    <td>{{row.tipo}}</td>
+                    <td>{{row.nro_de_control}}</td>
+                    <td><datetime v-model="row.derivacion_fecha" :read-only="true" type="date"/></td>
+                <td>{{row.referencia}}</td>
+                <td>{{row.derivacion_destinatario}}</td>
+                <td>{{row.procedencia}}</td>
+                <td><datetime v-model="row.fecha" :read-only="true" type="date"/></td>
+                <td><datetime v-model="row.conclusion" :read-only="true" type="date"/></td>
+                <td>{{row.instruccion}}</td>
+                </tr>
+            </grid>
         </div>
     </panel>
 </template>
 
 <script>
     export default {
-        path: "/HojaRuta/:id",
+        props: {
+            type: String,
+        },
         computed: {
             titulo() {
                 return 'REPORTE - ' + this.data.attributes.tipo;
             },
         },
         methods: {
+            getIdURL() {
+                return isNaN(this.type)
+                        ? 'create?factory=' + this.type
+                        : this.type;
+            },
             generarReporte() {
+                this.data.postToAPI("/api/reporte").then((response) => {
+                    this.$router.push({params: {id: response.data.data.id}});
+                });
             },
             generarExcel() {
             },
         },
         data() {
             const errores = {};
+            const reportErrors = {};
             return {
-                data: new ApiObject('/api/reportes/create', errores).loadFromAPI(),
+                report: [],
+                data: new ApiObject('/api/reportes/' + this.getIdURL(), errores).loadFromAPI().onupdate(data => {
+                    if (data.id) {
+                        data.callMethod('generar')
+                                .then(response => {
+                                    this.report.splice(0);
+                                    response.data.response.forEach(item => {
+                                        this.report.push(item);
+                                    });
+                                });
+                    }
+                }),
                 errores: errores,
+                reportErrors: reportErrors,
                 procedencias: new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
@@ -163,8 +213,9 @@
             };
         },
         watch: {
-            '$route.params.id'() {
-                this.data.loadFromAPI('/api/hoja_rutas/' + this.getIdURL());
+            'type'() {
+                console.log("reload for: ", this.getIdURL());
+                this.data.loadFromAPI('/api/reportes/' + this.getIdURL());
             }
         }
     };

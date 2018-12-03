@@ -27,6 +27,6 @@ class CreateInstruccionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('instrucciones');
+        Schema::connection('hr')->dropIfExists('instrucciones');
     }
 }
