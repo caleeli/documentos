@@ -1,7 +1,8 @@
 function ApiObject(url, errorsObject) {
     var storage;
     var self = this;
-    errorsObject = errorsObject === undefined ? {message:"", errors: []} : errorsObject;
+    var onupdate;
+    errorsObject = errorsObject === undefined ? {message: "", errors: []} : errorsObject;
     function cleanErrors() {
         Vue.set(errorsObject, 'message', "");
         Vue.set(errorsObject, 'errors', []);
@@ -10,19 +11,21 @@ function ApiObject(url, errorsObject) {
         for (var attr in data) {
             Vue.set(self, attr, data[attr]);
         }
+        onupdate instanceof Function ? onupdate(self) : null;
     };
     this.listenErrors = (error) => {
-        for(var a in error) {
+        for (var a in error) {
             Vue.set(errorsObject, a, error[a]);
         }
     };
     self.loadFromAPI = function(newURL) {
         cleanErrors();
         if (newURL !== undefined) {
-            storage.unregister(this);
+            storage ? storage.unregister(this) : null;
             storage = new ApiStorage(newURL, this);
+            url = newURL;
         } else {
-            storage.update();
+            storage ? storage.update() : null;
         }
         return this;
     };
@@ -49,7 +52,21 @@ function ApiObject(url, errorsObject) {
             this.listenErrors(error.response.data);
         });
     };
-    storage = new ApiStorage(url, this);
+    self.onupdate = function(callback) {
+        onupdate = callback;
+        return this;
+    };
+    self.callMethod = function(name, parameters) {
+        return window.axios.post(url, {
+            call: {
+                method: name,
+                arguments: parameters,
+            }
+        }).catch(error => {
+            this.listenErrors(error.response.data);
+        });
+    };
+    url ? storage = new ApiStorage(url, this) : null;
     cleanErrors();
     return self;
 }

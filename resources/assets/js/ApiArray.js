@@ -1,6 +1,12 @@
-function ApiArray(url) {
+function ApiArray(url, errorsObject) {
+    var me = this;
     var self = new Array();
     var storage;
+    errorsObject = errorsObject === undefined ? {message: "", errors: []} : errorsObject;
+    function cleanErrors() {
+        Vue.set(errorsObject, 'message', "");
+        Vue.set(errorsObject, 'errors', []);
+    }
     this.listenStorage = (data) => {
         self.splice(0);
         for (var row of data) {
@@ -9,21 +15,21 @@ function ApiArray(url) {
     };
     self.listenStorage = this.listenStorage;
     this.listenErrors = (error) => {
-        console.log(error);
-        //for(var a in error) {
-        //    Vue.set(errorsObject, a, error[a]);
-        //}
+        for (var a in error) {
+            Vue.set(errorsObject, a, error[a]);
+        }
     };
     self.loadFromAPI = function(newURL) {
+        cleanErrors();
         if (newURL !== undefined) {
-            storage.unregister(this);
+            storage ? storage.unregister(this) : null;
             storage = new ApiStorage(newURL, this);
         } else {
-            storage.update();
+            storage ? storage.update() : null;
         }
         return this;
     };
-    storage = new ApiStorage(url, this);
+    storage = url ? new ApiStorage(url, this) : null;
     return self;
 }
 Array.prototype.filterBy = function(filters, text, compare)
