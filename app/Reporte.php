@@ -93,16 +93,16 @@ class Reporte extends Model
             $query[] = ' hoja_ruta.gestion <= :gestion_hasta';
             $params['gestion_hasta'] = $this->gestion_hasta;
         }
-        /*if (!empty($this->fecha_derivacion1)) {
-            $query[] = ' derivacion.fecha >= :fecha_derivacion1';
-            $params['fecha_derivacion1'] = $this->fecha_derivacion1;
-            $addDerivacion = true;
-        }
-        if (!empty($this->fecha_derivacion2)) {
-            $query[] = ' derivacion.fecha <= :fecha_derivacion2';
-            $params['fecha_derivacion2'] = $this->fecha_derivacion2;
-            $addDerivacion = true;
-        }*/
+        /* if (!empty($this->fecha_derivacion1)) {
+          $query[] = ' derivacion.fecha >= :fecha_derivacion1';
+          $params['fecha_derivacion1'] = $this->fecha_derivacion1;
+          $addDerivacion = true;
+          }
+          if (!empty($this->fecha_derivacion2)) {
+          $query[] = ' derivacion.fecha <= :fecha_derivacion2';
+          $params['fecha_derivacion2'] = $this->fecha_derivacion2;
+          $addDerivacion = true;
+          } */
         if (!empty($this->destinatario)) {
             $query[] = ' derivacion.destinatario like :destinatario';
             $params['destinatario'] = '%' . str_replace(' ', '%',
@@ -142,6 +142,7 @@ class Reporte extends Model
         $stmt->execute($params);
         $res = [];
         $num = 1;
+        $res2 = [];
         while ($row = $stmt->fetch()) {
             $id = $row['id'];
             if (!isset($res[$id])) {
@@ -154,7 +155,8 @@ class Reporte extends Model
                 "num" => $num,
             ];
             $num++;
+            $res2[] = $row;
         }
-        return array_values($res);
+        return $res2; //array_values($res);
     }
 }

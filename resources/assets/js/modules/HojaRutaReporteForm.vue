@@ -181,17 +181,19 @@
             const reportErrors = {};
             return {
                 report: [],
-                data: new ApiObject('/api/reportes/' + this.getIdURL(), errores).loadFromAPI().onupdate(data => {
-                    if (data.id) {
-                        data.callMethod('generar')
-                                .then(response => {
-                                    this.report.splice(0);
-                                    response.data.response.forEach(item => {
-                                        this.report.push(item);
-                                    });
-                                });
-                    }
-                }),
+                data: new ApiObject('/api/reportes/' + this.getIdURL(), errores)
+                        //.loadFromAPI()
+                        .onupdate(data => {
+                            if (data.id) {
+                                data.callMethod('generar')
+                                        .then(response => {
+                                            this.report.splice(0);
+                                            response.data.response.forEach(item => {
+                                                this.report.push(item);
+                                            });
+                                        });
+                            }
+                        }),
                 errores: errores,
                 reportErrors: reportErrors,
                 procedencias: new ApiArray('/api/empresas'),
@@ -214,7 +216,6 @@
         },
         watch: {
             'type'() {
-                console.log("reload for: ", this.getIdURL());
                 this.data.loadFromAPI('/api/reportes/' + this.getIdURL());
             }
         }
