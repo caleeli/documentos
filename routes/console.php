@@ -54,6 +54,7 @@ Artisan::command('migrate:update', function () {
     }
     UpdateModels::dispatchNow('hr');
     UpdateModels::dispatchNow('pgsql');
+    file_put_contents('.previouscommit', $current);
 })->describe('Actualiza las migrations que fueron modificadas');
 
 
