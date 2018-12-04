@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="row">
-            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 text-center" v-for="link in accessLinks">
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 text-center" v-for="link in accessLinks">
                 <router-link :to="link.href">
                     <img class="access-link" :src="link.icon"><br>
                     {{link.text}}
@@ -33,17 +33,17 @@
                         href: "/HojaRutaReporte/externa",
                     },
                     {
-                        icon: require("../../images/hoja-de-ruta.svg"),
+                        icon: require("../../images/hoja-de-ruta-interna.svg"),
                         text: "HOJA INTERNA",
                         href: "/HojaRuta/interna",
                     },
                     {
-                        icon: require("../../images/busqueda.svg"),
+                        icon: require("../../images/busqueda-interna.svg"),
                         text: "BUSQUEDA INTERNA",
                         href: "/HojaRutaBusqueda/interna",
                     },
                     {
-                        icon: require("../../images/reporte.svg"),
+                        icon: require("../../images/reporte-interna.svg"),
                         text: "REPORTE INTERNA ",
                         href: "/HojaRutaReporte/interna",
                     },
