@@ -1,0 +1,31 @@
+<svg width="512px" height="448px" viewBox="0 0 512 448" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="busqueda">
+            <path d="M464,0 L48,0 C21.5,0 0,21.5 0,48 L0,400 C0,426.5 21.5,448 48,448 L464,448 C490.5,448 512,426.5 512,400 L512,48 C512,21.5 490.5,0 464,0 Z M484,411.75 C484,416.2875 481.040385,420 477.423077,420 L34.5769231,420 C30.9596154,420 28,416.2875 28,411.75 L28,90 L484,90 L484,411.75 Z" id="Shape" fill="#3F51B5" fill-rule="nonzero"></path>
+            <text id="BUQUEDA" font-family="Helvetica" font-size="37" font-weight="normal" fill="#FFFFFF">
+                <tspan x="27" y="62">BUQUEDA</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#979797" fill="#FFFFFF" x="337.5" y="98.5" width="63" height="42" rx="8"></rect>
+            <rect id="Rectangle" stroke="#979797" fill="#FFFFFF" x="409.5" y="98.5" width="63" height="42" rx="8"></rect>
+            <text id="&lt;" font-family="Helvetica" font-size="22" font-weight="normal" fill="#000000">
+                <tspan x="362.576172" y="119">&lt;</tspan>
+            </text>
+            <text id="&gt;" font-family="Helvetica" font-size="22" font-weight="normal" fill="#000000">
+                <tspan x="434.576172" y="119">&gt;</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="42.5" y="153.5" width="430" height="21"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="42.5" y="202.5" width="430" height="21"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="42.5" y="375.5" width="430" height="21"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="42.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="455.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="107.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="205.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="303.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#3F51B5" x="409.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="42.5" y="98.5" width="260" height="42"></rect>
+            <g id="search-solid" transform="translate(265.000000, 105.000000)" fill="#4A4A4A" fill-rule="nonzero">
+                <path d="M31.5009747,27.6148148 L25.2818713,21.3957115 C25.0011696,21.1150097 24.6206628,20.9590643 24.2214425,20.9590643 L23.2046784,20.9590643 C24.9263158,18.757115 25.9493177,15.9875244 25.9493177,12.9746589 C25.9493177,5.80740741 20.1419103,0 12.9746589,0 C5.80740741,0 0,5.80740741 0,12.9746589 C0,20.1419103 5.80740741,25.9493177 12.9746589,25.9493177 C15.9875244,25.9493177 18.757115,24.9263158 20.9590643,23.2046784 L20.9590643,24.2214425 C20.9590643,24.6206628 21.1150097,25.0011696 21.3957115,25.2818713 L27.6148148,31.5009747 C28.2011696,32.0873294 29.1493177,32.0873294 29.7294347,31.5009747 L31.4947368,29.7356725 C32.0810916,29.1493177 32.0810916,28.2011696 31.5009747,27.6148148 Z M12.9746589,20.9590643 C8.56452242,20.9590643 4.99025341,17.3910331 4.99025341,12.9746589 C4.99025341,8.56452242 8.5582846,4.99025341 12.9746589,4.99025341 C17.3847953,4.99025341 20.9590643,8.5582846 20.9590643,12.9746589 C20.9590643,17.3847953 17.3910331,20.9590643 12.9746589,20.9590643 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>
