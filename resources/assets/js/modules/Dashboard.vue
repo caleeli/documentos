@@ -56,6 +56,6 @@
 <style lang="scss">
     .access-link {
         margin-top: 1em;
-        width: 64px;
+        width: 12em;
     }
 </style>
