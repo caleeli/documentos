@@ -1,0 +1,16 @@
+<svg width="15px" height="16px" viewBox="0 0 15 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" fill="#4A90E2" stroke="#000000" stroke-width="0.25">
+            <polygon id="Path-2" points="0.387392241 1.09675481 13.6287716 15.8659856 0.387392241 15.8659856"></polygon>
+            <path d="M2.41002155,6.30057702 L3.31034483,5.29637029" id="Line-6" stroke-linecap="square"></path>
+            <path d="M4.6169181,8.76211548 L5.51724138,7.75790875" id="Line-6" stroke-linecap="square"></path>
+            <g id="Group" transform="translate(9.873414, 6.904138) rotate(45.000000) translate(-9.873414, -6.904138) translate(2.873414, 4.904138)">
+                <rect id="Rectangle" x="0.125" y="0.125" width="1.40517241" height="3.44230769"></rect>
+                <rect id="Rectangle" x="2.33189655" y="0.125" width="8.02586207" height="3.44230769"></rect>
+                <polygon id="Path-6" points="11.0344828 0.615384615 13.2413793 1.86498397 11.0344828 3.07692308"></polygon>
+            </g>
+            <path d="M6.82381466,11.2236539 L7.72413793,10.2194472" id="Line-6" stroke-linecap="square"></path>
+            <path d="M9.03071121,13.6851924 L9.93103448,12.6809857" id="Line-6" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>

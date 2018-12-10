@@ -1,0 +1,23 @@
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0.5" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="td+">
+            <rect id="Rectangle" fill="#B8E986" x="4.31" y="0.62" width="4" height="15"></rect>
+            <path d="M0.615384615,0.615384615 L0.615384615,15.3846154" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M15.3846154,15.3846154 L15.3846154,0.615384615" id="Line-3" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M4.30769231,15.3846154 L4.30769231,0.615384615" id="Line-3" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M8,15.3846154 L8,0.615384615" id="Line-3" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M11.6923077,15.3846154 L11.6923077,0.615384615" id="Line-3" stroke="#979797" fill="url(#linearGradient-1)" stroke-linecap="square"></path>
+            <path d="M0.615384615,15.3846154 L15.3846154,15.3846154" id="Line-2" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M0.615384615,0.615384615 L15.3846154,0.615384615" id="Line-4" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M0.615384615,8 L15.3846154,8" id="Line-4" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M0.615384615,11.6923077 L15.3846154,11.6923077" id="Line-4" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M0.615384615,4.30769231 L15.3846154,4.30769231" id="Line-4" stroke="#979797" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>

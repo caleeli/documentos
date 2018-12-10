@@ -1,0 +1,12 @@
+<svg width="55px" height="16px" viewBox="0 0 55 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="empresa">
+            <rect id="Rectangle" stroke="#979797" fill="#F8E71C" x="0.5" y="0.5" width="54" height="15" rx="7.5"></rect>
+            <text font-family="Helvetica" font-size="9" font-weight="normal" fill="#000000">
+                <tspan x="4" y="11">empresa</tspan>
+            </text>
+            <polygon id="Triangle" stroke="#979797" fill="#D8D8D8" points="50 5 51 7 49 7"></polygon>
+            <polygon id="Triangle" stroke="#979797" fill="#D8D8D8" transform="translate(50.000000, 10.000000) scale(1, -1) translate(-50.000000, -10.000000) " points="50 9 51 11 49 11"></polygon>
+        </g>
+    </g>
+</svg>

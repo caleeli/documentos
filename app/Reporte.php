@@ -143,17 +143,18 @@ class Reporte extends Model
         $res = [];
         $num = 1;
         $res2 = [];
-        while ($row = $stmt->fetch()) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $id = $row['id'];
             if (!isset($res[$id])) {
                 $res[$id] = $row;
                 $res[$id]['derivaciones'] = [];
+            } else {
+                $row = [
+                    "fecha" => $row['derivacion_fecha'],
+                    "destinatario" => $row['derivacion_destinatario'],
+                    "num" => $num,
+                ];
             }
-            $res[$id]['derivaciones'][] = [
-                "fecha" => $row['derivacion_fecha'],
-                "destinatario" => $row['derivacion_destinatario'],
-                "num" => $num,
-            ];
             $num++;
             $res2[] = $row;
         }

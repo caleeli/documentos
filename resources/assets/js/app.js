@@ -66,6 +66,7 @@ const app = new Vue({
     el: '#app',
     data() {
         return {
+            notifications: [],
             topbar: {
                 notification: {
                     countClass: 'text-primary',

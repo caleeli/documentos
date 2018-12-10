@@ -60,7 +60,10 @@
                     </form>
                 </div>
             </nav>
-
+            <div v-for="notification in notifications" class="alert alert-dismissible" ;class="notification.class">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                @{{notification.text}}
+            </div>
             @yield('content')
         </div>
     </body>
