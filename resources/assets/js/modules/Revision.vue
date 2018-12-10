@@ -1,22 +1,48 @@
 <template>
     <panel name="Documento de revisión" class="panel-primary">
-        <div v-show="mode==='design'">
-            <div class="btn-group">
-                <button v-for="button in buttons" type="button" class="btn btn-sm btn-outline-secondary" @click="doButton(button)">
-                    <img v-if="button.icon" :src="button.icon">
-                    {{button.label}}
-                </button>
+        <div class="">
+            <div class="row">
+                <div class="col-8" v-show="mode==='design'">
+                    <div class="btn-group">
+                        <button v-for="button in buttons" type="button" class="btn btn-sm btn-outline-secondary" @click="doButton(button)">
+                            <img v-if="button.icon" :src="button.icon">
+                            {{button.label}}
+                        </button>
+                    </div>
+                    <div contenteditable="true" @blur="setter" class="revision-container revision-design"></div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <select v-model="config.type" class="form-control">
+                            <option value=""></option>
+                            <option value="text">Texto</option>
+                            <option value="select">Lista de selección</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input v-model="config.name" class="form-control" placeholder="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Datos</label>
+                        <input v-model="config.data" class="form-control" placeholder="origen de datos">
+                    </div>
+                    <div class="form-group">
+                        <label>Valor</label>
+                        <input v-model="config.value" class="form-control" placeholder="valor actual">
+                    </div>
+                </div>
+                <div class="col-8" v-show="mode==='run'">
+                    <div class="btn-group">
+                        <button v-for="button in runButtons" type="button" class="btn btn-sm btn-outline-secondary" @click="doButton(button)">
+                            <img v-if="button.icon" :src="button.icon">
+                            {{button.label}}
+                        </button>
+                    </div>
+                    <v-html :template="parse"></v-html>
+                </div>
             </div>
-            <div contenteditable="true" @blur="setter" class="revision-container revision-design"></div>
-        </div>
-        <div v-show="mode==='run'">
-            <div class="btn-group">
-                <button v-for="button in runButtons" type="button" class="btn btn-sm btn-outline-secondary" @click="doButton(button)">
-                    <img v-if="button.icon" :src="button.icon">
-                    {{button.label}}
-                </button>
-            </div>
-            <v-html :template="parse"></v-html>
         </div>
     </panel>
 </template>
@@ -45,23 +71,36 @@
                 runButtons: [
                     {'handler': 'design', icon: require('../../images/revision/design.svg')},
                 ],
-                html: ''
+                html: '',
+                config: {},
             }
         },
         computed: {
             getter() {
                 return this.html;
             },
-            parse(){
+            parse() {
                 let html = this.html;
                 const $div = $('<div></div>').html(this.html);
-                $div.find('select').replaceWith('<input class="form-control">');
+                $div.find('select').replaceWith(function() {
+                    return '<input class="form-control" value="' + this.value + '">';
+                });
                 return '<div class="revision-container">' + $div.html() + '</div>';
             }
         },
         methods: {
-            createToken(name) {
-                return '<select class="token" size="1" multiple onclick=""><option>' + name + '</option></select>';
+            createToken(config) {
+                const control = $('<select class="token" size="1" multiple><option>' + config.name + '</option></select>');
+                control.attr('config', JSON.stringify(config));
+                const code = (function(event) {
+                    const select = event.target.nodeName === 'OPTION' ? event.target.parentNode : event.target;
+                    const config = JSON.parse(select.getAttribute('config'));
+                    const designer = $(select).parents('.revision-design')[0];
+                    console.log(designer, $(designer).data('vue'));
+                }).toString();
+                control.attr('onclick', '(' + code + ')(event)');
+                const html = $('<div></div>').append(control).html();
+                window.document.execCommand('insertHTML', false, html);
             },
             getCurrent() {
                 let selection;
@@ -125,17 +164,22 @@
                 });
             },
             texto() {
-                window.document.execCommand('insertHTML', false, this.createToken('texto'));
+                this.createToken({
+                    type: 'text',
+                    name: 'texto',
+                    value: '',
+                });
             },
             empresas() {
-                window.document.execCommand('insertHTML', false, this.createToken('empresa'));
+                this.createToken({
+                    type: 'select',
+                    data: 'empresas',
+                    name: 'empresa',
+                    value: '',
+                });
             },
             run() {
                 this.html = $(this.$el).find('.revision-design').html();
-                /*loadRevisionBody({
-                 template: '<div>' + this.html + '</div>'
-                 });
-                 this.redraw++;*/
                 this.mode = "run";
             },
             design() {
@@ -143,6 +187,7 @@
             },
         },
         mounted() {
+            $(this.$el).find('.revision-design').data('vue', this);
         },
     };
 </script>
