@@ -1,6 +1,7 @@
 <template>
     <panel name="Documento de revisión" class="panel-primary">
         <div class="">
+            <texto></texto>
             <div class="row">
                 <div class="col-8" v-show="mode==='design'">
                     <div class="btn-group">
@@ -14,7 +15,7 @@
                 <div class="col-4" v-show="mode==='design'">
                     <panel name="Propiedades" class="panel-secondary">
                         <div v-show="config.type">
-                                  <div class="form-group">
+                            <div class="form-group">
                                 <label>Tipo</label>
                                 <select v-model="config.type" class="form-control">
                                     <option value=""></option>
@@ -32,7 +33,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Valor</label>
-                                <input v-model="config.value" class="form-control" placeholder="valor actual">
+                                <input v-model="data[config.name]" class="form-control" placeholder="valor actual">
                             </div>
                         </div>
                     </panel>
@@ -44,7 +45,7 @@
                             {{button.label}}
                         </button>
                     </div>
-                    <v-html :template="parse"></v-html>
+                    <v-html :template="parse" :data="data"></v-html>
                 </div>
             </div>
         </div>
@@ -52,7 +53,11 @@
 </template>
 
 <script>
+    import texto from './revision/texto';
     export default {
+        components: {
+            texto
+        },
         props: {
         },
         data() {
@@ -78,6 +83,7 @@
                 html: '',
                 selected: null,
                 config: {},
+                data: {},
             }
         },
         computed: {
@@ -85,10 +91,13 @@
                 return this.html;
             },
             parse() {
-                let html = this.html;
+                const self = this;
                 const $div = $('<div></div>').html(this.html);
                 $div.find('select').replaceWith(function() {
-                    return '<input class="form-control" value="' + this.value + '">';
+                    const config = JSON.parse(this.getAttribute('name'));
+                    if (!config || !config.name) return;
+                    Vue.set(self.data, config.name, self.data[config.name] || '');
+                    return '<input class="form-control" v-model="data.' + config.name + '">';
                 });
                 return '<div class="revision-container">' + $div.html() + '</div>';
             }
@@ -97,11 +106,11 @@
             config: {
                 deep: true,
                 handler() {
-                    this.selected ? this.selected.setAttribute('config', JSON.stringify(this.config)) : null;
+                    this.selected ? this.selected.setAttribute('name', JSON.stringify(this.config)) : null;
                 }
             },
             selected(select) {
-                const config = select ? JSON.parse(select.getAttribute('config')) : {};
+                const config = select ? JSON.parse(select.getAttribute('name')) : {};
                 Vue.set(this, 'config', config);
             }
         },
@@ -109,10 +118,14 @@
             openControl(select) {
                 this.selected = select;
             },
+            findControl(target) {
+                return target.firstChild && target.firstChild.nodeName === 'SELECT'
+                        ? target.firstChild : (target.parentNode.nodeName === 'SELECT' ? target.parentNode
+                                : (target.nodeName === 'SELECT' ? target : null));
+            },
             selectControl(event) {
-                const control = event.target.firstChild && event.target.firstChild.nodeName === 'SELECT'
-                        ? event.target.firstChild : (event.target.parentNode.nodeName === 'SELECT' ? event.target.parentNode
-                                : (event.target.nodeName === 'SELECT' ? event.target : null));
+                const control = event.explicitOriginalTarget ? this.findControl(event.explicitOriginalTarget)
+                        : this.findControl(event.target);
                 control ? this.openControl(control) : this.openControl(null);
             },
             controlEvent(control, event, callback) {
@@ -121,13 +134,7 @@
             },
             createToken(config) {
                 const control = $('<select class="token" size="1" multiple><option>' + config.name + '</option></select>');
-                control.attr('config', JSON.stringify(config));
-                this.controlEvent(control, 'onclick', function(event) {
-                    const select = event.target.nodeName === 'OPTION' ? event.target.parentNode : event.target;
-                    const designerDiv = $(select).parents('.revision-design')[0];
-                    const designer = $(designerDiv).data('vue');
-                    designer.openControl(select);
-                });
+                control.attr('name', JSON.stringify(config));
                 const html = $('<div></div>').append(control).html();
                 window.document.execCommand('insertHTML', false, html);
             },
@@ -137,7 +144,6 @@
                     selection = window.getSelection();
                 else if (document.selection && document.selection.type !== "Control")
                     selection = document.selection;
-
                 return selection.anchorNode; //current node on which cursor is positioned
             },
             doButton(button) {
@@ -172,7 +178,6 @@
             addTd() {
                 const current = this.getCurrent();
                 const $td = current.nodeName === 'TD' ? $(current) : $(current).parents('td').first();
-
                 const index = $td[0].cellIndex;
                 $td.parent().parent().children().each(function() {
                     let $td = $(this.cells[index]);
@@ -228,7 +233,6 @@
         border: 1px dashed gray;
         background-color: lightgoldenrodyellow;
     }
-    .token option:checked { color: red; }
     .jdd-table {
         border-collapse: collapse;
         display: inline-table;

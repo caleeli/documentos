@@ -6,7 +6,8 @@
             };
         },
         props: {
-            template: String
+            template: String,
+            data: Object
         },
         render(h) {
             if (!this.templateRender) {
