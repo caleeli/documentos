@@ -9,9 +9,9 @@
                             {{button.label}}
                         </button>
                     </div>
-                    <div contenteditable="true" @blur="setter" class="revision-container revision-design"></div>
+                    <div contenteditable="true" @blur="setter" @click="selectControl" @selectstart="selectControl" class="revision-container revision-design"></div>
                 </div>
-                <div class="col-4">
+                <div class="col-4" v-show="mode==='design' && config.type">
                     <div class="form-group">
                         <label>Tipo</label>
                         <select v-model="config.type" class="form-control">
@@ -72,6 +72,7 @@
                     {'handler': 'design', icon: require('../../images/revision/design.svg')},
                 ],
                 html: '',
+                selected: null,
                 config: {},
             }
         },
@@ -88,17 +89,41 @@
                 return '<div class="revision-container">' + $div.html() + '</div>';
             }
         },
+        watch: {
+            config: {
+                deep: true,
+                handler() {
+                    this.selected ? this.selected.setAttribute('config', JSON.stringify(this.config)) : null;
+                }
+            },
+            selected(select) {
+                const config = select ? JSON.parse(select.getAttribute('config')) : {};
+                Vue.set(this, 'config', config);
+            }
+        },
         methods: {
+            openControl(select) {
+                this.selected = select;
+            },
+            selectControl(event) {
+                const control = event.target.firstChild && event.target.firstChild.nodeName === 'SELECT'
+                        ? event.target.firstChild : (event.target.parentNode.nodeName === 'SELECT' ? event.target.parentNode
+                                : (event.target.nodeName === 'SELECT' ? event.target : null));
+                control ? this.openControl(control) : this.openControl(null);
+            },
+            controlEvent(control, event, callback) {
+                const code = callback.toString();
+                control.attr(event, '(' + code + ')(event)');
+            },
             createToken(config) {
                 const control = $('<select class="token" size="1" multiple><option>' + config.name + '</option></select>');
                 control.attr('config', JSON.stringify(config));
-                const code = (function(event) {
+                this.controlEvent(control, 'onclick', function(event) {
                     const select = event.target.nodeName === 'OPTION' ? event.target.parentNode : event.target;
-                    const config = JSON.parse(select.getAttribute('config'));
-                    const designer = $(select).parents('.revision-design')[0];
-                    console.log(designer, $(designer).data('vue'));
-                }).toString();
-                control.attr('onclick', '(' + code + ')(event)');
+                    const designerDiv = $(select).parents('.revision-design')[0];
+                    const designer = $(designerDiv).data('vue');
+                    designer.openControl(select);
+                });
                 const html = $('<div></div>').append(control).html();
                 window.document.execCommand('insertHTML', false, html);
             },
