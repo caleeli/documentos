@@ -11,27 +11,31 @@
                     </div>
                     <div contenteditable="true" @blur="setter" @click="selectControl" @selectstart="selectControl" class="revision-container revision-design"></div>
                 </div>
-                <div class="col-4" v-show="mode==='design' && config.type">
-                    <div class="form-group">
-                        <label>Tipo</label>
-                        <select v-model="config.type" class="form-control">
-                            <option value=""></option>
-                            <option value="text">Texto</option>
-                            <option value="select">Lista de selección</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input v-model="config.name" class="form-control" placeholder="nombre">
-                    </div>
-                    <div class="form-group">
-                        <label>Datos</label>
-                        <input v-model="config.data" class="form-control" placeholder="origen de datos">
-                    </div>
-                    <div class="form-group">
-                        <label>Valor</label>
-                        <input v-model="config.value" class="form-control" placeholder="valor actual">
-                    </div>
+                <div class="col-4" v-show="mode==='design'">
+                    <panel name="Propiedades" class="panel-secondary">
+                        <div v-show="config.type">
+                                  <div class="form-group">
+                                <label>Tipo</label>
+                                <select v-model="config.type" class="form-control">
+                                    <option value=""></option>
+                                    <option value="text">Texto</option>
+                                    <option value="select">Lista de selección</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input v-model="config.name" class="form-control" placeholder="nombre">
+                            </div>
+                            <div class="form-group">
+                                <label>Datos</label>
+                                <input v-model="config.data" class="form-control" placeholder="origen de datos">
+                            </div>
+                            <div class="form-group">
+                                <label>Valor</label>
+                                <input v-model="config.value" class="form-control" placeholder="valor actual">
+                            </div>
+                        </div>
+                    </panel>
                 </div>
                 <div class="col-8" v-show="mode==='run'">
                     <div class="btn-group">
