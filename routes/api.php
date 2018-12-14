@@ -18,6 +18,9 @@ Route::middleware('auth:api')->get('/user',
     return $request->user();
 });
 
+Route::middleware('auth:api')->get('/revision_carpetas/call', 'RevisionCarpetasController@call');
+Route::middleware('auth:api')->get('/revision_carpetas/complete_task', 'RevisionCarpetasController@completeTask');
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/{module}/{model1?}/{id1?}/{model2?}/{id2?}/{model3?}/{id3?}/{model4?}/{id4?}/{model5?}/{id5?}',
         array('as' => 'api', 'uses' => 'ApiController@index'))/* ->middleware('auth:api') */;

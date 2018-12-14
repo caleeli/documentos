@@ -40,5 +40,8 @@
                 }
             }
         },
+        updated() {
+            this.$emit('updated', this);
+        }
     }
 </script>

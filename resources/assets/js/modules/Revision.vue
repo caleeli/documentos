@@ -1,7 +1,6 @@
 <template>
     <panel name="Documento de revisión" class="panel-primary">
         <div class="">
-            <texto></texto>
             <div class="row">
                 <div class="col-8" v-show="mode==='design'">
                     <div class="btn-group">
@@ -45,7 +44,23 @@
                             {{button.label}}
                         </button>
                     </div>
-                    <v-html :template="parse" :data="data"></v-html>
+                    <table>
+                        <tr>
+                            <td valign='top'><v-html ref="parsed" :template="parse" :data="data" @updated="parseUpdated"></v-html></td>
+                        <td valign='top'>
+                            <div class="revision-comments">
+                                <div v-for="(line,i) in lines" class="comment-line" :style="{top:line.top + 'px'}">
+                                    <button type="button" @mouseover="highlight(i)" @mouseleave="leaveline" @click="activateComment(i)"><i class="fa fa-comment"></i></button>
+                                    <div :class="{compact:activeComment!==i, expand:activeComment===i}">
+                                        <comment v-model="line.comments" @open-comment="activateComment(i)">
+                                            <a class="btn btn-sm float-right btn-outline-secondary"><i class="fa fa-plus"></i></a>
+                                        </comment>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -54,10 +69,8 @@
 
 <script>
     import texto from './revision/texto';
+    Vue.component('texto', texto);
     export default {
-        components: {
-            texto
-        },
         props: {
         },
         data() {
@@ -84,6 +97,8 @@
                 selected: null,
                 config: {},
                 data: {},
+                lines: [],
+                activeComment: -1,
             }
         },
         computed: {
@@ -95,9 +110,10 @@
                 const $div = $('<div></div>').html(this.html);
                 $div.find('select').replaceWith(function() {
                     const config = JSON.parse(this.getAttribute('name'));
-                    if (!config || !config.name) return;
+                    if (!config || !config.name)
+                        return;
                     Vue.set(self.data, config.name, self.data[config.name] || '');
-                    return '<input class="form-control" v-model="data.' + config.name + '">';
+                    return '<texto v-model="data.' + config.name + '"></texto>';
                 });
                 return '<div class="revision-container">' + $div.html() + '</div>';
             }
@@ -112,9 +128,37 @@
             selected(select) {
                 const config = select ? JSON.parse(select.getAttribute('name')) : {};
                 Vue.set(this, 'config', config);
+            },
+            mode() {
+                this.$nextTick(() => {
+                    this.lines.splice(0);
+                    if (this.$refs.parsed) {
+                        const position = $(this.$refs.parsed.$el).position();
+                        for (let l = this.$refs.parsed.$el.children.length, i = 0; i < l; i++) {
+                            let pos = $(this.$refs.parsed.$el.children.item(i)).position();
+                            this.lines.push({
+                                top: pos.top,
+                                comments: [{header: 'david', body: 'este es un ejemplo de comentario'}],
+                            });
+                        }
+                    }
+                });
             }
         },
         methods: {
+            activateComment(index) {
+                this.activeComment = index;
+            },
+            leaveline() {
+                const $parsed = $(this.$refs.parsed.$el);
+                $parsed.children().removeClass('line-highlight');
+            },
+            highlight(index) {
+                const $parsed = $(this.$refs.parsed.$el);
+                const line = this.$refs.parsed.$el.children.item(index);
+                $parsed.children().removeClass('line-highlight');
+                $(line).addClass('line-highlight');
+            },
             openControl(select) {
                 this.selected = select;
             },
@@ -201,7 +245,6 @@
                 this.createToken({
                     type: 'text',
                     name: 'texto',
-                    value: '',
                 });
             },
             empresas() {
@@ -209,7 +252,6 @@
                     type: 'select',
                     data: 'empresas',
                     name: 'empresa',
-                    value: '',
                 });
             },
             run() {
@@ -219,6 +261,11 @@
             design() {
                 this.mode = "design";
             },
+            parseUpdated() {
+                console.log('parseUpdated');
+            },
+        },
+        updated() {
         },
         mounted() {
             $(this.$el).find('.revision-design').data('vue', this);
@@ -246,5 +293,41 @@
         padding-left: 2cm;
         padding-top: 1.5cm;
         padding-right: 1.5cm;
+    }
+    .comment-line {
+        position:absolute;
+    }
+    .comment-line > button {
+        border:1px solid lightblue;
+        border-radius: 0.5em;
+        position:absolute;
+        width: 2em;
+        height: 1.5em;
+        line-height: normal;
+        border-radius: 4px;
+    }
+    .comment-line > button:hover {
+        border-radius: 4px 0px 0px 4px;
+        border-right: none;
+        background-color: lightblue;
+    }
+    .comment-line > div {
+        position:absolute;
+        left:2em;
+        width:30em;
+        overflow: hidden;
+    }
+    .comment-line > div.expand {
+        height:10em;
+        z-index: 2;
+    }
+    .comment-line > div.compact {
+        height:2em;
+    }
+    .revision-comments {
+        position: relative;
+    }
+    .line-highlight {
+        background-color: lightblue;
     }
 </style>

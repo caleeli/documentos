@@ -14,9 +14,6 @@
         watch: {
             'value': function(value) {
                 this.innerValue = value;
-                if (typeof window.autoSave === 'string') {
-                    window[window.autoSave]();
-                }
             },
             'innerValue': function(value) {
                 this.$emit('input', value);
@@ -29,8 +26,28 @@
         },
         methods: {
             editable: function() {
-                return this.$parent.editMode;
+                return true;//this.$parent.editMode;
             }
         }
     }
 </script>
+
+<style lang="scss">
+    div.editable {
+        position: relative;
+        width: 100%;
+        border: 1px lightgreen dashed;
+        min-height: 0.9em;
+    }
+    div.editable textarea {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        border: none;
+        resize: none;
+        padding: 0px;
+        margin: 0px;
+    }
+</style>

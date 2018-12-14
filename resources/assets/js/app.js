@@ -21,7 +21,7 @@ window.Vue.prototype.colLabel = 'col-lg-2 col-md-4 col-sm-12 col-xs-12 text-md-r
 window.Vue.prototype.colField = 'col-lg-10 col-md-8 col-sm-12 col-xs-12';
 window.Vue.prototype.colField2 = 'col-lg-5 col-md-4 col-sm-6 col-xs-12';
 moment.locale('es');
-window.Vue.prototype.dateFormat = function (date){
+window.Vue.prototype.dateFormat = function(date) {
     return moment(date).format('DD/MM/YYYY HH:mm');
 };
 window.moment = moment;
@@ -51,8 +51,19 @@ req.keys().map(key => {
 });
 
 const router = new VueRouter({
-  routes
+    routes
 });
+
+window.Process = {
+    completeTask(params) {
+        axios.get('/api/revision_carpetas/complete_task', {
+            params: params
+        }).then(() => {
+            router.push({path: '/'});
+            window.location.reload();
+        });
+    }
+};
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -111,8 +122,8 @@ const app = new Vue({
         };
     },
     methods: {
-        gridEdit(a,b,c){
-            console.log(a,b,c);
+        gridEdit(a, b, c) {
+            console.log(a, b, c);
         }
     }
 });

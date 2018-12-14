@@ -66,5 +66,8 @@
             </div>
             @yield('content')
         </div>
+        <script>
+            window.tasks = @json($tasks);
+        </script>
     </body>
 </html>
