@@ -67,7 +67,7 @@
             @yield('content')
         </div>
         <script>
-            window.tasks = @json($tasks);
+            window.tasks = @json(isset($tasks) ? $tasks : []);
         </script>
     </body>
 </html>
