@@ -55,6 +55,11 @@ const router = new VueRouter({
 });
 
 window.Process = {
+    callProcess(params) {
+        axios.get('/api/revision_carpetas/call').then(() => {
+            window.location.reload();
+        });
+    },
     completeTask(params) {
         axios.get('/api/revision_carpetas/complete_task', {
             params: params
@@ -62,7 +67,7 @@ window.Process = {
             router.push({path: '/'});
             window.location.reload();
         });
-    }
+    },
 };
 
 /**
