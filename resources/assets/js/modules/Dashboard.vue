@@ -1,6 +1,12 @@
 <template>
     <div class="content" style="padding:1em; width: 100vw;">
         <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
+                <char-asignaciones></char-asignaciones>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
+                <d3-line></d3-line>
+            </div>
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center" v-for="item in accessLinks">
                 <dashboard-item :value="item">
                     <li v-for="link in item.links">
