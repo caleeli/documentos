@@ -12,30 +12,7 @@
                     <div contenteditable="true" @blur="setter" @click="selectControl" @selectstart="selectControl" class="revision-container revision-design"></div>
                 </div>
                 <div class="col-4" v-show="mode==='design'">
-                    <panel name="Propiedades" class="panel-secondary">
-                        <div v-show="config.type">
-                            <div class="form-group">
-                                <label>Tipo</label>
-                                <select v-model="config.type" class="form-control">
-                                    <option value=""></option>
-                                    <option value="text">Texto</option>
-                                    <option value="select">Lista de selección</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Nombre</label>
-                                <input v-model="config.name" class="form-control" placeholder="nombre">
-                            </div>
-                            <div class="form-group">
-                                <label>Datos</label>
-                                <input v-model="config.data" class="form-control" placeholder="origen de datos">
-                            </div>
-                            <div class="form-group">
-                                <label>Valor</label>
-                                <input v-model="data[config.name]" class="form-control" placeholder="valor actual">
-                            </div>
-                        </div>
-                    </panel>
+                    <component :is="inspector[config.type]" :config="config" :data="data"></component>
                 </div>
                 <div class="col-8" v-show="mode==='run'">
                     <div class="btn-group">
@@ -69,12 +46,40 @@
 
 <script>
     import texto from './revision/texto';
+    import ControlGenerico from './revision/ControlGenerico';
+    import Comentario from './revision/Comentario';
     Vue.component('texto', texto);
     export default {
+        components: {
+            ControlGenerico,
+            Comentario,
+        },
         props: {
         },
         data() {
             return {
+                inspector: {
+                    'text': 'ControlGenerico',
+                    'select': 'ControlGenerico',
+                    'comment': 'Comentario',
+                },
+                handlers: {
+                    parseConfig(base, element) {
+                        const name = element.getAttribute('name');
+                        try {
+                            return Object.assign(base, name ? JSON.parse(name) : {});
+                        } catch (e) {
+
+                        }
+                        return base;
+                    },
+                    SELECT(select) {
+                        return JSON.parse(select.getAttribute('name'));
+                    },
+                    A(element) {
+                        return this.parseConfig({type: 'comment', comentarios: []}, element);
+                    },
+                },
                 mode: 'design',
                 buttons: [
                     {'handler': 'justifyLeft', icon: require('../../images/revision/justify-left.svg')},
@@ -88,6 +93,7 @@
                     {'handler': 'removeTd', icon: require('../../images/revision/remove-td.svg')},
                     {'handler': 'texto', icon: require('../../images/revision/texto.svg')},
                     {'handler': 'empresas', icon: require('../../images/revision/empresa.svg')},
+                    {'handler': 'comentario', icon: require('../../images/revision/comentario.svg')},
                     {'handler': 'run', icon: require('../../images/revision/run.svg')},
                 ],
                 runButtons: [
@@ -125,8 +131,8 @@
                     this.selected ? this.selected.setAttribute('name', JSON.stringify(this.config)) : null;
                 }
             },
-            selected(select) {
-                const config = select ? JSON.parse(select.getAttribute('name')) : {};
+            selected(control) {
+                const config = control ? this.handlers[control.nodeName](control) : {};
                 Vue.set(this, 'config', config);
             },
             mode() {
@@ -159,13 +165,13 @@
                 $parsed.children().removeClass('line-highlight');
                 $(line).addClass('line-highlight');
             },
-            openControl(select) {
-                this.selected = select;
+            openControl(control) {
+                this.selected = control;
             },
             findControl(target) {
-                return target.firstChild && target.firstChild.nodeName === 'SELECT'
-                        ? target.firstChild : (target.parentNode.nodeName === 'SELECT' ? target.parentNode
-                                : (target.nodeName === 'SELECT' ? target : null));
+                return target.firstChild && this.handlers[target.firstChild.nodeName] !== undefined
+                        ? target.firstChild : (this.handlers[target.parentNode.nodeName] !== undefined ? target.parentNode
+                                : (this.handlers[target.nodeName] !== undefined ? target : null));
             },
             selectControl(event) {
                 const control = event.explicitOriginalTarget ? this.findControl(event.explicitOriginalTarget)
@@ -175,6 +181,9 @@
             controlEvent(control, event, callback) {
                 const code = callback.toString();
                 control.attr(event, '(' + code + ')(event)');
+            },
+            createComment(config) {
+                window.document.execCommand('createLink', false, '#comment');
             },
             createToken(config) {
                 const control = $('<select class="token" size="1" multiple><option>' + config.name + '</option></select>');
@@ -254,6 +263,9 @@
                     name: 'empresa',
                 });
             },
+            comentario() {
+                this.createComment();
+            },
             run() {
                 this.html = $(this.$el).find('.revision-design').html();
                 this.mode = "run";
@@ -329,5 +341,8 @@
     }
     .line-highlight {
         background-color: lightblue;
+    }
+    .revision-container a {
+        background-color: lightgoldenrodyellow;
     }
 </style>
