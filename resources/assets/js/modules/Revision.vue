@@ -1,6 +1,6 @@
 <template>
     <panel name="Documento de revisión" class="panel-primary">
-        <div class="">
+        <div>
             <div class="row">
                 <div class="col-8" v-show="mode==='design'">
                     <div class="btn-group">
@@ -41,6 +41,9 @@
                 </div>
             </div>
         </div>
+        <context-menu v-model="selectionListMenu" :element="selected">
+            Hola Mundo
+        </context-menu>
     </panel>
 </template>
 
@@ -49,6 +52,7 @@
     import ControlGenerico from './revision/ControlGenerico';
     import Comentario from './revision/Comentario';
     Vue.component('texto', texto);
+    require('../../images/revision/burbuja.svg');
     export default {
         components: {
             ControlGenerico,
@@ -58,11 +62,22 @@
         },
         data() {
             return {
+                /**
+                 * True para abrir el menu lista desplegable
+                 */
+                selectionListMenu: false,
+                /**
+                 * Define el componente vuejs que se mostrara al seleccionar
+                 * un tipo de elemento seleccionado
+                 */
                 inspector: {
                     'text': 'ControlGenerico',
                     'select': 'ControlGenerico',
                     'comment': 'Comentario',
                 },
+                /**
+                 * Se encargan de cargar los datos del elemento seleccionado
+                 */
                 handlers: {
                     parseConfig(base, element) {
                         const name = element.getAttribute('name');
@@ -305,6 +320,7 @@
         padding-left: 2cm;
         padding-top: 1.5cm;
         padding-right: 1.5cm;
+        position: relative;
     }
     .comment-line {
         position:absolute;
@@ -344,5 +360,17 @@
     }
     .revision-container a {
         background-color: lightgoldenrodyellow;
+    }
+    .revision-container a:after {
+        content: "";
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background-image: url(/images/burbuja.svg);
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        overflow: visible;
+        position: absolute;
+        margin-top: -0.25em;
     }
 </style>
