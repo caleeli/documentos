@@ -1,6 +1,6 @@
 <template>
     <panel name="Documento de revisión" class="panel-primary">
-        <div>
+        <div class="revision">
             <div class="row">
                 <div class="col-8" v-show="mode==='design'">
                     <div class="btn-group">
@@ -12,7 +12,7 @@
                     <div contenteditable="true" @blur="setter" @click="selectControl" @selectstart="selectControl" class="revision-container revision-design"></div>
                 </div>
                 <div class="col-4" v-show="mode==='design'">
-                    <component :is="inspector[config.type]" :config="config" :data="data"></component>
+                    <component :is="control.component" :config="config" :data="data"></component>
                 </div>
                 <div class="col-8" v-show="mode==='run'">
                     <div class="btn-group">
@@ -40,10 +40,15 @@
                     </table>
                 </div>
             </div>
+            <context-menu v-model="selectionListMenu" :element="selected">
+                <grid v-if="listaActual==='empresas'" v-model="empresasData" filter-by="attributes.nombre_empresa">
+                    <tr slot-scope="{row, options, format}" @click="listaSetValue(row.attributes.nombre_empresa)">
+                        <td>{{row.id}}</td>
+                        <td>{{row.attributes.nombre_empresa}}</td>
+                    </tr>
+                </grid>
+            </context-menu>
         </div>
-        <context-menu v-model="selectionListMenu" :element="selected">
-            Hola Mundo
-        </context-menu>
     </panel>
 </template>
 
@@ -51,6 +56,9 @@
     import texto from './revision/texto';
     import ControlGenerico from './revision/ControlGenerico';
     import Comentario from './revision/Comentario';
+    import componentesRevision from './revision/controls/componentes';
+    import controlLista from './revision/controls/lista';
+    import controlComentario from './revision/controls/comentario';
     Vue.component('texto', texto);
     require('../../images/revision/burbuja.svg');
     export default {
@@ -58,43 +66,16 @@
             ControlGenerico,
             Comentario,
         },
+        mixins: [componentesRevision,controlLista,controlComentario],
         props: {
         },
         data() {
             return {
+                empresasData: new ApiArray('/api/empresas'),
                 /**
                  * True para abrir el menu lista desplegable
                  */
                 selectionListMenu: false,
-                /**
-                 * Define el componente vuejs que se mostrara al seleccionar
-                 * un tipo de elemento seleccionado
-                 */
-                inspector: {
-                    'text': 'ControlGenerico',
-                    'select': 'ControlGenerico',
-                    'comment': 'Comentario',
-                },
-                /**
-                 * Se encargan de cargar los datos del elemento seleccionado
-                 */
-                handlers: {
-                    parseConfig(base, element) {
-                        const name = element.getAttribute('name');
-                        try {
-                            return Object.assign(base, name ? JSON.parse(name) : {});
-                        } catch (e) {
-
-                        }
-                        return base;
-                    },
-                    SELECT(select) {
-                        return JSON.parse(select.getAttribute('name'));
-                    },
-                    A(element) {
-                        return this.parseConfig({type: 'comment', comentarios: []}, element);
-                    },
-                },
                 mode: 'design',
                 buttons: [
                     {'handler': 'justifyLeft', icon: require('../../images/revision/justify-left.svg')},
@@ -115,8 +96,6 @@
                     {'handler': 'design', icon: require('../../images/revision/design.svg')},
                 ],
                 html: '',
-                selected: null,
-                config: {},
                 data: {},
                 lines: [],
                 activeComment: -1,
@@ -140,16 +119,6 @@
             }
         },
         watch: {
-            config: {
-                deep: true,
-                handler() {
-                    this.selected ? this.selected.setAttribute('name', JSON.stringify(this.config)) : null;
-                }
-            },
-            selected(control) {
-                const config = control ? this.handlers[control.nodeName](control) : {};
-                Vue.set(this, 'config', config);
-            },
             mode() {
                 this.$nextTick(() => {
                     this.lines.splice(0);
@@ -182,6 +151,11 @@
             },
             openControl(control) {
                 this.selected = control;
+                if (control) {
+                    const config = control ? this.handlers[control.nodeName](control) : {};
+                    const inspector = this.inspector[config.type];
+                    inspector && inspector.select instanceof Function ? inspector.select(this, config, control) : null;
+                }
             },
             findControl(target) {
                 return target.firstChild && this.handlers[target.firstChild.nodeName] !== undefined
@@ -196,15 +170,6 @@
             controlEvent(control, event, callback) {
                 const code = callback.toString();
                 control.attr(event, '(' + code + ')(event)');
-            },
-            createComment(config) {
-                window.document.execCommand('createLink', false, '#comment');
-            },
-            createToken(config) {
-                const control = $('<select class="token" size="1" multiple><option>' + config.name + '</option></select>');
-                control.attr('name', JSON.stringify(config));
-                const html = $('<div></div>').append(control).html();
-                window.document.execCommand('insertHTML', false, html);
             },
             getCurrent() {
                 let selection;
@@ -272,14 +237,10 @@
                 });
             },
             empresas() {
-                this.createToken({
-                    type: 'select',
-                    data: 'empresas',
+                this.lista({
+                    list: 'empresas',
                     name: 'empresa',
                 });
-            },
-            comentario() {
-                this.createComment();
             },
             run() {
                 this.html = $(this.$el).find('.revision-design').html();
@@ -301,6 +262,9 @@
 </script>
 
 <style lang="scss">
+    .revision {
+        position: relative;
+    }
     .token {
         width: 100%;
         height: 100%;
@@ -320,7 +284,6 @@
         padding-left: 2cm;
         padding-top: 1.5cm;
         padding-right: 1.5cm;
-        position: relative;
     }
     .comment-line {
         position:absolute;
