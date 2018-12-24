@@ -150,7 +150,7 @@
                 $(line).addClass('line-highlight');
             },
             openControl(control) {
-                if (this.config) {
+                if (this.config && this.selected != control) {
                     const inspector0 = this.inspector[this.config.type];
                     inspector0 && inspector0.blur instanceof Function ? inspector0.blur(this, this.config, this.selected) : null;
                 }
