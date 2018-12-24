@@ -23,7 +23,7 @@
                     </div>
                     <table>
                         <tr>
-                            <td valign='top'><v-html ref="parsed" :template="parse" :data="data" @updated="parseUpdated"></v-html></td>
+                            <td valign='top'><v-html ref="parsed" :template="parse" :data="data"></v-html></td>
                         <td valign='top'>
                             <div class="revision-comments">
                                 <div v-for="(line,i) in lines" class="comment-line" :style="{top:line.top + 'px'}">
@@ -66,7 +66,7 @@
             ControlGenerico,
             Comentario,
         },
-        mixins: [componentesRevision,controlLista,controlComentario],
+        mixins: [componentesRevision, controlLista, controlComentario],
         props: {
         },
         data() {
@@ -150,6 +150,10 @@
                 $(line).addClass('line-highlight');
             },
             openControl(control) {
+                if (this.config) {
+                    const inspector0 = this.inspector[this.config.type];
+                    inspector0 && inspector0.blur instanceof Function ? inspector0.blur(this, this.config, this.selected) : null;
+                }
                 this.selected = control;
                 if (control) {
                     const config = control ? this.handlers[control.nodeName](control) : {};
@@ -248,9 +252,6 @@
             },
             design() {
                 this.mode = "design";
-            },
-            parseUpdated() {
-                console.log('parseUpdated');
             },
         },
         updated() {

@@ -17,6 +17,9 @@ export default {
                         vue.listaActual = config.list;
                         vue.selectionListMenu = config.type === 'select' && !vue.selectionListMenu;
                     },
+                    blur(vue, config) {
+                        vue.selectionListMenu = false;
+                    },
                     change(value, vue){
                         vue.selectionListMenu = false;
                         vue.setControlLabel(value);
