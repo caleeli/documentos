@@ -91,7 +91,7 @@
                     {'handler': 'texto', icon: require('../../images/revision/texto.svg')},
                     {'handler': 'empresas', icon: require('../../images/revision/empresa.svg')},
                     {'handler': 'comentario', icon: require('../../images/revision/comentario.svg')},
-                    {'handler': 'check', icon: require('../../images/revision/comentario.svg')},
+                    {'handler': 'check', icon: require('../../images/revision/check.svg')},
                     {'handler': 'run', icon: require('../../images/revision/run.svg')},
                 ],
                 runButtons: [

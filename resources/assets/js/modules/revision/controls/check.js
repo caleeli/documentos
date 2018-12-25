@@ -10,7 +10,7 @@ export default {
                 check: {
                     component: null,
                     select(vue, config) {
-                        const options = [' ', '✓', '✕', 'N/A'];
+                        const options = ['\u00A0', '✓', '✕', 'N/A'];
                         vue.listaActual = config.list;
                         let index = (options.indexOf(vue.config.label) + 1) % options.length;
                         vue.config.label = options[index];
@@ -22,7 +22,7 @@ export default {
     },
     methods: {
         check() {
-            this.createToken({type: 'check', label: ' '}, 'token-inline');
+            this.createToken({type: 'check', label: '\u00A0'}, 'token-inline');
         },
     }
 };
