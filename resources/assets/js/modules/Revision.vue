@@ -59,6 +59,7 @@
     import componentesRevision from './revision/controls/componentes';
     import controlLista from './revision/controls/lista';
     import controlComentario from './revision/controls/comentario';
+    import controlCheck from './revision/controls/check';
     Vue.component('texto', texto);
     require('../../images/revision/burbuja.svg');
     export default {
@@ -66,7 +67,7 @@
             ControlGenerico,
             Comentario,
         },
-        mixins: [componentesRevision, controlLista, controlComentario],
+        mixins: [componentesRevision, controlLista, controlComentario, controlCheck],
         props: {
         },
         data() {
@@ -90,6 +91,7 @@
                     {'handler': 'texto', icon: require('../../images/revision/texto.svg')},
                     {'handler': 'empresas', icon: require('../../images/revision/empresa.svg')},
                     {'handler': 'comentario', icon: require('../../images/revision/comentario.svg')},
+                    {'handler': 'check', icon: require('../../images/revision/comentario.svg')},
                     {'handler': 'run', icon: require('../../images/revision/run.svg')},
                 ],
                 runButtons: [
@@ -271,6 +273,14 @@
         height: 100%;
         border: 1px dashed gray;
         background-color: lightgoldenrodyellow;
+        /* Fix a white box when hover the select on chrome */
+	overflow: hidden;
+    }
+    .token-inline {
+        border: 1px dashed gray;
+        background-color: lightgoldenrodyellow;
+        /* Fix a white box when hover the select on chrome */
+	overflow: hidden;
     }
     .jdd-table {
         border-collapse: collapse;

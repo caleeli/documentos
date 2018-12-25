@@ -60,8 +60,8 @@ export default {
          *
          * @param {object} config
          */
-        createToken(config) {
-            const control = $('<select class="token" size="1" multiple><option>' + config.name + '</option></select>');
+        createToken(config, css = 'token') {
+            const control = $('<select class="' + css + '" size="1" multiple><option>' + (config.label ? config.label : config.name) + '</option></select>');
             control.attr('name', JSON.stringify(config));
             const html = $('<div></div>').append(control).html();
             window.document.execCommand('insertHTML', false, html);
