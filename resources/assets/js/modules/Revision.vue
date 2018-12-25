@@ -88,7 +88,7 @@
                     {'handler': 'addTd', icon: require('../../images/revision/add-td.svg')},
                     {'handler': 'removeTr', icon: require('../../images/revision/remove-tr.svg')},
                     {'handler': 'removeTd', icon: require('../../images/revision/remove-td.svg')},
-                    {'handler': 'texto', icon: require('../../images/revision/texto.svg')},
+                    //{'handler': 'texto', icon: require('../../images/revision/texto.svg')},
                     {'handler': 'empresas', icon: require('../../images/revision/empresa.svg')},
                     {'handler': 'comentario', icon: require('../../images/revision/comentario.svg')},
                     {'handler': 'check', icon: require('../../images/revision/check.svg')},
