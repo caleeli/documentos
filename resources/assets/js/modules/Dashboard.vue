@@ -1,12 +1,12 @@
 <template>
     <div class="content" style="padding:1em; width: 100vw;">
         <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
+            <!-- div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
                 <char-asignaciones></char-asignaciones>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
                 <d3-line></d3-line>
-            </div>
+            </div -->
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center" v-for="item in accessLinks">
                 <dashboard-item :value="item">
                     <li v-for="link in item.links">
@@ -35,7 +35,7 @@
         path: "/",
         data() {
             const links = [
-                {
+                /*{
                     icon: require("../../images/carpetas.svg"),
                     text: "Iniciar Revision de Carpetas de Credito",
                     handler: function() {
@@ -43,7 +43,7 @@
                             window.location.reload();
                         });
                     },
-                },
+                },*/
                 {
                     text: "HOJA EXTERNA",
                     icon: require("../../images/hoja-de-ruta.svg"),
@@ -89,7 +89,7 @@
                     ],
                 },
             ];
-            links.unshift(...window.tasks);
+            //links.unshift(...window.tasks);
             return {
                 accessLinks: links,
             };
