@@ -35,61 +35,43 @@
         path: "/",
         data() {
             const links = [
-                /*{
-                    icon: require("../../images/carpetas.svg"),
-                    text: "Iniciar Revision de Carpetas de Credito",
-                    handler: function() {
-                        axios.get('/api/revision_carpetas/call').then(() => {
-                            window.location.reload();
-                        });
-                    },
-                },*/
                 {
-                    text: "HOJA EXTERNA",
+                    text: "Registrar",
                     icon: require("../../images/hoja-de-ruta.svg"),
-                    description: "Registro, busqueda y reportes",
-                    links: [
-                        {
-                            icon: require("../../images/hoja-de-ruta.svg"),
-                            text: "Registrar",
-                            href: "/HojaRuta/externa",
-                        },
-                        {
-                            icon: require("../../images/busqueda.svg"),
-                            text: "Busqueda",
-                            href: "/HojaRutaBusqueda/externa",
-                        },
-                        {
-                            icon: require("../../images/reporte.svg"),
-                            text: "Reporte",
-                            href: "/HojaRutaReporte/externa",
-                        },
-                    ],
+                    description: "Hoja de ruta externa",
+                    href: "/HojaRuta/externa",
                 },
                 {
-                    text: "HOJA INTERNA",
+                    icon: require("../../images/busqueda.svg"),
+                    text: "Busqueda",
+                    description: "Hoja de ruta externa",
+                    href: "/HojaRutaBusqueda/externa",
+                },
+                {
+                    icon: require("../../images/reporte.svg"),
+                    text: "Reporte",
+                    description: "Hoja de ruta externa",
+                    href: "/HojaRutaReporte/externa",
+                },
+                {
+                    text: "Registrar",
                     icon: require("../../images/hoja-de-ruta-interna.svg"),
-                    description: "Registro, busqueda y reportes",
-                    links: [
-                        {
-                            icon: require("../../images/hoja-de-ruta-interna.svg"),
-                            text: "Registrar",
-                            href: "/HojaRuta/interna",
-                        },
-                        {
-                            icon: require("../../images/busqueda-interna.svg"),
-                            text: "Busqueda",
-                            href: "/HojaRutaBusqueda/interna",
-                        },
-                        {
-                            icon: require("../../images/reporte-interna.svg"),
-                            text: "Reporte",
-                            href: "/HojaRutaReporte/interna",
-                        },
-                    ],
+                    description: "Hoja de ruta interna",
+                    href: "/HojaRuta/interna",
+                },
+                {
+                    icon: require("../../images/busqueda-interna.svg"),
+                    text: "Busqueda",
+                    description: "Hoja de ruta interna",
+                    href: "/HojaRutaBusqueda/interna",
+                },
+                {
+                    icon: require("../../images/reporte-interna.svg"),
+                    text: "Reporte",
+                    description: "Hoja de ruta interna",
+                    href: "/HojaRutaReporte/interna",
                 },
             ];
-            //links.unshift(...window.tasks);
             return {
                 accessLinks: links,
             };
