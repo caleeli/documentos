@@ -53,6 +53,36 @@
                                 <router-link class="dropdown-item" to="/HojaRutaReporte/interna">Reporte</router-link>
                             </div>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Solicitudes y denuncia
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <router-link class="dropdown-item" to="/HojaRuta/solicitud">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaBusqueda/solicitud">Búsqueda</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaReporte/solicitud">Reporte</router-link>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Notas oficio
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <router-link class="dropdown-item" to="/NotaOficio/create">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/NotaOficioBusqueda">Búsqueda</router-link>
+                                <router-link class="dropdown-item" to="/NotaOficioReporte">Reporte</router-link>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Comunicación interna e informes
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <router-link class="dropdown-item" to="/HojaRuta/interna">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaBusqueda/interna">Búsqueda</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaReporte/interna">Reporte</router-link>
+                            </div>
+                        </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0" action="{{ route('logout') }}" method="POST">
                         {{ csrf_field() }}

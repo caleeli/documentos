@@ -5,7 +5,10 @@
                 <img :title="value.text" :alt="value.text" :src="value.icon" class="img-circle">
             </div>
             <div class="card-short-description">
-                <h5 class="dashboard-item-title"><span><a href="javascript:void(0)">{{value.text}}</a></span></h5>
+                <h5 class="dashboard-item-title">
+                <router-link v-if="value.href" :to="value.href">{{value.text}}</router-link>
+                <a v-else href="javascript:void(0)">{{value.text}}</a>
+                </h5>
                 <p class="dashboard-item-description">{{value.description}}&nbsp;</p>
             </div>
             <div v-if="$slots.default" class="action-dropdown dropdown">
@@ -24,6 +27,11 @@
     export default {
         props: {
             value: Object,
+        },
+        computed: {
+            href() {
+                return this.value.href ? this.value.href : 'javascript:void(0)';
+            },
         }
     }
 </script>

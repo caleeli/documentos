@@ -71,6 +71,60 @@
                     description: "Hoja de ruta interna",
                     href: "/HojaRutaReporte/interna",
                 },
+                {
+                    text: "Registrar",
+                    icon: require("../../images/hoja-de-ruta-solicitud.svg"),
+                    description: "Solicitudes y denuncia",
+                    href: "/HojaRuta/solicitud",
+                },
+                {
+                    icon: require("../../images/busqueda-solicitud.svg"),
+                    text: "Busqueda",
+                    description: "Solicitudes y denuncia",
+                    href: "/HojaRutaBusqueda/solicitud",
+                },
+                {
+                    icon: require("../../images/reporte-solicitud.svg"),
+                    text: "Reporte",
+                    description: "Solicitudes y denuncia",
+                    href: "/HojaRutaReporte/solicitud",
+                },
+                {
+                    text: "Registrar",
+                    icon: require("../../images/nota-oficio.svg"),
+                    description: "Notas oficio",
+                    href: "/NotaOficio/create",
+                },
+                {
+                    icon: require("../../images/busqueda-nota-oficio.svg"),
+                    text: "Busqueda",
+                    description: "Notas oficio",
+                    href: "/NotaOficioBusqueda",
+                },
+                {
+                    icon: require("../../images/reporte-nota-oficio.svg"),
+                    text: "Reporte",
+                    description: "Notas oficio",
+                    href: "/NotaOficioReporte",
+                },
+                {
+                    text: "Registrar",
+                    icon: require("../../images/hoja-de-ruta-interna.svg"),
+                    description: "Comunicación interna e informes",
+                    href: "/HojaRuta/interna",
+                },
+                {
+                    icon: require("../../images/busqueda-interna.svg"),
+                    text: "Busqueda",
+                    description: "Comunicación interna e informes",
+                    href: "/HojaRutaBusqueda/interna",
+                },
+                {
+                    icon: require("../../images/reporte-interna.svg"),
+                    text: "Reporte",
+                    description: "Comunicación interna e informes",
+                    href: "/HojaRutaReporte/interna",
+                },
             ];
             return {
                 accessLinks: links,

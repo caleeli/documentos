@@ -26,3 +26,10 @@ $factory->state(Model::class, 'interna',
         'tipo' => 'interna',
     ];
 });
+
+$factory->state(Model::class, 'solicitud',
+    function (Faker $faker) {
+    return [
+        'tipo' => 'solicitud',
+    ];
+});
