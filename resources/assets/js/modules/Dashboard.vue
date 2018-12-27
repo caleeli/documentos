@@ -111,7 +111,7 @@
                     text: "Registrar",
                     icon: require("../../images/comunicacion.svg"),
                     description: "Comunicación interna e informes",
-                    href: "/NotaOficio/comunicacion",
+                    href: "/ComunicacionesInternas/comunicacion",
                 },
                 {
                     icon: require("../../images/busqueda-comunicacion.svg"),
