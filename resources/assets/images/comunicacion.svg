@@ -1,0 +1,40 @@
+<svg width="512px" height="448px" viewBox="0 0 512 448" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="hoja-de-ruta-solicitud">
+            <path d="M464,0 L48,0 C21.5,0 0,21.5 0,48 L0,400 C0,426.5 21.5,448 48,448 L464,448 C490.5,448 512,426.5 512,400 L512,48 C512,21.5 490.5,0 464,0 Z M484,411.75 C484,416.2875 481.040385,420 477.423077,420 L34.5769231,420 C30.9596154,420 28,416.2875 28,411.75 L28,90 L484,90 L484,411.75 Z" id="Shape" fill="#7ED321" fill-rule="nonzero"></path>
+            <text id="Fecha" fill="#000000" font-family="Helvetica" font-size="14" font-weight="normal">
+                <tspan x="121.089844" y="152">Fecha</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="186.5" y="133.5" width="266" height="23"></rect>
+            <text id="Procedencia" fill="#000000" font-family="Helvetica" font-size="14" font-weight="normal">
+                <tspan x="82.1728516" y="188">Procedencia</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="186.5" y="169.5" width="266" height="49"></rect>
+            <text id="Referencia" fill="#000000" font-family="Helvetica" font-size="14" font-weight="normal">
+                <tspan x="92.296875" y="252">Referencia</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="186.5" y="233.5" width="266" height="23"></rect>
+            <text id="Destinatario" fill="#000000" font-family="Helvetica" font-size="14" font-weight="normal">
+                <tspan x="85.296875" y="288">Destinatario</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="186.5" y="269.5" width="266" height="23"></rect>
+            <text id="Nro-de-Control" fill="#000000" font-family="Helvetica" font-size="14" font-weight="normal">
+                <tspan x="68.9589844" y="324">Nro de Control</tspan>
+            </text>
+            <g id="btn-guardar" transform="translate(186.000000, 343.000000)">
+                <rect id="Rectangle" stroke="#3C4EAD" fill="#3C4EAD" x="0.5" y="0.5" width="97" height="23" rx="8"></rect>
+                <g id="GUARDAR" transform="translate(21.000000, 0.000000)" fill="#FFFFFF" font-family="Helvetica" font-size="11" font-weight="normal">
+                    <g id="Group">
+                        <text id="GUARDAR">
+                            <tspan x="0.4973145" y="10">GUARDAR</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="186.5" y="305.5" width="266" height="23"></rect>
+            <text id="HOJA-DE-RUTA" fill="#FFFFFF" font-family="Helvetica" font-size="37" font-weight="normal">
+                <tspan x="27" y="62">HOJA DE RUTA</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

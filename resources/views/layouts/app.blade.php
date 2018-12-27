@@ -68,9 +68,9 @@
                                 Notas oficio
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/NotaOficio/create">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/NotaOficioBusqueda">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/NotaOficioReporte">Reporte</router-link>
+                                <router-link class="dropdown-item" to="/NotaOficio/notas">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/NotaOficioBusqueda/notas">Búsqueda</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaReporte/notas">Reporte</router-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -78,9 +78,9 @@
                                 Comunicación interna e informes
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/HojaRuta/interna">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaBusqueda/interna">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaReporte/interna">Reporte</router-link>
+                                <router-link class="dropdown-item" to="/NotaOficio/comunicacion">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/NotaOficioBusqueda/comunicacion">Búsqueda</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaReporte/comunicacion">Reporte</router-link>
                             </div>
                         </li>
                     </ul>
