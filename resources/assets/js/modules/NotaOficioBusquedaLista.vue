@@ -1,13 +1,13 @@
 <template>
     <panel :name="type.toLocaleUpperCase()" class="panel-primary">
         <grid v-model="data"
-              filter-by="attributes.numero
-              attributes.gestion
-              attributes.referencia
-              attributes.procedencia
-              attributes.usuario_destinatario.attributes.nombres
-              attributes.usuario_destinatario.attributes.apellidos
-              attributes.estado
+              filter-by="attributes.hoja_de_ruta
+              attributes.nro_nota
+              attributes.reiterativa
+              attributes.entidad_empresa
+              attributes.nombre_apellidos
+              attributes.cargo
+              attributes.dias
               ">
             <template slot="header">
                 <th width="10%">Hoja de Ruta</th>
