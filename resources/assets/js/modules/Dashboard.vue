@@ -1,5 +1,5 @@
 <template>
-    <div class="content" style="padding:1em; width: 100vw;">
+    <div class="content" style="padding:5em 1em 1em 1em; width: 100vw;">
         <div class="row">
             <!-- div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
                 <char-asignaciones></char-asignaciones>
@@ -133,6 +133,32 @@
                     text: "Reporte",
                     description: "Notas oficio",
                     href: "/HojaRutaReporte/notas",
+                },
+            ],
+        },
+        {
+            text: "Informes",
+            icon: require("../../images/informes.svg"),
+            description: "Informes",
+            href: "/?item=4",
+            links: [
+                {
+                    text: "Registrar",
+                    icon: require("../../images/informes.svg"),
+                    description: "Informes",
+                    href: "/ComunicacionesInternas/informes",
+                },
+                {
+                    icon: require("../../images/busqueda-informes.svg"),
+                    text: "Busqueda",
+                    description: "Informes",
+                    href: "/NotaOficioBusqueda/informes",
+                },
+                {
+                    icon: require("../../images/reporte-informes.svg"),
+                    text: "Reporte",
+                    description: "Informes",
+                    href: "/HojaRutaReporte/informes",
                 },
             ],
         },
