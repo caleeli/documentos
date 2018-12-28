@@ -1,6 +1,6 @@
 <template>
     <panel v-if="data.attributes" name="Notas Oficio" class="panel-primary">
-           <div class="container">
+        <div class="container">
             <div class="row">
                 <div class="col-12"><h4>Comunicación Interna</h4> </div>
             </div>
@@ -158,11 +158,6 @@
                     <button type="button" class="btn btn-primary" @click="saveHR">Guardar</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <derivaciones v-if="data.id" :hoja-ruta="data"></derivaciones>
-                </div>
-            </div>
         </div>
     </panel>
 </template>
@@ -191,7 +186,7 @@
             },
         },
         data() {
-            const errores= {};
+            const errores = {};
             return {
                 data: new ApiObject(apiBase + '/' + this.getIdURL(), errores).loadFromAPI(),
                 errores: errores,
