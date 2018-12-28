@@ -7,7 +7,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
                 <d3-line></d3-line>
             </div -->
-            <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center" v-for="item in accessLinks">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 text-center" v-for="item in accessLinks">
                 <dashboard-item :value="item">
                     <li v-for="link in item.links">
                     <router-link v-if="link.href" :to="link.href">
@@ -31,10 +31,13 @@
 
 <script>
     require("../../images/carpeta.svg");
-    export default {
-        path: "/",
-        data() {
-            const links = [
+    const links = [
+        {
+            text: "Hoja de ruta externa",
+            icon: require("../../images/hoja-de-ruta.svg"),
+            description: "Hoja de ruta externa",
+            href: "/?item=0",
+            links: [
                 {
                     text: "Registrar",
                     icon: require("../../images/hoja-de-ruta.svg"),
@@ -53,6 +56,14 @@
                     description: "Hoja de ruta externa",
                     href: "/HojaRutaReporte/externa",
                 },
+            ],
+        },
+        {
+            text: "Hoja de ruta interna",
+            icon: require("../../images/hoja-de-ruta-interna.svg"),
+            description: "Hoja de ruta interna",
+            href: "/?item=1",
+            links: [
                 {
                     text: "Registrar",
                     icon: require("../../images/hoja-de-ruta-interna.svg"),
@@ -71,6 +82,14 @@
                     description: "Hoja de ruta interna",
                     href: "/HojaRutaReporte/interna",
                 },
+            ],
+        },
+        {
+            text: "Solicitudes y denuncia",
+            icon: require("../../images/hoja-de-ruta-solicitud.svg"),
+            description: "Solicitudes y denuncia",
+            href: "/?item=2",
+            links: [
                 {
                     text: "Registrar",
                     icon: require("../../images/hoja-de-ruta-solicitud.svg"),
@@ -89,6 +108,14 @@
                     description: "Solicitudes y denuncia",
                     href: "/HojaRutaReporte/solicitud",
                 },
+            ],
+        },
+        {
+            text: "Notas oficio",
+            icon: require("../../images/nota-oficio.svg"),
+            description: "Notas oficio",
+            href: "/?item=3",
+            links: [
                 {
                     text: "Registrar",
                     icon: require("../../images/nota-oficio.svg"),
@@ -107,6 +134,14 @@
                     description: "Notas oficio",
                     href: "/HojaRutaReporte/notas",
                 },
+            ],
+        },
+        {
+            text: "Comunicación interna e informes",
+            icon: require("../../images/comunicacion.svg"),
+            description: "Comunicación interna e informes",
+            href: "/?item=4",
+            links: [
                 {
                     text: "Registrar",
                     icon: require("../../images/comunicacion.svg"),
@@ -125,9 +160,14 @@
                     description: "Comunicación interna e informes",
                     href: "/HojaRutaReporte/comunicacion",
                 },
-            ];
+            ],
+        },
+    ];
+    export default {
+        path: "/",
+        data() {
             return {
-                accessLinks: links,
+                accessLinks: this.currentItems(this.$route.query),
             };
         },
         methods: {
@@ -138,8 +178,22 @@
             },
             completeTask(params) {
                 Process.completeTask(params);
+            },
+            currentItems(query) {
+                if (query.item !== undefined && links[query.item].links instanceof Array) {
+                    return links[query.item].links;
+                }
+                return links;
+            },
+        },
+        watch: {
+            '$route.query': {
+                deep: true,
+                handler(query) {
+                    this.$set(this, 'accessLinks', this.currentItems(query));
+                },
             }
-        }
+        },
     };
 </script>
 
