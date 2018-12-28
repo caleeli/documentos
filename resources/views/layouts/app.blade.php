@@ -75,7 +75,17 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Comunicación interna e informes
+                                Informes
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <router-link class="dropdown-item" to="/ComunicacionesInternas/informes">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/NotaOficioBusqueda/informes">Búsqueda</router-link>
+                                <router-link class="dropdown-item" to="/HojaRutaReporte/informes">Reporte</router-link>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Comunicación interna
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/ComunicacionesInternas/comunicacion">Registrar</router-link>
