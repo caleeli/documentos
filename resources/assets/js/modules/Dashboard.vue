@@ -35,7 +35,7 @@
         {
             text: "Hoja de ruta externa",
             icon: require("../../images/hoja-de-ruta.svg"),
-            description: "Hoja de ruta externa",
+            description: "Registro busqueda y reporte",
             href: "/?item=0",
             links: [
                 {
@@ -61,7 +61,7 @@
         {
             text: "Hoja de ruta interna",
             icon: require("../../images/hoja-de-ruta-interna.svg"),
-            description: "Hoja de ruta interna",
+            description: "Registro busqueda y reporte",
             href: "/?item=1",
             links: [
                 {
@@ -87,7 +87,7 @@
         {
             text: "Solicitudes y denuncia",
             icon: require("../../images/hoja-de-ruta-solicitud.svg"),
-            description: "Solicitudes y denuncia",
+            description: "Registro busqueda y reporte",
             href: "/?item=2",
             links: [
                 {
@@ -113,7 +113,7 @@
         {
             text: "Notas oficio",
             icon: require("../../images/nota-oficio.svg"),
-            description: "Notas oficio",
+            description: "Registro busqueda y reporte",
             href: "/?item=3",
             links: [
                 {
@@ -139,7 +139,7 @@
         {
             text: "Informes",
             icon: require("../../images/informes.svg"),
-            description: "Informes",
+            description: "Registro busqueda y reporte",
             href: "/?item=4",
             links: [
                 {
@@ -165,8 +165,8 @@
         {
             text: "Comunicación interna e informes",
             icon: require("../../images/comunicacion.svg"),
-            description: "Comunicación interna e informes",
-            href: "/?item=4",
+            description: "Registro busqueda y reporte",
+            href: "/?item=5",
             links: [
                 {
                     text: "Registrar",
