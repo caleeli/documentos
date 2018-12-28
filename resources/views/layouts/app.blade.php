@@ -78,7 +78,7 @@
                                 Comunicación interna e informes
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/NotaOficio/comunicacion">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/ComunicacionesInternas/comunicacion">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/NotaOficioBusqueda/comunicacion">Búsqueda</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaReporte/comunicacion">Reporte</router-link>
                             </div>
