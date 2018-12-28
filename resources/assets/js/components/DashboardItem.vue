@@ -1,18 +1,18 @@
 <template>
-    <div class="card primary-view">
+    <div class="card primary-view" @click="click">
         <div class="card-header">
             <div class="card-photo">
                 <img :title="value.text" :alt="value.text" :src="value.icon" class="img-circle">
             </div>
             <div class="card-short-description">
                 <h5 class="dashboard-item-title">
-                <router-link v-if="value.href" :to="value.href">{{value.text}}</router-link>
-                <a v-else href="javascript:void(0)">{{value.text}}</a>
+                    <router-link v-if="value.href" :to="value.href">{{value.text}}</router-link>
+                    <a v-else href="javascript:void(0)">{{value.text}}</a>
                 </h5>
                 <p class="dashboard-item-description">{{value.description}}&nbsp;</p>
             </div>
             <div v-if="$slots.default" class="action-dropdown dropdown">
-                <a data-toggle="dropdown" href="javascript:void(0)" aria-expanded="true">
+                <a class="dropdown" data-toggle="dropdown" href="javascript:void(0)" aria-expanded="true">
                     <i class="fas fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" style="padding:0.5em">
@@ -32,7 +32,13 @@
             href() {
                 return this.value.href ? this.value.href : 'javascript:void(0)';
             },
-        }
+        },
+        methods: {
+            click(event) {
+                const isDropdown = $(event.target).hasClass('dropdown');
+                !isDropdown && this.value.href ? this.$router.push(this.value.href) : null;
+            }
+        },
     }
 </script>
 
