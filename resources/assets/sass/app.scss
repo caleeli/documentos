@@ -31,7 +31,7 @@ html, body, #app{
 }
 #app {
     display: grid;
-    grid-template-rows: 4em calc(100% - 4em);
+    grid-template-rows: 4em calc(100% - 8em);
 }
 .app-body {
     width: 100vw;
