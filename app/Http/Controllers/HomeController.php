@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Process;
+use Illuminate\Support\Facades\Auth;
 use ProcessMaker\Nayra\Contracts\Bpmn\ActivityInterface;
 
 class HomeController extends Controller
 {
+
+    use ListProcesses;
 
     /**
      * Create a new controller instance.
@@ -26,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tasks = [];
+        /*$tasks = [];
         $processes = Process::where('status', 'ACTIVE')->get();
         foreach ($processes as $process) {
             foreach ($process->tokens as $key => $token) {
@@ -50,7 +52,13 @@ class HomeController extends Controller
                     $tasks[] = $task;
                 }
             }
-        }
-        return view('welcome', ['tasks' => $tasks]);
+        }*/
+        $links = $this->listProcesses();
+        return view('welcome', ['links' => $links]);
+    }
+
+    private function loadLinks()
+    {
+        $links = Auth::user()->links();
     }
 }

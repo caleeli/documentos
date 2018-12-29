@@ -56,12 +56,17 @@ const router = new VueRouter({
 
 window.Process = {
     callProcess(params) {
-        axios.get('/api/revision_carpetas/call').then(() => {
+        axios.get('/api/process/call').then(() => {
+            window.location.reload();
+        });
+    },
+    startProcess(params) {
+        axios.get('/api/process/start').then(() => {
             window.location.reload();
         });
     },
     completeTask(params) {
-        axios.get('/api/revision_carpetas/complete_task', {
+        axios.get('/api/process/complete_task', {
             params: params
         }).then(() => {
             router.push({path: '/'});

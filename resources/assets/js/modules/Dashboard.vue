@@ -31,8 +31,8 @@
 
 <script>
     require("../../images/carpeta.svg");
-    const links = [
-        {
+    const links = Object.assign({
+        0: {
             text: "Hoja de ruta externa",
             icon: require("../../images/hoja-de-ruta.svg"),
             description: "Registro busqueda y reporte",
@@ -58,7 +58,7 @@
                 },
             ],
         },
-        {
+        1: {
             text: "Hoja de ruta interna",
             icon: require("../../images/hoja-de-ruta-interna.svg"),
             description: "Registro busqueda y reporte",
@@ -84,7 +84,7 @@
                 },
             ],
         },
-        {
+        2: {
             text: "Solicitudes y denuncia",
             icon: require("../../images/hoja-de-ruta-solicitud.svg"),
             description: "Registro busqueda y reporte",
@@ -110,7 +110,7 @@
                 },
             ],
         },
-        {
+        3: {
             text: "Notas oficio",
             icon: require("../../images/nota-oficio.svg"),
             description: "Registro busqueda y reporte",
@@ -136,7 +136,7 @@
                 },
             ],
         },
-        {
+        4: {
             text: "Informes",
             icon: require("../../images/informes.svg"),
             description: "Registro busqueda y reporte",
@@ -162,7 +162,7 @@
                 },
             ],
         },
-        {
+        5: {
             text: "Comunicación interna e informes",
             icon: require("../../images/comunicacion.svg"),
             description: "Registro busqueda y reporte",
@@ -188,7 +188,7 @@
                 },
             ],
         },
-    ];
+    }, window.links);
     export default {
         path: "/",
         data() {

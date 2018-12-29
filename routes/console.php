@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
 use App\Jobs\UpdateModels;
+use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Redis;
 
 /*
   |--------------------------------------------------------------------------
@@ -57,6 +58,9 @@ Artisan::command('migrate:update', function () {
     file_put_contents('.previouscommit', $current);
 })->describe('Actualiza las migrations que fueron modificadas');
 
+Artisan::command('queue:clear', function () {
+    Redis::connection()->del('queues:default');
+})->describe('Limpia la lista de jobs en la cola (default) de redis');
 
 Artisan::command('fastserver', function () {
     if (!extension_loaded('sockets')) {
