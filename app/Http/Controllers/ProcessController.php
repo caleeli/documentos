@@ -13,11 +13,14 @@ use ProcessMaker\Nayra\Bpmn\Events\ProcessInstanceCompletedEvent;
 use ProcessMaker\Nayra\Bpmn\Events\ProcessInstanceCreatedEvent;
 use ProcessMaker\Nayra\Contracts\Bpmn\ActivityInterface;
 use ProcessMaker\Nayra\Contracts\Bpmn\ProcessInterface;
+use ProcessMaker\Nayra\Contracts\Bpmn\TokenInterface;
 use ProcessMaker\Nayra\Contracts\Repositories\StorageInterface;
 use ProcessMaker\Nayra\Storage\BpmnDocument;
 
 class ProcessController extends Controller
 {
+
+    use ListProcesses;
 
     /**
      * @var \ProcessMaker\Nayra\Contracts\RepositoryInterface $repository
@@ -116,6 +119,29 @@ class ProcessController extends Controller
         ]);
     }
 
+    /**
+     * Obtiene la lista de tareas del proceso para el usuario actual.
+     *
+     * @param Request $request
+     * @return type
+     */
+    public function tasks(Request $request)
+    {
+        //Load the execution data
+        $instanceId = request()->input('id');
+        $this->loadData($this->bpmnRepository, $instanceId);
+
+        //Process and instance
+        $instance = $this->engine->loadExecutionInstance($instanceId);
+
+        $links = [];
+        foreach ($instance->getTokens() as $token) {
+            $links[] = $this->accessLink($token, $instanceId);
+        }
+
+        return response()->json($links);
+    }
+
     public function completeTask()
     {
         $instanceId = request()->input('instanceId');
@@ -134,6 +160,13 @@ class ProcessController extends Controller
         $this->engine->runToNextState();
     }
 
+    /**
+     * Carga un proceso BPMN
+     *
+     * @param string $processName
+     *
+     * @return ProcessInterface
+     */
     private function loadProcess($processName)
     {
         $this->bpmn = $processName;
@@ -145,18 +178,28 @@ class ProcessController extends Controller
         return $process;
     }
 
+    /**
+     * Carga los datos de la instancia almacenados en la BD.
+     *
+     * @param StorageInterface $repository
+     * @param type $instanceId
+     *
+     * @return Process
+     */
     private function loadData(StorageInterface $repository, $instanceId)
     {
         $executionInstanceRepository = $this->engine->getRepository()->createExecutionInstanceRepository($repository);
-        $processData = Process::findOrNew($instanceId);
+        $processData = Process::findOrFail($instanceId);
+        $this->loadProcess($processData->bpmn);
         $executionInstanceRepository->setRawData([
             $instanceId => [
                 'id' => $instanceId,
-                'processId' => $this->process->getId(),
+                'processId' => $processData->process_id,
                 'data' => $processData->data,
                 'tokens' => $processData->tokens,
             ]
         ]);
+        return $processData;
     }
 
     private function listenSaveEvents()
@@ -165,6 +208,7 @@ class ProcessController extends Controller
             function(ProcessInstanceCreatedEvent $payload) {
             $processData = Process::findOrNew($payload->instance->getId());
             $dataStore = $payload->instance->getDataStore();
+            $processData->process_id = $payload->instance->getProcess()->getId();
             $processData->data = $dataStore->getData();
             $processData->tokens = [];
             $processData->status = 'ACTIVE';
@@ -221,5 +265,28 @@ class ProcessController extends Controller
             $processData->tokens = $tokens;
             $processData->save();
         });
+    }
+
+    /**
+     * Obtiene el access link para la actividad.
+     *
+     * @param TokenInterface $token
+     * @param string $instanceId
+     * @return array
+     */
+    private function accessLink(TokenInterface $token, $instanceId)
+    {
+        $properties = $token->getProperties();
+        $id = $properties['elementId'];
+        $node = $this->bpmnRepository->findElementById($id);
+        $task = $this->bpmnRepository->getActivity($id);
+        $description = $this->getDocumentation($node);
+        $implementation = $node->getAttribute('implementation');
+        return [
+            'text' => $task->getName(),
+            'icon' => '/images/processes/' . $this->bpmn . '/' . $task->getId() . '.svg',
+            'description' => $description,
+            'href' => $implementation ? $implementation : '/Process/' . $instanceId,
+        ];
     }
 }

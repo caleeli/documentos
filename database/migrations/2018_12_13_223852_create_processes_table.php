@@ -15,6 +15,7 @@ class CreateProcessesTable extends Migration
     {
         Schema::create('processes', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('process_id');
             $table->text('data');
             $table->text('tokens');
             $table->string('status');

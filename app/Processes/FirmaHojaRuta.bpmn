@@ -7,6 +7,7 @@
       <yaoqiang:page background="#FFFFFF" horizontalCount="1" verticalCount="1"/>
     </extensionElements>
     <userTask completionQuantity="1" id="_3" implementation="/Firmar/Lista" isForCompensation="false" name="Escoger Hoja" startQuantity="1">
+      <documentation id="_3_D_1" textFormat="text/plain"><![CDATA[Seleccionar una hoja de ruta a ser firmada]]></documentation>
       <incoming>_4</incoming>
       <outgoing>_6</outgoing>
       <humanPerformer id="_3_RES_1" name="Encargado">
@@ -20,6 +21,7 @@
       <outputSet/>
     </startEvent>
     <userTask completionQuantity="1" id="_5" implementation="/Firmar/Item/{item}" isForCompensation="false" name="Firmar" startQuantity="1">
+      <documentation id="_5_D_1" textFormat="text/plain"><![CDATA[Firmar o hacer check de la derivación]]></documentation>
       <incoming>_6</incoming>
       <outgoing>_8</outgoing>
       <humanPerformer id="_5_RES_1" name="Encargado">

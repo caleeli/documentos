@@ -12,12 +12,12 @@
             };
         },
         mounted() {
-            Process.tasks(this.$route.params).then(links => {
+            Process.tasks(this.$route.params).then(response => {
                 this.links.splice(0);
-                this.links.push(...links);
-                if (links.length === 1) {
+                this.links.push(...response.data);
+                if (this.links.length === 1) {
                     this.$router.push({
-                        path: links[0].href,
+                        path: this.links[0].href,
                     });
                 }
             });
