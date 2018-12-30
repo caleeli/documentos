@@ -1,36 +1,9 @@
 <template>
-    <div class="content" style="padding:5em 1em 1em 1em; width: 100vw;">
-        <div class="row">
-            <!-- div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
-                <char-asignaciones></char-asignaciones>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
-                <d3-line></d3-line>
-            </div -->
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 text-center" v-for="item in accessLinks">
-                <dashboard-item :value="item">
-                    <li v-for="link in item.links">
-                    <router-link v-if="link.href" :to="link.href">
-                        <img class="access-link" :src="link.icon">
-                        {{link.text}}
-                    </router-link>
-                    <a v-if="link.handler" href="javascript:void(0)" @click="link.handler">
-                        <img class="access-link" :src="link.icon">
-                        {{link.text}}
-                    </a>
-                    <a v-if="link.macro" href="javascript:void(0)" @click="runMacro(link.macro)">
-                        <img class="access-link" :src="link.icon">
-                        {{link.text}}
-                    </a>
-                    </li>
-                </dashboard-item>
-            </div>
-        </div>
-    </div>
+    <desktop :links="accessLinks">
+    </desktop>
 </template>
 
 <script>
-    require("../../images/carpeta.svg");
     const links = Object.assign({
         0: {
             text: "Hoja de ruta externa",

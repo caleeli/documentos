@@ -18,6 +18,7 @@ class CreateProcessesTable extends Migration
             $table->text('data');
             $table->text('tokens');
             $table->string('status');
+            $table->string('bpmn');
             $table->timestamps();
         });
     }

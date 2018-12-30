@@ -55,22 +55,18 @@ const router = new VueRouter({
 });
 
 window.Process = {
-    callProcess(params) {
-        axios.get('/api/process/call').then(() => {
-            window.location.reload();
-        });
+    call(params) {
+        return axios.get('/api/process/call');
     },
-    startProcess(params) {
-        axios.get('/api/process/start').then(() => {
-            window.location.reload();
-        });
+    start(params) {
+        return axios.get('/api/process/start', {params: params});
+    },
+    tasks(params) {
+        return axios.get('/api/process/tasks', {params: params});
     },
     completeTask(params) {
-        axios.get('/api/process/complete_task', {
+        return axios.get('/api/process/complete_task', {
             params: params
-        }).then(() => {
-            router.push({path: '/'});
-            window.location.reload();
         });
     },
 };

@@ -36,7 +36,7 @@ trait ListProcesses
                     'text' => $start->getAttribute('name'),
                     'icon' => '/images/processes/' . $name . '/' . $id . '.svg',
                     'description' => $description,
-                    'href' => '/Start/' . $name . '/' . $id,
+                    'href' => '/ProcessStart/' . $name . '/' . $id,
                 ];
             }
         }

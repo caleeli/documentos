@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Bpmn\Repository;
 use App\Bpmn\TestEngine;
 use App\Process;
+use Illuminate\Http\Request;
 use ProcessMaker\Nayra\Bpmn\Events\ActivityActivatedEvent;
 use ProcessMaker\Nayra\Bpmn\Events\ActivityClosedEvent;
 use ProcessMaker\Nayra\Bpmn\Events\ActivityCompletedEvent;
@@ -15,7 +16,7 @@ use ProcessMaker\Nayra\Contracts\Bpmn\ProcessInterface;
 use ProcessMaker\Nayra\Contracts\Repositories\StorageInterface;
 use ProcessMaker\Nayra\Storage\BpmnDocument;
 
-class RevisionCarpetasController extends Controller
+class ProcessController extends Controller
 {
 
     /**
@@ -49,6 +50,11 @@ class RevisionCarpetasController extends Controller
      */
     private $storage = [];
 
+    /**
+     * @var string $bpmn
+     */
+    private $bpmn;
+
     public function __construct()
     {
         $this->repository = new Repository;
@@ -66,13 +72,12 @@ class RevisionCarpetasController extends Controller
             'association', BpmnDocument::SKIP_ELEMENT);
         $this->bpmnRepository->setBpmnElementMapping(BpmnDocument::BPMN_MODEL,
             'textAnnotation', BpmnDocument::SKIP_ELEMENT);
+        $this->bpmnRepository->setBpmnElementMapping(BpmnDocument::BPMN_MODEL,
+            'documentation', BpmnDocument::SKIP_ELEMENT);
+        $this->bpmnRepository->setBpmnElementMapping(BpmnDocument::BPMN_MODEL,
+            'humanPerformer', BpmnDocument::SKIP_ELEMENT);
         $this->engine->setRepository($this->repository);
         $this->engine->setStorage($this->bpmnRepository);
-        $this->bpmnRepository->load(__DIR__ . '/' . basename(__FILE__,
-                'Controller.php') . '.bpmn');
-
-        //Process
-        $this->process = $this->bpmnRepository->getElementsByTagName('process')->item(0)->getBpmnElementInstance();
 
         //Se podria mover al app service provider
         $this->listenSaveEvents();
@@ -80,7 +85,31 @@ class RevisionCarpetasController extends Controller
 
     public function call()
     {
+        $this->bpmnRepository->load(__DIR__ . '/' . basename(__FILE__,
+                'Controller.php') . '.bpmn');
+
+        //Process
+        $this->process = $this->bpmnRepository->getElementsByTagName('process')->item(0)->getBpmnElementInstance();
         $instance = $this->process->call();
+        $this->engine->runToNextState();
+        return response()->json([
+                'instanceId' => $instance->getId(),
+        ]);
+    }
+
+    public function start(Request $request)
+    {
+        //Process
+        $process = $this->loadProcess($request->input('process'));
+        $event = $this->bpmnRepository->getStartEvent($request->input('event'));
+
+        //Create a new data store
+        $dataStorage = $process->getRepository()->createDataStore();
+        $dataStorage->setData($request->input('data', []));
+        $instance = $process->getEngine()->createExecutionInstance($process,
+            $dataStorage);
+        $event->start();
+
         $this->engine->runToNextState();
         return response()->json([
                 'instanceId' => $instance->getId(),
@@ -103,6 +132,17 @@ class RevisionCarpetasController extends Controller
             $task->complete($token);
         }
         $this->engine->runToNextState();
+    }
+
+    private function loadProcess($processName)
+    {
+        $this->bpmn = $processName;
+        $this->bpmnRepository->load(app_path('Processes/' . $processName . '.bpmn'));
+
+        //Process
+        $process = $this->bpmnRepository->getElementsByTagName('process')->item(0)->getBpmnElementInstance();
+
+        return $process;
     }
 
     private function loadData(StorageInterface $repository, $instanceId)
@@ -128,6 +168,7 @@ class RevisionCarpetasController extends Controller
             $processData->data = $dataStore->getData();
             $processData->tokens = [];
             $processData->status = 'ACTIVE';
+            $processData->bpmn = $this->bpmn;
             $processData->save();
             $payload->instance->setId($processData->id);
         });
