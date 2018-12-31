@@ -10,7 +10,7 @@
         mounted() {
             Process.start(this.$route.params).then(instance => {
                 this.$router.push({
-                    path: '/Process/' + instance.data.instanceId,
+                    path: '/Process/Open/' + instance.data.instanceId,
                 });
             });
         }

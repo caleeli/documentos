@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user',
 Route::middleware('auth:api')->get('/process/call', 'ProcessController@call');
 Route::middleware('auth:api')->get('/process/start', 'ProcessController@start');
 Route::middleware('auth:api')->get('/process/tasks', 'ProcessController@tasks');
-Route::middleware('auth:api')->get('/process/complete_task', 'ProcessController@completeTask');
+Route::middleware('auth:api')->get('/process/complete_task/{instanceId}/{tokenId}', 'ProcessController@completeTask');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/{module}/{model1?}/{id1?}/{model2?}/{id2?}/{model3?}/{id3?}/{model4?}/{id4?}/{model5?}/{id5?}',

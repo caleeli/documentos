@@ -64,9 +64,9 @@ window.Process = {
     tasks(params) {
         return axios.get('/api/process/tasks', {params: params});
     },
-    completeTask(params) {
-        return axios.get('/api/process/complete_task', {
-            params: params
+    completeTask(params, data) {
+        return axios.get('/api/process/complete_task/' + params.id + '/' + params.token, {
+            params: data
         });
     },
 };

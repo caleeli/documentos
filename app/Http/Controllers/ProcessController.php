@@ -16,6 +16,7 @@ use ProcessMaker\Nayra\Contracts\Bpmn\ProcessInterface;
 use ProcessMaker\Nayra\Contracts\Bpmn\TokenInterface;
 use ProcessMaker\Nayra\Contracts\Repositories\StorageInterface;
 use ProcessMaker\Nayra\Storage\BpmnDocument;
+use ProcessMaker\Nayra\Contracts\Engine\ExecutionInstanceInterface;
 
 class ProcessController extends Controller
 {
@@ -57,6 +58,16 @@ class ProcessController extends Controller
      * @var string $bpmn
      */
     private $bpmn;
+
+    /**
+     * @var ExecutionInstanceInterface $instance
+     */
+    private $instance;
+
+    /**
+     * @var Process $processData
+     */
+    private $processData;
 
     public function __construct()
     {
@@ -129,35 +140,45 @@ class ProcessController extends Controller
     {
         //Load the execution data
         $instanceId = request()->input('id');
-        $this->loadData($this->bpmnRepository, $instanceId);
+        $this->processData = $this->loadData($this->bpmnRepository, $instanceId);
 
         //Process and instance
         $instance = $this->engine->loadExecutionInstance($instanceId);
 
         $links = [];
         foreach ($instance->getTokens() as $token) {
-            $links[] = $this->accessLink($token, $instanceId);
+            $links[] = $this->accessLink($token, $instance);
         }
 
         return response()->json($links);
     }
 
-    public function completeTask()
+    public function completeTask($instanceId, $tokenId)
     {
-        $instanceId = request()->input('instanceId');
-        $taskId = request()->input('elementId');
-        //Load the execution instance
+        //Load the execution data
         $this->loadData($this->bpmnRepository, $instanceId);
+
+        //Process and instance
         $instance = $this->engine->loadExecutionInstance($instanceId);
 
         //Get task instance
-        $task = $this->bpmnRepository->getActivity($taskId);
+        $data = request()->all();
+        foreach ($data as $key => $value) {
+            $instance->getDataStore()->putData($key, $value);
+        }
 
         //Complete task
-        foreach ($task->getTokens($instance) as $token) {
-            $task->complete($token);
+        foreach ($instance->getTokens() as $token) {
+            if ($token->getId() === $tokenId) {
+                $task = $this->bpmnRepository->getActivity($token->getProperty('elementId'));
+                $task->complete($token);
+                break;
+            }
         }
         $this->engine->runToNextState();
+
+        //Return the instance id
+        return response()->json(['instanceId' => $instance->getId()]);
     }
 
     /**
@@ -227,6 +248,7 @@ class ProcessController extends Controller
             function(ActivityActivatedEvent $event) {
             $id = $event->token->getInstance()->getId();
             $processData = Process::findOrFail($id);
+            $dataStore = $event->token->getInstance()->getDataStore();
             $tokens = $processData->tokens;
             $tokens[$event->token->getId()] = [
                 'elementId' => $event->activity->getId(),
@@ -235,12 +257,14 @@ class ProcessController extends Controller
                 'status' => $event->token->getStatus(),
             ];
             $processData->tokens = $tokens;
+            $processData->data = $dataStore->getData();
             $processData->save();
         });
         $this->dispatcher->listen(ActivityInterface::EVENT_ACTIVITY_COMPLETED,
             function(ActivityCompletedEvent $event) {
             $id = $event->token->getInstance()->getId();
             $processData = Process::findOrFail($id);
+            $dataStore = $event->token->getInstance()->getDataStore();
             $tokens = $processData->tokens;
             $tokens[$event->token->getId()] = [
                 'elementId' => $event->activity->getId(),
@@ -249,12 +273,14 @@ class ProcessController extends Controller
                 'status' => $event->token->getStatus(),
             ];
             $processData->tokens = $tokens;
+            $processData->data = $dataStore->getData();
             $processData->save();
         });
         $this->dispatcher->listen(ActivityInterface::EVENT_ACTIVITY_CLOSED,
             function(ActivityClosedEvent $event) {
             $id = $event->token->getInstance()->getId();
             $processData = Process::findOrFail($id);
+            $dataStore = $event->token->getInstance()->getDataStore();
             $tokens = $processData->tokens;
             $tokens[$event->token->getId()] = [
                 'elementId' => $event->activity->getId(),
@@ -263,6 +289,7 @@ class ProcessController extends Controller
                 'status' => $event->token->getStatus(),
             ];
             $processData->tokens = $tokens;
+            $processData->data = $dataStore->getData();
             $processData->save();
         });
     }
@@ -274,8 +301,10 @@ class ProcessController extends Controller
      * @param string $instanceId
      * @return array
      */
-    private function accessLink(TokenInterface $token, $instanceId)
+    private function accessLink(TokenInterface $token, ExecutionInstanceInterface $instance)
     {
+        $this->instance = $instance;
+        $instanceId = $instance->getId();
         $properties = $token->getProperties();
         $id = $properties['elementId'];
         $node = $this->bpmnRepository->findElementById($id);
@@ -283,10 +312,26 @@ class ProcessController extends Controller
         $description = $this->getDocumentation($node);
         $implementation = $node->getAttribute('implementation');
         return [
+            'token' => $token->getId(),
             'text' => $task->getName(),
             'icon' => '/images/processes/' . $this->bpmn . '/' . $task->getId() . '.svg',
             'description' => $description,
-            'href' => $implementation ? $implementation : '/Process/' . $instanceId,
+            'href' => $this->evaluateString($implementation ? $implementation : '/Process/Open/' . $instanceId)
+            . sprintf('?instance=%s&token=%s', $instanceId, $token->getId()),
         ];
+    }
+
+    private function evaluateCode($code)
+    {
+        extract($this->instance->getDataStore()->getData());
+        return eval("return $code;");
+    }
+
+    private function evaluateString($string)
+    {
+        return preg_replace_callback('/\{(.+)\}/',
+            function ($match) {
+            return $this->evaluateCode($match[1]);
+        }, $string);
     }
 }

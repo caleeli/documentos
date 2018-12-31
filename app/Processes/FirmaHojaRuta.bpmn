@@ -20,7 +20,7 @@
       <outgoing>_4</outgoing>
       <outputSet/>
     </startEvent>
-    <userTask completionQuantity="1" id="_5" implementation="/Firmar/Item/{item}" isForCompensation="false" name="Firmar" startQuantity="1">
+    <userTask completionQuantity="1" id="_5" implementation="/Firmar/Item/{$item}" isForCompensation="false" name="Firmar" startQuantity="1">
       <documentation id="_5_D_1" textFormat="text/plain"><![CDATA[Firmar o hacer check de la derivación]]></documentation>
       <incoming>_6</incoming>
       <outgoing>_8</outgoing>
