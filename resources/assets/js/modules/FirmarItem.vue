@@ -2,7 +2,7 @@
     <div class="content">
         <div class="row">
             <div class="col m-2">
-                <table class="w-100" border="1px">
+                <table v-if="derivacion.attributes" class="w-100" border="1px">
                     <tr>
                         <td valign="top">
                             <div><b>Fecha:</b> <datetime v-model="derivacion.attributes.fecha" :read-only="true"></datetime></div>

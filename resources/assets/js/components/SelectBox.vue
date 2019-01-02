@@ -113,6 +113,7 @@
             },
             select(row) {
                 this.$emit('input', this.getKey(row));
+                this.$emit('change', row);
                 $(this.$el).find(".selected-option").focus();
             }
         },

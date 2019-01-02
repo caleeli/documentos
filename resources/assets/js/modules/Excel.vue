@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import { HotTable } from '@handsontable/vue';
+//    import { HotTable } from '@handsontable/vue';
 
     export default {
         data: function() {
@@ -22,7 +22,7 @@
             };
         },
         components: {
-            HotTable
+//            HotTable
         }
     }
 </script>

@@ -38,19 +38,11 @@
                 Process.completeTask(params);
             },
             currentItems(query) {
-                if (query.item !== undefined && links[query.item].links instanceof Array) {
+                if (query.item !== undefined && links[query.item] && links[query.item].links instanceof Array) {
                     return links[query.item].links;
                 }
                 return links;
             },
-        },
-        watch: {
-            '$route.query': {
-                deep: true,
-                handler(query) {
-                    this.$set(this, 'links', this.currentItems(query));
-                },
-            }
         },
     };
 </script>

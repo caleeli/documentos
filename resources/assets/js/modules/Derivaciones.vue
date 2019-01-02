@@ -33,7 +33,8 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario:</label></div>
                 <div :class="colField">
-                    <select-box :data="destinatarios" v-model="derivacion.attributes.destinatario"
+                    <select-box :data="destinatarios" v-model="derivacion.attributes.destinatarios"
+                        @change="seleccionaDestinatario"
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format}">
                             <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
@@ -96,6 +97,9 @@
         computed: {
         },
         methods: {
+            seleccionaDestinatario(row) {
+                this.derivacion.attributes.destinatario = row.attributes.nombre_completo;
+            },
             terminarHojaRuta() {
 
             },
