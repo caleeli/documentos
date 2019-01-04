@@ -16,7 +16,7 @@
     </userTask>
     <sequenceFlow id="_4" sourceRef="firmas" targetRef="_3"/>
     <startEvent id="firmas" isInterrupting="true" name="Firmas" parallelMultiple="false">
-      <documentation id="firmas_D_1" textFormat="text/plain"><![CDATA[Firmar derivaciones de hojas de rutas]]></documentation>
+      <documentation id="firmas_D_1" textFormat="text/plain"><![CDATA[Firmar las derivaciones de hojas de rutas a los destinatarios.]]></documentation>
       <outgoing>_4</outgoing>
       <outputSet/>
     </startEvent>
@@ -70,7 +70,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_8" id="Yaoqiang-_8">
         <di:waypoint x="595.0" y="253.5"/>
-        <di:waypoint x="643.0038932072222" y="253.5"/>
+        <di:waypoint x="643.0" y="253.5"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="18.96" width="6.0" x="616.0" y="244.02"/>
         </bpmndi:BPMNLabel>
@@ -83,7 +83,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_4" id="Yaoqiang-_4">
-        <di:waypoint x="320.99610679277777" y="253.5"/>
+        <di:waypoint x="321.0" y="253.5"/>
         <di:waypoint x="372.0" y="253.5"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="18.96" width="6.0" x="343.5" y="244.02"/>

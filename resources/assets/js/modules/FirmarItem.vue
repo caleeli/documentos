@@ -4,19 +4,29 @@
             <div class="col m-2">
                 <table v-if="derivacion.attributes" class="w-100" border="1px">
                     <tr>
-                        <td valign="top">
-                            <div><b>Fecha:</b> <datetime v-model="derivacion.attributes.fecha" :read-only="true"></datetime></div>
-                            <div><b>Comentarios:</b> {{derivacion.attributes.comentarios}}</div>
-                            <div><b>Destinatario:</b> {{derivacion.attributes.comentarios}}</div>
-                            <div><b>Instruccion:</b> {{derivacion.attributes.comentarios}}</div>
-                        </td>
-                        <td valign="top">
-                            <div><b>Firma:</b></div>
-                        </td>
+                        <th>Fecha:</th><td><datetime v-model="derivacion.attributes.fecha" :read-only="true"></datetime></td>
+                    </tr>
+                    <tr>
+                        <th>Comentarios:</th><td>{{derivacion.attributes.comentarios}}</td>
+                    </tr>
+                    <tr>
+                        <th>Destinatario:</th><td>{{derivacion.attributes.destinatario}}</td>
+                    </tr>
+                    <tr>
+                        <th>Instruccion:</th><td>{{derivacion.attributes.instruccion}}</td>
                     </tr>
                 </table>
             </div>
         </div>
+        <div class="row">
+            <div class="col m-2">
+                <div><b>Firma:</b></div>
+                <button class="btn btn-success">Solicitar firma</button>
+                <br><br><br><br><br>
+                <drawing-board></drawing-board>
+            </div>
+        </div>
+
     </div>
 </template>
 
