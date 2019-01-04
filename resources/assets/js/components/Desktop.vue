@@ -1,5 +1,5 @@
 <template>
-    <div class="content" style="padding:5em 1em 1em 1em; width: 100vw;">
+    <div class="content" style="padding:5em 1em 1em 1em; width: 100vw; overflow: auto;">
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 text-center" v-for="item in links">
                 <dashboard-item :value="item">
