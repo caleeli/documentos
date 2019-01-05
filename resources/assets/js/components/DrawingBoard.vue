@@ -1,7 +1,7 @@
 <template>
-    <canvas @mousedown="handleMouseDown" @mouseup="handleMouseUp" @mousemove="handleMouseMove"
-             @touchstart="handleMouseDown" @touchend="handleMouseUp" @touchmove="handleMouseMove"
-             width="400px" height="320px"></canvas>
+    <canvas class="jdd-drawing-box" @mousedown="handleMouseDown" @mouseup="handleMouseUp" @mousemove="handleMouseMove"
+            @touchstart="handleMouseDown" @touchend="handleMouseUp" @touchmove="handleMouseMove"
+            width="320px" height="180px"></canvas>
 </template>
 
 <script>
@@ -93,4 +93,7 @@
 </script>
 
 <style lang="scss" scoped>
+    .jdd-drawing-box{
+        border-bottom: 1px solid black;
+    }
 </style>
