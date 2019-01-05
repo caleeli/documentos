@@ -65,7 +65,8 @@
             },
             handleMouseMove: function(event) {
                 this.updatePointerPosition(event);
-                this.draw(event)
+                this.draw(event);
+                event.preventDefault();
 
             },
             updatePointerPosition: function(event) {
