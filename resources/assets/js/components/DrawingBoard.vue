@@ -1,7 +1,7 @@
 <template>
     <canvas @mousedown="handleMouseDown" @mouseup="handleMouseUp" @mousemove="handleMouseMove"
              @touchstart="handleMouseDown" @touchend="handleMouseUp" @touchmove="handleMouseMove"
-             width="800px" height="800px"></canvas>
+             width="400px" height="320px"></canvas>
 </template>
 
 <script>
