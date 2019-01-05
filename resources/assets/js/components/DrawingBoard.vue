@@ -1,7 +1,7 @@
 <template>
     <canvas class="jdd-drawing-box" @mousedown="handleMouseDown" @mouseup="handleMouseUp" @mousemove="handleMouseMove"
             @touchstart="handleMouseDown" @touchend="handleMouseUp" @touchmove="handleMouseMove"
-            width="320px" height="180px"></canvas>
+            width="320px" height="160px"></canvas>
 </template>
 
 <script>
