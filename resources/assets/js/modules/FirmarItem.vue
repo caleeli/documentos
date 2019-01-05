@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col m-2">
                 <div><b>Firma:</b></div>
-                <button class="btn btn-success">Solicitar firma</button>
+                <button class="btn btn-success" @click="firmar">Solicitar firma</button>
                 <drawing-board></drawing-board>
             </div>
         </div>
@@ -46,5 +46,10 @@
                 this.derivacion.loadFromAPI('/api/derivacion/' + this.$route.params.id);
             }
         },
+        methods: {
+            firmar(){
+                window.document.body.requestFullscreen();
+            }
+        }
     };
 </script>
