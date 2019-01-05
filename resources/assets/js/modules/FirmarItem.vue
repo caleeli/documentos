@@ -22,7 +22,6 @@
             <div class="col m-2">
                 <div><b>Firma:</b></div>
                 <button class="btn btn-success">Solicitar firma</button>
-                <br><br><br><br><br>
                 <drawing-board></drawing-board>
             </div>
         </div>
