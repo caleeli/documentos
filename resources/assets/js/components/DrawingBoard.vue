@@ -1,5 +1,7 @@
 <template>
-    <canvas @mousedown="handleMouseDown" @mouseup="handleMouseUp" @mousemove="handleMouseMove" width="800px" height="800px"></canvas>
+    <canvas @mousedown="handleMouseDown" @mouseup="handleMouseUp" @mousemove="handleMouseMove"
+             @touchstart="handleMouseDown" @touchend="handleMouseUp" @touchmove="handleMouseMove"
+             width="800px" height="800px"></canvas>
 </template>
 
 <script>
@@ -50,10 +52,7 @@
             },
             handleMouseDown: function(event) {
                 this.mouse.down = true;
-                this.mouse.current = {
-                    x: event.pageX,
-                    y: event.pageY
-                }
+                this.updatePointerPosition(event);
 
                 var ctx = this.$el.getContext("2d");
 
@@ -61,18 +60,26 @@
 
 
             },
-            handleMouseUp: function() {
+            handleMouseUp: function(event) {
                 this.mouse.down = false;
             },
             handleMouseMove: function(event) {
-
-                this.mouse.current = {
-                    x: event.pageX,
-                    y: event.pageY
-                }
-
+                this.updatePointerPosition(event);
                 this.draw(event)
 
+            },
+            updatePointerPosition: function(event) {
+                if (event.changedTouches) {
+                    this.mouse.current = {
+                        x: event.changedTouches[0].pageX,
+                        y: event.changedTouches[0].pageY
+                    }
+                } else {
+                    this.mouse.current = {
+                        x: event.pageX,
+                        y: event.pageY
+                    }
+                }
             }
         },
         ready: function() {
