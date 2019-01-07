@@ -46,7 +46,8 @@
                     ctx.lineTo(this.currentMouse.x, this.currentMouse.y);
                     ctx.strokeStyle = "#F63E02";
                     ctx.lineWidth = 2;
-                    ctx.stroke()
+                    ctx.stroke();
+                    this.$emit('input', this.$el.toDataURL());
                 }
 
             },
@@ -88,7 +89,6 @@
             var ctx = this.$el.getContext("2d");
             ctx.translate(0.5, 0.5);
             ctx.imageSmoothingEnabled = false;
-            // this.draw();
         }
     };
 </script>

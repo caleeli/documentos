@@ -24,6 +24,7 @@ class Derivacion extends Model
         "instruccion",
         "dias_plazo",
         "hoja_ruta_id",
+        "firma",
     ];
     protected $casts = [
         'fecha' => 'date',

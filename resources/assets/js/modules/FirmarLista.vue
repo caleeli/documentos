@@ -1,12 +1,15 @@
 <template>
     <desktop :links="links">
-
     </desktop>
 </template>
 
 <script>
     export default {
         path: "/Firmar/Lista",
+        beforeRouteLeave(to, from, next) {
+            console.log('salio');
+            next();
+        },
         computed: {
             links() {
                 const links = [];

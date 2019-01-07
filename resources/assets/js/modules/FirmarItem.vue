@@ -1,8 +1,8 @@
 <template>
     <div class="content">
         <div class="row">
-            <div class="col m-2">
-                <table v-if="derivacion.attributes" class="w-100" border="1px">
+            <div v-if="derivacion.attributes" class="col m-2">
+                <table class="w-100" border="1px">
                     <tr>
                         <th>Fecha:</th><td><datetime v-model="derivacion.attributes.fecha" :read-only="true"></datetime></td>
                     </tr>
@@ -18,11 +18,11 @@
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div v-if="derivacion.attributes" class="row">
             <div class="col m-2">
                 <div><b>Firma:</b></div>
-                <button class="btn btn-success" @click="firmar">Solicitar firma</button>
-                <drawing-board></drawing-board>
+                <div><drawing-board v-model="derivacion.attributes.firma"></drawing-board></div>
+                <div><button class="btn btn-success" @click="firmar">Guardar</button></div>
             </div>
         </div>
 
@@ -48,7 +48,11 @@
         },
         methods: {
             firmar(){
-                window.document.body.requestFullscreen();
+                if (this.derivacion.id) {
+                    this.derivacion.putToAPI("/api/derivacion/" + this.derivacion.id).then((response) => {
+                        this.$router.push({path:'/'});
+                    });
+                }
             }
         }
     };
