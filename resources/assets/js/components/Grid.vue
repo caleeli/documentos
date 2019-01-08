@@ -21,6 +21,7 @@
     </div>
   </div>
   <table class="grid-table table table-hover">
+    <caption><loading v-if="value && value.loading"></loading></caption>
     <thead>
     <slot name="header" v-bind:data="value" v-bind:options="options"></slot>
     </thead>

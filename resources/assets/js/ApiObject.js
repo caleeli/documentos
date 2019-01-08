@@ -13,6 +13,9 @@ function ApiObject(url, errorsObject) {
         }
         onupdate instanceof Function ? onupdate(self) : null;
     };
+    this.listenLoading = (loading) => {
+        //self.loading = loading;
+    };
     this.listenErrors = (error) => {
         for (var a in error) {
             Vue.set(errorsObject, a, error[a]);

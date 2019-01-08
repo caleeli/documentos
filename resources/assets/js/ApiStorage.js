@@ -9,12 +9,15 @@ function ApiStorage(url, object) {
     var observers = [];
     var type;
     this.update = function() {
+        notifyLoading(true);
         window.axios.get(url)
                 .then(response => {
+                    notifyLoading(false);
                     type = response.data.meta.type;
                     dispatch(response.data.data);
                 })
                 .catch(error => {
+                    notifyLoading(false);
                     notifyErrors(error.response.data);
                 });
     }
@@ -28,6 +31,11 @@ function ApiStorage(url, object) {
     function notifyErrors(errors) {
         observers.forEach((item) => {
             item.listenErrors(errors);
+        });
+    }
+    function notifyLoading(value) {
+        observers.forEach((item) => {
+            item.listenLoading(value);
         });
     }
     this.register = function(item) {

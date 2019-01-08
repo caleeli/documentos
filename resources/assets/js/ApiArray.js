@@ -2,12 +2,14 @@ function ApiArray(url, errorsObject) {
     var me = this;
     var self = new Array();
     var storage;
+    self.loading = false;
     errorsObject = errorsObject === undefined ? {message: "", errors: []} : errorsObject;
     function cleanErrors() {
         Vue.set(errorsObject, 'message', "");
         Vue.set(errorsObject, 'errors', []);
     }
     this.listenStorage = (data) => {
+        self.loading = false;
         self.splice(0);
         for (var row of data) {
             self.push(row);
@@ -18,6 +20,9 @@ function ApiArray(url, errorsObject) {
         for (var a in error) {
             Vue.set(errorsObject, a, error[a]);
         }
+    };
+    this.listenLoading = (loading) => {
+        self.loading = loading;
     };
     self.loadFromAPI = function(newURL) {
         cleanErrors();
