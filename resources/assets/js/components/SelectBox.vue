@@ -1,6 +1,7 @@
 <template>
     <div class="select-owner">
         <div v-if="selected && !inputFocus" class="selected-option"><slot :row="selected" :format="textValue"></slot></div>
+        <div v-if="!(selected && !inputFocus) && !inputFocus" class="selected-option">{{value}}</div>
         <input  class="form-control selected-input dropdown-toggle" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false"
                 @focus="focus" @blur="blur" @click="click"
@@ -31,6 +32,11 @@
             }
         },
         computed: {
+            textShown() {
+                const text = this.text;
+                const value = this.value;
+                return this.inputFocus ? text : value;
+            },
             selected() {
                 let value = this.value;
                 return this.data.find(item => {
@@ -47,6 +53,9 @@
             }
         },
         methods: {
+            updateText(event) {
+                this.text = event.target.value;
+            },
             getKey(row) {
                 return Object.evaluateRef(row, this.idField ? this.idField : 'id');
             },

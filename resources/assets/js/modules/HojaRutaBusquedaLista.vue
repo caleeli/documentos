@@ -45,7 +45,7 @@
             <td v-html="format(row.attributes.estado)"></td>
             <td><datetime type="date" v-model="row.attributes.conclusion" read-only empty-date="no concluido" /></td>
             <td>
-            <router-link class="btn btn-primary" :to="{path:'/HojaRuta/' + row.id}">Abrir</router-link>
+            <router-link class="btn btn-primary" :to="{path:'/HojaRuta/' + type + '/' + row.id}">Abrir</router-link>
             </td>
             </tr>
         </grid>
@@ -59,12 +59,12 @@
         },
         data() {
             return {
-                data: new ApiArray('/api/hoja_rutas?sort=-id&filter[]=where,tipo,=,"' + this.type + '"&per_page=200')
+                data: new ApiArray('/api/hoja_ruta_' + this.type + '?sort=-id&per_page=200')
             };
         },
         watch: {
             type() {
-                this.data.loadFromAPI('/api/hoja_rutas?sort=-id&filter[]=where,tipo,=,"' + this.type + '"&per_page=200');
+                this.data.loadFromAPI('/api/hoja_ruta_' + this.type + '?sort=-id&per_page=200');
             }
         },
     };

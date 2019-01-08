@@ -190,7 +190,7 @@
             return {
                 data: new ApiObject(apiBase + '/' + this.getIdURL(), errores).loadFromAPI(),
                 errores: errores,
-                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=5000'),
+                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
             };
         },
         watch: {

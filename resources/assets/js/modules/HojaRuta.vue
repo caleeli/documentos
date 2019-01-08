@@ -133,7 +133,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <derivaciones v-if="data.id" :hoja-ruta="data"></derivaciones>
+                    <derivaciones v-if="data.id" :hoja-ruta="data" :type="$route.params.type"></derivaciones>
                 </div>
             </div>
         </div>
@@ -142,7 +142,7 @@
 
 <script>
     export default {
-        path: "/HojaRuta/:id",
+        path: "/HojaRuta/:type/:id",
         computed: {
             getFjs() {
                 return this.getAnexo("fjs");
@@ -167,16 +167,19 @@
             },
         },
         methods: {
+            getUrlBase() {
+                return "/api/hoja_ruta_" + this.$route.params.type;
+            },
             referenciarNota(nota) {
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
             },
             saveHR() {
                 if (this.data.id) {
-                    this.data.putToAPI("/api/hoja_rutas/" + this.data.id).then((response) => {
+                    this.data.putToAPI(this.getUrlBase() + "/" + this.data.id).then((response) => {
                         this.$router.push({params: {id: response.data.data.id}});
                     });
                 } else {
-                    this.data.postToAPI("/api/hoja_rutas").then((response) => {
+                    this.data.postToAPI(this.getUrlBase()).then((response) => {
                         this.$router.push({params: {id: response.data.data.id}});
                     });
                 }
@@ -231,19 +234,19 @@
             }
         },
         data() {
-            const erroresHojaRuta= {};
+            const erroresHojaRuta = {};
             return {
-                data: new ApiObject('/api/hoja_rutas/' + this.getIdURL(), erroresHojaRuta).loadFromAPI(),
+                data: new ApiObject(this.getUrlBase() + '/' + this.getIdURL(), erroresHojaRuta).loadFromAPI(),
                 erroresHojaRuta: erroresHojaRuta,
                 procedencias: new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
-                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=5000'),
+                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
             };
         },
         watch: {
             '$route.params.id'() {
-                this.data.loadFromAPI('/api/hoja_rutas/' + this.getIdURL());
+                this.data.loadFromAPI(this.getUrlBase() + '/' + this.getIdURL());
             }
         }
     };

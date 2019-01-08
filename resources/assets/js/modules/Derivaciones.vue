@@ -92,7 +92,8 @@
 <script>
     export default {
         props: {
-            hojaRuta: Object
+            hojaRuta: Object,
+            type: String,
         },
         computed: {
         },
@@ -105,7 +106,7 @@
             },
             registrarDerivacion() {
                 this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
-                this.derivacion.postToAPI('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion');
+                this.derivacion.postToAPI('/api/hoja_ruta_' + this.type + '/' + this.hojaRuta.id + '/derivacion');
             },
             referenciarNota(nota) {
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
@@ -114,12 +115,12 @@
         data() {
             const erroresDerivacion = {};
             return {
-                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=5000'),
+                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
                 destinatarios: new ApiArray('/api/users'),
                 derivacion: new ApiObject('/api/derivacion/create', erroresDerivacion),
                 erroresDerivacion: erroresDerivacion,
                 instrucciones: new ApiArray('/api/instruccion'),
-                derivaciones: new ApiArray('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion'),
+                derivaciones: new ApiArray('/api/hoja_ruta_' + this.type + '/' + this.hojaRuta.id + '/derivacion'),
             };
         },
         watch: {
