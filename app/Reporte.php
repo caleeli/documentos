@@ -49,8 +49,8 @@ class Reporte extends Model
         $query = [];
         $params = [];
         $addDerivacion = false;
-        $query[] = ' hoja_ruta.tipo = :tipo';
-        $params['tipo'] = $this->tipo;
+        $query[] = ' 1=1 '; //' hoja_ruta.tipo = :tipo';
+        //$params['tipo'] = $this->tipo;
         if (!empty($this->recepcion_desde)) {
             $query[] = ' hoja_ruta.fecha >= :recepcion_desde';
             $params['recepcion_desde'] = $this->recepcion_desde->format('Y-m-d');
@@ -118,14 +118,14 @@ class Reporte extends Model
 
         //if ($this->todasLasDerivaciones === 'true') {
         if ($this->tipo_reporte === 'detallada') {
-            $query = 'select ' . $select . ' from hoja_ruta '
+            $query = 'select ' . $select . ' from hoja_ruta_' . $this->tipo . ' as hoja_ruta '
                 . ($addDerivacion ? 'left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.id) ' : '')
                 . ($query ? 'where hoja_ruta.id in '
                 . '(select hoja_ruta.id from hoja_ruta left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.id) where '
                 . implode(' and ', $query) . ')' : '');
         } else {
             $esElUltimoDestinatario = 'derivacion.id = (select max(id) from derivacion d2 where d2.hoja_ruta_id=hoja_ruta.id)';
-            $query = 'select ' . $select . ' from hoja_ruta '
+            $query = 'select ' . $select . ' from hoja_ruta_' . $this->tipo . ' as hoja_ruta '
                 . ($addDerivacion ? 'left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.id and ' . $esElUltimoDestinatario . ') ' : '')
                 . ($query ? ' where ' . implode(' and ', $query) : '');
         }
