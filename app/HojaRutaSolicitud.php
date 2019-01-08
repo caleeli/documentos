@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
  * delete from derivacion where hoja_ruta_id=0;
  * insert into hoja_ruta (id, fecha, referencia,procedencia,nro_de_control,anexo_hojas,destinatario,numero) select distinct hoja_ruta_id, now(), 'S/R', '(vacio)', 'S/N', '', '','-1' from derivacion where hoja_ruta_id not in (select id from hoja_ruta)
  */
-class HojaRutaInterna extends Model
+class HojaRutaSolicitud extends Model
 {
 
     use AutoTableTrait;

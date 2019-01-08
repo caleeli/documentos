@@ -15,7 +15,7 @@
                     text: "Registrar",
                     icon: require("../../images/hoja-de-ruta.svg"),
                     description: "Hoja de ruta externa",
-                    href: "/HojaRuta/externa",
+                    href: "/HojaRuta/externa/create",
                 },
                 {
                     icon: require("../../images/busqueda.svg"),
@@ -41,7 +41,7 @@
                     text: "Registrar",
                     icon: require("../../images/hoja-de-ruta-interna.svg"),
                     description: "Hoja de ruta interna",
-                    href: "/HojaRuta/interna",
+                    href: "/HojaRuta/interna/create",
                 },
                 {
                     icon: require("../../images/busqueda-interna.svg"),
@@ -67,7 +67,7 @@
                     text: "Registrar",
                     icon: require("../../images/hoja-de-ruta-solicitud.svg"),
                     description: "Solicitudes y denuncia",
-                    href: "/HojaRuta/solicitud",
+                    href: "/HojaRuta/solicitud/create",
                 },
                 {
                     icon: require("../../images/busqueda-solicitud.svg"),

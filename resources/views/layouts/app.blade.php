@@ -38,7 +38,7 @@
                                 Hoja de Ruta Externa
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/HojaRuta/externa">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/HojaRuta/externa/create">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaBusqueda/externa">Búsqueda</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaReporte/externa">Reporte</router-link>
                             </div>
@@ -48,7 +48,7 @@
                                 Hoja de Ruta Interna
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/HojaRuta/interna">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/HojaRuta/interna/create">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaBusqueda/interna">Búsqueda</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaReporte/interna">Reporte</router-link>
                             </div>
@@ -58,7 +58,7 @@
                                 Solicitudes y denuncia
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/HojaRuta/solicitud">Registrar</router-link>
+                                <router-link class="dropdown-item" to="/HojaRuta/solicitud/create">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaBusqueda/solicitud">Búsqueda</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaReporte/solicitud">Reporte</router-link>
                             </div>

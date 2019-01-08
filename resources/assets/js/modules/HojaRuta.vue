@@ -247,6 +247,9 @@
         watch: {
             '$route.params.id'() {
                 this.data.loadFromAPI(this.getUrlBase() + '/' + this.getIdURL());
+            },
+            '$route.params.type'() {
+                this.data.loadFromAPI(this.getUrlBase() + '/' + this.getIdURL());
             }
         }
     };
