@@ -17,7 +17,7 @@ class DivideHojaRuta extends Migration
             DB::connection('hr')->statement('CREATE TABLE hoja_ruta_interna LIKE hoja_ruta;');
             DB::connection('hr')->statement('INSERT hoja_ruta_interna SELECT * FROM hoja_ruta WHERE tipo="interna";');
             DB::connection('hr')->statement('ALTER TABLE `hoja_ruta` RENAME TO `hoja_ruta_externa`;');
-            DB::connection('hr')->statement('DELETE FROM hoja_ruta_EXTERNA WHERE tipo="interna";');
+            DB::connection('hr')->statement('DELETE FROM hoja_ruta_externa WHERE tipo="interna";');
         });
     }
 
