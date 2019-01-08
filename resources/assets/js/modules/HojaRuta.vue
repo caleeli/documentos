@@ -185,7 +185,7 @@
                 }
             },
             getIdURL() {
-                return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.id : this.$route.params.id;
+                return isNaN(this.$route.params.id) ? 'create' : this.$route.params.id;
             },
             setFjs(event) {
                 this.setAnexo('fjs', event.target.value);
