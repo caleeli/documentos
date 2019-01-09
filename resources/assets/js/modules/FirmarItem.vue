@@ -30,9 +30,11 @@
 </template>
 
 <script>
+    import task from '../mixins/task.js';
     const errores = {};
     export default {
         path: "/Firmar/Item/:id",
+        mixins: [task],
         computed: {
         },
         data() {
@@ -50,7 +52,7 @@
             firmar(){
                 if (this.derivacion.id) {
                     this.derivacion.putToAPI("/api/derivacion/" + this.derivacion.id).then((response) => {
-                        this.$router.push({path:'/'});
+                        this.$router.push(this.$processCompleteRoute({}));
                     });
                 }
             }

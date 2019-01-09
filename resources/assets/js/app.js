@@ -69,6 +69,9 @@ window.Process = {
             params: data
         });
     },
+    cancel(params, data) {
+        return axios.get('/api/process/cancel/' + params.instance, {params: data});
+    },
 };
 
 /**

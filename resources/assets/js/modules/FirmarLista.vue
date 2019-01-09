@@ -4,27 +4,19 @@
 </template>
 
 <script>
+    import task from '../mixins/task.js';
     export default {
         path: "/Firmar/Lista",
-        beforeRouteLeave(to, from, next) {
-            console.log('salio');
-            next();
-        },
+        mixins: [task],
         computed: {
             links() {
+                ;
                 const links = [];
-                const instance = this.$route.query.instance;
-                const token = this.$route.query.token;
                 this.pendientes.forEach(item => {
                     links.push({
                         text: item.attributes.destinatario,
                         description: item.attributes.comentarios + '\n' + item.attributes.instruccion,
-                        href: {
-                            path: '/Process/Complete/' + instance + '/' + token,
-                            query: {
-                                item: item.attributes.id,
-                            },
-                        },
+                        href: this.$processCompleteRoute({item: item.attributes.id}),
                         icon: '/images/processes/FirmaHojaRuta/firmas.svg',
                     });
                 });

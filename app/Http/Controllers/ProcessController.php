@@ -182,6 +182,25 @@ class ProcessController extends Controller
     }
 
     /**
+     * Cancela un proceso por id de instancia.
+     *
+     * @param string $instance
+     *
+     * @return json
+     */
+    public function cancel($instance)
+    {
+        //Load the execution data
+        $processData = $this->loadData($this->bpmnRepository, $instance);
+
+        $processData->status = 'CANCELED';
+        $processData->save();
+
+        //Return the instance id
+        return response()->json(['instance' => $instance]);
+    }
+
+    /**
      * Carga un proceso BPMN
      *
      * @param string $processName
