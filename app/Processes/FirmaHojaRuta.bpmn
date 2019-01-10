@@ -9,6 +9,7 @@
     <userTask completionQuantity="1" id="_3" implementation="/Firmar/Lista" isForCompensation="false" name="Escoger Hoja" startQuantity="1">
       <documentation id="_3_D_1" textFormat="text/plain"><![CDATA[Seleccionar una hoja de ruta a ser firmada]]></documentation>
       <incoming>_4</incoming>
+      <incoming>_12</incoming>
       <outgoing>_6</outgoing>
       <humanPerformer id="_3_RES_1" name="Encargado">
         <resourceRef>RS_1</resourceRef>
@@ -23,7 +24,7 @@
     <userTask completionQuantity="1" id="_5" implementation="/Firmar/Item/{$item}" isForCompensation="false" name="Firmar" startQuantity="1">
       <documentation id="_5_D_1" textFormat="text/plain"><![CDATA[Firmar o hacer check de la derivación]]></documentation>
       <incoming>_6</incoming>
-      <outgoing>_8</outgoing>
+      <outgoing>_11</outgoing>
       <humanPerformer id="_5_RES_1" name="Encargado">
         <resourceRef>RS_2</resourceRef>
         <resourceParameterBinding id="_5_RES_1_RS_2_B_1" parameterRef="RS_2_P_1">
@@ -32,11 +33,20 @@
       </humanPerformer>
     </userTask>
     <sequenceFlow id="_6" sourceRef="_3" targetRef="_5"/>
+    <exclusiveGateway default="_13" gatewayDirection="Diverging" id="_10">
+      <incoming>_11</incoming>
+      <outgoing>_12</outgoing>
+      <outgoing>_13</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="_11" sourceRef="_5" targetRef="_10"/>
+    <sequenceFlow id="_12" sourceRef="_10" targetRef="_3">
+      <conditionExpression><![CDATA[$accion==="volver"]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_13" sourceRef="_10" targetRef="_7"/>
     <endEvent id="_7">
-      <incoming>_8</incoming>
+      <incoming>_13</incoming>
       <inputSet/>
     </endEvent>
-    <sequenceFlow id="_8" sourceRef="_5" targetRef="_7"/>
   </process>
   <resource id="RS_1" name="Secretaria"/>
   <resource id="RS_2" name="Destinatario">
@@ -45,48 +55,69 @@
   <bpmndi:BPMNDiagram id="Yaoqiang_Diagram-PROCESS_1" name="Untitled Diagram" resolution="96.0">
     <bpmndi:BPMNPlane bpmnElement="PROCESS_1">
       <bpmndi:BPMNShape bpmnElement="_3" id="Yaoqiang-_3">
-        <dc:Bounds height="55.0" width="85.0" x="372.0" y="226.0"/>
+        <dc:Bounds height="55.0" width="85.0" x="339.875" y="222.75"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="76.0" x="376.5" y="246.02"/>
+          <dc:Bounds height="18.96" width="76.0" x="344.38" y="242.77"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="firmas" id="Yaoqiang-firmas">
-        <dc:Bounds height="32.0" width="32.0" x="289.0" y="237.5"/>
+        <dc:Bounds height="32.0" width="32.0" x="233.0" y="234.25"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="42.0" x="284.0" y="278.02"/>
+          <dc:Bounds height="18.96" width="42.0" x="228.0" y="274.77"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_5" id="Yaoqiang-_5">
-        <dc:Bounds height="55.0" width="85.0" x="509.75" y="226.0"/>
+        <dc:Bounds height="55.0" width="85.0" x="473.25" y="222.75"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="41.0" x="531.75" y="246.02"/>
+          <dc:Bounds height="18.96" width="41.0" x="495.25" y="242.77"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_10" id="Yaoqiang-_10" isMarkerVisible="true">
+        <dc:Bounds height="42.0" width="42.0" x="600.125" y="229.25"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="18.96" width="6.0" x="618.13" y="273.25"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_7" id="Yaoqiang-_7">
-        <dc:Bounds height="32.0" width="32.0" x="642.5" y="237.5"/>
+        <dc:Bounds height="32.0" width="32.0" x="710.5" y="234.25"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="6.0" x="655.5" y="278.02"/>
+          <dc:Bounds height="18.96" width="6.0" x="723.5" y="274.77"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_8" id="Yaoqiang-_8">
-        <di:waypoint x="595.0" y="253.5"/>
-        <di:waypoint x="643.0" y="253.5"/>
+      <bpmndi:BPMNEdge bpmnElement="_13" id="Yaoqiang-_13">
+        <di:waypoint x="641.75" y="250.25"/>
+        <di:waypoint x="711.0019532442238" y="250.25"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="6.0" x="616.0" y="244.02"/>
+          <dc:Bounds height="18.96" width="6.0" x="673.38" y="240.77"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_12" id="Yaoqiang-_12">
+        <di:waypoint x="621.125" y="229.625"/>
+        <di:waypoint x="556.25" y="174.75"/>
+        <di:waypoint x="382.375" y="222.5"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="18.96" width="116.0" x="447.31" y="165.27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_11" id="Yaoqiang-_11">
+        <di:waypoint x="558.0" y="250.25"/>
+        <di:waypoint x="600.25" y="250.25"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="18.96" width="6.0" x="576.13" y="240.77"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_6" id="Yaoqiang-_6">
-        <di:waypoint x="457.0" y="253.5"/>
-        <di:waypoint x="510.0" y="253.5"/>
+        <di:waypoint x="425.0" y="250.25"/>
+        <di:waypoint x="473.0" y="250.25"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="6.0" x="480.5" y="244.02"/>
+          <dc:Bounds height="18.96" width="6.0" x="446.0" y="240.77"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_4" id="Yaoqiang-_4">
-        <di:waypoint x="321.0" y="253.5"/>
-        <di:waypoint x="372.0" y="253.5"/>
+        <di:waypoint x="264.99804675577616" y="250.25"/>
+        <di:waypoint x="340.0" y="250.25"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="6.0" x="343.5" y="244.02"/>
+          <dc:Bounds height="18.96" width="6.0" x="299.5" y="240.77"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

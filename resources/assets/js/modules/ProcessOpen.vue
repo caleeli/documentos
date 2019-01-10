@@ -19,6 +19,10 @@
                     this.$router.push({
                         path: this.links[0].href,
                     });
+                } else if (this.links.length === 0) {
+                    this.$router.push({
+                        path: '/',
+                    });
                 }
             });
         }

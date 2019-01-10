@@ -22,7 +22,10 @@
             <div class="col m-2">
                 <div><b>Firma:</b></div>
                 <div><drawing-board v-model="derivacion.attributes.firma"></drawing-board></div>
-                <div><button class="btn btn-success" @click="firmar">Guardar</button></div>
+                <div>
+                    <button class="btn btn-secondary" @click="volver">Volver</button>
+                    <button class="btn btn-success" @click="firmar">Guardar</button>
+                </div>
             </div>
         </div>
 
@@ -49,10 +52,13 @@
             }
         },
         methods: {
+            volver(){
+                this.$router.push(this.$processCompleteRoute({accion:"volver"}));
+            },
             firmar(){
                 if (this.derivacion.id) {
                     this.derivacion.putToAPI("/api/derivacion/" + this.derivacion.id).then((response) => {
-                        this.$router.push(this.$processCompleteRoute({}));
+                        this.$router.push(this.$processCompleteRoute({accion:"completar"}));
                     });
                 }
             }
