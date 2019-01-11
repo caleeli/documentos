@@ -49,8 +49,8 @@ class Reporte extends Model
         $query = [];
         $params = [];
         $addDerivacion = false;
-        $query[] = ' 1=1 '; //' hoja_ruta.tipo = :tipo';
-        //$params['tipo'] = $this->tipo;
+        $query[] = ' hoja_ruta.tipo_hr = :tipo';
+        $params['tipo'] = $this->tipo;
         if (!empty($this->recepcion_desde)) {
             $query[] = ' hoja_ruta.fecha >= :recepcion_desde';
             $params['recepcion_desde'] = $this->recepcion_desde->format('Y-m-d');
@@ -118,15 +118,15 @@ class Reporte extends Model
 
         //if ($this->todasLasDerivaciones === 'true') {
         if ($this->tipo_reporte === 'detallada') {
-            $query = 'select ' . $select . ' from hoja_ruta_' . $this->tipo . ' as hoja_ruta '
-                . ($addDerivacion ? 'left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.id) ' : '')
-                . ($query ? 'where hoja_ruta.id in '
-                . '(select hoja_ruta.id from hoja_ruta left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.id) where '
+            $query = 'select ' . $select . ' from hoja_ruta '
+                . ($addDerivacion ? 'left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.hr_scep_id) ' : '')
+                . ($query ? 'where hoja_ruta.hr_scep_id in '
+                . '(select hoja_ruta.hr_scep_id from hoja_ruta left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.hr_scep_id) where '
                 . implode(' and ', $query) . ')' : '');
         } else {
-            $esElUltimoDestinatario = 'derivacion.id = (select max(id) from derivacion d2 where d2.hoja_ruta_id=hoja_ruta.id)';
-            $query = 'select ' . $select . ' from hoja_ruta_' . $this->tipo . ' as hoja_ruta '
-                . ($addDerivacion ? 'left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.id and ' . $esElUltimoDestinatario . ') ' : '')
+            $esElUltimoDestinatario = 'derivacion.id = (select max(id) from derivacion d2 where d2.hoja_ruta_id=hoja_ruta.hr_scep_id)';
+            $query = 'select ' . $select . ' from hoja_ruta '
+                . ($addDerivacion ? 'left join derivacion on (derivacion.hoja_ruta_id=hoja_ruta.hr_scep_id and ' . $esElUltimoDestinatario . ') ' : '')
                 . ($query ? ' where ' . implode(' and ', $query) : '');
         }
 
@@ -144,7 +144,7 @@ class Reporte extends Model
         $num = 1;
         $res2 = [];
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            $id = $row['id'];
+            $id = $row['hr_scep_id'];
             if (!isset($res[$id])) {
                 $res[$id] = $row;
                 $res[$id]['derivaciones'] = [];

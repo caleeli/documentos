@@ -59,12 +59,12 @@
         },
         data() {
             return {
-                data: new ApiArray('/api/hoja_ruta_' + this.type + '?sort=-id&per_page=200')
+                data: new ApiArray('/api/hoja_ruta?sort=-hr_scep_id&filter[]=where,tipo_hr,=,"' + this.type + '"&per_page=200')
             };
         },
         watch: {
             type() {
-                this.data.loadFromAPI('/api/hoja_ruta_' + this.type + '?sort=-id&per_page=200');
+                this.data.loadFromAPI('/api/hoja_ruta?sort=-hr_scep_id&filter[]=where,tipo_hr,=,"' + this.type + '"&per_page=200');
             }
         },
     };

@@ -8,7 +8,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de recepción:</label></div>
                 <div :class="colField">
-                    <datetime type="date" v-model="data.attributes.fecha" />
+                    <datetime type="date" v-model="data.attributes.fecha_recepcion" />
                     <error v-model="erroresHojaRuta" property="errors.fecha"></error>
                 </div>
             </div>
@@ -185,7 +185,7 @@
                 }
             },
             getIdURL() {
-                return isNaN(this.$route.params.id) ? 'create' : this.$route.params.id;
+                return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type : this.$route.params.id;
             },
             setFjs(event) {
                 this.setAnexo('fjs', event.target.value);

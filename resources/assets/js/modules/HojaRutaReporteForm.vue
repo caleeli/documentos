@@ -136,8 +136,8 @@
                     <th width="10%">Instrucción</th>
                 </template>
                 <tr slot-scope="{row, options, format}">
-                    <td>{{row.id}} {{row.numero}}</td>
-                    <td>{{row.tipo}}</td>
+                    <td>{{row.hr_scep_id}} {{row.numero}}</td>
+                    <td>{{row.tipo_hr}}</td>
                     <td>{{row.nro_de_control}}</td>
                     <td><datetime v-model="row.derivacion_fecha" :read-only="true" type="date"/></td>
                 <td>{{row.referencia}}</td>
