@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class DivideHojaRuta extends Migration
+class ActualizaHojaRuta extends Migration
 {
 
     /**
@@ -14,10 +14,10 @@ class DivideHojaRuta extends Migration
     {
         DB::connection('hr')->transaction(function() {
             $this->fixDate('hoja_ruta', ['fecha', 'conclusion']);
-            DB::connection('hr')->statement('CREATE TABLE hoja_ruta_interna LIKE hoja_ruta;');
-            DB::connection('hr')->statement('INSERT hoja_ruta_interna SELECT * FROM hoja_ruta WHERE tipo="interna";');
-            DB::connection('hr')->statement('ALTER TABLE `hoja_ruta` RENAME TO `hoja_ruta_externa`;');
-            DB::connection('hr')->statement('DELETE FROM hoja_ruta_externa WHERE tipo="interna";');
+            DB::connection('hr')->statement('ALTER TABLE `hoja_ruta` CHANGE `id` `hr_scep_id` int(11) NOT NULL AUTO_INCREMENT;');
+            DB::connection('hr')->statement('ALTER TABLE `hoja_ruta` CHANGE `fecha` `fecha_recepcion` date NULL;');
+            DB::connection('hr')->statement('ALTER TABLE `hoja_ruta` CHANGE `conclusion` `fecha_conclusion` date NULL;');
+            DB::connection('hr')->statement("ALTER TABLE `hoja_ruta` CHANGE `tipo` `tipo_hr` enum('externa','interna','solicitud') COLLATE 'utf8_general_ci' NULL DEFAULT 'interna';");
         });
     }
 
