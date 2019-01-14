@@ -72,7 +72,7 @@ class ApiController extends Controller
             /* @var $a Model */
             $collection = [
                 'type'          => $type,
-                'id'            => $result->id,
+                'id'            => $result->getKey(),
                 'attributes'    => $sparseFields ?
                     $this->sparseFields($requiredFields, $result->toArray()) :
                     $result->toArray(),
@@ -90,7 +90,7 @@ class ApiController extends Controller
                         ($row instanceof Model ? $row->toArray() : $row);
                 $collection[] = [
                     'type'          => $type,
-                    'id'            => $row->id,
+                    'id'            => $row->getKey(),
                     'attributes'    => $sparcedFields,
                     'relationships' => $this->sparseRelationships($requiredFields,
                                                                   $requiredIncludes,
@@ -130,7 +130,7 @@ class ApiController extends Controller
                     $response = [
                         'data' => [
                             'type'       => $this->getType($result),
-                            'id'         => $result->id,
+                            'id'         => $result->getKey(),
                             'attributes' => $result
                         ]
                     ];
@@ -159,7 +159,7 @@ class ApiController extends Controller
         $response = [
             'data' => [
                 'type'       => $this->getType($result),
-                'id'         => $result->id,
+                'id'         => $result->getKey(),
                 'attributes' => $result
             ]
         ];

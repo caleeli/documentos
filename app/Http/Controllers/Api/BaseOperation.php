@@ -42,7 +42,7 @@ abstract class BaseOperation
             } elseif (is_string($model) && $isZero) {
                 $model = $this->createModel($model, $this->factoryStates);
             } elseif (is_string($model) && $isNumeric) {
-                $model = $model::whereId($route)->first();
+                $model = $model::find($route);
             } elseif ($model instanceof Model && $isString) {
                 $model = $model->$route();
             } elseif ($model instanceof BelongsTo && $isString) {
@@ -52,7 +52,7 @@ abstract class BaseOperation
             } elseif ($model instanceof HasMany && $isZero) {
                 $model = $model->getRelated()->newInstance();
             } elseif ($model instanceof HasMany && $isNumeric) {
-                $model = $model->whereId($route)->first();
+                $model = $model->find($route);
             } elseif ($model instanceof BelongsToMany && $isZero) {
                 $model = $model->getRelated()->newInstance();
             } elseif ($model instanceof Collection) {

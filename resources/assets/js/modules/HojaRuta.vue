@@ -1,6 +1,18 @@
 <template>
     <panel v-if="data.attributes" :name="'HOJA DE RUTA - No HR - SCEP: ' + data.attributes.numero" class="panel-primary">
-           <div class="container">
+           <template slot="actions">
+            <span v-if="data.attributes.created_at">
+                <i class="fas fa-user-plus"></i>
+                <label v-if="data.relationships.userAdd">{{data.relationships.userAdd.attributes.nombre_completo}}</label>
+                {{moment(data.attributes.created_at).fromNow()}}
+            </span>
+            <span v-if="data.attributes.updated_at">
+                <i class="fas fa-user-edit"></i>
+                <label v-if="data.relationships.userMod">{{data.relationships.userMod.attributes.nombre_completo}}</label>
+                {{moment(data.attributes.updated_at).fromNow()}}
+            </span>
+        </template>
+        <div class="container">
             <div class="row">
                 <div class="col-12"><h4>Tipo HR: {{data.attributes.tipo}}</h4> </div>
             </div>
@@ -168,7 +180,7 @@
         },
         methods: {
             getUrlBase() {
-                return "/api/hoja_ruta_" + this.$route.params.type;
+                return "/api/hoja_ruta";
             },
             referenciarNota(nota) {
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
@@ -185,7 +197,7 @@
                 }
             },
             getIdURL() {
-                return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type : this.$route.params.id;
+                return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type + '&include=userAdd' : this.$route.params.id + '?include=userAdd';
             },
             setFjs(event) {
                 this.setAnexo('fjs', event.target.value);

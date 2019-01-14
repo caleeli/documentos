@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use Exception;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -28,5 +28,20 @@ trait SaveUserTrait
         static::deleting(function ($model) {
             $model->user_del = Auth::id();
         });
+    }
+
+    public function userAdd()
+    {
+        return $this->belongsTo(User::class, 'user_add', 'id');
+    }
+
+    public function userMod()
+    {
+        return $this->belongsTo(User::class, 'user_add', 'id');
+    }
+
+    public function userDel()
+    {
+        return $this->belongsTo(User::class, 'user_add', 'id');
     }
 }

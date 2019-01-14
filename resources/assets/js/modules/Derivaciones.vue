@@ -120,7 +120,7 @@
                 derivacion: new ApiObject('/api/derivacion/create', erroresDerivacion),
                 erroresDerivacion: erroresDerivacion,
                 instrucciones: new ApiArray('/api/instruccion'),
-                derivaciones: new ApiArray('/api/hoja_ruta_' + this.type + '/' + this.hojaRuta.id + '/derivacion'),
+                derivaciones: new ApiArray('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion'),
             };
         },
         watch: {
