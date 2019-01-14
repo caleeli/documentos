@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use \Illuminate\Auth\SessionGuard;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -47,6 +48,13 @@ use AuthenticatesUsers;
      */
     protected function attemptLogin(Request $request)
     {
+        //Validate catcha
+        $catpcha = Validator::make($request->all(), ['g-recaptcha-response' => 'required|captcha']);
+        if($catpcha->fails()) {
+            return false;
+        }
+
+        //Validate credentials
         $credentials = $this->credentials($request);
         $user = \App\User
             ::where('username', $credentials['username'])

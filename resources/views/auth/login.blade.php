@@ -100,6 +100,7 @@
                                 <a class="text-primary" href="{{ route('password.request') }}" title="Recuperar contraseña">{{ __('¿Olvidaste tu contraseña?') }}</a>
                             </div>
                         </div>
+                        {!! app('captcha')->display(); !!}
 
                         <button type="submit" class="btn btn-primary btn-rounded">
                             {{ __('Ingresar') }}
@@ -112,5 +113,6 @@
     <script>
         window.localStorage.clear();
     </script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 @endsection
