@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Traits;
 
 use Carbon\Carbon;
@@ -29,11 +30,18 @@ trait ValidatedModelTrait
     {
         $data = [];
         foreach ($this->attributes as $key => $value) {
-            $data[$key] = $this->$key;//getAttributeValue($key);
+            $data[$key] = $this->$key; //getAttributeValue($key);
         }
         // make a new validator object
         /* @var $v \Illuminate\Validation\Validator */
-        $v = Validator::make($data, $this->getRules());
+        $rules = [];
+        foreach ($this->getRules() as $key => $val) {
+            if (!in_array('required', $val)) {
+                $val[] = 'nullable';
+            }
+            $rules[$key] = $val;
+        }
+        $v = Validator::make($data, $rules);
 
         $v->validate();
     }

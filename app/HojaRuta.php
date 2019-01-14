@@ -21,8 +21,8 @@ class HojaRuta extends Model
     use SaveUserTrait;
     use SoftDeletes;
 
-    const CREATED_AT = 'creation_date';
-    const UPDATED_AT = 'last_update';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
     const DELETED_AT = 'deleted_at';
 
     protected $primaryKey = 'hr_scep_id';

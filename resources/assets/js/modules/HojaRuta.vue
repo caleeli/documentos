@@ -4,12 +4,12 @@
             <span v-if="data.attributes.created_at">
                 <i class="fas fa-user-plus"></i>
                 <label v-if="data.relationships.userAdd">{{data.relationships.userAdd.attributes.nombre_completo}}</label>
-                {{moment(data.attributes.created_at).fromNow()}}
+                {{moment(data.attributes.created_at + '+00:00').fromNow()}}
             </span>
             <span v-if="data.attributes.updated_at">
                 <i class="fas fa-user-edit"></i>
                 <label v-if="data.relationships.userMod">{{data.relationships.userMod.attributes.nombre_completo}}</label>
-                {{moment(data.attributes.updated_at).fromNow()}}
+                {{moment(data.attributes.updated_at + '+00:00').fromNow()}}
             </span>
         </template>
         <div class="container">
@@ -197,7 +197,7 @@
                 }
             },
             getIdURL() {
-                return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type + '&include=userAdd' : this.$route.params.id + '?include=userAdd';
+                return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type + '&include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
             },
             setFjs(event) {
                 this.setAnexo('fjs', event.target.value);
