@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * SaveUser
@@ -16,27 +17,16 @@ trait SaveUserTrait
      *
      * @return void
      */
-    public static function boot()
+    public static function bootSaveUserTrait()
     {
-        parent::boot();
-        static::saving(function ($model) {
-            try {
-                $header = request()->header('Authorization');
-                list($auth, $user) = explode(' ', $header);
-                $model->usuario_abm_id = $user;
-            } catch (Exception $e) {
-                error_log('Unable to obtain authorization: ' . $e->getMessage());
-            }
+        static::creating(function ($model) {
+            $model->user_add = Auth::id();
+        });
+        static::updating(function ($model) {
+            $model->user_mod = Auth::id();
         });
         static::deleting(function ($model) {
-            try {
-                $header = request()->header('Authorization');
-                list($auth, $user) = explode(' ', $header);
-                $model->usuario_abm_id = $user;
-                $model->save();
-            } catch (Exception $e) {
-                error_log('Unable to obtain authorization: ' . $e->getMessage());
-            }
+            $model->user_del = Auth::id();
         });
     }
 }

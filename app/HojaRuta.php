@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Traits\AutoTableTrait;
+use App\Traits\SaveUserTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -16,10 +18,16 @@ class HojaRuta extends Model
 {
 
     use AutoTableTrait;
+    use SaveUserTrait;
+    use SoftDeletes;
+
+    const CREATED_AT = 'creation_date';
+    const UPDATED_AT = 'last_update';
+    const DELETED_AT = 'deleted_at';
 
     protected $primaryKey = 'hr_scep_id';
     public $incrementing = true;
-    public $timestamps = false;
+    public $timestamps = true;
     protected $connection = 'hr';
     protected $table = 'hoja_ruta';
     protected $fillable = [
@@ -46,6 +54,7 @@ class HojaRuta extends Model
         'fecha_recepcion' => 'date',
         'fecha_conclusion' => 'date',
     ];
+    protected $dates = ['deleted_at'];
 
     /**
      * Fecha de derivacion
