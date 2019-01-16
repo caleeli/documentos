@@ -1,5 +1,5 @@
 <template>
-    <div class="card primary-view" @click="click">
+    <div class="card primary-view dashboard-item" @click="click">
         <div class="card-header">
             <div class="card-photo">
                 <img :title="value.text" :alt="value.text" :src="value.icon" class="img-circle">
@@ -35,7 +35,8 @@
         },
         methods: {
             click(event) {
-                const isDropdown = $(event.target).hasClass('dropdown');
+                const isDropdown = $(event.target).hasClass('dropdown') || $(event.target.parentNode).hasClass('dropdown');
+                console.log(event.target, isDropdown);
                 !isDropdown && this.value.href ? this.$router.push(this.value.href) : null;
             }
         },
@@ -46,6 +47,12 @@
     .card-short-description{
         position: relative;
         margin-left: 76px;
+    }
+    .dashboard-item {
+        cursor:pointer;
+    }
+    .dashboard-item .card-header:hover {
+        background-color: rgb(25%, 31%, 71%, 0.05);
     }
     .dashboard-item-title {
         text-overflow: ellipsis;
