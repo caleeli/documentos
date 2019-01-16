@@ -50,7 +50,7 @@ use AuthenticatesUsers;
     {
         //Validate catcha
         $catpcha = Validator::make($request->all(), ['g-recaptcha-response' => 'required|captcha']);
-        if($catpcha->fails()) {
+        if(config('auth.catpcha_site_key') && $catpcha->fails()) {
             return false;
         }
 

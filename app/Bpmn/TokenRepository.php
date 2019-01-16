@@ -265,4 +265,9 @@ class TokenRepository implements TokenRepositoryInterface
     {
         $this->persistCalls++;
     }
+
+    public function persistStartEventTriggered(\ProcessMaker\Nayra\Contracts\Bpmn\StartEventInterface $startEvent, \ProcessMaker\Nayra\Contracts\Bpmn\CollectionInterface $tokens)
+    {
+        
+    }
 }

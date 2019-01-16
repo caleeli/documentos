@@ -98,5 +98,7 @@ return [
             'expire' => 60,
         ],
     ],
-
+    
+    'catpcha_site_key' => env('NOCAPTCHA_SITEKEY', false),
+    'catpcha_secret' => env('NOCAPTCHA_SECRET', false),
 ];

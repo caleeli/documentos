@@ -8,6 +8,9 @@
     </extensionElements>
     <userTask completionQuantity="1" id="_3" implementation="/Firmar/Lista" isForCompensation="false" name="Escoger Hoja" startQuantity="1">
       <documentation id="_3_D_1" textFormat="text/plain"><![CDATA[Seleccionar una hoja de ruta a ser firmada]]></documentation>
+      <extensionElements>
+        <yaoqiang:style fillColor="#99FFFF"/>
+      </extensionElements>
       <incoming>_4</incoming>
       <incoming>_12</incoming>
       <outgoing>_6</outgoing>
@@ -18,11 +21,17 @@
     <sequenceFlow id="_4" sourceRef="firmas" targetRef="_3"/>
     <startEvent id="firmas" isInterrupting="true" name="Firmas" parallelMultiple="false">
       <documentation id="firmas_D_1" textFormat="text/plain"><![CDATA[Firmar las derivaciones de hojas de rutas a los destinatarios.]]></documentation>
+      <extensionElements>
+        <yaoqiang:style fillColor="#33FF00"/>
+      </extensionElements>
       <outgoing>_4</outgoing>
       <outputSet/>
     </startEvent>
     <userTask completionQuantity="1" id="_5" implementation="/Firmar/Item/{$item}" isForCompensation="false" name="Firmar" startQuantity="1">
       <documentation id="_5_D_1" textFormat="text/plain"><![CDATA[Firmar o hacer check de la derivación]]></documentation>
+      <extensionElements>
+        <yaoqiang:style fillColor="#CCFFCC"/>
+      </extensionElements>
       <incoming>_6</incoming>
       <outgoing>_11</outgoing>
       <humanPerformer id="_5_RES_1" name="Encargado">
@@ -44,6 +53,9 @@
     </sequenceFlow>
     <sequenceFlow id="_13" sourceRef="_10" targetRef="_7"/>
     <endEvent id="_7">
+      <extensionElements>
+        <yaoqiang:style fillColor="#FF6600"/>
+      </extensionElements>
       <incoming>_13</incoming>
       <inputSet/>
     </endEvent>
@@ -93,10 +105,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_12" id="Yaoqiang-_12">
         <di:waypoint x="621.125" y="229.625"/>
-        <di:waypoint x="556.25" y="174.75"/>
+        <di:waypoint x="556.0" y="175.0"/>
         <di:waypoint x="382.375" y="222.5"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="116.0" x="447.31" y="165.27"/>
+          <dc:Bounds height="18.96" width="116.0" x="447.31" y="165.52"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_11" id="Yaoqiang-_11">

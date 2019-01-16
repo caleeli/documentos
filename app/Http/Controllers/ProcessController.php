@@ -122,7 +122,7 @@ class ProcessController extends Controller
         $dataStorage->setData($request->input('data', []));
         $instance = $process->getEngine()->createExecutionInstance($process,
             $dataStorage);
-        $event->start();
+        $event->start($instance);
 
         $this->engine->runToNextState();
         return response()->json([
