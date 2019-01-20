@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Bpmn\Repository;
 use App\Bpmn\TestEngine;
+use App\Facades\JDD;
 use App\Process;
 use Illuminate\Http\Request;
 use ProcessMaker\Nayra\Bpmn\Events\ActivityActivatedEvent;
@@ -14,9 +15,9 @@ use ProcessMaker\Nayra\Bpmn\Events\ProcessInstanceCreatedEvent;
 use ProcessMaker\Nayra\Contracts\Bpmn\ActivityInterface;
 use ProcessMaker\Nayra\Contracts\Bpmn\ProcessInterface;
 use ProcessMaker\Nayra\Contracts\Bpmn\TokenInterface;
+use ProcessMaker\Nayra\Contracts\Engine\ExecutionInstanceInterface;
 use ProcessMaker\Nayra\Contracts\Repositories\StorageInterface;
 use ProcessMaker\Nayra\Storage\BpmnDocument;
-use ProcessMaker\Nayra\Contracts\Engine\ExecutionInstanceInterface;
 
 class ProcessController extends Controller
 {
@@ -68,6 +69,11 @@ class ProcessController extends Controller
      * @var Process $processData
      */
     private $processData;
+
+    /**
+     * @var \App\JDD\Module $module
+     */
+    private $module;
 
     public function __construct()
     {
@@ -209,8 +215,11 @@ class ProcessController extends Controller
      */
     private function loadProcess($processName)
     {
+        $processes = JDD::getBpmnProcesses();
+        list($module, $filename) = $processes[$processName];
+        $this->module = $module;
         $this->bpmn = $processName;
-        $this->bpmnRepository->load(app_path('Processes/' . $processName . '.bpmn'));
+        $this->bpmnRepository->load($filename);
 
         //Process
         $process = $this->bpmnRepository->getElementsByTagName('process')->item(0)->getBpmnElementInstance();
@@ -317,7 +326,8 @@ class ProcessController extends Controller
      * Obtiene el access link para la actividad.
      *
      * @param TokenInterface $token
-     * @param string $instanceId
+     * @param ExecutionInstanceInterface $instance
+     *
      * @return array
      */
     private function accessLink(TokenInterface $token, ExecutionInstanceInterface $instance)

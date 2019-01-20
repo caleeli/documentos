@@ -10,7 +10,8 @@ namespace App\JDD;
 class Module
 {
 
-    public $scripts;
-    public $stylesheets;
+    public $scripts = [];
+    public $stylesheets = [];
+    public $bpmns = [];
 
 }

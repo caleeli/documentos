@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://sourceforge.net/bpmn/definitions/_1546002062776" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:yaoqiang="http://bpmn.sourceforge.net" exporter="Yaoqiang BPMN Editor" exporterVersion="5.3" expressionLanguage="http://www.w3.org/1999/XPath" id="_1546002062776" name="" targetNamespace="http://sourceforge.net/bpmn/definitions/_1546002062776" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://bpmn.sourceforge.net/schemas/BPMN20.xsd">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://sourceforge.net/bpmn/definitions/_1546002062776" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:yaoqiang="http://bpmn.sourceforge.net" exporter="Yaoqiang BPMN Editor" exporterVersion="5.3" expressionLanguage="http://www.w3.org/1999/XPath" id="_1546002062776" name="FirmarHojaRuta" targetNamespace="http://sourceforge.net/bpmn/definitions/_1546002062776" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://bpmn.sourceforge.net/schemas/BPMN20.xsd">
   <process id="PROCESS_1" isClosed="false" isExecutable="true" processType="None">
     <extensionElements>
       <yaoqiang:description/>
@@ -49,6 +49,9 @@
     </exclusiveGateway>
     <sequenceFlow id="_11" sourceRef="_5" targetRef="_10"/>
     <sequenceFlow id="_12" sourceRef="_10" targetRef="_3">
+      <extensionElements>
+        <yaoqiang:label offset-x="1.0" offset-y="0.0" x="0.0" y="-9.0"/>
+      </extensionElements>
       <conditionExpression><![CDATA[$accion==="volver"]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="_13" sourceRef="_10" targetRef="_7"/>
@@ -104,11 +107,11 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_12" id="Yaoqiang-_12">
-        <di:waypoint x="621.125" y="229.625"/>
-        <di:waypoint x="556.0" y="175.0"/>
-        <di:waypoint x="382.375" y="222.5"/>
+        <di:waypoint x="621.125" y="229.125"/>
+        <di:waypoint x="555.0" y="181.0"/>
+        <di:waypoint x="382.375" y="223.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="18.96" width="116.0" x="447.31" y="165.52"/>
+          <dc:Bounds height="18.96" width="116.0" x="447.81" y="162.52"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_11" id="Yaoqiang-_11">

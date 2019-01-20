@@ -10,6 +10,7 @@ require('./components/children2string');
 String.prototype.localeIndexOf = require('locale-index-of').prototypeLocaleIndexOf(Intl);
 import moment from 'moment';
 import VueRouter from 'vue-router';
+import TaskMixin from './mixins/task.js';
 
 window.Vue = require('vue');
 window.ApiStorage = require('./ApiStorage');
@@ -25,6 +26,7 @@ window.Vue.prototype.dateFormat = function(date) {
     return moment(date).format('DD/MM/YYYY HH:mm');
 };
 window.moment = moment;
+window.taskMixin = TaskMixin;
 
 /**
  * COMPONENTES
@@ -53,6 +55,7 @@ req.keys().map(key => {
 const router = new VueRouter({
     routes
 });
+window.router = router;
 
 window.Process = {
     call(params) {

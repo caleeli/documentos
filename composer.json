@@ -7,6 +7,10 @@
     "repositories": [
         {
             "type": "path",
+            "url": "../firmas"
+        },
+        {
+            "type": "path",
             "url": "../SchemaLive"
         },
         {
@@ -23,7 +27,8 @@
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
-        "processmaker/nayra": "dev-master"
+        "processmaker/nayra": "dev-master",
+        "subcep/firmas": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
@@ -64,6 +69,10 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
+        ],
+        "require-plugin": [
+            "@composer require",
+            "@php artisan require-plugin"
         ]
     },
     "config": {

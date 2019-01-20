@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use ProcessMaker\Nayra\Storage\BpmnDocument;
 use ProcessMaker\Nayra\Storage\BpmnElement;
+use App\Facades\JDD;
 
 /**
  * Description of ListProcesses
@@ -21,10 +22,10 @@ trait ListProcesses
     private function listProcesses()
     {
         $refs = [];
-        $files = glob(app_path('Processes/*.bpmn'));
+        $processDefinitions = JDD::getBpmnProcesses();
         $bpmn = new BpmnDocument();
-        foreach ($files as $filename) {
-            $name = basename($filename, '.bpmn');
+        foreach ($processDefinitions as $name => $def) {
+            list($module, $filename) = $def;
             $source = file_get_contents($filename);
             $bpmn->loadXML($source);
             $starts = $bpmn->getElementsByTagNameNS(BpmnDocument::BPMN_MODEL,
@@ -32,9 +33,12 @@ trait ListProcesses
             foreach ($starts as $start) {
                 $id = $start->getAttribute('id');
                 $description = $this->getDocumentation($start);
+                $images = glob(public_path('/modules/' . $module->name . '/img/' . $id . '.*'));
+                $icon = isset($images[0]) ? substr($images[0],
+                        strlen(public_path(''))) : '/images/logo.png';
                 $refs[$name . '_' . $id] = [
                     'text' => $start->getAttribute('name'),
-                    'icon' => '/images/processes/' . $name . '/' . $id . '.svg',
+                    'icon' => $icon,
                     'description' => $description,
                     'href' => '/ProcessStart/' . $name . '/' . $id,
                 ];

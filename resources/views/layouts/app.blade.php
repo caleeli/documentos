@@ -12,9 +12,15 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        @foreach(JDD::getModules() as $module)
+        @foreach($module->scripts as $script)<script src="{{$script}}?{{filemtime(public_path($script))}}"></script>@endforeach
+        @endforeach
 
         <!-- Styles -->
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        @foreach(JDD::getModules() as $module)
+        @foreach($module->stylesheets as $stylesheet)<link rel="stylesheet" href="{{$stylesheet}}?{{filemtime(public_path($stylesheet))}}">@endforeach
+        @endforeach
 
         @if(Auth::user())
         <meta name="user-uid" content="{{ Auth::user()->getKey() }}">
