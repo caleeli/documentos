@@ -7,7 +7,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/caleeli/firmas.git"
+            "url": "git@github.com:caleeli/firmas.git"
         },
         {
             "type": "path",
