@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Bpmn\Manager;
 use App\JDD\JDD;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('JDD',
             function () {
             return new JDD;
+        });
+        $this->app->bind('workflow.engine',
+            function () {
+            return new Manager;
         });
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a1da133d133d6ef1c6dc29327bcde40",
+    "content-hash": "c07fe7d711e52d37cbe0fd9f83ec4bd1",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -1986,11 +1986,16 @@
         {
             "name": "subcep/firmas",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:caleeli/firmas.git",
+                "reference": "e98a5f188f3924562b9e6578557f474415048d9d"
+            },
             "dist": {
-                "type": "path",
-                "url": "../firmas",
-                "reference": "6af113901e9f8a135a62e56e33ddcb94f17eed92",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/caleeli/firmas/zipball/e98a5f188f3924562b9e6578557f474415048d9d",
+                "reference": "e98a5f188f3924562b9e6578557f474415048d9d",
+                "shasum": ""
             },
             "type": "library",
             "extra": {
@@ -2020,7 +2025,12 @@
                     "email": "davidcallizaya@gmail.com"
                 }
             ],
-            "description": "Firmas de hojas de ruta"
+            "description": "Firmas de hojas de ruta",
+            "support": {
+                "source": "https://github.com/caleeli/firmas/tree/master",
+                "issues": "https://github.com/caleeli/firmas/issues"
+            },
+            "time": "2019-01-22T21:57:23+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

@@ -6,8 +6,8 @@
     "type": "project",
     "repositories": [
         {
-            "type": "path",
-            "url": "../firmas"
+            "type": "vcs",
+            "url": "https://github.com/caleeli/firmas.git"
         },
         {
             "type": "path",

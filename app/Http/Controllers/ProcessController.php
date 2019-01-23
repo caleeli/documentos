@@ -288,6 +288,22 @@ class ProcessController extends Controller
             $processData->data = $dataStore->getData();
             $processData->save();
         });
+        $this->dispatcher->listen(ScriptTaskInterface::EVENT_SCRIPT_TASK_ACTIVATED,
+            function(ScriptTaskInterface $scriptTask, TokenInterface $token) {
+            $id = $event->token->getInstance()->getId();
+            $processData = Process::findOrFail($id);
+            $dataStore = $event->token->getInstance()->getDataStore();
+            $tokens = $processData->tokens;
+            $tokens[$event->token->getId()] = [
+                'elementId' => $event->activity->getId(),
+                'name' => $event->activity->getName(),
+                'module' => $event->activity->getProperty('implementation'),
+                'status' => $event->token->getStatus(),
+            ];
+            $processData->tokens = $tokens;
+            $processData->data = $dataStore->getData();
+            $processData->save();
+        });
         $this->dispatcher->listen(ActivityInterface::EVENT_ACTIVITY_COMPLETED,
             function(ActivityCompletedEvent $event) {
             $id = $event->token->getInstance()->getId();

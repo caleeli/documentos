@@ -106,7 +106,7 @@
             },
             registrarDerivacion() {
                 this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
-                this.derivacion.postToAPI('/api/hoja_ruta_' + this.type + '/' + this.hojaRuta.id + '/derivacion');
+                this.derivacion.postToAPI('/api/hoja_ruta' + '/' + this.hojaRuta.id + '/derivacion');
             },
             referenciarNota(nota) {
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
