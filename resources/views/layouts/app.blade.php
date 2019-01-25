@@ -91,7 +91,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Comunicación interna
+                                Comunicaciones internas
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/ComunicacionesInternas/comunicacion">Registrar</router-link>

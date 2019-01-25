@@ -136,7 +136,7 @@
             ],
         },
         5: {
-            text: "Comunicación interna e informes",
+            text: "Comunicaciónes internas",
             icon: require("../../images/comunicacion.svg"),
             description: "Registro busqueda y reporte",
             href: "/?item=5",
@@ -144,19 +144,19 @@
                 {
                     text: "Registrar",
                     icon: require("../../images/comunicacion.svg"),
-                    description: "Comunicación interna e informes",
+                    description: "Comunicaciónes internas",
                     href: "/ComunicacionesInternas/comunicacion",
                 },
                 {
                     icon: require("../../images/busqueda-comunicacion.svg"),
                     text: "Busqueda",
-                    description: "Comunicación interna e informes",
+                    description: "Comunicaciónes internas",
                     href: "/NotaOficioBusqueda/comunicacion",
                 },
                 {
                     icon: require("../../images/reporte-comunicacion.svg"),
                     text: "Reporte",
-                    description: "Comunicación interna e informes",
+                    description: "Comunicaciónes internas",
                     href: "/HojaRutaReporte/comunicacion",
                 },
             ],
