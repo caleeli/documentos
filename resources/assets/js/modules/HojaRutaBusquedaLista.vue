@@ -43,7 +43,7 @@
                 </td>
                 <td><datetime type="date" v-model="row.attributes.fecha_derivacion" read-only /></td>
             <td v-html="format(row.attributes.estado)"></td>
-            <td><datetime type="date" v-model="row.attributes.conclusion" read-only empty-date="no concluido" /></td>
+            <td><datetime type="date" v-model="row.attributes.fecha_conclusion" read-only empty-date="no concluido" /></td>
             <td>
             <router-link class="btn btn-primary" :to="{path:'/HojaRuta/' + type + '/' + row.id}">Abrir</router-link>
             </td>
