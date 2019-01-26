@@ -95,7 +95,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12"><h4>Nota Recibida</h4> </div>
+                <div class="col-12">
+                    <br><hr>
+                    <h4>Nota Recibida</h4>
+                </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Nº Hoja de Ruta:</label></div>

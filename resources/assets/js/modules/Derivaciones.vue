@@ -2,7 +2,10 @@
     <div>
         <div class="container" v-if="derivacion.attributes">
             <div class="row">
-                <div class="col-12"><h4>Derivaciones</h4> </div>
+                <div class="col-12">
+                    <br><hr>
+                    <h4>Derivaciones</h4>
+                </div>
             </div>
             <error v-model="erroresDerivacion" property="message"></error>
             <div class="form-group row">
