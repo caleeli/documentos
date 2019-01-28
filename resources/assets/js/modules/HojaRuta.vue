@@ -126,14 +126,27 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Clasificación:</label></div>
                 <div :class="colField">
-                    <div class="radio" v-for="clasificacion in clasificacionHojasRuta">
-                        <label>
-                            <input type="radio" name="hoja_edit_tipo"
-                                   :value="clasificacion.attributes.sigla"
-                                   v-model="data.attributes.tipo_tarea">
-                            {{clasificacion.attributes.nombre}}
-                        </label>
-                    </div>
+                    <template v-for="clasificacion in clasificacionHojasRuta">
+                        <div class="row">
+                            <div class="radio col-6">
+                                <label>
+                                    <input type="radio" name="hoja_edit_tipo"
+                                           :value="clasificacion.attributes.sigla"
+                                           v-model="data.attributes.tipo_tarea">
+                                    {{clasificacion.attributes.nombre}}
+                                </label>
+                            </div>
+                            <div class="col-6"
+                                 v-show="data.attributes.tipo_tarea===clasificacion.attributes.sigla"
+                                 v-if="clasificacion.relationships.subclases && clasificacion.relationships.subclases.length">
+                                <select class="form-control input-sm" v-model="data.attributes.subtipo_tarea">
+                                    <option value=""></option>
+                                    <option v-for="subclase in clasificacion.relationships.subclases"
+                                            :value="subclase.id">{{subclase.attributes.nombre}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </template>
                     <error v-model="erroresHojaRuta" property="errors.tipo_tarea"></error>
                 </div>
             </div>
@@ -186,6 +199,12 @@
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
             },
             saveHR() {
+                this.clasificacionHojasRuta.forEach(clasificacion => {
+                    if (clasificacion.attributes.sigla === this.data.attributes.tipo_tarea) {
+                        let subclase = clasificacion.relationships.subclases.find(subclase => subclase.id === this.data.attributes.subtipo_tarea);
+                        this.data.attributes.subtipo_tarea = subclase ? subclase.id : null;
+                    }
+                });
                 if (this.data.id) {
                     this.data.putToAPI(this.getUrlBase() + "/" + this.data.id).then((response) => {
                         this.$router.push({params: {id: response.data.data.id}});
@@ -253,7 +272,7 @@
                 procedencias: new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
-                clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
+                clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases'),
             };
         },
         watch: {

@@ -42,6 +42,7 @@ class HojaRuta extends Model
         "gestion",
         "numero",
         "tipo_tarea",
+        "subtipo_tarea",
     ];
     protected $appends = [
         'fecha_derivacion',

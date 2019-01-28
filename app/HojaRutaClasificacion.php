@@ -17,4 +17,8 @@ class HojaRutaClasificacion extends Model
     protected $connection = 'hr';
     protected $table = 'hoja_ruta_clasificacion';
 
+    public function subclases()
+    {
+        return $this->hasMany(HojaRutaSubClases::class, 'clasificacion_id');
+    }
 }
