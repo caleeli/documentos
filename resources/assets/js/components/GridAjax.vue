@@ -1,0 +1,129 @@
+<template>
+<div>
+  <div class="row" v-if="!withoutNavbar">
+    <div class="col" v-if="filterBy">
+      <div class="btn-group input-group">
+        <input type="text" class="form-control" style="height: 31px;" v-model="search">
+        <button class="btn btn-outline-primary">
+          <i class="fas fa-search"></i> Buscar
+        </button>
+      </div>
+    </div>
+    <div class="col">
+      <div class="btn-group float-right">
+        <button class="btn btn-outline-secondary" :disabled="page<2" @click="page=Math.max(1,page-1)">
+          <i class="fas fa-long-arrow-alt-left"></i> Previo
+        </button>
+        <button class="btn btn-outline-secondary" :disabled="page>=lastPage" @click="page=Math.min(lastPage,page+1)">
+          Siguiente <i class="fas fa-long-arrow-alt-right"></i> 
+        </button>
+      </div>
+    </div>
+  </div>
+  <table class="grid-table table table-hover">
+    <caption><loading v-if="value && value.loading"></loading></caption>
+    <thead>
+    <slot name="header" v-bind:data="value" v-bind:options="options"></slot>
+    </thead>
+    <tbody>
+      <slot v-for="row in value" v-bind:row="row" v-bind:options="options" v-bind:format="format" @click="click"></slot>
+    </tbody>
+  </table>
+  </div>
+</template>
+
+<script>
+import debounce from 'lodash/debounce';
+
+export default {
+    props: {
+        value: Array,
+        filter: String,
+        filterBy: "",
+        pageSize: Number,
+        options: Object,
+        withoutNavbar: Boolean,
+    },
+    computed: {
+    },
+    watch: {
+        filter () {
+            this.search = this.filter;
+            this.doFilter();
+        },
+        search () {
+            this.doFilter();
+        },
+        page (page) {
+            if (this.value.setSearchParams instanceof Function) {
+                this.value.setSearchParams({page});
+            }
+        },
+    },
+    data() {
+        return {
+            search: this.filter,
+            page: 1,
+            lastPage: 1000,
+        };
+    },
+    methods: {
+        doFilter() {
+            if (this.value.setSearchParams instanceof Function) {
+                const filter = [];
+                const value = JSON.stringify('%' + this.search + '%');
+                const attributes = /\sattributes\.(\w+)/g;
+                const relationships = /\srelationships\.(\w+).attributes\.(\w+)/g;
+                let attr;
+                while(attr = attributes.exec(' ' + this.filterBy)) {
+                    filter.push(filter.length ? 'orWhere,' + attr[1] + ',like,' + value : 'where,' + attr[1] + ',like,' + value);
+                }
+                while(attr = relationships.exec(' ' + this.filterBy)) {
+                    filter.push('@' + attr[1] + ',' + (filter.length ? 'orWhere,' + attr[2] + ',like,' + value : 'where,' + attr[2] + ',like,' + value));
+                }
+                this.value.setSearchParams({'filter[]' : filter});
+            }
+        },
+        textValue(value) {
+            return $("<i></i>")
+                .html(value)
+                .text();
+        },
+        format(input) {
+            let value = this.textValue(input);//String(input);
+            if (!this.search) {
+                return value;
+            }
+            let text = this.search;
+            let length = text.length;
+            let res = "";
+            let u = -1;
+            let i;
+            while (
+                (i = value
+                    .toLowerCase()
+                    .localeIndexOf(text, "en", { sensitivity: "base" })) > -1
+            ) {
+                res += value.substr(0, i);
+                res += "<code>";
+                res += value.substr(i, length);
+                res += "</code>";
+                u = i + length;
+                value = value.substr(u);
+            }
+            res += value;
+            return res;
+        }
+    },
+    mounted() {
+        this.doFilter = debounce(this.doFilter, 1000);
+    }
+};
+</script>
+
+<style lang="scss">
+.grid-table {
+    display: block;
+    overflow: auto;
+}
+</style>

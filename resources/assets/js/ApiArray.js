@@ -24,14 +24,36 @@ function ApiArray(url, errorsObject) {
     this.listenLoading = (loading) => {
         self.loading = loading;
     };
+    self.listenLoading = this.listenLoading;
     self.loadFromAPI = function(newURL) {
         cleanErrors();
         if (newURL !== undefined) {
             storage ? storage.unregister(this) : null;
             storage = new ApiStorage(newURL, this);
+            url = newURL;
         } else {
             storage ? storage.update() : null;
         }
+        return this;
+    };
+    self.setPagingOptions = (page, per_page) => {
+        const purl = new URL(url, document.location.href);
+        purl.searchParams.set('page', page);
+        purl.searchParams.set('per_page', per_page);
+        self.loadFromAPI(purl.pathname + purl.search);
+        return this;
+    };
+    self.setSearchParams = (params) => {
+        const purl = new URL(url, document.location.href);
+        Object.keys(params).forEach(key => {
+            if (params[key] instanceof Array) {
+                purl.searchParams.delete(key);
+                params[key].forEach(value => purl.searchParams.append(key, value));
+            } else {
+                purl.searchParams.set(key, params[key]);
+            }
+        });
+        self.loadFromAPI(purl.pathname + purl.search);
         return this;
     };
     storage = url ? new ApiStorage(url, this) : null;
