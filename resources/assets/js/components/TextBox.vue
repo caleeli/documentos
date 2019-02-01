@@ -3,7 +3,7 @@
         <textarea class="form-control input" rows="2" v-model="text" @keyup="update" @mouseup="update" @scroll="update"></textarea>
         <div class="output"><span></span></div>
         <div class="dropdown-menu" :style="xy">
-            <slot name="dropdown" v-bind:code="code" v-bind:select="select"></slot>
+            <slot name="dropdown" v-bind:code="code" v-bind:select="select" v-bind:tag="tag"></slot>
         </div>
     </div>
 </template>
@@ -13,6 +13,7 @@
         props: {
             value: String,
             reference: Function,
+            tags: String,
         },
         methods: {
             select(row) {
@@ -46,9 +47,17 @@
                         lastRect = rects[ rects.length - 1 ],
                         top = lastRect.top - input.scrollTop - bounding.top,
                         left = lastRect.left + lastRect.width - bounding.left;
-                const match = text.match(/#(\w+)$/);
-                this.code = match ? String(match[1]) : '';
-                this.xy = "top: " + top + "px;left: " + left + "px; display: " + (match ? "block" : "none") + ";";
+                this.xy = "top: " + top + "px;left: " + left + "px; display: none;";
+                this.tag = '';
+                for(let i=0;i<this.tags.length;i++) {
+                    let match = text.match(new RegExp(this.tags[i] + '(\\w+)$'));
+                    if (match) {
+                        this.code = match ? String(match[1]) : '';
+                        this.xy = "top: " + top + "px;left: " + left + "px; display: block;";
+                        this.tag = this.tags[i];
+                        break;
+                    }
+                }
             }
         },
         watch: {
@@ -65,6 +74,7 @@
                 updated: 0,
                 xy: '',
                 code: '',
+                tag: '',
             };
         }
     }
