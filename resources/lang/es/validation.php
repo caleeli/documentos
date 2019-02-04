@@ -21,6 +21,7 @@ return [
     'alpha_num'            => 'El campo :attribute debe contenterdebe contenter letras y números.',
     'array'                => 'El campo :attribute debe ser un array.',
     'before'               => 'El campo :attribute debe ser una fecha anterior a :date.',
+    'until_today'          => 'El campo :attribute no puede ser mayor a la fecha actual.',
     'between'              => [
         'numeric' => 'El campo :attribute debe estar entre :min y :max.',
         'file'    => 'El campo :attribute ebe estar entre :min y :max kilobytes.',

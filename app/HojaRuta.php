@@ -4,9 +4,9 @@ namespace App;
 
 use App\Traits\AutoTableTrait;
 use App\Traits\SaveUserTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use App\Rules\UntilToday;
 
 /**
  * Hoja de Ruta
@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Cache;
 class HojaRuta extends Model
 {
 
-    use AutoTableTrait;
     use SaveUserTrait;
     use SoftDeletes;
 
@@ -118,5 +117,18 @@ class HojaRuta extends Model
         $user = $derivacion && $derivacion->destinatarios ? User::find(explode(',',
                     $derivacion->destinatarios)[0]) : null;
         return $user ? ['id' => $user['id'], 'attributes' => $user] : $user;
+    }
+
+    /**
+     * Reglas de validacion para la derivacion.
+     *
+     * @return array
+     */
+    protected function getRules()
+    {
+        $rules = parent::getRules();
+        $rules['fecha_recepcion'][] = new UntilToday();
+        $rules['fecha_conclusion'][] = new UntilToday();
+        return $rules;
     }
 }

@@ -21,7 +21,7 @@
                 <div :class="colLabel"><label>Fecha de recepción:</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_recepcion" />
-                    <error v-model="erroresHojaRuta" property="errors.fecha"></error>
+                    <error v-model="erroresHojaRuta" property="errors.fecha_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">

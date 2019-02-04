@@ -2,8 +2,7 @@
 
 namespace App;
 
-use App\Traits\AutoTableTrait;
-use Illuminate\Database\Eloquent\Model;
+use App\Rules\UntilToday;
 
 /**
  * Description of Derivacion
@@ -11,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Derivacion extends Model
 {
-
-    use AutoTableTrait;
 
     public $timestamps = false;
     protected $connection = 'hr';
@@ -30,4 +27,15 @@ class Derivacion extends Model
         'fecha' => 'date',
     ];
 
+    /**
+     * Reglas de validacion para la derivacion.
+     *
+     * @return array
+     */
+    protected function getRules()
+    {
+        $rules = parent::getRules();
+        $rules['fecha'][] = new UntilToday();
+        return $rules;
+    }
 }
