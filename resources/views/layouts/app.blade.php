@@ -56,7 +56,6 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/HojaRuta/interna/create">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaBusqueda/interna">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaReporte/interna">Reporte</router-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -66,7 +65,6 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/HojaRuta/solicitud/create">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/HojaRutaBusqueda/solicitud">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaReporte/solicitud">Reporte</router-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -76,7 +74,6 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/NotaOficio/notas">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/NotaOficioBusqueda/notas">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaReporte/notas">Reporte</router-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -86,7 +83,6 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/Informe/create">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/NotaOficioBusqueda/informes">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaReporte/informes">Reporte</router-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -96,8 +92,10 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link class="dropdown-item" to="/ComunicacionesInternas/comunicacion">Registrar</router-link>
                                 <router-link class="dropdown-item" to="/NotaOficioBusqueda/comunicacion">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaReporte/comunicacion">Reporte</router-link>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                        <router-link class="nav-link " to="/HojaRutaReporte/interna">Reporte</router-link>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0" action="{{ route('logout') }}" method="POST">

@@ -23,12 +23,6 @@
                     description: "Hoja de ruta externa",
                     href: "/HojaRutaBusqueda/externa",
                 },
-                {
-                    icon: require("../../images/reporte.svg"),
-                    text: "Reporte",
-                    description: "Hoja de ruta externa",
-                    href: "/HojaRutaReporte/externa",
-                },
             ],
         },
         1: {
@@ -48,12 +42,6 @@
                     text: "Busqueda",
                     description: "Hoja de ruta interna",
                     href: "/HojaRutaBusqueda/interna",
-                },
-                {
-                    icon: require("../../images/reporte-interna.svg"),
-                    text: "Reporte",
-                    description: "Hoja de ruta interna",
-                    href: "/HojaRutaReporte/interna",
                 },
             ],
         },
@@ -75,12 +63,6 @@
                     description: "Solicitudes y denuncia",
                     href: "/HojaRutaBusqueda/solicitud",
                 },
-                {
-                    icon: require("../../images/reporte-solicitud.svg"),
-                    text: "Reporte",
-                    description: "Solicitudes y denuncia",
-                    href: "/HojaRutaReporte/solicitud",
-                },
             ],
         },
         3: {
@@ -100,12 +82,6 @@
                     text: "Busqueda",
                     description: "Notas oficio",
                     href: "/NotaOficioBusqueda/notas",
-                },
-                {
-                    icon: require("../../images/reporte-nota-oficio.svg"),
-                    text: "Reporte",
-                    description: "Notas oficio",
-                    href: "/HojaRutaReporte/notas",
                 },
             ],
         },
@@ -127,12 +103,6 @@
                     description: "Informes",
                     href: "/NotaOficioBusqueda/informes",
                 },
-                {
-                    icon: require("../../images/reporte-informes.svg"),
-                    text: "Reporte",
-                    description: "Informes",
-                    href: "/HojaRutaReporte/informes",
-                },
             ],
         },
         5: {
@@ -153,13 +123,13 @@
                     description: "Comunicaciónes internas",
                     href: "/NotaOficioBusqueda/comunicacion",
                 },
-                {
-                    icon: require("../../images/reporte-comunicacion.svg"),
-                    text: "Reporte",
-                    description: "Comunicaciónes internas",
-                    href: "/HojaRutaReporte/comunicacion",
-                },
             ],
+        },
+        6: {
+            icon: require("../../images/reporte.svg"),
+            text: "Reporte",
+            description: "Reportes de hojas de ruta, notas, etc.",
+            href: "/HojaRutaReporte/externa",
         },
     }, window.links);
     export default {
