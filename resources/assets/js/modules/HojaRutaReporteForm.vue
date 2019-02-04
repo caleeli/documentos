@@ -69,7 +69,7 @@
                     <error v-model="errores" property="errors.gestion_desde"></error>
                 </div>
                 <div :class="colField2">
-                    <datetime type="date" v-model="data.attributes.gestion_hasta" />
+                    <input class="form-control" type="text" v-model="data.attributes.gestion_hasta" />
                     <error v-model="errores" property="errors.gestion_hasta"></error>
                 </div>
             </div>
