@@ -2,6 +2,7 @@
     <div class="text-box-wraper">
         <textarea class="form-control input" rows="2" v-model="text" @keyup="update" @mouseup="update" @scroll="update"></textarea>
         <div class="output"><span></span></div>
+        <div class="links" @click="focus"><span v-html="textLinks"></span></div>
         <div class="dropdown-menu" :style="xy">
             <slot name="dropdown" v-bind:code="code" v-bind:select="select" v-bind:tag="tag"></slot>
         </div>
@@ -13,9 +14,23 @@
         props: {
             value: String,
             reference: Function,
+            referenceUrl: Function,
             tags: String,
         },
+        computed: {
+            textLinks() {
+                let text = this.text;
+                if (this.tags) for (let i = 0; i < this.tags.length; i++) {
+                    let exp = new RegExp(this.tags[i] + '(\\w+)\\s+[^)]+\\)|' + this.tags[i] + '(\\w+)');
+                    text = text.replace(exp, (ma, id1, id2) => '<a target="_blank" href="' + this.referenceUrl(ma.substr(0,1), id1 || id2 )+ '" style="pointer-events:all;">' + ma + '</a>');
+                }
+                return text;
+            },
+        },
         methods: {
+            focus() {
+                const textarea = $(this.$el).find('textarea').focus();
+            },
             select(row) {
                 const textarea = $(this.$el).find('textarea')[0];
                 if (textarea) {
@@ -49,7 +64,7 @@
                         left = lastRect.left + lastRect.width - bounding.left;
                 this.xy = "top: " + top + "px;left: " + left + "px; display: none;";
                 this.tag = '';
-                for(let i=0;i<this.tags.length;i++) {
+                for (let i = 0; i < this.tags.length; i++) {
                     let match = text.match(new RegExp(this.tags[i] + '(\\w+)$'));
                     if (match) {
                         this.code = match ? String(match[1]) : '';
@@ -84,7 +99,7 @@
     .text-box-wraper {
         position: relative;
     }
-    .output {
+    .output, .links {
         position:absolute;
         top:0;
         left:0;
@@ -104,8 +119,13 @@
         z-index:2;
         position:relative;
     }
+    
+    .links {
+        z-index:3;
+        pointer-events: none;
+    }
 
-    .output { 
+    .output, .links { 
         border-color:transparent; 
     }
     .output span {

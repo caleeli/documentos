@@ -41,29 +41,29 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Referencia:</label></div>
                 <div :class="colField">
-                    <text-box v-model="data.attributes.referencia" tags="#@&" :reference="referenciar">
+                    <text-box v-model="data.attributes.referencia" tags="#@&" :reference="referenciar" :referenceUrl="urlReferencia">
                         <template slot="dropdown" slot-scope="{code,select,tag}">
                             <grid-ajax v-if="tag==='#'" v-model="notas" :filter="code" :without-navbar="true"
-                                  filter-by="attributes.nro_nota
+                                  filter-by="id
                                   attributes.referencia">
                                 <tr slot-scope="{row, options, format}" @click="select(row)">
-                                    <td v-html="format(row.attributes.nro_nota)" style="white-space: pre;"></td>
+                                    <td v-html="format(row.id)" style="white-space: pre;"></td>
                                     <td v-html="format(row.attributes.referencia)"></td>
                                 </tr>
                             </grid-ajax>
                             <grid-ajax v-if="tag==='@'" v-model="informes" :filter="code" :without-navbar="true"
-                                  filter-by="attributes.numero
+                                  filter-by="id
                                   attributes.referencia">
                                 <tr slot-scope="{row, options, format}" @click="select(row)">
-                                    <td v-html="format(row.attributes.numero)" style="white-space: pre;"></td>
+                                    <td v-html="format(row.id)" style="white-space: pre;"></td>
                                     <td v-html="format(row.attributes.referencia)"></td>
                                 </tr>
                             </grid-ajax>
                             <grid-ajax v-if="tag==='&'" v-model="comunicaciones" :filter="code" :without-navbar="true"
-                                  filter-by="attributes.nro_nota
+                                  filter-by="id
                                   attributes.referencia">
                                 <tr slot-scope="{row, options, format}" @click="select(row)">
-                                    <td v-html="format(row.attributes.nro_nota)" style="white-space: pre;"></td>
+                                    <td v-html="format(row.id)" style="white-space: pre;"></td>
                                     <td v-html="format(row.attributes.referencia)"></td>
                                 </tr>
                             </grid-ajax>
@@ -211,8 +211,11 @@
             getUrlBase() {
                 return "/api/hoja_ruta";
             },
-            referenciar(nota) {
-                return nota.attributes.nro_nota + " " + nota.attributes.referencia;
+            urlReferencia(tag, id) {
+                return tag==="#" ? `#/NotaOficio/${id}` : (tag==="@" ? `#/Informe/${id}` : (tag==="&" ? `/ComunicacionesInternas/${id}` : ""));
+            },
+            referenciar(reference) {
+                return reference.id + " (" + String(reference.attributes.referencia).trim() + ")";
             },
             saveHR() {
                 this.clasificacionHojasRuta.forEach(clasificacion => {
