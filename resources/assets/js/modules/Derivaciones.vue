@@ -82,11 +82,64 @@
                 <th width="10%">Días plazo</th>
             </template>
             <tr slot-scope="{row, options, format}">
+            <template v-if="row.edit">
+                <td>
+                <datetime v-model="row.attributes.fecha" :read-only="false" type="date"/>
+                <error v-model="erroresDerivacionEdit" property="errors.fecha"></error>
+                </td>
+                <td>
+                <select-box :data="destinatarios" v-model="row.attributes.destinatarios"
+                    @change="seleccionaEditDestinatario($event, row)"
+                    filter-by="attributes.nombre_completo">
+                    <template slot-scope="{row,format}">
+                        <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                    </template>
+                </select-box>
+                <error v-model="erroresDerivacionEdit" property="errors.destinatario"></error>
+                </td>
+                <td>
+                <text-box v-model="row.attributes.comentarios" :reference="referenciarNota">
+                    <template slot="dropdown" slot-scope="{code,select}">
+                        <grid v-model="notas" :filter="code" :without-navbar="true"
+                              filter-by="attributes.nro_nota
+                              attributes.referencia">
+                            <tr slot-scope="{row, options, format}" @click="select(row)">
+                                <td v-html="format(row.attributes.nro_nota)"></td>
+                                <td v-html="format(row.attributes.referencia)"></td>
+                            </tr>
+                        </grid>
+                    </template>
+                </text-box>
+                <error v-model="erroresDerivacionEdit" property="errors.comentarios"></error>
+                </td>
+                <td>
+                <select-box :data="instrucciones" v-model="row.attributes.instruccion" id-field="attributes.sigla"
+                    filter-by="attributes.sigla,attributes.nombre">
+                    <template slot-scope="{row,format}">
+                        <span v-html="format(row.attributes.nombre)" style="font-size: 1rem"></span>
+                    </template>
+                </select-box>
+                <error v-model="erroresDerivacionEdit" property="errors.instruccion"></error>
+                </td>
+                <td>
+                    <input class="form-control" type="number" v-model="row.attributes.dias_plazo" />
+                    <error v-model="erroresDerivacionEdit" property="errors.dias_plazo"></error>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" @click="actualizaDerivacion(row)"><i class="fas fa-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" @click="deshacerCambiosDerivacion(row)"><i class="fas fa-undo"></i></button>
+                </td>
+            </template>
+            <template v-else>
                 <td><datetime v-model="row.attributes.fecha" :read-only="true" type="date"/></td>
-            <td v-html="format(row.attributes.destinatario)"></td>
-            <td v-html="format(row.attributes.comentarios)"></td>
-            <td>{{row.attributes.instruccion}}</td>
-            <td>{{row.attributes.dias_plazo}}</td>
+                <td v-html="format(row.attributes.destinatario)"></td>
+                <td v-html="format(row.attributes.comentarios)"></td>
+                <td>{{row.attributes.instruccion}}</td>
+                <td>{{row.attributes.dias_plazo}}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" @click="editarDerivacion(row)"><i class="fas fa-pen"></i></button>
+                </td>
+            </template>
             </tr>
         </grid>
     </div>
@@ -101,6 +154,22 @@
         computed: {
         },
         methods: {
+            editarDerivacion(row) {
+                this.$set(row, 'edit', true);
+            },
+            deshacerCambiosDerivacion(row) {
+                this.derivaciones.loadFromAPI();
+                row.edit = false;
+            },
+            actualizaDerivacion(row) {
+                this.$set(this.derivacionEdit, 'attributes', row.attributes);
+                this.derivacionEdit.putToAPI('/api/derivacion/' + row.id).then(() => {
+                    row.edit = false;
+                });
+            },
+            seleccionaEditDestinatario(select, row) {
+                row.attributes.destinatario = select.attributes.nombre_completo;
+            },
             seleccionaDestinatario(row) {
                 this.derivacion.attributes.destinatario = row.attributes.nombre_completo;
             },
@@ -117,11 +186,14 @@
         },
         data() {
             const erroresDerivacion = {};
+            const erroresDerivacionEdit = {};
             return {
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
                 destinatarios: new ApiArray('/api/users'),
+                derivacionEdit: new ApiObject('/api/derivacion/create', erroresDerivacionEdit),
                 derivacion: new ApiObject('/api/derivacion/create', erroresDerivacion),
                 erroresDerivacion: erroresDerivacion,
+                erroresDerivacionEdit: erroresDerivacionEdit,
                 instrucciones: new ApiArray('/api/instruccion'),
                 derivaciones: new ApiArray('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion'),
             };

@@ -15,15 +15,19 @@
             value: String,
             reference: Function,
             referenceUrl: Function,
-            tags: String,
+            tags: {
+                type: String,
+                default: '#',
+            },
         },
         computed: {
             textLinks() {
                 let text = this.text;
-                if (this.tags) for (let i = 0; i < this.tags.length; i++) {
-                    let exp = new RegExp(this.tags[i] + '(\\w+)\\s+[^)]+\\)|' + this.tags[i] + '(\\w+)');
-                    text = text.replace(exp, (ma, id1, id2) => '<a target="_blank" href="' + this.referenceUrl(ma.substr(0,1), id1 || id2 )+ '" style="pointer-events:all;">' + ma + '</a>');
-                }
+                if (this.tags)
+                    for (let i = 0; i < this.tags.length; i++) {
+                        let exp = new RegExp(this.tags[i] + '(\\w+)\\s+[^)]+\\)|' + this.tags[i] + '(\\w+)');
+                        text = text.replace(exp, (ma, id1, id2) => '<a target="_blank" href="' + this.referenceUrl(ma.substr(0, 1), id1 || id2) + '" style="pointer-events:all;">' + ma + '</a>');
+                    }
                 return text;
             },
         },
@@ -119,7 +123,7 @@
         z-index:2;
         position:relative;
     }
-    
+
     .links {
         z-index:3;
         pointer-events: none;

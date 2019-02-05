@@ -18,6 +18,7 @@ class Derivacion extends Model
         "fecha",
         "comentarios",
         "destinatario",
+        "destinatarios",
         "instruccion",
         "dias_plazo",
         "hoja_ruta_id",
