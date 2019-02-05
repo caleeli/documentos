@@ -1,6 +1,8 @@
 <template>
     <div class="select-owner">
-        <div v-if="selected && !inputFocus" class="selected-option"><slot :row="selected" :format="textValue"></slot></div>
+        <!-- Muestra el contenido definido en el slot cuando se tiene un valor seleccionado de la lista -->
+        <div v-if="selected && !inputFocus" class="selected-option"><slot :row="selected" :format="textValue" :remove="remove"></slot></div>
+        <!-- Muestra el valor textual cuando no se seleccion un valor de la lista de opciones -->
         <div v-if="!(selected && !inputFocus) && !inputFocus" class="selected-option">{{value}}</div>
         <input  class="form-control selected-input dropdown-toggle" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false"
@@ -15,13 +17,18 @@
 </template>
 
 <script>
+    const SEP = ',';
     export default {
         props: {
             placeholder: String,
             data: Array,
             value: null,
             filterBy: String,
-            idField: String
+            idField: String,
+            multiple: {
+                type: Boolean,
+                default: false,
+            },
         },
         data() {
             return {
@@ -38,10 +45,20 @@
                 return this.inputFocus ? text : value;
             },
             selected() {
-                let value = this.value;
-                return this.data.find(item => {
-                    return value == this.getKey(item);
-                });
+                let value = this.multiple ? this.value ? this.value.split(SEP) : [] : this.value;
+                if (this.multiple) {
+                    const selected = [];
+                    value.forEach(id => {
+                        selected.push(this.data.find(item => {
+                            return id === String(this.getKey(item));
+                        }));
+                    });
+                    return selected;
+                } else {
+                    return this.data.find(item => {
+                        return value === String(this.getKey(item));
+                    });
+                }
             }
         },
         watch: {
@@ -53,6 +70,18 @@
             }
         },
         methods: {
+            /**
+             * Remove a selected item
+             * @returns this
+             */
+            remove(item) {
+                const value = this.value ? this.value.split(SEP) : [];
+                const selected = String(this.getKey(item));
+                const index = value.indexOf(selected);
+                index !== -1 ? value.splice(index, 1) : null;
+                this.$emit('input', value.join(SEP));
+                this.$emit('change', this.selected);
+            },
             updateText(event) {
                 this.text = event.target.value;
             },
@@ -121,8 +150,16 @@
                 }, 500);
             },
             select(row) {
-                this.$emit('input', this.getKey(row));
-                this.$emit('change', row);
+                if (this.multiple) {
+                    const value = this.value ? this.value.split(SEP) : [];
+                    const selected = String(this.getKey(row));
+                    value.indexOf(selected) === -1 ? value.push(selected) : null;
+                    this.$emit('input', value.join(SEP));
+                    this.$emit('change', this.selected);
+                } else {
+                    this.$emit('input', String(this.getKey(row)));
+                    this.$emit('change', row);
+                }
                 $(this.$el).find(".selected-option").focus();
             }
         },

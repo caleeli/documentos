@@ -44,24 +44,24 @@
                     <text-box v-model="data.attributes.referencia" tags="#@&" :reference="referenciar" :referenceUrl="urlReferencia">
                         <template slot="dropdown" slot-scope="{code,select,tag}">
                             <grid-ajax v-if="tag==='#'" v-model="notas" :filter="code" :without-navbar="true"
-                                  filter-by="id
-                                  attributes.referencia">
+                                       filter-by="id
+                                       attributes.referencia">
                                 <tr slot-scope="{row, options, format}" @click="select(row)">
                                     <td v-html="format(row.id)" style="white-space: pre;"></td>
                                     <td v-html="format(row.attributes.referencia)"></td>
                                 </tr>
                             </grid-ajax>
                             <grid-ajax v-if="tag==='@'" v-model="informes" :filter="code" :without-navbar="true"
-                                  filter-by="id
-                                  attributes.referencia">
+                                       filter-by="id
+                                       attributes.referencia">
                                 <tr slot-scope="{row, options, format}" @click="select(row)">
                                     <td v-html="format(row.id)" style="white-space: pre;"></td>
                                     <td v-html="format(row.attributes.referencia)"></td>
                                 </tr>
                             </grid-ajax>
                             <grid-ajax v-if="tag==='&'" v-model="comunicaciones" :filter="code" :without-navbar="true"
-                                  filter-by="id
-                                  attributes.referencia">
+                                       filter-by="id
+                                       attributes.referencia">
                                 <tr slot-scope="{row, options, format}" @click="select(row)">
                                     <td v-html="format(row.id)" style="white-space: pre;"></td>
                                     <td v-html="format(row.attributes.referencia)"></td>
@@ -75,10 +75,17 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario:</label></div>
                 <div :class="colField">
-                    <select-box :data="destinatarios" v-model="data.attributes.destinatario"
+                    <select-box :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
                         filter-by="attributes.nombre_completo">
-                        <template slot-scope="{row,format}">
-                            <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                        <template slot-scope="{row,format,remove}">
+                            <!-- Used to render the selected items -->
+                            <template v-if="row instanceof Array">
+                                <span v-for="item in row" class="badge badge-light selected-item" v-html="format(item.attributes.nombre_completo)" @click="remove(item)"></span>
+                            </template>
+                            <!-- Used to render the items in the selection list -->
+                            <template v-else>
+                                <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                            </template>
                         </template>
                     </select-box>
                     <error v-model="erroresHojaRuta" property="errors.destinatario"></error>
@@ -212,7 +219,7 @@
                 return "/api/hoja_ruta";
             },
             urlReferencia(tag, id) {
-                return tag==="#" ? `#/NotaOficio/${id}` : (tag==="@" ? `#/Informe/${id}` : (tag==="&" ? `/ComunicacionesInternas/${id}` : ""));
+                return tag === "#" ? `#/NotaOficio/${id}` : (tag === "@" ? `#/Informe/${id}` : (tag === "&" ? `/ComunicacionesInternas/${id}` : ""));
             },
             referenciar(reference) {
                 return reference.id + " (" + String(reference.attributes.referencia).trim() + ")";
@@ -311,5 +318,9 @@
     .anexos tr td {
     }
     .anexos tr td small {
+    }
+    .selected-item {
+        font-size: 1rem;
+        pointer-events: all!important;
     }
 </style>
