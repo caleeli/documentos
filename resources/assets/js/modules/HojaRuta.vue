@@ -322,5 +322,9 @@
     .selected-item {
         font-size: 1rem;
         pointer-events: all!important;
+        cursor: pointer;
+    }
+    .selected-item:hover {
+        text-decoration: underline;
     }
 </style>
