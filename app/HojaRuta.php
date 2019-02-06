@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Traits\AutoTableTrait;
+use App\Rules\UntilToday;
 use App\Traits\SaveUserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
-use App\Rules\UntilToday;
+use Illuminate\Validation\Rule;
 
 /**
  * Hoja de Ruta
@@ -129,6 +129,16 @@ class HojaRuta extends Model
         $rules = parent::getRules();
         $rules['fecha_recepcion'][] = new UntilToday();
         $rules['fecha_conclusion'][] = new UntilToday();
+
+        $rules['nro_de_control'][] = Rule::unique('hr.hoja_ruta')
+            ->where(function ($query) {
+            if ($this->exists) {
+                $query = $query->where($this->getKeyName(), '!=',
+                    $this->getKey());
+            }
+            return $query->where('gestion', $this->gestion)
+                ->where('nro_de_control', $this->nro_de_control);
+        });
         return $rules;
     }
 }
