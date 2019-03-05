@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b854de69dedc0e70067e312b008185f8",
+    "content-hash": "af449a216e75fadc5dcedba64db1e01c",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -999,6 +999,55 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "jdd/forms",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/caleeli/jdd-forms.git",
+                "reference": "0601ad1421508e1582b715ba13f3d5c24f20917b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/caleeli/jdd-forms/zipball/0601ad1421508e1582b715ba13f3d5c24f20917b",
+                "reference": "0601ad1421508e1582b715ba13f3d5c24f20917b",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JDD\\Forms\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JDD\\Forms\\": "src/"
+                }
+            },
+            "scripts": {
+                "publish": [
+                    "npm run build-bundle",
+                    "git commit -a"
+                ]
+            },
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "David Callizaya",
+                    "email": "davidcallizaya@gmail.com"
+                }
+            ],
+            "description": "Formularios JDD",
+            "support": {
+                "source": "https://github.com/caleeli/jdd-forms/tree/master",
+                "issues": "https://github.com/caleeli/jdd-forms/issues"
+            },
+            "time": "2019-03-05T01:20:19+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4840,6 +4889,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "jdd/forms": 20,
         "processmaker/nayra": 20,
         "subcep/firmas": 20
     },

@@ -70,6 +70,7 @@ Artisan::command('queue:clear',
 
 Artisan::command('require-plugin {name}',
     function ($name) {
+    exec('composer require ' . $name);
     exec('rm -Rf public/modules/' . $name);
     Artisan::call('vendor:publish', [
         '--tag' => $name

@@ -208,7 +208,7 @@
                 window.document.execCommand('justifyFull');
             },
             table() {
-                window.document.execCommand('insertHTML', false, '<table border="1" class="jdd-table"><tr><td>jdd</td></tr></table>');
+                window.document.execCommand('insertHTML', false, '<table border="1" class="jdd-table"><tr><td>Columna 1</td><td>Columna 2</td></tr><tr><td>Valor 1</td><td>Valor 2</td></tr></table>');
             },
             addTr() {
                 const $tr = $(this.getCurrent()).parents('tr').first();

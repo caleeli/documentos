@@ -11,8 +11,11 @@ String.prototype.localeIndexOf = require('locale-index-of').prototypeLocaleIndex
 import moment from 'moment';
 import VueRouter from 'vue-router';
 import TaskMixin from './mixins/task.js';
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-window.Vue = require('vue');
+window.Vue = Vue;
+window.Vuex = Vuex;
 window.ApiStorage = require('./ApiStorage');
 window.ApiArray = require('./ApiArray');
 window.ApiObject = require('./ApiObject');
@@ -27,6 +30,7 @@ window.Vue.prototype.dateFormat = function(date) {
 };
 window.moment = moment;
 window.taskMixin = TaskMixin;
+window.Vue.use(Vuex);
 
 /**
  * COMPONENTES
