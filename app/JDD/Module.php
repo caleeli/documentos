@@ -13,5 +13,6 @@ class Module
     public $scripts = [];
     public $stylesheets = [];
     public $bpmns = [];
+    public $models = [];
 
 }

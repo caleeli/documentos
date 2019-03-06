@@ -1,5 +1,7 @@
 <?php
 
+use App\Facades\JDD;
+
 function get_namespace($object)
 {
     $class = explode('\\', is_object($object) ? get_class($object) : $object);
@@ -9,6 +11,9 @@ function get_namespace($object)
 
 function guess_model($namespace, $baseName)
 {
+    if ($className = JDD::findModel($baseName)) {
+        return $className;
+    }
     $name = \Illuminate\Support\Str::studly($baseName);
     return class_exists($class = "$namespace\\$name") ? $class
         : (class_exists($class = "$namespace\\" . str_singular($name)) ? $class
