@@ -76,3 +76,11 @@ Artisan::command('require-plugin {name}',
         '--tag' => $name
     ]);
 });
+
+Artisan::command('update-vendor-plugin {name}',
+    function ($name) {
+    exec('rm -Rf public/modules/' . $name);
+    Artisan::call('vendor:publish', [
+        '--tag' => $name
+    ]);
+});
