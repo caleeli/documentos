@@ -1006,12 +1006,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/caleeli/jdd-forms.git",
-                "reference": "e6624f88fc0f149ec7f2357505b55c739d7b9680"
+                "reference": "41c85aaebe8c94a9e889cf3336ade6addb6705d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/caleeli/jdd-forms/zipball/e6624f88fc0f149ec7f2357505b55c739d7b9680",
-                "reference": "e6624f88fc0f149ec7f2357505b55c739d7b9680",
+                "url": "https://api.github.com/repos/caleeli/jdd-forms/zipball/41c85aaebe8c94a9e889cf3336ade6addb6705d4",
+                "reference": "41c85aaebe8c94a9e889cf3336ade6addb6705d4",
                 "shasum": ""
             },
             "type": "library",
@@ -1047,7 +1047,7 @@
                 "source": "https://github.com/caleeli/jdd-forms/tree/master",
                 "issues": "https://github.com/caleeli/jdd-forms/issues"
             },
-            "time": "2019-03-07T13:04:53+00:00"
+            "time": "2019-03-07T23:55:39+00:00"
         },
         {
             "name": "laravel/framework",
