@@ -2036,12 +2036,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:caleeli/firmas.git",
-                "reference": "e98a5f188f3924562b9e6578557f474415048d9d"
+                "reference": "431031fc374043640bde2df00c6a047cca784595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/caleeli/firmas/zipball/e98a5f188f3924562b9e6578557f474415048d9d",
-                "reference": "e98a5f188f3924562b9e6578557f474415048d9d",
+                "url": "https://api.github.com/repos/caleeli/firmas/zipball/431031fc374043640bde2df00c6a047cca784595",
+                "reference": "431031fc374043640bde2df00c6a047cca784595",
                 "shasum": ""
             },
             "type": "library",
@@ -2077,7 +2077,7 @@
                 "source": "https://github.com/caleeli/firmas/tree/master",
                 "issues": "https://github.com/caleeli/firmas/issues"
             },
-            "time": "2019-01-22T21:57:23+00:00"
+            "time": "2019-03-09T18:59:11+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

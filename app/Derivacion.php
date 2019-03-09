@@ -39,4 +39,9 @@ class Derivacion extends Model
         $rules['fecha'][] = new UntilToday();
         return $rules;
     }
+    
+    public function hoja_ruta()
+    {
+        return $this->belongsTo(HojaRuta::class, 'hoja_ruta_id', 'hr_scep_id');
+    }
 }
