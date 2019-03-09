@@ -83,11 +83,17 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario:</label></div>
                 <div :class="colField">
-                    <select-box :data="destinatarios" v-model="data.attributes.destinatario"
-                        id-field="attributes.nombre_completo"
+                    <select-box :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
                         filter-by="attributes.nombre_completo">
-                        <template slot-scope="{row,format}">
-                            <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                        <template slot-scope="{row,format,remove}">
+                            <!-- Used to render the selected items -->
+                            <template v-if="row instanceof Array">
+                                <span v-for="item in row" class="badge badge-light selected-item" v-html="format(item.attributes.nombre_completo)" @click="remove(item)"></span>
+                            </template>
+                            <!-- Used to render the items in the selection list -->
+                            <template v-else>
+                                <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                            </template>
                         </template>
                     </select-box>
                     <error v-model="errores" property="errors.destinatario"></error>
