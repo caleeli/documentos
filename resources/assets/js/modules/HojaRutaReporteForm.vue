@@ -106,7 +106,8 @@
                         <label>
                             <input type="radio" name="hoja_edit_tipo"
                                    :value="clasificacion.attributes.sigla"
-                                   v-model="data.attributes.tipo_tarea">
+                                   v-model="data.attributes.tipo_tarea"
+                                   @click="clickRadio(data.attributes, 'tipo_tarea', clasificacion.attributes.sigla)">
                             {{clasificacion.attributes.nombre}}
                         </label>
                     </div>
@@ -176,6 +177,11 @@
             },
         },
         methods: {
+            clickRadio(attributes, name, value) {
+                if (attributes[name] === value) {
+                    this.$set(attributes, name, '');
+                }
+            },
             getProcedencias() {
                 this.data.callMethod('getProcedencias')
                     .then(response => {
