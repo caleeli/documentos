@@ -71,8 +71,7 @@
             "dist": {
                 "type": "path",
                 "url": "../IsolatedExpression",
-                "reference": "a428dabd75975f34b1206281a397dbc6da2fea7a",
-                "shasum": null
+                "reference": "a428dabd75975f34b1206281a397dbc6da2fea7a"
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.7"
@@ -105,8 +104,7 @@
             "dist": {
                 "type": "path",
                 "url": "../SchemaLive",
-                "reference": "2ccbb72f856f3eefdc01183f03156e40f50dbe3e",
-                "shasum": null
+                "reference": "2ccbb72f856f3eefdc01183f03156e40f50dbe3e"
             },
             "require": {
                 "davidc/isolated-expression": "*",
@@ -1006,12 +1004,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/caleeli/jdd-forms.git",
-                "reference": "1bb3889b60f494d5d289250d5d88fdd4b188e68d"
+                "reference": "169c8b93c6433a1af06d69f5e5c16b62a50a5669"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/caleeli/jdd-forms/zipball/1bb3889b60f494d5d289250d5d88fdd4b188e68d",
-                "reference": "1bb3889b60f494d5d289250d5d88fdd4b188e68d",
+                "url": "https://api.github.com/repos/caleeli/jdd-forms/zipball/169c8b93c6433a1af06d69f5e5c16b62a50a5669",
+                "reference": "169c8b93c6433a1af06d69f5e5c16b62a50a5669",
                 "shasum": ""
             },
             "type": "library",
@@ -1047,7 +1045,7 @@
                 "source": "https://github.com/caleeli/jdd-forms/tree/master",
                 "issues": "https://github.com/caleeli/jdd-forms/issues"
             },
-            "time": "2019-03-08T02:09:28+00:00"
+            "time": "2019-03-09T03:55:16+00:00"
         },
         {
             "name": "laravel/framework",
