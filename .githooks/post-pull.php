@@ -6,4 +6,5 @@ run('composer dump-autoload;'
     . 'php artisan db:seed;'
     //Update plugins
     . 'composer install;'
-    . 'php artisan update-vendor-plugin jdd/forms');
+    . 'php artisan update-vendor-plugin jdd/forms;'
+    . 'php artisan update-vendor-plugin subcep/firmas;');
