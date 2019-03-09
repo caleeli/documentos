@@ -160,4 +160,19 @@ class Reporte extends Model
         }
         return $res2; //array_values($res);
     }
+
+    public function getProcedencias()
+    {
+        $empresas = Empresa::get();
+        $procedencias = [];
+        foreach ($empresas as $empresa) {
+            $procedencias[]=[
+                'id' => $empresa->id,
+                'attributes' => [
+                    'nombre_completo' => $empresa->nombre_empresa,
+                ]
+            ];
+        }
+        return $procedencias;
+    }
 }

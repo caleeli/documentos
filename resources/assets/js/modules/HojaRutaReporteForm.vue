@@ -40,7 +40,14 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Procedencia:</label></div>
                 <div :class="colField">
-                    <input class="form-control" v-model="data.attributes.procedencia">
+                    <suggest v-model="data.attributes.procedencia"
+                             :data="procedencias"
+                             id-field="attributes.nombre_completo"
+                             filter-by="attributes.nombre_completo">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                        </template>
+                    </suggest>
                     <error v-model="errores" property="errors.procedencia"></error>
                 </div>
             </div>
@@ -163,6 +170,12 @@
             },
         },
         methods: {
+            getProcedencias() {
+                this.data.callMethod('getProcedencias')
+                    .then(response => {
+                        this.$set(this, 'procedencias', response.data.response);
+                    });
+            },
             getIdURL() {
                 return isNaN(this.type)
                         ? 'create?factory=' + this.type
@@ -196,7 +209,7 @@
                         }),
                 errores: errores,
                 reportErrors: reportErrors,
-                procedencias: new ApiArray('/api/empresas'),
+                procedencias: [], //new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
                 tipos: [
@@ -218,7 +231,10 @@
             'type'() {
                 this.data.loadFromAPI('/api/reportes/' + this.getIdURL());
             }
-        }
+        },
+        mounted() {
+            this.getProcedencias();
+        },
     };
 </script>
 
