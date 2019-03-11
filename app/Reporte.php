@@ -221,9 +221,17 @@ class Reporte extends Model
         }
         if (!empty($this->nro_de_control)) {
             $q = [];
-            foreach (explode(',', $this->nro_de_control) as $nro) {
-                $q[] = "hoja_ruta.nro_de_control REGEXP '[[:<:]]" . str_replace(['"', ' '],
-                        "", $nro) . "[[:>:]]'";
+            $fields = [
+                'hoja_ruta.nro_de_control',
+                'hoja_ruta.referencia',
+                'derivacion.comentarios',
+            ];
+            foreach ($fields as $field) {
+                /* foreach (explode(',', $this->nro_de_control) as $nro) {
+                  $q[] = "hoja_ruta.nro_de_control REGEXP '[[:<:]]" . str_replace(['"', ' '],
+                  "", $nro) . "[[:>:]]'";
+                  } */
+                $q[] = "$field like '%" . $this->nro_de_control . "%'";
             }
             $query[] = '(' . implode(' or ', $q) . ')';
         }
@@ -253,7 +261,7 @@ class Reporte extends Model
             $params['tipo_tarea'] = $this->tipo_tarea;
         }
         $query = implode("\n and ", $query);
-        $query.= " order by derivacion.id";
+        $query .= " order by derivacion.id";
         $stmt = $connection->prepare($query);
         foreach ($params as $p) {
             if (is_array($p)) {
