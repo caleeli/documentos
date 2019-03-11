@@ -132,7 +132,9 @@
                 <div :class="colLabel"></div>
                 <div :class="colField">
                     <button type="button" class="btn btn-primary" @click="generarReporte">Generar Reporte</button>
+                    <button type="button" class="btn btn-primary" @click="generarPreview">Vista previa</button>
                     <button type="button" class="btn btn-primary" @click="generarExcel">Exportar Excel</button>
+                    <button type="button" class="btn btn-primary" @click="generarPDF">Exportar PDF</button>
                 </div>
             </div>
             <error v-model="reportErrors" property="message"></error>
@@ -198,7 +200,20 @@
                     this.$router.push({params: {id: response.data.data.id}});
                 });
             },
+            generarPreview() {
+                this.data.postToAPI("/api/reporte").then((response) => {
+                    window.open('/reporte/' + response.data.data.id + '/html');
+                });
+            },
             generarExcel() {
+                this.data.postToAPI("/api/reporte").then((response) => {
+                    window.open('/reporte/' + response.data.data.id + '/excel');
+                });
+            },
+            generarPDF() {
+                this.data.postToAPI("/api/reporte").then((response) => {
+                    window.open('/reporte/' + response.data.data.id + '/pdf');
+                });
             },
         },
         data() {

@@ -21,3 +21,7 @@ Route::group([
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
 });
+
+Route::get('/reporte/{reporte}/html', 'ReporteController@html')->name('reportehtml');
+Route::get('/reporte/{reporte}/excel', 'ReporteController@excel')->name('reporteexcel');
+Route::get('/reporte/{reporte}/pdf', 'ReporteController@pdf')->name('reportepdf');

@@ -271,19 +271,13 @@ class Reporte extends Model
             }
         }
         $stmt->execute($params);
-        $res = [];
         $num = 1;
-        $res2 = [];
+        $res = [];
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $row['num'] = $num;
-            $res2[] = $row;
+            $res[] = $row;
             $num++;
         }
-        return $res2;
-    }
-
-    private function likeString($string)
-    {
-        return preg_replace('/\s+/', '%', $string);
+        return $res;
     }
 }
