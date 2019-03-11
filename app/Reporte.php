@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reporte extends Model
 {
 
-    use AutoTableTrait;
+    //use AutoTableTrait;
 
     public $timestamps = false;
     protected $connection = 'hr';
