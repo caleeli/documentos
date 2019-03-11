@@ -42,7 +42,7 @@ class Reporte extends Model
     /**
      * Reporte generado a partir de los parametros
      */
-    public function generar()
+    public function generar1()
     {
         $connection = $this->getConnection()->getPdo();
 
@@ -166,7 +166,7 @@ class Reporte extends Model
         $empresas = Empresa::get();
         $procedencias = [];
         foreach ($empresas as $empresa) {
-            $procedencias[]=[
+            $procedencias[] = [
                 'id' => $empresa->id,
                 'attributes' => [
                     'nombre_completo' => $empresa->nombre_empresa,
@@ -174,5 +174,108 @@ class Reporte extends Model
             ];
         }
         return $procedencias;
+    }
+
+    public function generar()
+    {
+        $connection = $this->getConnection()->getPdo();
+        $params = [];
+        $query = ["SELECT
+            derivacion.destinatario,
+            concat(hoja_ruta.nro_de_control,' / ',hoja_ruta.gestion) numero,
+            hoja_ruta.hr_scep_id,
+            hoja_ruta.tipo_hr,
+            hoja_ruta.referencia,
+            hoja_ruta.procedencia,
+            hoja_ruta.fecha_recepcion,
+            hoja_ruta.fecha_conclusion,
+            derivacion.fecha as derivacion_fecha,
+            derivacion.instruccion,
+            derivacion.comentarios
+         FROM
+           (select hoja_ruta_id, max(id) as id from derivacion group by hoja_ruta_id) ultimos
+            inner join derivacion on (ultimos.id=derivacion.id)
+            inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_scep_id)
+         WHERE 
+            hoja_ruta.fecha_conclusion != '0000-00-00'
+        "];
+        $query[] = ' hoja_ruta.tipo_hr = :tipo';
+        $params['tipo'] = $this->tipo;
+        if (!empty($this->recepcion_desde)) {
+            $query[] = ' hoja_ruta.fecha >= :recepcion_desde';
+            $params['recepcion_desde'] = $this->recepcion_desde->format('Y-m-d');
+        }
+        if (!empty($this->recepcion_hasta)) {
+            $query[] = ' hoja_ruta.fecha <= :recepcion_hasta';
+            $params['recepcion_hasta'] = $this->recepcion_hasta->format('Y-m-d');
+        }
+        if (!empty($this->referencia)) {
+            $query[] = ' hoja_ruta.referencia like :referencia';
+            $params['referencia'] = '%' . str_replace(' ', '%',
+                    $this->referencia) . '%';
+        }
+        if (!empty($this->procedencia)) {
+            $query[] = ' hoja_ruta.procedencia like :procedencia';
+            $params['procedencia'] = '%' . str_replace(' ', '%',
+                    $this->procedencia) . '%';
+        }
+        if (!empty($this->nro_de_control)) {
+            $q = [];
+            foreach (explode(',', $this->nro_de_control) as $nro) {
+                $q[] = "hoja_ruta.nro_de_control REGEXP '[[:<:]]" . str_replace(['"', ' '],
+                        "", $nro) . "[[:>:]]'";
+            }
+            $query[] = '(' . implode(' or ', $q) . ')';
+        }
+        if (!empty($this->conclusion_desde)) {
+            $query[] = ' hoja_ruta.conclusion >= :conclusion_desde';
+            $params['conclusion_desde'] = $this->conclusion_desde->format('Y-m-d');
+        }
+        if (!empty($this->conclusion_hasta)) {
+            $query[] = ' hoja_ruta.conclusion <= :conclusion_hasta';
+            $params['conclusion_hasta'] = $this->conclusion_hasta->format('Y-m-d');
+        }
+        if (!empty($this->gestion_desde)) {
+            $query[] = ' hoja_ruta.gestion >= :gestion_desde';
+            $params['gestion_desde'] = $this->gestion_desde;
+        }
+        if (!empty($this->gestion_hasta)) {
+            $query[] = ' hoja_ruta.gestion <= :gestion_hasta';
+            $params['gestion_hasta'] = $this->gestion_hasta;
+        }
+        if (!empty($this->destinatario)) {
+            $query[] = ' derivacion.destinatario like :destinatario';
+            $params['destinatario'] = '%' . str_replace(' ', '%',
+                    $this->destinatario) . '%';
+        }
+        if (!empty($this->tipo_tarea)) {
+            $query[] = ' hoja_ruta.tipo_tarea = :tipo_tarea';
+            $params['tipo_tarea'] = $this->tipo_tarea;
+        }
+        $query = implode("\n and ", $query);
+        $query.= " order by derivacion.id";
+        $stmt = $connection->prepare($query);
+        foreach ($params as $p) {
+            if (is_array($p)) {
+                $stmt->bindParam(":$p", $p, PDO::PA);
+            } else {
+                
+            }
+        }
+        $stmt->execute($params);
+        $res = [];
+        $num = 1;
+        $res2 = [];
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $row['num'] = $num;
+            $res2[] = $row;
+            $num++;
+        }
+        return $res2;
+    }
+
+    private function likeString($string)
+    {
+        return preg_replace('/\s+/', '%', $string);
     }
 }

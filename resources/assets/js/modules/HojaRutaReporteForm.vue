@@ -150,15 +150,15 @@
                     <th width="10%">Instrucción</th>
                 </template>
                 <tr slot-scope="{row, options, format}">
-                    <td>{{row.hr_scep_id}} {{row.numero}}</td>
+                    <td>{{row.num}}</td>
                     <td>{{row.tipo_hr}}</td>
-                    <td>{{row.nro_de_control}}</td>
+                    <td>{{row.numero}}</td>
                     <td><datetime v-model="row.derivacion_fecha" :read-only="true" type="date"/></td>
                 <td>{{row.referencia}}</td>
-                <td>{{row.derivacion_destinatario}}</td>
+                <td>{{row.destinatario}}</td>
                 <td>{{row.procedencia}}</td>
-                <td><datetime v-model="row.fecha" :read-only="true" type="date"/></td>
-                <td><datetime v-model="row.conclusion" :read-only="true" type="date"/></td>
+                <td><datetime v-model="row.fecha_recepcion" :read-only="true" type="date"/></td>
+                <td><datetime v-model="row.fecha_conclusion" :read-only="true" type="date"/></td>
                 <td>{{row.instruccion}}</td>
                 </tr>
             </grid>
