@@ -27,6 +27,7 @@ class ReporteController extends Controller
 
     public function pdf(Reporte $reporte)
     {
+        set_time_limit(0);
         $res = $reporte->generar();
         $pdf = PDF::loadView('reportehtml', ['res' => $res])->setPaper('letter', 'landscape');
         return $pdf->download('listado.pdf');
