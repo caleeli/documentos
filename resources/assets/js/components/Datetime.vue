@@ -42,7 +42,7 @@
         computed: {
             dateFormated() {
                 const date = moment(this.value);
-                return date.isValid() ? date.format(this.getDateFormat()) : this.emptyDate;
+                return this.value && date.isValid() ? date.format(this.getDateFormat()) : this.emptyDate;
             },
             myClass() {
                 return this.readOnly ? 'text-nowrap' : 'form-control form-datetime';
