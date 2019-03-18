@@ -202,7 +202,6 @@ class Reporte extends Model
         $query[] = ' hoja_ruta.tipo_hr = :tipo';
         $params['tipo'] = $this->tipo;
         if (!empty($this->recepcion_desde)) {
-            dd($this->recepcion_desde);
             $query[] = ' hoja_ruta.fecha_recepcion >= :recepcion_desde';
             $params['recepcion_desde'] = $this->recepcion_desde->format('Y-m-d');
         }
