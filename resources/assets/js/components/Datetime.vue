@@ -17,6 +17,7 @@
         <template v-if="!readOnly || dateFormated == emptyDate">
             {{dateFormated}}
         </template>
+        <a v-if="!readOnly" v-show="this.value" href="javascript:void(0)" @click="clearDate"><i class="fa fa-times"></i></a>
     </span>
 </template>
 <script>
@@ -90,6 +91,9 @@
             });
         },
         methods: {
+            clearDate() {
+                this.$emit('input', '');
+            },
             getTime() {
                 const t = $(this.$el).find('.clock-button input')[0].value.split(':');
                 const now = new Date();
