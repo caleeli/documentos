@@ -202,6 +202,7 @@ class Reporte extends Model
         $query[] = ' hoja_ruta.tipo_hr = :tipo';
         $params['tipo'] = $this->tipo;
         if (!empty($this->recepcion_desde)) {
+            dd($this->recepcion_desde);
             $query[] = ' hoja_ruta.fecha_recepcion >= :recepcion_desde';
             $params['recepcion_desde'] = $this->recepcion_desde->format('Y-m-d');
         }
@@ -287,18 +288,18 @@ class Reporte extends Model
     
     public function setRecepcionDesdeAttribute($value) {
         $datetime = explode('T', $value);
-        $this->attributes['recepcion_desde'] = $datetime[0];
+        $this->attributes['recepcion_desde'] = empty($datetime[0]) ? null : $datetime[0];
     }
     public function setRecepcionHastaAttribute($value) {
         $datetime = explode('T', $value);
-        $this->attributes['recepcion_hasta'] = $datetime[0];
+        $this->attributes['recepcion_hasta'] = empty($datetime[0]) ? null : $datetime[0];
     }
     public function setConclusionDesdeAttribute($value) {
         $datetime = explode('T', $value);
-        $this->attributes['conclusion_desde'] = $datetime[0];
+        $this->attributes['conclusion_desde'] = empty($datetime[0]) ? null : $datetime[0];
     }
     public function setConclusionHastaAttribute($value) {
         $datetime = explode('T', $value);
-        $this->attributes['conclusion_hasta'] = $datetime[0];
+        $this->attributes['conclusion_hasta'] = empty($datetime[0]) ? null : $datetime[0];
     }
 }
