@@ -52,11 +52,11 @@ class Reporte extends Model
         $query[] = ' hoja_ruta.tipo_hr = :tipo';
         $params['tipo'] = $this->tipo;
         if (!empty($this->recepcion_desde)) {
-            $query[] = ' hoja_ruta.fecha >= :recepcion_desde';
+            $query[] = ' hoja_ruta.fecha_recepcion >= :recepcion_desde';
             $params['recepcion_desde'] = $this->recepcion_desde->format('Y-m-d');
         }
         if (!empty($this->recepcion_hasta)) {
-            $query[] = ' hoja_ruta.fecha <= :recepcion_hasta';
+            $query[] = ' hoja_ruta.fecha_recepcion <= :recepcion_hasta';
             $params['recepcion_hasta'] = $this->recepcion_hasta->format('Y-m-d');
         }
         if (!empty($this->referencia)) {
@@ -78,11 +78,11 @@ class Reporte extends Model
             $query[] = '(' . implode(' or ', $q) . ')';
         }
         if (!empty($this->conclusion_desde)) {
-            $query[] = ' hoja_ruta.conclusion >= :conclusion_desde';
+            $query[] = ' hoja_ruta.fecha_conclusion >= :conclusion_desde';
             $params['conclusion_desde'] = $this->conclusion_desde->format('Y-m-d');
         }
         if (!empty($this->conclusion_hasta)) {
-            $query[] = ' hoja_ruta.conclusion <= :conclusion_hasta';
+            $query[] = ' hoja_ruta.fecha_conclusion <= :conclusion_hasta';
             $params['conclusion_hasta'] = $this->conclusion_hasta->format('Y-m-d');
         }
         if (!empty($this->gestion_desde)) {
@@ -106,7 +106,7 @@ class Reporte extends Model
         if (!empty($this->destinatario)) {
             $query[] = ' derivacion.destinatario like :destinatario';
             $params['destinatario'] = '%' . str_replace(' ', '%',
-                    $this->destinatario) . '%';
+                    $destinatario) . '%';
             $addDerivacion = true;
         }
         if (!empty($this->tipo_tarea)) {
@@ -202,11 +202,11 @@ class Reporte extends Model
         $query[] = ' hoja_ruta.tipo_hr = :tipo';
         $params['tipo'] = $this->tipo;
         if (!empty($this->recepcion_desde)) {
-            $query[] = ' hoja_ruta.fecha >= :recepcion_desde';
+            $query[] = ' hoja_ruta.fecha_recepcion >= :recepcion_desde';
             $params['recepcion_desde'] = $this->recepcion_desde->format('Y-m-d');
         }
         if (!empty($this->recepcion_hasta)) {
-            $query[] = ' hoja_ruta.fecha <= :recepcion_hasta';
+            $query[] = ' hoja_ruta.fecha_recepcion <= :recepcion_hasta';
             $params['recepcion_hasta'] = $this->recepcion_hasta->format('Y-m-d');
         }
         if (!empty($this->referencia)) {
@@ -236,11 +236,11 @@ class Reporte extends Model
             $query[] = '(' . implode(' or ', $q) . ')';
         }
         if (!empty($this->conclusion_desde)) {
-            $query[] = ' hoja_ruta.conclusion >= :conclusion_desde';
+            $query[] = ' hoja_ruta.fecha_conclusion >= :conclusion_desde';
             $params['conclusion_desde'] = $this->conclusion_desde->format('Y-m-d');
         }
         if (!empty($this->conclusion_hasta)) {
-            $query[] = ' hoja_ruta.conclusion <= :conclusion_hasta';
+            $query[] = ' hoja_ruta.fecha_conclusion <= :conclusion_hasta';
             $params['conclusion_hasta'] = $this->conclusion_hasta->format('Y-m-d');
         }
         if (!empty($this->gestion_desde)) {
@@ -252,9 +252,13 @@ class Reporte extends Model
             $params['gestion_hasta'] = $this->gestion_hasta;
         }
         if (!empty($this->destinatario)) {
+            foreach(explode(',', $this->destinatario) as $userId) {
+                $user = User::find($userId);
+                $destinatario = $user->nombres . ' ' . $user->apellidos;
+            }
             $query[] = ' derivacion.destinatario like :destinatario';
             $params['destinatario'] = '%' . str_replace(' ', '%',
-                    $this->destinatario) . '%';
+                    $destinatario) . '%';
         }
         if (!empty($this->tipo_tarea)) {
             $query[] = ' hoja_ruta.tipo_tarea = :tipo_tarea';
@@ -279,5 +283,22 @@ class Reporte extends Model
             $num++;
         }
         return $res;
+    }
+    
+    public function setRecepcionDesdeAttribute($value) {
+        $datetime = explode('T', $value);
+        $this->attributes['recepcion_desde'] = $datetime[0];
+    }
+    public function setRecepcionHastaAttribute($value) {
+        $datetime = explode('T', $value);
+        $this->attributes['recepcion_hasta'] = $datetime[0];
+    }
+    public function setConclusionDesdeAttribute($value) {
+        $datetime = explode('T', $value);
+        $this->attributes['conclusion_desde'] = $datetime[0];
+    }
+    public function setConclusionHastaAttribute($value) {
+        $datetime = explode('T', $value);
+        $this->attributes['conclusion_hasta'] = $datetime[0];
     }
 }
