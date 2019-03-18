@@ -197,7 +197,7 @@ class Reporte extends Model
             inner join derivacion on (ultimos.id=derivacion.id)
             inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_scep_id)
          WHERE 
-            hoja_ruta.fecha_conclusion != '0000-00-00'
+            1=1
         "];
         $query[] = ' hoja_ruta.tipo_hr = :tipo';
         $params['tipo'] = $this->tipo;
@@ -269,7 +269,7 @@ class Reporte extends Model
         $stmt = $connection->prepare($query);
         foreach ($params as $p) {
             if (is_array($p)) {
-                $stmt->bindParam(":$p", $p, PDO::PA);
+                $stmt->bindParam(":$p", $p, \PDO::PA);
             } else {
                 
             }
