@@ -134,7 +134,7 @@
                     <button type="button" class="btn btn-primary" @click="generarReporte">Generar Reporte</button>
                     <button type="button" class="btn btn-primary" @click="generarPreview">Vista previa</button>
                     <button type="button" class="btn btn-primary" @click="generarExcel">Exportar Excel</button>
-                    <!-- button type="button" class="btn btn-primary" @click="generarPDF">Exportar PDF</button -->
+                    <button type="button" class="btn btn-primary" @click="generarPDF">Exportar PDF</button>
                 </div>
             </div>
             <error v-model="reportErrors" property="message"></error>
