@@ -131,6 +131,12 @@
             description: "Reportes de hojas de ruta, notas, etc.",
             href: "/HojaRutaReporte/externa",
         },
+        7: {
+            icon: require("../../images/reporte-resumen.svg"),
+            text: "Reporte Resumen",
+            description: "Resumen del reporte de hojas de ruta.",
+            href: "/HojaRutaReporteRapido",
+        },
     }, window.links);
     export default {
         path: "/",

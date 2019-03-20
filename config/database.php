@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -32,7 +31,6 @@ return [
     */
 
     'connections' => [
-
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
@@ -50,7 +48,7 @@ return [
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
-            'strict' => true,
+            'strict' => false,
             'engine' => null,
             \PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '+00:00'",
         ],
@@ -78,7 +76,6 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
         ],
-
     ],
 
     /*
@@ -106,10 +103,9 @@ return [
     */
 
     'redis' => [
-
         'client' => 'predis',
 
-        'options'=>[
+        'options' => [
             'prefix' => env('REDIS_PREFIX', 'audit'),
         ],
 
@@ -119,7 +115,5 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
-
     ],
-
 ];
