@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdd6ce475cca6847a3096f7f1b94a32c",
+    "content-hash": "a0fc2891a2ee033ec3147739969e5ebc",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -1119,6 +1119,55 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "jdd/activities",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/caleeli/jdd-activities.git",
+                "reference": "f580352600bff709f7b0c1155978a7ba53f8740c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/caleeli/jdd-activities/zipball/f580352600bff709f7b0c1155978a7ba53f8740c",
+                "reference": "f580352600bff709f7b0c1155978a7ba53f8740c",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JDD\\Activities\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JDD\\Activities\\": "src/"
+                }
+            },
+            "scripts": {
+                "publish": [
+                    "npm run build-bundle",
+                    "git commit -a"
+                ]
+            },
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "David Callizaya",
+                    "email": "davidcallizaya@gmail.com"
+                }
+            ],
+            "description": "Formularios JDD",
+            "support": {
+                "source": "https://github.com/caleeli/jdd-activities/tree/master",
+                "issues": "https://github.com/caleeli/jdd-activities/issues"
+            },
+            "time": "2019-04-01T23:47:42+00:00"
         },
         {
             "name": "jdd/forms",
@@ -5130,6 +5179,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "jdd/activities": 20,
         "jdd/forms": 20,
         "processmaker/nayra": 20,
         "subcep/firmas": 20

@@ -39,64 +39,24 @@
 
                 <div class="collapse navbar-collapse bg-light" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Hoja de Ruta Externa
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/HojaRuta/externa/create">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaBusqueda/externa">Búsqueda</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaReporte/externa">Reporte</router-link>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Hoja de Ruta Interna
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/HojaRuta/interna/create">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaBusqueda/interna">Búsqueda</router-link>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Solicitudes y denuncia
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/HojaRuta/solicitud/create">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/HojaRutaBusqueda/solicitud">Búsqueda</router-link>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Notas oficio
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/NotaOficio/notas">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/NotaOficioBusqueda/notas">Búsqueda</router-link>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Informes
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/Informe/create">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/NotaOficioBusqueda/informes">Búsqueda</router-link>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Comunicaciones internas
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link class="dropdown-item" to="/ComunicacionesInternas/comunicacion">Registrar</router-link>
-                                <router-link class="dropdown-item" to="/NotaOficioBusqueda/comunicacion">Búsqueda</router-link>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                        <router-link class="nav-link " to="/HojaRutaReporte/interna">Reporte</router-link>
-                        </li>
+                        @foreach(\App\Menu::where('parent', 0)->get() as $menu)
+                            @if ($menu->route==='#')
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{$menu->name}}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @foreach(\App\Menu::where('parent', $menu->id)->get() as $submenu)
+                                <router-link class="dropdown-item" to="{{$submenu->route}}">{{$submenu->name}}</router-link>
+                                    @endforeach
+                                </div>
+                            </li>
+                            @else
+                            <li class="nav-item">
+                                <router-link class="nav-link " to="{{$menu->route}}">{{$menu->name}}</router-link>
+                            </li>
+                            @endif
+                        @endforeach
                     </ul>
                     <form class="form-inline my-2 my-lg-0" action="{{ route('logout') }}" method="POST">
                         {{ csrf_field() }}
