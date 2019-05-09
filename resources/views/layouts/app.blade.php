@@ -47,7 +47,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     @foreach(\App\Menu::where('parent', $menu->id)->get() as $submenu)
-                                <router-link class="dropdown-item" to="{{$submenu->route}}">{{$submenu->name}}</router-link>
+                                    <router-link class="dropdown-item" to="{{$submenu->route}}">{{$submenu->name}}</router-link>
                                     @endforeach
                                 </div>
                             </li>
