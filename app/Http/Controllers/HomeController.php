@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Module;
 
 class HomeController extends Controller
 {
@@ -26,12 +27,38 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $links = $this->listProcesses();
+        $links = $this->listModules();
+        foreach($this->listProcesses() as $key => $value) {
+            $links[$key] = $value;
+        }
         return view('welcome', ['links' => $links]);
     }
 
     private function loadLinks()
     {
         $links = Auth::user()->links();
+    }
+
+    private function listModules()
+    {
+        $links = [];
+        foreach(Module::where('parent', 0)->get() as $module) {
+            $link = [
+                'text' => $module->name,
+                'icon' => $module->icon,
+                'description' => $module->description,
+                'href' => $module->route,
+            ];
+            foreach (Module::where('parent', $module->id)->get() as $submodule) {
+                $link['links'][] = [
+                    'text' => $submodule->name,
+                    'icon' => $submodule->icon,
+                    'description' => $submodule->description,
+                    'href' => $submodule->route,
+                ];
+            }
+            $links[$module->id] = $link;
+        }
+        return $links;
     }
 }

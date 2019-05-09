@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ClasificacionHojasRutaSeeder::class);
         $this->call(InstruccionesSeeder::class);
         $this->call(SubClasificacionHojasRutaSeeder::class);
+        $this->call(LoadDefaultMenus::class);
+        $this->call(LoadDefaultModules::class);
     }
 }
