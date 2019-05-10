@@ -24,6 +24,10 @@
         {
             "type": "path",
             "url": "../IsolatedExpression"
+        },
+        {
+            "type": "path",
+            "url": "../revision-carpetas"
         }
     ],
     "require": {
@@ -39,7 +43,8 @@
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
         "processmaker/nayra": "dev-master",
-        "subcep/firmas": "dev-master"
+        "subcep/firmas": "dev-master",
+        "diaconia/revision": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
