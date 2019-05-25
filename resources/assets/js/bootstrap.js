@@ -81,3 +81,6 @@ if (broadcasterHost) {
                 console.log('private: ', e);
             });
 }
+
+// localeIndexOf find multilanguage strings
+String.prototype.localeIndexOf = require('locale-index-of').prototypeLocaleIndexOf(Intl);

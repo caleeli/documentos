@@ -7,30 +7,36 @@
 
 require('./bootstrap');
 require('./components/children2string');
-String.prototype.localeIndexOf = require('locale-index-of').prototypeLocaleIndexOf(Intl);
+require('./process');
 import moment from 'moment';
 import VueRouter from 'vue-router';
 import TaskMixin from './mixins/task.js';
 import Vue from 'vue';
 import Vuex from 'vuex';
+import BootstrapVueTreeview from 'bootstrap-vue-treeview';
 
+// Configure Vue
+Vue.prototype.window = window;
+Vue.prototype.moment = moment;
+Vue.prototype.colLabel = 'col-lg-2 col-md-4 col-sm-12 col-xs-12 text-md-right';
+Vue.prototype.colField = 'col-lg-10 col-md-8 col-sm-12 col-xs-12';
+Vue.prototype.colField2 = 'col-lg-5 col-md-4 col-sm-6 col-xs-12';
+Vue.prototype.dateFormat = function(date) {
+    return moment(date).format('DD/MM/YYYY HH:mm');
+};
+Vue.use(Vuex);
+Vue.use(VueRouter);
+Vue.use(BootstrapVueTreeview);
+
+// Configure global javascript objects
 window.Vue = Vue;
 window.Vuex = Vuex;
 window.ApiStorage = require('./ApiStorage');
 window.ApiArray = require('./ApiArray');
 window.ApiObject = require('./ApiObject');
-window.Vue.prototype.window = window;
-window.Vue.prototype.moment = moment;
-window.Vue.prototype.colLabel = 'col-lg-2 col-md-4 col-sm-12 col-xs-12 text-md-right';
-window.Vue.prototype.colField = 'col-lg-10 col-md-8 col-sm-12 col-xs-12';
-window.Vue.prototype.colField2 = 'col-lg-5 col-md-4 col-sm-6 col-xs-12';
 moment.locale('es');
-window.Vue.prototype.dateFormat = function(date) {
-    return moment(date).format('DD/MM/YYYY HH:mm');
-};
 window.moment = moment;
 window.taskMixin = TaskMixin;
-window.Vue.use(Vuex);
 
 /**
  * COMPONENTES
@@ -56,38 +62,14 @@ req.keys().map(key => {
     return component;
 });
 
+/**
+ * Create Vue Application and register routes
+ */
 const router = new VueRouter({
     routes
 });
 window.router = router;
 
-window.Process = {
-    call(params) {
-        return axios.get('/api/process/call');
-    },
-    start(params) {
-        return axios.get('/api/process/start', {params: params});
-    },
-    tasks(params) {
-        return axios.get('/api/process/tasks', {params: params});
-    },
-    completeTask(params, data) {
-        return axios.get('/api/process/complete_task/' + params.id + '/' + params.token, {
-            params: data
-        });
-    },
-    cancel(params, data) {
-        return axios.get('/api/process/cancel/' + params.instance, {params: data});
-    },
-};
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-window.Vue.use(VueRouter);
 const app = new Vue({
     router,
     el: '#app',
