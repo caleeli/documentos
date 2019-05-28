@@ -24,7 +24,7 @@ class CreateOlimpicosTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('olimpico_id');
             $table->text('text');
-            $table->text('image');
+            $table->text('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('olimpico_id')->references('id')->on('olimpicos')
