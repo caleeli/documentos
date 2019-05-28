@@ -17,7 +17,7 @@ class OlimpicosSeeder extends Seeder
             return;
         }
         DB::connection('hr')
-            ->table('hoja_ruta_sub_clases')
+            ->table('olimpicos')
             ->insert([
                 [
                     'id' => 1,
