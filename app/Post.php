@@ -25,10 +25,15 @@ class Post extends Model
         return $this->hasMany(Like::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getLikenamesAttribute()
     {
         $names = [];
-        foreach($this->likes as $like) {
+        foreach ($this->likes as $like) {
             $names[$like->olimpico->name] = $like->olimpico->name;
         }
         return implode(', ', $names);
@@ -37,7 +42,7 @@ class Post extends Model
     public function getEmojisAttribute()
     {
         $emojis = [];
-        foreach($this->likes as $like) {
+        foreach ($this->likes as $like) {
             $emojis[$like->type] = $like->type;
         }
         return implode('', $emojis);
