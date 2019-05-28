@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OimpicosSeeder extends Seeder
+class OlimpicosSeeder extends Seeder
 {
 
     /**
