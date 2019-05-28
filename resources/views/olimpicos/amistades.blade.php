@@ -15,8 +15,7 @@
                         </a>
                         <label>({{$amistad->pivot->type}})</label>
                         <input type="hidden" name="id[]" value="{{$amistad->id}}">
-                        <input type="hidden" name="type[]" value="">
-                        <button class="btn btn-sm btn-warning">x</button>
+                        <input type="hidden" name="type[]" value="{{$amistad->pivot->type}}"><button class="btn btn-sm btn-warning" onclick="this.previousSibling.value=''">x</button>
                     </div>
                 @endforeach
             </div>
