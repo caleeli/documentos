@@ -6,7 +6,7 @@
         <div class="login-content animation bounceInDown">
             <div class="login-header m-b-30">
                 <a class="logo" href="components.html" title="SUBCEP">
-                    <img src="/images/logo128.png" alt="SUBCEP" title="SUBCEP" style="height:40px">
+                    <img src="/images/logo-banner.svg" alt="SUBCEP" title="SUBCEP" style="height:40px">
                 </a>
             </div>
 
