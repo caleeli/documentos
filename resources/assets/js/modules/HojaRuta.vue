@@ -1,5 +1,5 @@
 <template>
-    <panel v-if="data.attributes" :name="'HOJA DE RUTA - No HR - SCSL: ' + data.attributes.numero" class="panel-primary">
+    <panel v-if="data.attributes" :name="'HOJA DE RUTA - SCSL: ' + data.attributes.numero" class="panel-primary">
            <template slot="actions">
             <span v-if="data.attributes.created_at">
                 <i class="fas fa-user-plus"></i>
