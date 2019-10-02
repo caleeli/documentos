@@ -1,5 +1,5 @@
 <template>
-    <panel v-if="data.attributes" :name="'CORRESPONDENCIA - SCSL: ' + data.attributes.numero" class="panel-primary">
+    <panel v-if="data.attributes" :name="'HOJA DE RUTA - N° SCSL- ' + data.attributes.numero" class="panel-primary">
            <template slot="actions">
             <span v-if="data.attributes.created_at">
                 <i class="fas fa-user-plus"></i>
@@ -14,7 +14,7 @@
         </template>
         <div class="container">
             <div class="row">
-                <div class="col-12"><h4>Tipo HR-CORRESPONDENCIA: {{data.attributes.tipo}}</h4> </div>
+                <div class="col-12"><h4>Registro de Correspondencia: {{data.attributes.tipo}}</h4> </div>
             </div>
             <error v-model="erroresHojaRuta" property="message"></error>
             <div class="form-group row">
