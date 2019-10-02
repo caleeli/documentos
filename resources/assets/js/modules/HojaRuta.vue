@@ -29,7 +29,7 @@
                 <div :class="colField">
                     <select-box :data="procedencias" v-model="data.attributes.procedencia"
                         id-field="attributes.nombre_empresa"
-                        filter-by="attributes.cod_empresa,attributes.nombre_empresa">
+                        filter-by="attributes.cod_empresa,attributes.nombre_empresa,attributes.sigla_empresa">
                         <template slot-scope="{row,format}">
                             <span v-html="format(row.attributes.cod_empresa)" class="badge" style="font-size: 1rem"></span>
                             <span v-html="format(row.attributes.nombre_empresa)" style="font-size: 1rem"></span>
