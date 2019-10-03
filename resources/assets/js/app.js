@@ -7,7 +7,6 @@
 
 require('./bootstrap');
 require('./components/children2string');
-require('./process');
 import moment from 'moment';
 import VueRouter from 'vue-router';
 import TaskMixin from './mixins/task.js';
