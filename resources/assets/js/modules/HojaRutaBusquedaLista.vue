@@ -7,14 +7,16 @@
               attributes.procedencia
               ">
             <template slot="header">
-                <th width="10%">Nro HR&#x2011;SCEP</th>
+                <th width="10%">Nro HR&#x2011;SCSL</th>
                 <th width="10%">Hoja de Ruta</th>
+                <th width="10%">Nro Clasificación</th>
                 <th width="5%">Gestión</th>
+                <th width="5%">Tipo HR</th>
                 <th width="20%">Referencia</th>
                 <th width="20%">Procedencia</th>
                 <th width="20%">Destinario Actual</th>
                 <th width="5%">Fecha de derivación</th>
-                <th width="5%">Estado de Conclusión</th>
+                <th width="5%">Estado</th>
                 <th width="5%">Fecha de Conclusión</th>
                 <th></th>
             </template>
