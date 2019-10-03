@@ -33,11 +33,28 @@
                         <template slot-scope="{row,format}">
                             <span v-html="format(row.attributes.cod_empresa)" class="badge" style="font-size: 1rem"></span>
                             <span v-html="format(row.attributes.nombre_empresa)" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.sigla_empresa)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
                     <error v-model="erroresHojaRuta" property="errors.procedencia"></error>
                 </div>
             </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Area SCSL:</label></div>
+                <div :class="colField">
+                    <select-box :data="procedencias" v-model="data.attributes.area"
+                        id-field="attributes.area_descripcion"
+                        filter-by="attributes.area_descripcion">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.area_id)" class="badge" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.area_descripcion)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
+                    <error v-model="erroresHojaRuta" property="errors.area"></error>
+                </div>
+            </div>
+
+
             <div class="form-group row">
                 <div :class="colLabel"><label>Referencia:</label></div>
                 <div :class="colField">
