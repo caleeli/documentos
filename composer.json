@@ -7,10 +7,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:caleeli/firmas.git"
-        },
-        {
-            "type": "vcs",
             "url": "git@github.com:caleeli/SchemaLive.git"
         },
         {
