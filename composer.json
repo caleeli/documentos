@@ -11,23 +11,11 @@
         },
         {
             "type": "vcs",
-            "url": "git@github.com:caleeli/jdd-forms.git"
+            "url": "git@github.com:caleeli/SchemaLive.git"
         },
         {
             "type": "vcs",
-            "url": "git@github.com:caleeli/jdd-activities.git"
-        },
-        {
-            "type": "path",
-            "url": "../SchemaLive"
-        },
-        {
-            "type": "path",
-            "url": "../IsolatedExpression"
-        },
-        {
-            "type": "path",
-            "url": "../revision-carpetas"
+            "url": "git@github.com:caleeli/IsolatedExpression.git"
         }
     ],
     "require": {
@@ -37,14 +25,10 @@
         "davidc/schema-live": "*",
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
-        "jdd/activities": "dev-master",
-        "jdd/forms": "dev-master",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
-        "processmaker/nayra": "dev-master",
-        "subcep/firmas": "dev-master",
-        "diaconia/revision": "dev-master"
+        "processmaker/nayra": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
