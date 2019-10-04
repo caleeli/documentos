@@ -14,7 +14,6 @@ class HojaRutaClasificacion extends Model
 
     use AutoTableTrait;
 
-    protected $connection = 'hr';
     protected $table = 'hoja_ruta_clasificacion';
 
     public function subclases()

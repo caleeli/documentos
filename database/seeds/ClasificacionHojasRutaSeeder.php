@@ -16,8 +16,7 @@ class ClasificacionHojasRutaSeeder extends Seeder
         if ($this->onlyOnce()) {
             return;
         }
-        DB::connection('hr')
-            ->table('hoja_ruta_clasificacion')
+        DB::table('hoja_ruta_clasificacion')
             ->insert([
                 ['sigla' => 'EDC', 'nombre' => '1. Evaluación de Consistencia'],
                 ['sigla' => 'AUD', 'nombre' => '2. Auditorías'],
@@ -34,8 +33,7 @@ class ClasificacionHojasRutaSeeder extends Seeder
 
     private function onlyOnce()
     {
-        return DB::connection('hr')
-                ->table('hoja_ruta_clasificacion')
+        return DB::table('hoja_ruta_clasificacion')
                 ->where('nombre', '1. Evaluación de Consistencia')
                 ->first();
     }

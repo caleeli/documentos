@@ -1,5 +1,5 @@
 <?php
-run('composer dump-autoload;'
+/*run('composer dump-autoload;'
     . 'php artisan migrate --database=hr;'
     . 'php artisan migrate:update;'
     . 'php artisan schema:update;'
@@ -7,4 +7,4 @@ run('composer dump-autoload;'
     //Update plugins
     . 'composer install;'
     . 'php artisan update-vendor-plugin jdd/forms;'
-    . 'php artisan update-vendor-plugin subcep/firmas;');
+    . 'php artisan update-vendor-plugin subcep/firmas;');*/

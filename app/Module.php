@@ -15,6 +15,5 @@ class Module extends Model
 
     public $incrementing = true;
     public $timestamps = true;
-    protected $connection = 'hr';
     protected $table = 'modules';
 }

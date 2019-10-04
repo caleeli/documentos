@@ -20,7 +20,6 @@ class HojaRutaInterna extends Model
     protected $primaryKey = 'id';
     public $incrementing = true;
     public $timestamps = false;
-    protected $connection = 'hr';
     protected $table = 'hoja_ruta_interna';
     protected $fillable = [
         "fecha",

@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ return [
             'prefix' => '',
         ],
 
-        'hr' => [
+        'mysql' => [
             'driver' => 'mysql',
             'host' => env('HR_DB_HOST', '127.0.0.1'),
             'port' => env('HR_DB_PORT', '3306'),

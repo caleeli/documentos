@@ -79,7 +79,7 @@ return [
     */
 
     'failed' => [
-        'database' => env('DB_CONNECTION', 'hr'),
+        'database' => env('DB_CONNECTION', 'pgsql'),
         'table' => 'failed_jobs',
     ],
 

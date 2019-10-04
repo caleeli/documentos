@@ -4,22 +4,32 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMenuTable extends Migration
+class CreateModulesTable extends Migration
 {
     /**
+     * Schema table name to migrate
+     * @var string
+     */
+    public $tableName = 'modules';
+
+    /**
      * Run the migrations.
+     * @table modules
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('menu', function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->integer('parent');
+            $table->string('icon');
+            $table->string('description');
             $table->string('route');
-            $table->timestamps();
             $table->softDeletes();
+            $table->nullableTimestamps();
         });
     }
 
@@ -28,8 +38,8 @@ class CreateMenuTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('menu');
-    }
+     public function down()
+     {
+       Schema::dropIfExists($this->tableName);
+     }
 }

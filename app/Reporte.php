@@ -14,7 +14,6 @@ class Reporte extends Model
     //use AutoTableTrait;
 
     public $timestamps = false;
-    protected $connection = 'hr';
     protected $table = 'reportes';
     protected $fillable = [
         'tipo',

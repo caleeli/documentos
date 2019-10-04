@@ -16,8 +16,7 @@ class InstruccionesSeeder extends Seeder
         if ($this->onlyOnce()) {
             return;
         }
-        DB::connection('hr')
-            ->table('instrucciones')
+        DB::table('instrucciones')
             ->insert([
                 ['sigla' => '1', 'nombre' => '1. Aprovar'],
                 ['sigla' => '2', 'nombre' => '2. Revisar'],
@@ -36,8 +35,7 @@ class InstruccionesSeeder extends Seeder
 
     private function onlyOnce()
     {
-        return DB::connection('hr')
-                ->table('instrucciones')
+        return DB::table('instrucciones')
                 ->where('nombre', '1. Aprovar')
                 ->first();
     }

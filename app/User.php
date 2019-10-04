@@ -12,7 +12,6 @@ class User extends Authenticatable
     use Notifiable,
         AutoTableTrait;
 
-    protected $connection = 'pgsql';
     protected $table = 'adm_users';
 
     const RESERVED = ['correspondencia', 'archivo'];

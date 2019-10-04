@@ -61,21 +61,21 @@ class ApiController extends Controller
         }
         $type = $this->getType($operation->model);
         $meta = ['type' => $type];
-        $data = $this->packResponse($result, $type, $fields, $include);
+        $data = $this->packResponse($result, $type, $fields, $include, true, $operation->model);
         return compact('meta', 'data');
     }
 
     protected function packResponse($result, $type, $requiredFields,
-                                    $requiredIncludes, $sparseFields = true)
+                                    $requiredIncludes, $sparseFields = true, $model)
     {
         if ($result instanceof Model) {
             /* @var $a Model */
             $collection = [
                 'type'          => $type,
                 'id'            => $result->getKey(),
-                'attributes'    => $sparseFields ?
+                'attributes'    => $this->removeKeyFromAttributes($sparseFields ?
                     $this->sparseFields($requiredFields, $result->toArray()) :
-                    $result->toArray(),
+                    $result->toArray(), $model),
                 'relationships' => $this->sparseRelationships($requiredFields,
                                                               $requiredIncludes,
                                                               $result),
@@ -91,7 +91,7 @@ class ApiController extends Controller
                 $collection[] = [
                     'type'          => $type,
                     'id'            => $row->getKey(),
-                    'attributes'    => $sparcedFields,
+                    'attributes'    => $this->removeKeyFromAttributes($sparcedFields, $model),
                     'relationships' => $this->sparseRelationships($requiredFields,
                                                                   $requiredIncludes,
                                                                   $row),
@@ -247,6 +247,18 @@ class ApiController extends Controller
         }
         $fields = explode(",", $requiredFields);
         return array_intersect_key($row, array_flip($fields));
+    }
+
+    private function removeKeyFromAttributes($row, $model)
+    {
+        return $row;
+        $class = is_string($model) ? $model : ($model instanceof Model ? get_class($model)
+                        : ($model instanceof \Illuminate\Database\Eloquent\Relations\Relation ? get_class($model->getRelated()):'') );
+        if ($class) {
+            $object = new $class;
+            unset($row[$object->getKeyName()]);
+        }
+        return $row;
     }
 
     /**

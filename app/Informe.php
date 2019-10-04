@@ -13,7 +13,6 @@ class Informe extends Model
 
     use SoftDeletes;
 
-    protected $connection = 'hr';
     protected $dates = ['deleted_at'];
     protected $fillable = array('fecha_entrega', 'nombre_destinatario', 'referencia', 'archivo_adjunto', 'numero', 'gestion');
     protected $visible = array('fecha_entrega', 'nombre_destinatario', 'referencia', 'archivo_adjunto', 'numero', 'gestion');

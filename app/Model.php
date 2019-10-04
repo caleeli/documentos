@@ -12,8 +12,7 @@ use Illuminate\Database\Eloquent\Model as ModelBase;
 class Model extends ModelBase
 {
 
-    use AutoTableTrait;
+    //use AutoTableTrait;
 
-    protected $connection = 'hr';
 
 }

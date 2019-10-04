@@ -6,18 +6,22 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateHojaRutaClasificacionTable extends Migration
 {
-
-    protected $connection = 'hr';
+    /**
+     * Schema table name to migrate
+     * @var string
+     */
+    public $tableName = 'hoja_ruta_clasificacion';
 
     /**
      * Run the migrations.
+     * @table hoja_ruta_clasificacion
      *
      * @return void
      */
     public function up()
     {
-        Schema::connection('hr')->create('hoja_ruta_clasificacion',
-            function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('sigla', 3);
             $table->string('nombre');
@@ -29,8 +33,8 @@ class CreateHojaRutaClasificacionTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('hoja_ruta_clasificacion');
-    }
+     public function down()
+     {
+       Schema::dropIfExists($this->tableName);
+     }
 }

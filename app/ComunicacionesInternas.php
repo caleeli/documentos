@@ -14,7 +14,6 @@ class ComunicacionesInternas extends Model
 
     use AutoTableTrait;
 
-    protected $connection = 'hr';
     protected $table = 'comunicaciones_internas';
     protected $fillable = [
         'hoja_de_ruta',

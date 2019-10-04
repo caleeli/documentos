@@ -12,7 +12,6 @@ class Derivacion extends Model
 {
 
     public $timestamps = false;
-    protected $connection = 'hr';
     protected $table = 'derivacion';
     protected $fillable = [
         "fecha",

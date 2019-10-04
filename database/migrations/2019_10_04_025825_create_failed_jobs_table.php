@@ -7,19 +7,27 @@ use Illuminate\Database\Migrations\Migration;
 class CreateFailedJobsTable extends Migration
 {
     /**
+     * Schema table name to migrate
+     * @var string
+     */
+    public $tableName = 'failed_jobs';
+
+    /**
      * Run the migrations.
+     * @table failed_jobs
      *
      * @return void
      */
     public function up()
     {
-        Schema::connection('hr')->create('failed_jobs', function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->text('connection');
             $table->text('queue');
             $table->longText('payload');
             $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent();
+            $table->timestamp('failed_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
@@ -28,8 +36,8 @@ class CreateFailedJobsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('failed_jobs');
-    }
+     public function down()
+     {
+       Schema::dropIfExists($this->tableName);
+     }
 }

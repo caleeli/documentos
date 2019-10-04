@@ -14,7 +14,6 @@ class NotasOficio extends Model
 
     use AutoTableTrait;
 
-    protected $connection = 'hr';
     protected $table = 'notas_oficio';
     public $timestamps = false;
     protected $fillable = [

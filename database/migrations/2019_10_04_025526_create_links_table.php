@@ -6,16 +6,22 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateLinksTable extends Migration
 {
+    /**
+     * Schema table name to migrate
+     * @var string
+     */
+    public $tableName = 'links';
 
     /**
      * Run the migrations.
+     * @table links
      *
      * @return void
      */
     public function up()
     {
-        Schema::connection('hr')->create('links',
-            function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('role');
             $table->string('text');
@@ -23,7 +29,7 @@ class CreateLinksTable extends Migration
             $table->string('description');
             $table->string('href');
             $table->text('links');
-            $table->timestamps();
+            $table->nullableTimestamps();
         });
     }
 
@@ -32,8 +38,8 @@ class CreateLinksTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('links');
-    }
+     public function down()
+     {
+       Schema::dropIfExists($this->tableName);
+     }
 }

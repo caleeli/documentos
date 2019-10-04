@@ -10,7 +10,6 @@ class Link extends Model
 
     use AutoTableTrait;
 
-    protected $connection = 'hr';
     protected $table = 'links';
     protected $fillable = [
         "text",

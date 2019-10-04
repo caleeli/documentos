@@ -16,8 +16,7 @@ class SubClasificacionHojasRutaSeeder extends Seeder
         if ($this->onlyOnce()) {
             return;
         }
-        DB::connection('hr')
-            ->table('hoja_ruta_sub_clases')
+        DB::table('hoja_ruta_sub_clases')
             ->insert([
                 ['sub_clase_id' => '1.1', 'clasificacion_id' => '1', 'nombre' => '1.1 Dictamen e informes de Firmas de Auditoria y/o Empresa Pública'],
                 ['sub_clase_id' => '1.2', 'clasificacion_id' => '1', 'nombre' => '1.2 Documentación de proceso de contratación de Firmas de auditoria y/o Empresa Pública'],
@@ -28,8 +27,7 @@ class SubClasificacionHojasRutaSeeder extends Seeder
 
     private function onlyOnce()
     {
-        return DB::connection('hr')
-                ->table('hoja_ruta_sub_clases')
+        return DB::table('hoja_ruta_sub_clases')
                 ->where('sub_clase_id', '1.1')
                 ->first();
     }

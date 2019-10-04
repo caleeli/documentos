@@ -30,7 +30,6 @@ Artisan::command('message {message}',
 Artisan::command('schema:update',
     function () {
     App\Jobs\UpdateModels::dispatchNow('pgsql');
-    App\Jobs\UpdateModels::dispatchNow('hr');
 })->describe('Update the schema cache now.');
 
 Artisan::command('documento {icono}',
@@ -58,7 +57,6 @@ Artisan::command('migrate:update',
             $migration->up();
         }
     }
-    UpdateModels::dispatchNow('hr');
     UpdateModels::dispatchNow('pgsql');
     file_put_contents('.previouscommit', $current);
 })->describe('Actualiza las migrations que fueron modificadas');

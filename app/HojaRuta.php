@@ -27,7 +27,6 @@ class HojaRuta extends Model
     protected $primaryKey = 'hr_scep_id';
     public $incrementing = true;
     public $timestamps = true;
-    protected $connection = 'hr';
     protected $table = 'hoja_ruta';
     protected $fillable = [
         "fecha_recepcion",
@@ -130,7 +129,7 @@ class HojaRuta extends Model
         $rules['fecha_recepcion'][] = new UntilToday();
         $rules['fecha_conclusion'][] = new UntilToday();
 
-        $rules['nro_de_control'][] = Rule::unique('hr.hoja_ruta')
+        $rules['nro_de_control'][] = Rule::unique('hoja_ruta')
             ->where(function ($query) {
             if ($this->exists) {
                 $query = $query->where($this->getKeyName(), '!=',

@@ -10,7 +10,6 @@ class Process extends Model
 
     //use AutoTableTrait;
 
-    protected $connection = 'hr';
     protected $table = 'processes';
     protected $attributes = [
         "data" => '{}',

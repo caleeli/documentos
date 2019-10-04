@@ -15,7 +15,6 @@ class Instruccion extends Model
     use AutoTableTrait;
 
     public $timestamps = false;
-    protected $connection = 'hr';
     protected $table = 'instrucciones';
 
 }
