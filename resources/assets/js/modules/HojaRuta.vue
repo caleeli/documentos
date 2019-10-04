@@ -1,5 +1,5 @@
 <template>
-    <panel v-if="data.attributes" :name="'HOJA DE RUTA - No HR - SCSL: ' + data.attributes.numero" class="panel-primary">
+    <panel v-if="data.attributes" :name="'HOJA DE RUTA - N° SCSL- ' + data.attributes.numero" class="panel-primary">
            <template slot="actions">
             <span v-if="data.attributes.created_at">
                 <i class="fas fa-user-plus"></i>
@@ -14,7 +14,7 @@
         </template>
         <div class="container">
             <div class="row">
-                <div class="col-12"><h4>Tipo HR: {{data.attributes.tipo}}</h4> </div>
+                <div class="col-12"><h4>Registro de Correspondencia: {{data.attributes.tipo}}</h4> </div>
             </div>
             <error v-model="erroresHojaRuta" property="message"></error>
             <div class="form-group row">
@@ -29,15 +29,32 @@
                 <div :class="colField">
                     <select-box :data="procedencias" v-model="data.attributes.procedencia"
                         id-field="attributes.nombre_empresa"
-                        filter-by="attributes.cod_empresa,attributes.nombre_empresa">
+                        filter-by="attributes.cod_empresa,attributes.nombre_empresa,attributes.sigla_empresa">
                         <template slot-scope="{row,format}">
                             <span v-html="format(row.attributes.cod_empresa)" class="badge" style="font-size: 1rem"></span>
                             <span v-html="format(row.attributes.nombre_empresa)" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.sigla_empresa)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
                     <error v-model="erroresHojaRuta" property="errors.procedencia"></error>
                 </div>
             </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Area SCSL:</label></div>
+                <div :class="colField">
+                    <select-box :data="procedencias" v-model="data.attributes.area"
+                        id-field="attributes.area_descripcion"
+                        filter-by="attributes.area_descripcion">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.area_id)" class="badge" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.area_descripcion)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
+                    <error v-model="erroresHojaRuta" property="errors.area"></error>
+                </div>
+            </div>
+
+
             <div class="form-group row">
                 <div :class="colLabel"><label>Referencia:</label></div>
                 <div :class="colField">
