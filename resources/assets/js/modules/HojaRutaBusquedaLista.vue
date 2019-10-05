@@ -60,7 +60,7 @@
         },
         data() {
             return {
-                data: new ApiArray('/api/hoja_ruta?sort=-hr_scep_id&per_page=7')
+                data: new ApiArray('/api/hoja_ruta?sort=-hr_id&per_page=7')
             };
         },
         /*watch: {

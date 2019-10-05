@@ -24,7 +24,7 @@ class HojaRuta extends Model
     const UPDATED_AT = 'updated_at';
     const DELETED_AT = 'deleted_at';
 
-    protected $primaryKey = 'hr_scep_id';
+    protected $primaryKey = 'hr_id';
     public $incrementing = true;
     public $timestamps = true;
     protected $table = 'hoja_ruta';

@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LoadDefaultMenus::class);
         $this->call(LoadDefaultModules::class);
         $this->call(EmpresasSeeder::class);
+        $this->call(TareasEjemploSeeder::class);
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -9,31 +8,29 @@ class CreateAdmTareasTable extends Migration
 {
     public function up()
     {
-        Schema::create('adm_tareas', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('cod_tarea')->nullable();
-            $table->string('nombre_tarea')->nullable();
-            $table->string('descripcion')->nullable();
-            $table->string('fecha_ini')->nullable();
-            $table->string('fecha_fin')->nullable();
-            $table->string('estado')->nullable();
-            $table->integer('avance')->nullable();
-            $table->string('prioridad')->nullable();
-            $table->integer('dias_otorgados')->nullable();
-            $table->string('nro_de_control')->nullable();
-            $table->string('gestion')->nullable();
-            $table->string('tipo')->nullable();
-            $table->text('datos')->nullable();
-            $table->integer('creador_id')->unsigned()->nullable();
-            $table->integer('revisor1_id')->unsigned()->nullable();
-            $table->integer('aprobacion1_id')->unsigned()->nullable();
-            $table->integer('revisor2_id')->unsigned()->nullable();
-            $table->integer('aprobacion2_id')->unsigned()->nullable();
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::create('tarea', function (Blueprint $table) {
+            $table->increments('tar_id');
+            $table->integer('hr_id')->nullable();
+
+            $table->string('tar_codigo');
+            $table->string('tar_descripcion')->default('');
+            $table->timestamp('tar_fecha_derivacion')->nullable();
+            $table->timestamp('tar_fecha_fin')->nullable();
+            $table->string('tar_estado');
+            $table->integer('tar_avance')->default(0);
+            $table->integer('tar_prioridad')->default(3);
+            $table->text('tar_comentarios')->nullable();
+
+            $table->timestamp('fecha_registro')->nullable();
+            $table->timestamp('fecha_modificacion')->nullable();
+            $table->timestamp('fecha_baja')->nullable();
+
+            $table->foreign('hr_id')
+                ->references('hr_id')->on('hoja_ruta')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
-
 
     public function down()
     {

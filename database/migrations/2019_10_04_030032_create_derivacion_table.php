@@ -43,7 +43,7 @@ class CreateDerivacionTable extends Migration
 
 
             $table->foreign('hoja_ruta_id', 'hoja_ruta_id')
-                ->references('hr_scep_id')->on('hoja_ruta')
+                ->references('hr_id')->on('hoja_ruta')
                 ->onDelete('cascade')
                 ->onUpdate('restrict');
         });

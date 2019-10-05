@@ -41,7 +41,7 @@ class CreateInformesTable extends Migration
 
 
             $table->foreign('ref_hoja_ruta', 'informes_ref_hoja_ruta_foreign')
-                ->references('hr_scep_id')->on('hoja_ruta')
+                ->references('hr_id')->on('hoja_ruta')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
         });

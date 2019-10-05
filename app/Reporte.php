@@ -57,7 +57,7 @@ class Reporte extends Model
         return $this->runQueryFor("SELECT
         derivacion.destinatario,
         concat(hoja_ruta.nro_de_control,' / ',hoja_ruta.gestion) numero,
-        hoja_ruta.hr_scep_id,
+        hoja_ruta.hr_id,
         hoja_ruta.tipo_hr,
         hoja_ruta.referencia,
         hoja_ruta.procedencia,
@@ -69,7 +69,7 @@ class Reporte extends Model
      FROM
        (select hoja_ruta_id, max(id) as id from derivacion group by hoja_ruta_id) ultimos
         inner join derivacion on (ultimos.id=derivacion.id)
-        inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_scep_id)
+        inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_id)
      WHERE 
         1=1
     ");
@@ -262,7 +262,7 @@ class Reporte extends Model
             FROM
             (select hoja_ruta_id, max(id) as id from derivacion group by hoja_ruta_id) ultimos
                 inner join derivacion on (ultimos.id=derivacion.id)
-                inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_scep_id)
+                inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_id)
             WHERE 
                 hoja_ruta.fecha_conclusion is not null and hoja_ruta.fecha_conclusion!="0000-00-00"
             ');
@@ -272,7 +272,7 @@ class Reporte extends Model
             FROM
             (select hoja_ruta_id, max(id) as id from derivacion group by hoja_ruta_id) ultimos
                 inner join derivacion on (ultimos.id=derivacion.id)
-                inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_scep_id)
+                inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_id)
             WHERE 
                 not(hoja_ruta.fecha_conclusion is not null and hoja_ruta.fecha_conclusion!="0000-00-00")
             ');

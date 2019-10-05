@@ -41,6 +41,6 @@ class Derivacion extends Model
     
     public function hoja_ruta()
     {
-        return $this->belongsTo(HojaRuta::class, 'hoja_ruta_id', 'hr_scep_id');
+        return $this->belongsTo(HojaRuta::class, 'hoja_ruta_id', 'hr_id');
     }
 }
