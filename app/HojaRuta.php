@@ -140,4 +140,10 @@ class HojaRuta extends Model
         });
         return $rules;
     }
+
+    public function getNumeroSecuencia($tipo)
+    {
+        $numero = HojaRuta::where('gestion', date('Y'))->where('tipo_hr', $tipo)->max('numero') + 1;
+        return $numero;
+    }
 }

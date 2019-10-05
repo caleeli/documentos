@@ -1,5 +1,5 @@
 <template>
-    <panel v-if="data.attributes" :name="'HOJA DE RUTA - N° SCSL- ' + data.attributes.numero" class="panel-primary">
+    <panel v-if="data.attributes" :name="data.attributes.numero ? 'HOJA DE RUTA - N° SCSL - ' + data.attributes.numero : 'HOJA DE RUTA - N° SCSL' " class="panel-primary">
            <template slot="actions">
             <span v-if="data.attributes.created_at">
                 <i class="fas fa-user-plus"></i>
@@ -27,34 +27,54 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Procedencia:</label></div>
                 <div :class="colField">
-                    <select-box :data="procedencias" v-model="data.attributes.procedencia"
-                        id-field="attributes.nombre_empresa"
-                        filter-by="attributes.cod_empresa,attributes.nombre_empresa,attributes.sigla_empresa">
-                        <template slot-scope="{row,format}">
-                            <span v-html="format(row.attributes.cod_empresa)" class="badge" style="font-size: 1rem"></span>
-                            <span v-html="format(row.attributes.nombre_empresa)" style="font-size: 1rem"></span>
-                            <span v-html="format(row.attributes.sigla_empresa)" style="font-size: 1rem"></span>
-                        </template>
-                    </select-box>
-                    <error v-model="erroresHojaRuta" property="errors.procedencia"></error>
+                    <template v-for="(procedencia, index) in tipoProcedencia">
+                        <div class="row">
+                            <div class="radio col-6">
+                                <label>
+                                    <input type="radio" name="tipo_procedencia"
+                                           :value="procedencia.codigo"
+                                           v-model="tipoProcedenciaCheck"
+                                           >
+                                    {{procedencia.descripcion}}
+                                </label>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
-            <div class="form-group row">
-                <div :class="colLabel"><label>Area SCSL:</label></div>
+            <div v-if="tipoProcedenciaCheck==='ENT'" class="form-group row">
+                <div :class="colLabel"><label>Entidad:</label></div>
                 <div :class="colField">
-                    <select-box :data="procedencias" v-model="data.attributes.area"
-                        id-field="attributes.area_descripcion"
-                        filter-by="attributes.area_descripcion">
+                    <select-box :data="entidades" v-model="data.attributes.procedencia"
+                        id-field="attributes.ent_descripcion"
+                        filter-by="attributes.ent_clasificador,attributes.ent_descripcion,attributes.ent_sigla">
                         <template slot-scope="{row,format}">
-                            <span v-html="format(row.attributes.area_id)" class="badge" style="font-size: 1rem"></span>
-                            <span v-html="format(row.attributes.area_descripcion)" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.ent_clasificador)" class="badge" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.ent_descripcion)" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.ent_sigla)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
-                    <error v-model="erroresHojaRuta" property="errors.area"></error>
+                    <error v-model="erroresHojaRuta" property="errors.entidades"></error>
                 </div>
             </div>
-
-
+            <div v-if="tipoProcedenciaCheck!=='ENT'" class="form-group row">
+                <div :class="colLabel"><label>Nombres y Apellidos:</label></div>
+                <div class="col-7">
+                    <select-box :data="personas" v-model="data.attributes.procedencia"
+                        id-field="attributes.nombre_completo"
+                        filter-by="attributes.per_nombres,attributes.per_apellidos,attributes.per_ci_nit">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.per_nombres)" class="badge" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.per_apellidos)" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.per_ci_nit)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
+                    <error v-model="erroresHojaRuta" property="errors.persona"></error>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-primary" @click="showPersona"><i class="fas fa-user-plus"></i></button>
+                </div>
+            </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Referencia:</label></div>
                 <div :class="colField">
@@ -163,6 +183,25 @@
                     <error v-model="erroresHojaRuta" property="errors.anexo_hojas"></error>
                 </div>
             </div>
+
+            <div class="form-group row">
+                <div :class="colLabel"><label>Tipo de Hoja de Ruta:</label></div>
+                <div :class="colField">
+                    <template v-for="(tipo, index) in tipoHr">
+                        <div class="row">
+                            <div class="radio col-6">
+                                <label>
+                                    <input type="radio" name="tipo_hr"
+                                           :value="tipo.codigo"
+                                           v-model="data.attributes.tipo_hr">
+                                    {{tipo.descripcion}}
+                                </label>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div :class="colLabel"><label>Clasificación:</label></div>
                 <div :class="colField">
@@ -207,7 +246,8 @@
 
 <script>
     export default {
-        path: "/HojaRuta/:type/:id",
+        //path: "/HojaRuta/:type/:id",
+        path: "/HojaRuta/:id",
         computed: {
             getFjs() {
                 return this.getAnexo("fjs");
@@ -248,18 +288,26 @@
                         this.data.attributes.subtipo_tarea = subclase ? subclase.id : null;
                     }
                 });
+
+
                 if (this.data.id) {
                     this.data.putToAPI(this.getUrlBase() + "/" + this.data.id).then((response) => {
                         this.$router.push({params: {id: response.data.data.id}});
                     });
                 } else {
-                    this.data.postToAPI(this.getUrlBase()).then((response) => {
-                        this.$router.push({params: {id: response.data.data.id}});
+                    this.data.callMethod('getNumeroSecuencia',{'tipo' : this.data.attributes.tipo_hr})
+                        .then(response => {
+                            this.data.attributes.numero = response.data.response;
+                            this.data.postToAPI(this.getUrlBase()).then((response) => {
+                                this.$router.push({params: {id: response.data.data.id}});
+                            });
                     });
                 }
+
             },
             getIdURL() {
-                return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type + '&include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
+                //return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type + '&include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
+                return isNaN(this.$route.params.id) ? 'create?&include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
             },
             setFjs(event) {
                 this.setAnexo('fjs', event.target.value);
@@ -305,6 +353,16 @@
                     }
                 }
                 this.data.attributes.anexo_hojas = anexoHojas.join(', ');
+            },
+            getNumero(tipo) {
+                this.data.callMethod('getNumeroSecuencia',{'tipo' : tipo})
+                    .then(response => {
+                       //return this.$set(this.data.attributes, 'numero', response.data.response);
+                       return response.data.response;
+                    });
+            },
+            showPersona() {
+                this.$router.push({path: '/Persona/create', query:this.$route.query});
             }
         },
         data() {
@@ -313,11 +371,22 @@
                 data: new ApiObject(this.getUrlBase() + '/' + this.getIdURL(), erroresHojaRuta).loadFromAPI(),
                 erroresHojaRuta: erroresHojaRuta,
                 procedencias: new ApiArray('/api/empresas'),
+                entidades: new ApiArray('/api/entidad'),
+                personas: new ApiArray('/api/persona'),
                 destinatarios: new ApiArray('/api/users'),
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=7'),
                 comunicaciones: new ApiArray('/api/comunicaciones_internas?sort=-id&per_page=7'),
                 informes: new ApiArray('/api/informe?sort=-id&per_page=7'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases'),
+                tipoProcedencia: [  {codigo: 'ENT', descripcion: 'Entidad'}, 
+                                    {codigo: 'NAT', descripcion: 'Persona Natural'}, 
+                                    {codigo: 'JUR', descripcion: 'Persona Jurídica'}
+                                ],
+                tipoProcedenciaCheck: 'ENT',
+                tipoHr: [   {codigo: 'externa', descripcion: 'Externas'}, 
+                            {codigo: 'interna', descripcion: 'Internas'}, 
+                            {codigo: 'solicitud', descripcion: 'Solicitudes o Denuncias'}
+                                ],
             };
         },
         watch: {

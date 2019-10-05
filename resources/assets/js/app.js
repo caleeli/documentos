@@ -14,6 +14,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVueTreeview from 'bootstrap-vue-treeview';
 
+
 // Configure Vue
 Vue.prototype.window = window;
 Vue.prototype.moment = moment;

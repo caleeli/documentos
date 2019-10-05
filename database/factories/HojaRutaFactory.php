@@ -9,6 +9,7 @@ $factory->define(Model::class,
         'gestion' => date('Y'),
         'fecha_recepcion' => date('Y-m-d'),
         'tipo_tarea' => 'EDC',
+        'tipo_hr' => 'externa'
     ];
 });
 
