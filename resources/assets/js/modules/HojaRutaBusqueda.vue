@@ -1,10 +1,10 @@
 <template>
-    <hoja-ruta-busqueda-lista :type="$route.params.type"></hoja-ruta-busqueda-lista>
+    <hoja-ruta-busqueda-lista></hoja-ruta-busqueda-lista>
 </template>
 
 <script>
     export default {
-        path: "/HojaRutaBusqueda/:type",
+        path: "/HojaRutaBusqueda",
         data() {
             return {
             };

@@ -45,9 +45,9 @@ class HojaRuta extends Model
     protected $appends = [
         'fecha_derivacion',
         'estado',
-        'estado',
         'usuario_destinatario',
         'usuario_archivo',
+        'tipo_hr_desc',
     ];
     protected $casts = [
         'fecha_recepcion' => 'date',
@@ -146,4 +146,11 @@ class HojaRuta extends Model
         $numero = HojaRuta::where('gestion', date('Y'))->where('tipo_hr', $tipo)->max('numero') + 1;
         return $numero;
     }
+
+    public function getTipoHrDescAttribute()
+    {
+        return $this->tipo_hr === 'interna' ? 'Interna' : $this->tipo_hr === 'externa' ? 'Externa' : 'Solicitudes o denuncias';
+    }
+
+
 }

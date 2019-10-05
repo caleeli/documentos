@@ -1,5 +1,5 @@
 <template>
-    <panel :name="type.toLocaleUpperCase()" class="panel-primary">
+    <panel :name="'Busqueda'" class="panel-primary">
         <grid-ajax v-model="data"
               filter-by="attributes.numero
               attributes.gestion
@@ -8,7 +8,7 @@
               ">
             <template slot="header">
                 <th width="10%">Nro HR&#x2011;SCSL</th>
-                <th width="10%">Hoja de Ruta</th>
+                <th width="10%">Nro Hoja de Ruta</th>
                 <th width="10%">Nro Clasificación</th>
                 <th width="5%">Gestión</th>
                 <th width="5%">Tipo HR</th>
@@ -21,9 +21,11 @@
                 <th></th>
             </template>
             <tr slot-scope="{row, options, format}">
-                <td v-html="format('SCEP&#x2011;' + row.attributes.numero)"></td>
+                <td v-html="format('SCSL&#x2011;' + row.attributes.numero)"></td>
                 <td v-html="format(row.attributes.nro_de_control)"></td>
+                <td v-html="format('SCSL&#x2011;' + row.attributes.tipo_tarea + '&#x2011;' + row.attributes.nro_de_control)"></td>
                 <td v-html="format(row.attributes.gestion)"></td>
+                <td v-html="format(row.attributes.tipo_hr_desc)"></td>
                 <td v-html="format(row.attributes.referencia)"></td>
                 <td v-html="format(row.attributes.procedencia)"></td>
                 <td>
@@ -42,9 +44,9 @@
                 </td>
                 <td><datetime type="date" v-model="row.attributes.fecha_derivacion" read-only /></td>
             <td v-html="(row.attributes.estado)"></td>
-            <td><datetime type="date" v-model="row.attributes.fecha_conclusion" read-only empty-date="no concluido" /></td>
+            <td><datetime type="date" v-model="row.attributes.fecha_conclusion" read-only empty-date="No Concluido" /></td>
             <td>
-            <router-link class="btn btn-primary" :to="{path:'/HojaRuta/' + type + '/' + row.id}">Abrir</router-link>
+            <router-link class="btn btn-primary" :to="{path:'/HojaRuta/' + row.id}">Abrir</router-link>
             </td>
             </tr>
         </grid-ajax>
@@ -54,17 +56,17 @@
 <script>
     export default {
         props: {
-            type: String,
+            //type: String,
         },
         data() {
             return {
-                data: new ApiArray('/api/hoja_ruta?sort=-hr_scep_id&filter[]=where,tipo_hr,=,"' + this.type + '"&per_page=7')
+                data: new ApiArray('/api/hoja_ruta?sort=-hr_scep_id&per_page=7')
             };
         },
-        watch: {
+        /*watch: {
             type() {
                 this.data.setSearchParams({'filter[]': 'where,tipo_hr,=,"' + this.type + '"'});
             }
-        },
+        },*/
     };
 </script>
