@@ -17,9 +17,7 @@ class LoadDefaultMenus extends Seeder
         }
         DB::table('menu')
             ->insert([
-                ['parent' => 0, 'id' => 100, 'name' => 'Hoja de Ruta Externa', 'route' => '#'],
-                ['parent' => 0, 'id' => 200, 'name' => 'Hoja de Ruta Interna', 'route' => '#'],
-                ['parent' => 0, 'id' => 300, 'name' => 'Solicitudes y denuncia', 'route' => '#'],
+                ['parent' => 0, 'id' => 100, 'name' => 'Hoja de Ruta', 'route' => '#'],
                 ['parent' => 0, 'id' => 400, 'name' => 'Notas oficio', 'route' => '#'],
                 ['parent' => 0, 'id' => 500, 'name' => 'Informes', 'route' => '#'],
                 ['parent' => 0, 'id' => 600, 'name' => 'Comunicaciones internas', 'route' => '#'],
@@ -27,12 +25,8 @@ class LoadDefaultMenus extends Seeder
             ]);
         DB::table('menu')
             ->insert([
-                ['parent' => 100, 'name' => 'Registrar', 'route' => '/HojaRuta/externa/create'],
-                ['parent' => 100, 'name' => 'Búsqueda', 'route' => '/HojaRutaBusqueda/externa'],
-                ['parent' => 200, 'name' => 'Registrar', 'route' => '/HojaRuta/interna/create'],
-                ['parent' => 200, 'name' => 'Búsqueda', 'route' => '/HojaRutaBusqueda/interna'],
-                ['parent' => 300, 'name' => 'Registrar', 'route' => '/HojaRuta/solicitud/create'],
-                ['parent' => 300, 'name' => 'Búsqueda', 'route' => '/HojaRutaBusqueda/solicitud'],
+                ['parent' => 100, 'name' => 'Registrar', 'route' => '/HojaRuta/create'],
+                ['parent' => 100, 'name' => 'Búsqueda', 'route' => '/HojaRutaBusqueda'],
                 ['parent' => 400, 'name' => 'Registrar', 'route' => '/NotaOficio/notas'],
                 ['parent' => 400, 'name' => 'Búsqueda', 'route' => '/NotaOficioBusqueda/notas'],
                 ['parent' => 500, 'name' => 'Registrar', 'route' => '/Informe/create'],
