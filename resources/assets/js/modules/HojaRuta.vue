@@ -371,7 +371,7 @@
                 data: new ApiObject(this.getUrlBase() + '/' + this.getIdURL(), erroresHojaRuta).loadFromAPI(),
                 erroresHojaRuta: erroresHojaRuta,
                 procedencias: new ApiArray('/api/empresas'),
-                entidades: new ApiArray('/api/entidad'),
+                entidades: new ApiArray('/api/entidad?per_page=1000'),
                 personas: new ApiArray('/api/persona'),
                 destinatarios: new ApiArray('/api/users'),
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=7'),
