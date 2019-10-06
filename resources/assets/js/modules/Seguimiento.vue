@@ -2,23 +2,18 @@
   <panel name="Seguimiento" class="panel-primary">
     <div class="form-group">
       <div class="input-group">
-        <span class="input-group-btn">
-          <a class="btn btn-default" v-on:click="listarTareas">
-            <i class="fa fa-refresh"></i>
-            <small class="hidden-xs hidden-sm">Recargar</small>
+        <span class="input-group-prepend">
+          <a href="javascript:void(0)" class="input-group-text" v-on:click="listarTareas">
+            <i class="fas fa-sync"></i>
+            <small class="hidden-xs hidden-sm ml-1">Recargar</small>
           </a>
         </span>
-        <input
-          type="text"
-          class="form-control form-file-progress"
-          placeholder="Busqueda"
-          v-model="busquedaTareas"
-        />
-        <span class="input-group-btn">
-          <span class="btn btn-primary" type="button" v-on:click="buscarTarea">
+        <input type="text" class="form-control" placeholder="Busqueda" v-model="busquedaTareas" />
+        <span class="input-group-append">
+          <a href="javascript:void(0)" class="input-group-text bg-success text-light" v-on:click="buscarTarea">
             <i class="fa fa-search"></i>
-            <small class="hidden-xs hidden-sm">Buscar</small>
-          </span>
+            <small class="hidden-xs hidden-sm ml-1">Buscar</small>
+          </a>
         </span>
       </div>
     </div>
@@ -30,23 +25,18 @@
               <td class="project-status" width="35%">
                 <small>Estado</small>
                 <br />
-                <span
-                  v-bind:class="classEstado(tareaI)"
-                >
-                  <i
-                    v-bind:class="iconoEstado(tareaI)"
-                  ></i>
-                  <span
-                    class="hidden-xs hidden-sm hidden-md"
-                  >{{ tareaI.attributes.tar_estado }}</span>
+                <span v-bind:class="classEstado(tareaI)">
+                  <i v-bind:class="iconoEstado(tareaI)"></i>
+                  <span class="hidden-xs hidden-sm hidden-md">{{ tareaI.attributes.tar_estado }}</span>
                 </span>
               </td>
               <td class="project-title" width="65%">
-                <a
-                  href="#detalleTarea"
-                  v-on:click="seleccionaTarea(tareaI)"
-                >{{tareaI.attributes.tar_codigo}}</a>
-                <small class="block-with-text">{{tareaI.attributes.tar_descripcion}}</small>
+                <a href="#detalleTarea" v-on:click="seleccionaTarea(tareaI)">
+                  {{tareaI.attributes.tar_codigo}}
+                  <small
+                    class="block-with-text"
+                  >{{tareaI.attributes.tar_descripcion}}</small>
+                </a>
               </td>
             </tr>
           </table>
@@ -74,17 +64,10 @@
                                                                     <i class="fa fa-user-secret"></i> {{tareaI.relationships.creador.attributes.nombres+' '+tareaI.relationships.creador.attributes.apellidos}}
         </td-->
         <div class="col-md-1 col-xs-3 text-right project-priority">
-          <span style="display: inline-block">
+          <span class="d-inline-block text-center">
             <small>Prioridad</small>
             <br />
-            <span
-              v-bind:class="{
-                                                                                'label': true,
-                                                                                'label-danger': tareaI.attributes.prioridad=='Alta',
-                                                                                'label-warning': tareaI.attributes.prioridad=='Media',
-                                                                                'label-primary': tareaI.attributes.prioridad=='Baja'
-                                                                            }"
-            >{{tareaI.attributes.prioridad}}</span>
+            <span v-bind:class="classPriodidad(tareaI)">{{labelPrioridad(tareaI)}}</span>
           </span>
         </div>
         <div class="col-md-3 col-xs-12 project-actions text-right" style="padding-top: 0.5em">
@@ -118,11 +101,7 @@
             <i class="fa fa-pencil"></i> Modificar
           </a>
           -->
-          <a
-            href="#detalleTarea"
-            class="btn btn-white btn-sm"
-            v-on:click="seleccionaTarea(tareaI)"
-          >
+          <a href="#detalleTarea" class="btn btn-white btn-sm" v-on:click="seleccionaTarea(tareaI)">
             <i class="fa fa-folder"></i> Abrir
           </a>
         </div>
@@ -137,45 +116,66 @@
 <script>
 const apiBase = "/api/adm_tareas";
 const colores = {
-    'Completado': 'badge badge-success',
-    'default': 'badge badge-warning',
+  Completado: "badge badge-success",
+  default: "badge badge-warning"
 };
 const iconos = {
-    'Completado': 'fa fa-check',
-    'default': 'fa fa-clock',
+  Completado: "fa fa-check",
+  default: "fa fa-clock"
+};
+const colorPrioridades = {
+  1: "badge badge-danger",
+  2: "badge badge-warning",
+  3: "badge badge-success",
+  default: "badge badge-light"
+};
+const prioridades = {
+  1: "Alta",
+  2: "Media",
+  3: "Baja"
 };
 
 export default {
   path: "/Seguimiento",
   methods: {
-      isOwnedByUser(tarea) {
-          return true;
-      },
-      esUsuarioGerente() {
-          return true;
-      },
-      usuariosAsignados(tarea) {
-          return [];
-      },
-      iconoEstado(tarea) {
-          return iconos[tarea.attributes.tar_estado] || iconos.default; 
-      },
-      classEstado(tarea) {
-          return colores[tarea.attributes.tar_estado] || colores.default; 
-      },
-      listarTareas() {},
-      buscarTarea() {},
-      avancePasosPorcentaje() {
-          return 1;
-      },
+    labelPrioridad(tarea) {
+      return (
+        prioridades[tarea.attributes.tar_prioridad] ||
+        tarea.attributes.tar_prioridad
+      );
+    },
+    classPriodidad(tarea) {
+      return (
+        colorPrioridades[tarea.attributes.tar_prioridad] ||
+        colorPrioridades.default
+      );
+    },
+    isOwnedByUser(tarea) {
+      return true;
+    },
+    esUsuarioGerente() {
+      return true;
+    },
+    usuariosAsignados(tarea) {
+      return [];
+    },
+    iconoEstado(tarea) {
+      return iconos[tarea.attributes.tar_estado] || iconos.default;
+    },
+    classEstado(tarea) {
+      return colores[tarea.attributes.tar_estado] || colores.default;
+    },
+    listarTareas() {},
+    buscarTarea() {},
+    avancePasosPorcentaje() {
+      return 1;
+    }
   },
-  computed: {
-      
-  },
+  computed: {},
   data() {
     return {
-        tareas: new ApiArray('/api/tarea?sort=-tar_prioridad&per_page=7'),
-        busquedaTareas: '',
+      tareas: new ApiArray("/api/tarea?sort=-tar_prioridad&per_page=7"),
+      busquedaTareas: ""
     };
   },
   watch: {}
