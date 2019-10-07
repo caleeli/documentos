@@ -27,7 +27,7 @@ class ClasificacionHojasRutaSeeder extends Seeder
     private function onlyOnce()
     {
         return DB::table('hoja_ruta_clasificacion')
-                ->where('nombre', '1. Procesos)
+                ->where('nombre', '1. Procesos')
                 ->first();
     }
 }
