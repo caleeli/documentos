@@ -1,16 +1,13 @@
 <template>
     <panel :name="'REPORTE'" class="panel-primary">
         <div v-if='data.attributes' class="container">
-            <div class="row">
-                <div class="col-12"><h4>{{titulo}}</h4></div>
-            </div>
             <error v-model="errores" property="message"></error>
             <div class="form-group row">
                 <div :class="colLabel"><label>Tipo de búsqueda:</label></div>
                 <div :class="colField">
-                    <div class="radio" v-for="tipo in tipos">
+                    <div class="checkbox" v-for="tipo in tipos">
                         <label>
-                            <input type="radio" name="tipo_busqueda"
+                            <input type="checkbox" name="tipo_busqueda"
                                    :value="tipo.attributes.sigla"
                                    v-model="data.attributes.tipo">
                             {{tipo.attributes.nombre}}
@@ -103,13 +100,24 @@
                 <div :class="colLabel"><label>Clasificación:</label></div>
                 <div :class="colField">
                     <div class="radio" v-for="clasificacion in clasificacionHojasRuta">
-                        <label>
-                            <input type="radio" name="hoja_edit_tipo"
-                                   :value="clasificacion.attributes.sigla"
-                                   v-model="data.attributes.tipo_tarea"
-                                   @click="clickRadio(data.attributes, 'tipo_tarea', clasificacion.attributes.sigla)">
-                            {{clasificacion.attributes.nombre}}
-                        </label>
+                        <div class="radio col-6">
+                            <label>
+                                <input type="radio" name="hoja_edit_tipo"
+                                    :value="clasificacion.attributes.sigla"
+                                    v-model="data.attributes.tipo_tarea"
+                                    @click="clickRadio(data.attributes, 'tipo_tarea', clasificacion.attributes.sigla)">
+                                {{clasificacion.attributes.nombre}}
+                            </label>
+                        </div>
+                        <div class="col-6"
+                                 v-show="data.attributes.tipo_tarea===clasificacion.attributes.sigla"
+                                 v-if="clasificacion.relationships.subclases && clasificacion.relationships.subclases.length">
+                                <select class="form-control input-sm" v-model="data.attributes.subtipo_tarea">
+                                    <option value=""></option>
+                                    <option v-for="subclase in clasificacion.relationships.subclases"
+                                            :value="subclase.id">{{subclase.attributes.nombre}}</option>
+                                </select>
+                        </div>
                     </div>
                     <error v-model="errores" property="errors.tipo_tarea"></error>
                 </div>
@@ -173,11 +181,6 @@
         props: {
             type: String,
         },
-        computed: {
-            titulo() {
-                return 'REPORTE - ' + this.data.attributes.tipo;
-            },
-        },
         methods: {
             clickRadio(attributes, name, value) {
                 if (attributes[name] === value) {
@@ -192,7 +195,7 @@
             },
             getIdURL() {
                 return isNaN(this.type)
-                        ? 'create?factory=' + this.type
+                        ? 'create'
                         : this.type;
             },
             generarReporte() {
@@ -238,7 +241,7 @@
                 reportErrors: reportErrors,
                 procedencias: [], //new ApiArray('/api/empresas'),
                 destinatarios: new ApiArray('/api/users'),
-                clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion'),
+                clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases'),
                 tipos: [
                     {attributes: {sigla: 'externa', nombre: 'HR Externa'}},
                     {attributes: {sigla: 'interna', nombre: 'HR Interna'}},
@@ -248,9 +251,12 @@
                     {attributes: {sigla: 'informes', nombre: 'Informes'}},
                 ],
                 tiposReporte: [
-                    {attributes: {sigla: 'hoja_ruta', nombre: 'Por Hoja de Ruta'}},
+                    /*{attributes: {sigla: 'hoja_ruta', nombre: 'Por Hoja de Ruta'}},
                     {attributes: {sigla: 'derivacion', nombre: 'Por Derivación'}},
-                    {attributes: {sigla: 'detallada', nombre: 'Detallada'}},
+                    {attributes: {sigla: 'detallada', nombre: 'Detallada'}},*/
+                    {attributes: {sigla: 'pendientes', nombre: 'Pendientes'}},
+                    {attributes: {sigla: 'concluidos', nombre: 'Concluidos'}},
+                    {attributes: {sigla: 'destinatario', nombre: 'Destinatario'}},
                 ],
             };
         },
