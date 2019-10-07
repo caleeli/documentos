@@ -54,7 +54,7 @@ class SubClasificacionHojasRutaSeeder extends Seeder
                 ['sub_clase_id' => '1.6', 'clasificacion_id' => '3', 'nombre' => '1.6 Apoyo Administrativo interno'], 
                 ['sub_clase_id' => '1.7', 'clasificacion_id' => '3', 'nombre' => '1.7 Contratos'], 
                 ['sub_clase_id' => '1.8', 'clasificacion_id' => '3', 'nombre' => '1.8 Normatividad'], 
-                ['sub_clase_id' => '1.9', 'clasificacion_id' => '3', 'nombre' => '1.9 Otros'], 
+                ['sub_clase_id' => '1.9', 'clasificacion_id' => '3', 'nombre' => '1.9 Otros']
         ]);
     }
 
