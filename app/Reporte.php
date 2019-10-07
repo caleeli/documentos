@@ -163,8 +163,8 @@ class Reporte extends Model
         }
         $query = implode("\n and ", $query);
         $query .= ' order by derivacion.id';
-        \Illuminate\Support\Facades\Log::info('valor query: ' . print_r($query, true));
-        \Illuminate\Support\Facades\Log::info('valor params: ' . print_r($params, true));
+        /*\Illuminate\Support\Facades\Log::info('valor query: ' . print_r($query, true));
+        \Illuminate\Support\Facades\Log::info('valor params: ' . print_r($params, true));*/
         $stmt = $connection->prepare($query);
         //echo "\n",$query,"\n","\n","\n";
         foreach ($params as $p) {
@@ -221,7 +221,11 @@ class Reporte extends Model
 
     public function getTipoAttribute($value)
     {
-        $valor = explode(",", $this->attributes['tipo']);
+        if (!is_array($this->attributes['tipo'])) {
+            $valor = explode(",", $this->attributes['tipo']);
+        } else {
+            $valor = 'externa';
+        }
         return $valor;
     }
 
