@@ -11,7 +11,9 @@
         <title>{{ config('app.name', 'SCSL') }}</title>
 
         <!-- Scripts -->
+        <script src="js/tinymce/tinymce.min.js" defer></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="js/jq-ajax-progress/src/jq-ajax-progress.min.js" defer></script>
         @foreach(JDD::getModules() as $module)
         @foreach($module->scripts as $script)<script src="{{$script}}?{{filemtime(public_path($script))}}"></script>@endforeach
         @endforeach

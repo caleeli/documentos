@@ -64,6 +64,12 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'tareas' => [
+            'driver' => 'local',
+            'root' => public_path('tareas'),
+            'urlBase' => 'tareas/',
+        ],
+
     ],
 
 ];

@@ -44,7 +44,7 @@
     </div>
     <div class="row" v-if="tarea.attributes">
       <div class="card w-100">
-        <div class="card-header">
+        <div class="card-header" style="padding:12px 20px;">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
               <a
@@ -61,21 +61,37 @@
         </div>
         <div class="card-body tab-content">
           <div id="active" class="tab-pane active" role="tabpanel">
-            <div>
-              <label>Fecha</label>
-              <fecha
-                v-model="tarea.datos.data[tarea.datos.actual].fecha"
-                @change="save('data.'+tarea.datos.actual+'.fecha', tarea.datos.data[tarea.datos.actual].fecha)"
-              />
-            </div>
-            <div>
-              <label>Descripción</label>
-              <tinymce
-                v-model="tarea.datos.data[tarea.datos.actual].descripcion"
-                plugins="table"
-                height="10em"
-                @change="save('data.'+tarea.datos.actual+'.descripcion', tarea.datos.data[tarea.datos.actual].descripcion)"
-              />
+            <div class="row">
+              <div class="col-7">
+                <div v-for="comentario in tarea.relationships.comentarios" :key="comentario.id">
+                  <div>
+                    <label>Fecha</label>
+                    <datetime :read-only="true" v-model="comentario.attributes.com_fecha" />
+                  </div>
+                  <div>
+                    <label>Comentario</label>
+                    <div v-html="comentario.attributes.com_texto" />
+                  </div>
+                  <hr />
+                </div>
+                <div>
+                  <label>Fecha</label>
+                  <datetime v-model="com_fecha" />
+                </div>
+                <div>
+                  <label>Comentario</label>
+                  <tinymce v-model="com_texto" plugins="table" height="10em" />
+                </div>
+                <button type="button" class="btn btn-primary" @click="comentar">Registrar</button>
+              </div>
+              <div class="col-5">
+                <folder-viewer
+                  :api="'/api/folder/tareas/' + tarea.id"
+                  :candelete="true"
+                  :canupload="true"
+                  :target="'tareas/' + tarea.id"
+                ></folder-viewer>
+              </div>
             </div>
           </div>
           <div id="link" class="tab-pane" role="tabpanel"></div>
@@ -112,6 +128,18 @@ const prioridades = {
 export default {
   path: "/Tarea/:id",
   methods: {
+    comentar() {
+      this.comentario.attributes.tar_id = this.tarea.id;
+      this.comentario.attributes.com_fecha = this.com_fecha;
+      this.comentario.attributes.com_texto = this.com_texto;
+      this.comentario
+        .postToAPI("/api/tarea/" + this.$route.params.id + "/comentarios")
+        .then(() => {
+          this.tarea.loadFromAPI();
+          this.com_fecha = "";
+          this.com_texto = "";
+        });
+    },
     seleccionaTarea() {},
     tiempoReloj(tarea) {
       return Math.min(
@@ -176,8 +204,13 @@ export default {
       tarea: new ApiObject(
         "/api/tarea/" +
           this.$route.params.id +
-          "?include=tar_creador,derivacion,usuarios"
-      )
+          "?include=tar_creador,derivacion,usuarios,comentarios"
+      ),
+      comentario: new ApiObject(
+        "/api/tarea/" + this.$route.params.id + "/comentarios/create"
+      ),
+      com_fecha: "",
+      com_texto: ""
     };
   },
   watch: {}

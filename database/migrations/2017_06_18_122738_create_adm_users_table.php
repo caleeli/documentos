@@ -28,7 +28,7 @@ class CreateAdmUsersTable extends Migration
             $table->integer('nivel_edu')->nullable();
             $table->integer('cod_cliente')->nullable();
             $table->integer('fec_ven_cliente')->nullable();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('nro_dependientes')->nullable();
             $table->string('calificacion')->nullable();
             $table->string('direccion')->nullable();

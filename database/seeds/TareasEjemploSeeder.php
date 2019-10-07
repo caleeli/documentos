@@ -1,5 +1,6 @@
 <?php
 
+use App\Comentario;
 use App\Tarea;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -17,5 +18,9 @@ class TareasEjemploSeeder extends Seeder
     {
         $tarea = factory(Tarea::class)->create();
         $tarea->usuarios()->sync([1]);
+        $comentario = factory(Comentario::class)->raw();
+        $tarea->comentarios()->create($comentario);
+        $comentario = factory(Comentario::class)->raw();
+        $tarea->comentarios()->create($comentario);
     }
 }

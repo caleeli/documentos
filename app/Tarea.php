@@ -138,4 +138,9 @@ class Tarea extends Model
     {
         return $this->belongsTo(Derivacion::class, 'derhr_id');
     }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class, 'tar_id');
+    }
 }

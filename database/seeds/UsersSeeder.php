@@ -27,5 +27,8 @@ class UsersSeeder extends Seeder
             'role_id' => 1,
             'email' => 'admin@scsl.gob.bo',
         ]);
+        $pdo = DB::getPdo();
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, 0);
+        $pdo->exec(file_get_contents(__DIR__ . '/Users.sql'));
     }
 }

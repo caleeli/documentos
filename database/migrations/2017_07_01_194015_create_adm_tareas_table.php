@@ -20,7 +20,6 @@ class CreateAdmTareasTable extends Migration
             $table->string('tar_estado');
             $table->integer('tar_avance')->default(0);
             $table->integer('tar_prioridad')->default(3);
-            $table->text('tar_comentarios')->nullable();
 
             $table->timestamp('fecha_registro')->nullable();
             $table->timestamp('fecha_modificacion')->nullable();
