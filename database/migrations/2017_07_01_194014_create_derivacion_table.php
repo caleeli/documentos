@@ -27,6 +27,7 @@ class CreateDerivacionTable extends Migration
             $table->char('instruccion', 255)->nullable()->default(null);
             $table->integer('hoja_ruta_id');
             $table->string('destinatarios', 128)->nullable()->default(null);
+            $table->char('destinatario', 255)->nullable()->default(null);
             $table->integer('dias_plazo')->nullable();
             $table->text('firma')->nullable()->default(null);
             $table->integer('user_add')->nullable()->default(null);
