@@ -14,7 +14,7 @@
                                     <label>
                                         <input type="radio" name="per_tipo_persona"
                                             :value="tipoPersona.codigo"
-                                            v-model="data.attributes.per_tipo_persona"
+                                            v-model="persona.attributes.per_tipo_persona"
                                             >
                                         {{tipoPersona.descripcion}}
                                     </label>
@@ -24,23 +24,23 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div :class="colLabel"><label>{{ data.attributes.per_tipo_persona=='natural' ? 'Nombres:' : 'Razon Social:' }}</label></div>
+                    <div :class="colLabel"><label>{{ persona.attributes.per_tipo_persona=='natural' ? 'Nombres:' : 'Razon Social:' }}</label></div>
                     <div :class="colField">
-                        <input class="form-control" type="text" v-model="data.attributes.per_nombres" />
+                        <input class="form-control" type="text" v-model="persona.attributes.per_nombres" />
                         <error v-model="erroresPersona" property="errors.nombres"></error>
                     </div>
                 </div>
-                <div v-if="data.attributes.per_tipo_persona=='natural'" class="form-group row">
+                <div v-if="persona.attributes.per_tipo_persona=='natural'" class="form-group row">
                     <div :class="colLabel"><label>Apellidos:</label></div>
                     <div :class="colField">
-                        <input class="form-control" type="text" v-model="data.attributes.per_apellidos" />
+                        <input class="form-control" type="text" v-model="persona.attributes.per_apellidos" />
                         <error v-model="erroresPersona" property="errors.apellidos"></error>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div :class="colLabel"><label>{{ data.attributes.per_tipo_persona=='natural' ? 'CI:' : 'NIT:' }}</label></div>
+                    <div :class="colLabel"><label>{{ persona.attributes.per_tipo_persona=='natural' ? 'CI:' : 'NIT:' }}</label></div>
                     <div :class="colField">
-                        <input class="form-control" type="text" v-model="data.attributes.per_ci_nit" />
+                        <input class="form-control" type="text" v-model="persona.attributes.per_ci_nit" />
                         <error v-model="erroresPersona" property="errors.ci_nit"></error>
                     </div>
                 </div>
@@ -64,16 +64,18 @@
             },
             savePersona() {
 
-                if (this.data.id) {
-                    this.data.putToAPI(this.getUrlBase() + "/" + this.data.id).then((response) => {
+                if (this.persona.id) {
+                    this.persona.putToAPI(this.getUrlBase() + "/" + this.persona.id).then((response) => {
                         this.$router.push({params: {id: response.data.data.id}});
                     });
                 } else {
-                    this.data.callMethod('getSecuencia')
+                    this.persona.callMethod('getSecuencia')
                         .then(response => {
-                            this.data.attributes.per_id = response.data.response;
-                            this.data.postToAPI(this.getUrlBase()).then((response) => {
-                                this.$router.push({params: {id: response.data.data.id}});
+                            this.persona.attributes.per_id = response.data.response;
+                            this.persona.postToAPI(this.getUrlBase()).then((response) => {
+                                //this.$router.push({params: {id: response.data.data.id}});
+                                //this.$emit('respPersona', this.persona.attributes.per_nombres +  ' ' + this.persona.attributes.per_apellidos + '-' + this.persona.attributes.per_ci_nit);
+                                this.$router.push({path: '/HojaRuta/create'});
                             });
                     });
                 }
@@ -87,7 +89,7 @@
         data() {
             const erroresPersona = {};
             return {
-                data: new ApiObject(this.getUrlBase() + '/' + this.getIdURL(), erroresPersona).loadFromAPI(),
+                persona: new ApiObject(this.getUrlBase() + '/' + this.getIdURL(), erroresPersona).loadFromAPI(),
                 erroresPersona: erroresPersona,
                 tipoPersonas: [  {codigo: 'natural', descripcion: 'Natural'}, 
                                  {codigo: 'juridica', descripcion: 'Juridica'}
@@ -96,7 +98,7 @@
         },
         watch: {
             '$route.params.id'() {
-                this.data.loadFromAPI(this.getUrlBase() + '/' + this.getIdURL());
+                this.persona.loadFromAPI(this.getUrlBase() + '/' + this.getIdURL());
             },
         }
     };

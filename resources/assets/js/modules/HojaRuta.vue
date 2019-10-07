@@ -74,7 +74,8 @@
                 <div class="col-1">
                     <button type="button" class="btn btn-primary" @click="showPersona"><i class="fas fa-user-plus"></i></button>
                 </div>
-            </div>
+            </div>          
+
             <div class="form-group row">
                 <div :class="colLabel"><label>Referencia:</label></div>
                 <div :class="colField">
@@ -249,6 +250,11 @@
         //path: "/HojaRuta/:type/:id",
         path: "/HojaRuta/:id",
         computed: {
+            /*guardaPersona(value){
+               // this.mostrarPersona = !this.mostrarPersona;
+               console.log(value);
+                this.data.attributes.procedencia = value;
+            },*/
             getGuardarLabel(){
                 if (this.data.id) {
                     return 'Guardar Cambios';
@@ -370,6 +376,7 @@
             },
             showPersona() {
                 this.$router.push({path: '/Persona/create', query:this.$route.query});
+                //this.mostrarPersona = ! this.mostrarPersona;
             }
         },
         data() {
@@ -384,7 +391,7 @@
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=7'),
                 comunicaciones: new ApiArray('/api/comunicaciones_internas?sort=-id&per_page=7'),
                 informes: new ApiArray('/api/informe?sort=-id&per_page=7'),
-                clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases'),
+                clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases&sort=id'),
                 tipoProcedencia: [  {codigo: 'ENT', descripcion: 'Entidad'}, 
                                     {codigo: 'NAT', descripcion: 'Persona Natural'}, 
                                     {codigo: 'JUR', descripcion: 'Persona Jurídica'}
@@ -394,7 +401,11 @@
                             {codigo: 'interna', descripcion: 'Internas'}, 
                             {codigo: 'solicitud', descripcion: 'Solicitudes o Denuncias'}
                                 ],
+                //mostrarPersona: false,
             };
+        },
+        mounted(){
+            this.personas.loadFromAPI();
         },
         watch: {
             '$route.params.id'() {
