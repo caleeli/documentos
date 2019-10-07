@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\AutoTableTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Description of Reporte
@@ -79,6 +80,7 @@ class Reporte extends Model
     private function runQueryFor($queryBase)
     {
         $connection = $this->getConnection()->getPdo();
+        
         $params = [];
         $query = [$queryBase];
         if (!empty($this->tipo)) {
@@ -162,8 +164,8 @@ class Reporte extends Model
         }
         $query = implode("\n and ", $query);
         $query .= ' order by derivacion.id';
-        /*\Illuminate\Support\Facades\Log::info('valor query: ' . print_r($query, true));
-        \Illuminate\Support\Facades\Log::info('valor params: ' . print_r($params, true));*/
+        \Illuminate\Support\Facades\Log::info('valor query: ' . print_r($query, true));
+        \Illuminate\Support\Facades\Log::info('valor params: ' . print_r($params, true));
         $stmt = $connection->prepare($query);
         //echo "\n",$query,"\n","\n","\n";
         foreach ($params as $k => $p) {
@@ -180,6 +182,9 @@ class Reporte extends Model
             $res[] = $row;
             $num++;
         }
+        \Illuminate\Support\Facades\Log::info('valor res: ' . print_r($res, true));
+        DB::enableQueryLog();
+        \Illuminate\Support\Facades\Log::info('valor query: ' . print_r($stmt->queryString, true));
         return $res;
     }
 
