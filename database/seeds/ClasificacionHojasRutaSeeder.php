@@ -28,6 +28,6 @@ class ClasificacionHojasRutaSeeder extends Seeder
     {
         return DB::table('hoja_ruta_clasificacion')
                 ->where('nombre', '1. Unidad de Registro y DJBR')
-                ->first();
+                ->first(); 
     }
 }
