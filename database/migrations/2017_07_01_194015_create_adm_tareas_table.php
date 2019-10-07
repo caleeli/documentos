@@ -25,6 +25,8 @@ class CreateAdmTareasTable extends Migration
             $table->timestamp('fecha_registro')->nullable();
             $table->timestamp('fecha_modificacion')->nullable();
             $table->timestamp('fecha_baja')->nullable();
+
+            $table->integer('tar_creador_id')->nullable()->default(null);
             $table->integer('user_add')->nullable()->default(null);
             $table->integer('user_mod')->nullable()->default(null);
             $table->integer('user_del')->nullable()->default(null);

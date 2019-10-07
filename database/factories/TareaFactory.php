@@ -25,6 +25,7 @@ $factory->define(
                 $derivacion->save();
                 return $derivacion->fecha;
             },
+            'tar_creador_id' => 1,
             'tar_estado' => 'Pendiente',
             'tar_avance' => $faker->numberBetween(0, 99),
             'tar_prioridad' => $faker->numberBetween(1, 3),

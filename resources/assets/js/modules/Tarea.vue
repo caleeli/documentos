@@ -1,93 +1,45 @@
 <template>
-  <panel :name="tarea.attributes.tar_codigo" class="panel-primary">
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-prepend">
-          <a href="javascript:void(0)" class="input-group-text" v-on:click="listarTareas">
-            <i class="fas fa-sync"></i>
-            <small class="hidden-xs hidden-sm ml-1">Recargar</small>
-          </a>
-        </span>
-        <input type="text" class="form-control" placeholder="Busqueda" v-model="busquedaTareas" />
-        <span class="input-group-append">
-          <a
-            href="javascript:void(0)"
-            class="input-group-text bg-success text-light"
-            v-on:click="buscarTarea"
-          >
-            <i class="fa fa-search"></i>
-            <small class="hidden-xs hidden-sm ml-1">Buscar</small>
-          </a>
-        </span>
+  <panel :name="titulo" class="panel-primary">
+    <div class="row" v-if="tarea.attributes">
+      <div class="col-lg-5">
+        <dl class="dl-horizontal">
+          <dt>Estado:</dt>
+          <dd>
+            <span class="badge badge-primary">{{tarea.attributes.tar_estado}}</span>
+          </dd>
+          <div style="height: 4px;"></div>
+          <dt>Prioridad:</dt>
+          <dd>
+            <span v-bind:class="classPriodidad(tarea)">{{labelPrioridad(tarea)}}</span>
+          </dd>
+          <dt>Creado por:</dt>
+          <dd>
+            <avatar :user="tarea.relationships.tar_creador" />
+            {{tarea.relationships.tar_creador ? tarea.relationships.tar_creador.attributes.nombres + ' ' + tarea.relationships.tar_creador.attributes.apellidos : ''}}
+          </dd>
+          <dt>Asignado a:</dt>
+          <dd>
+            <div v-for="usuario in tarea.relationships.usuarios" :key="usuario.id">
+              <avatar :user="usuario" />
+              {{usuario ? usuario.attributes.nombres + ' ' + usuario.attributes.apellidos : ''}}
+            </div>
+          </dd>
+        </dl>
       </div>
-    </div>
-    <div>
-      <div class="row" v-for="(tareaI,id) in tareas" :key="id">
-        <div class="col-md-4 col-xs-12">
-          <table width="100%">
-            <tr>
-              <td class="project-status" width="35%">
-                <small>Estado</small>
-                <br />
-                <span v-bind:class="classEstado(tareaI)">
-                  <i v-bind:class="iconoEstado(tareaI)"></i>
-                  <span class="hidden-xs hidden-sm hidden-md">{{ tareaI.attributes.tar_estado }}</span>
-                </span>
-              </td>
-              <td class="project-title" width="65%">
-                <router-link :to="'/Tarea/' + tareaI.id">
-                  {{tareaI.attributes.tar_codigo}}
-                  <small
-                    class="block-with-text"
-                  >{{tareaI.attributes.tar_descripcion}}</small>
-                </router-link>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-md-2 col-xs-4 project-completion">
-          <div class="progress progress-striped active m-b-sm">
-            <div
-              v-bind:style="{width: tareaI.attributes.tar_avance +'%'}"
-              class="progress-bar progress-bar-success"
-            ></div>
-          </div>
-          <span class="badge badge-success">1</span>
-          <span class="badge badge-light">2</span>
-        </div>
-        <div class="col-md-2 col-xs-5 project-user">
-          <div v-for="(u,i) in usuariosAsignados(tareaI.relationships.usuarios)" :key="i">
-            <img
-              class="avatar1em"
-              v-bind:src="u.attributes.fotografia ? u.attributes.fotografia.url : '/images/slightly-smiling-face_1f642.png'"
-            />
-            {{u.attributes.nombres+' '+u.attributes.apellidos}}
-          </div>
-        </div>
-        <!-- td class="project-owner">
-                                                                    <i class="fa fa-user-secret"></i> {{tareaI.relationships.creador.attributes.nombres+' '+tareaI.relationships.creador.attributes.apellidos}}
-        </td-->
-        <div class="col-md-1 col-xs-3 text-right project-priority">
-          <span class="d-inline-block text-center">
-            <small>Prioridad</small>
-            <br />
-            <span v-bind:class="classPriodidad(tareaI)">{{labelPrioridad(tareaI)}}</span>
-          </span>
-        </div>
-        <div class="col-md-3 col-xs-12 project-actions text-left" style="padding-top: 0.5em">
-          <span class="d-inline-block">
-            <pie-svg :value="tiempoReloj(tareaI)"></pie-svg>
-            {{ diasPasados(tareaI) }}
-          </span>
-          <span class="d-inline-block">
-            <router-link :to="'/Tarea/' + tareaI.id" class="btn btn-white btn-sm">
-              <i class="fa fa-folder"></i> Abrir
-            </router-link>
-          </span>
-        </div>
-        <div class="col-12">
-          <hr />
-        </div>
+      <div class="col-lg-7" id="cluster_info">
+        <dl class="dl-horizontal">
+          <dt>Creación:</dt>
+          <dd>{{tarea.attributes.fecha_registro}}</dd>
+          <dt>Última actualización:</dt>
+          <dd>{{tarea.attributes.fecha_modificacion}}</dd>
+          <dt>Tiempo asignado:</dt>
+          <dd>{{tarea.relationships.derivacion.attributes.dias_plazo}} días</dd>
+          <dt>Tiempo disponible:</dt>
+          <dd>
+            <pie-svg :value="tiempoReloj(tarea)"></pie-svg>
+            {{ diasPasados(tarea) }}
+          </dd>
+        </dl>
       </div>
     </div>
   </panel>
@@ -170,15 +122,37 @@ export default {
       return 1;
     }
   },
-  computed: {},
+  computed: {
+    titulo() {
+      return this.tarea.attributes
+        ? this.tarea.attributes.tar_codigo +
+            " - " +
+            this.tarea.attributes.tar_descripcion
+        : "...";
+    }
+  },
   data() {
     return {
-      tareas: new ApiArray(
-        "/api/tarea?sort=-tar_prioridad&per_page=7&include=derivacion"
-      ),
-      busquedaTareas: ""
+      tarea: new ApiObject(
+        "/api/tarea/" +
+          this.$route.params.id +
+          "?include=tar_creador,derivacion,usuarios"
+      )
     };
   },
   watch: {}
 };
 </script>
+
+<style scoped>
+dt {
+  display: inline-block;
+  width: 30%;
+  text-align: right;
+}
+dd {
+  display: inline-block;
+  width: 60%;
+  text-align: left;
+}
+</style>

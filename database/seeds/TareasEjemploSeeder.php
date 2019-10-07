@@ -15,16 +15,7 @@ class TareasEjemploSeeder extends Seeder
      */
     public function run()
     {
-        /*Tarea::insert([
-            'tar_codigo' => 'SCSL-12',
-            'tar_descripcion' => 'Remite informe de Auditoria Externa de la Firma ZABALA AUDITORES Y CONSULTORES S.R.L.',
-            'tar_fecha_derivacion' => new Carbon(),
-            'tar_fecha_fin' => null,
-            'tar_estado' => 'Pendiente',
-            'tar_avance' => 30,
-            'tar_prioridad' => 1,
-            'tar_comentarios' => '<p>Ejemplo de <u>comentarios</u></p>',
-        ]);*/
-        factory(Tarea::class)->create();
+        $tarea = factory(Tarea::class)->create();
+        $tarea->usuarios()->sync([1]);
     }
 }

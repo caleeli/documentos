@@ -11,7 +11,7 @@ class CreateAdmAsignacionsTable extends Migration
     {
         Schema::create('tarea_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('tarea_id')->nullable();
+            $table->integer('tarea_tar_id')->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('nro_asignacion')->nullable();
             $table->integer('dias_plazo')->nullable();

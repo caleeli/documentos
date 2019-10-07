@@ -35,7 +35,7 @@ class Tarea extends Model
         return $this->belongsToMany('App\User');
     }
 
-    public function creador()
+    public function tar_creador()
     {
         return $this->belongsTo('App\User');
     }
