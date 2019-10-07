@@ -44,10 +44,10 @@ class Entidad extends Model
 
     public function procedencias()
     {
-        $sql = "select ent_descripcion as nombre from adm_entidad
+        $sql = "select ent_descripcion as nombre_completo from adm_entidad
                 union
-                select concat(per_nombres, ' ', per_apellidos, ' - ', per_ci_nit) as nombre from adm_persona";
+                select concat(per_nombres, ' ', per_apellidos, ' - ', per_ci_nit) as nombre_completo from adm_persona";
         $res = \DB::select($sql);
-        return ["data" => $res];
+        return $res;
     }
 }

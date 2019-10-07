@@ -6,6 +6,7 @@ use App\Reporte as Model;
 $factory->define(Model::class,
     function (Faker $faker) {
     return [
+        'tipo' => array(),
     ];
 });
 

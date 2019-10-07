@@ -28,6 +28,7 @@ class Reporte extends Model
         'gestion_hasta',
         'destinatario',
         'tipo_tarea',
+        'subtipo_tarea',
         'tipo_reporte',
     ];
     protected $casts = [
@@ -39,15 +40,15 @@ class Reporte extends Model
 
     public function getProcedencias()
     {
-        $empresas = Empresa::get();
+        $entidad = new Entidad();
         $procedencias = [];
-        foreach ($empresas as $empresa) {
+        foreach ($entidad->procedencias() as $key=>$value){           
             $procedencias[] = [
-                'id' => $empresa->id,
+                'id' => $key,
                 'attributes' => [
-                    'nombre_completo' => $empresa->nombre_empresa,
-                ]
-            ];
+                    'nombre_completo' => $value->nombre_completo,
+                    ]
+                ];
         }
         return $procedencias;
     }
@@ -81,8 +82,8 @@ class Reporte extends Model
         $params = [];
         $query = [$queryBase];
         if (!empty($this->tipo)) {
-            $query[] = ' hoja_ruta.tipo_hr = :tipo';
-            $params['tipo'] = $this->tipo;
+            $query[] = ' hoja_ruta.tipo_hr IN (:tipo)';
+            $params['tipo'] = "'" . implode("', '",$this->tipo) . "'";
         }
         if (!empty($this->recepcion_desde)) {
             $query[] = ' hoja_ruta.fecha_recepcion >= :recepcion_desde';
@@ -162,6 +163,8 @@ class Reporte extends Model
         }
         $query = implode("\n and ", $query);
         $query .= ' order by derivacion.id';
+        \Illuminate\Support\Facades\Log::info('valor query: ' . print_r($query, true));
+        \Illuminate\Support\Facades\Log::info('valor params: ' . print_r($params, true));
         $stmt = $connection->prepare($query);
         //echo "\n",$query,"\n","\n","\n";
         foreach ($params as $p) {
@@ -203,6 +206,23 @@ class Reporte extends Model
     {
         $datetime = explode('T', $value);
         $this->attributes['conclusion_hasta'] = empty($datetime[0]) ? null : $datetime[0];
+    }
+
+    public function setTipoAttribute($value)
+    {
+        $valor = $value;
+        if (is_array($value)){
+            if (count($value) > 0) {
+                $valor = implode (",", $value);
+            }
+        }
+        $this->attributes['tipo'] = $valor;
+    }
+
+    public function getTipoAttribute($value)
+    {
+        $valor = explode(",", $this->attributes['tipo']);
+        return $valor;
     }
 
     public function generarResumen($rowsType = 'destinatario', $colsType = 'gestion')
