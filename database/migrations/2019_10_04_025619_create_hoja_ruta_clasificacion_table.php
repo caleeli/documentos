@@ -23,7 +23,7 @@ class CreateHojaRutaClasificacionTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('sigla', 3);
+            $table->string('sigla');
             $table->string('nombre');
         });
     }
