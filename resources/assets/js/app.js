@@ -115,7 +115,7 @@ const app = new Vue({
                     },
                 ]
             },
-            logo128: '/images/logo128.png',
+            logo128: '/images/logo-banner.svg',
             logo: '/images/logo.png'//'http://subcep.com/images/logo2.png'
         };
     },
