@@ -82,8 +82,7 @@ class Reporte extends Model
         $params = [];
         $query = [$queryBase];
         if (!empty($this->tipo)) {
-            $query[] = ' hoja_ruta.tipo_hr IN (:tipo)';
-            $params['tipo'] = "'" . implode("', '",$this->tipo) . "'";
+            $query[] = ' hoja_ruta.tipo_hr IN (' . "'" . implode("', '",$this->tipo) . "'" . ')';
         }
         if (!empty($this->recepcion_desde)) {
             $query[] = ' hoja_ruta.fecha_recepcion >= :recepcion_desde';
@@ -167,9 +166,9 @@ class Reporte extends Model
         \Illuminate\Support\Facades\Log::info('valor params: ' . print_r($params, true));*/
         $stmt = $connection->prepare($query);
         //echo "\n",$query,"\n","\n","\n";
-        foreach ($params as $p) {
-            if (is_array($p)) {
-                $stmt->bindParam(":$p", $p, \PDO::PA);
+        foreach ($params as $k => $p) {
+            if (!is_array($p)) {
+                $stmt->bindParam($k, $p);
             } else {
             }
         }
