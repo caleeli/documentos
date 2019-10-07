@@ -21,7 +21,7 @@ class CreateHojaRutaSubClasesTable extends Migration
     public function up()
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->string('sub_clase_id', 12);
+            $table->numeric('sub_clase_id');
             $table->string('nombre');
             $table->unsignedInteger('clasificacion_id');
 
