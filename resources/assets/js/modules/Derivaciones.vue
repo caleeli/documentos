@@ -194,6 +194,7 @@
                 this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
                 this.derivacion.postToAPI('/api/hoja_ruta' + '/' + this.hojaRuta.id + '/derivacion').then(() => {
                         this.derivaciones.loadFromAPI();
+                        this.derivacion.loadFromAPI();
                     });
             },
             referenciarNota(nota) {
