@@ -42,6 +42,46 @@
         </dl>
       </div>
     </div>
+    <div class="row" v-if="tarea.attributes">
+      <div class="card w-100">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a
+                href="#active"
+                class="nav-link active"
+                data-toggle="tab"
+                role="tab"
+              >Atención a la derivación</a>
+            </li>
+            <li class="nav-item">
+              <a href="#link" class="nav-link" data-toggle="tab" role="tab">Evaluación del producto</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body tab-content">
+          <div id="active" class="tab-pane active" role="tabpanel">
+            <div>
+              <label>Fecha</label>
+              <fecha
+                v-model="tarea.datos.data[tarea.datos.actual].fecha"
+                @change="save('data.'+tarea.datos.actual+'.fecha', tarea.datos.data[tarea.datos.actual].fecha)"
+              />
+            </div>
+            <div>
+              <label>Descripción</label>
+              <tinymce
+                v-model="tarea.datos.data[tarea.datos.actual].descripcion"
+                plugins="table"
+                height="10em"
+                @change="save('data.'+tarea.datos.actual+'.descripcion', tarea.datos.data[tarea.datos.actual].descripcion)"
+              />
+            </div>
+          </div>
+          <div id="link" class="tab-pane" role="tabpanel"></div>
+        </div>
+      </div>
+    </div>
   </panel>
 </template>
 

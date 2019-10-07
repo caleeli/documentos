@@ -56,11 +56,8 @@
           <span class="badge badge-light">2</span>
         </div>
         <div class="col-md-2 col-xs-5 project-user">
-          <div v-for="(u,i) in usuariosAsignados(tareaI.relationships.usuarios)" :key="i">
-            <img
-              class="avatar1em"
-              v-bind:src="u.attributes.fotografia ? u.attributes.fotografia.url : '/images/slightly-smiling-face_1f642.png'"
-            />
+          <div v-for="(u,i) in tareaI.relationships.usuarios" :key="i">
+            <avatar :user="u" />
             {{u.attributes.nombres+' '+u.attributes.apellidos}}
           </div>
         </div>
@@ -174,7 +171,7 @@ export default {
   data() {
     return {
       tareas: new ApiArray(
-        "/api/tarea?sort=-tar_prioridad&per_page=7&include=derivacion"
+        "/api/tarea?sort=-tar_prioridad&per_page=7&include=derivacion,usuarios"
       ),
       busquedaTareas: ""
     };

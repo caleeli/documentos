@@ -35,7 +35,6 @@
 	}
 
 	& > li > a {
-		padding: 26px 36px;
 		@include border-radius(0);
 		& > span[class*="icon-"]{
 			margin-right: 14px;
