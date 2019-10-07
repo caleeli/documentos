@@ -56,6 +56,18 @@ function ApiObject(url, errorsObject) {
             throw error;
         });
     };
+    self.deleteToAPI = function(url) {
+        cleanErrors();
+        var attributes = Object.assign({}, this.attributes);
+        return window.axios.delete(url, {
+            data: {
+                attributes: attributes
+            }
+        }).catch(error => {
+            this.listenErrors(error.response.data);
+            throw error;
+        });
+    };
     self.onupdate = function(callback) {
         onupdate = callback;
         return this;

@@ -232,7 +232,7 @@
             <div class="form-group row">
                 <div :class="colLabel"></div>
                 <div :class="colField">
-                    <button type="button" class="btn btn-primary" @click="saveHR">Guardar</button>
+                    <button type="button" class="btn btn-primary" @click="saveHR">{{getGuardarLabel}}</button>
                 </div>
             </div>
             <div class="row">
@@ -249,6 +249,13 @@
         //path: "/HojaRuta/:type/:id",
         path: "/HojaRuta/:id",
         computed: {
+            getGuardarLabel(){
+                if (this.data.id) {
+                    return 'Guardar Cambios';
+                } else {
+                    return 'Guardar';
+                }
+            },
             getFjs() {
                 return this.getAnexo("fjs");
             },

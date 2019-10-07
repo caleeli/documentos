@@ -8,7 +8,7 @@ $factory->define(Model::class,
     return [
         'gestion' => date('Y'),
         'fecha_recepcion' => date('Y-m-d'),
-        'tipo_tarea' => 'EDC',
+        'tipo_tarea' => 'SCSL-UR',
         'tipo_hr' => 'externa',
         'referencia' => $faker->sentence(),
         'procedencia' => $faker->sentence(),

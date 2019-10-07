@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Rules\UntilToday;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Description of Derivacion
@@ -10,6 +11,7 @@ use App\Rules\UntilToday;
  */
 class Derivacion extends Model
 {
+    use SoftDeletes;
 
     public $timestamps = false;
     protected $table = 'derivacion';

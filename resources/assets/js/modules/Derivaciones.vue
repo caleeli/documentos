@@ -49,7 +49,8 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Instrucción</label></div>
                 <div :class="colField">
-                    <select-box :data="instrucciones" v-model="derivacion.attributes.instruccion" id-field="attributes.sigla"
+                    <select-box :data="getInstruccionPorSigla" v-model="derivacion.attributes.instruccion" 
+                        id-field="attributes.nombre"
                         filter-by="attributes.sigla,attributes.nombre">
                         <template slot-scope="{row,format}">
                             <span v-html="format(row.attributes.nombre)" style="font-size: 1rem"></span>
@@ -113,7 +114,8 @@
                 <error v-model="erroresDerivacionEdit" property="errors.comentarios"></error>
                 </td>
                 <td>
-                <select-box :data="instrucciones" v-model="row.attributes.instruccion" id-field="attributes.sigla"
+                <select-box :data="getInstruccionPorSigla" v-model="row.attributes.instruccion" 
+                    id-field="attributes.nombre"
                     filter-by="attributes.sigla,attributes.nombre">
                     <template slot-scope="{row,format}">
                         <span v-html="format(row.attributes.nombre)" style="font-size: 1rem"></span>
@@ -137,7 +139,10 @@
                 <td>{{row.attributes.instruccion}}</td>
                 <td>{{row.attributes.dias_plazo}}</td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" @click="editarDerivacion(row)"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-sm" @click="editarDerivacion(row)"><i class="fas fa-pen"></i></button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm" @click="eliminarDerivacion(row)"><i class="fa fa-trash"></i></button>
                 </td>
             </template>
             </tr>
@@ -152,6 +157,15 @@
             type: String,
         },
         computed: {
+            getInstruccionPorSigla() {
+                let sigla = this.hojaRuta.attributes.tipo_tarea;
+                let instruccion = this.instrucciones.filter(
+                    function(e) {
+                        return e.attributes.sigla == sigla
+                    }
+                );
+                return instruccion;
+            },
         },
         methods: {
             editarDerivacion(row) {
@@ -178,10 +192,20 @@
             },
             registrarDerivacion() {
                 this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
-                this.derivacion.postToAPI('/api/hoja_ruta' + '/' + this.hojaRuta.id + '/derivacion');
+                this.derivacion.postToAPI('/api/hoja_ruta' + '/' + this.hojaRuta.id + '/derivacion').then(() => {
+                        this.derivaciones.loadFromAPI();
+                    });
             },
             referenciarNota(nota) {
                 return nota.attributes.nro_nota + " " + nota.attributes.referencia;
+            },
+            eliminarDerivacion(row) {
+                var self = this;
+                if (confirm("¿Desea eliminar la derivacion " + row.attributes.id + "?")) {
+                    this.derivacion.deleteToAPI('/api/derivacion/' + row.attributes.id).then(() => {
+                        this.derivaciones.loadFromAPI();
+                    });
+                }
             },
         },
         data() {

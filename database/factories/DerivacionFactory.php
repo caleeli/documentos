@@ -12,7 +12,7 @@ $factory->define(
             'fecha' => $faker->dateTimeBetween('-15 days'),
             'comentarios' => $faker->sentence(),
             'destinatarios' => '1',
-            'instruccion' => $faker->sentence(),
+            'instruccion' => '',
             'hoja_ruta_id' => function () {
                 return factory(HojaRuta::class)->create()->getKey();
             },
