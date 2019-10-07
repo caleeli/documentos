@@ -133,4 +133,9 @@ class Tarea extends Model
         }
         return $ultimos;
     }
+
+    public function derivacion()
+    {
+        return $this->belongsTo(Derivacion::class, 'derhr_id');
+    }
 }

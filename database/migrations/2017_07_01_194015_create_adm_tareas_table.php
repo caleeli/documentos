@@ -11,6 +11,7 @@ class CreateAdmTareasTable extends Migration
         Schema::create('tarea', function (Blueprint $table) {
             $table->increments('tar_id');
             $table->integer('hr_id')->nullable();
+            $table->integer('derhr_id')->nullable();
 
             $table->string('tar_codigo');
             $table->string('tar_descripcion')->default('');
@@ -24,9 +25,16 @@ class CreateAdmTareasTable extends Migration
             $table->timestamp('fecha_registro')->nullable();
             $table->timestamp('fecha_modificacion')->nullable();
             $table->timestamp('fecha_baja')->nullable();
+            $table->integer('user_add')->nullable()->default(null);
+            $table->integer('user_mod')->nullable()->default(null);
+            $table->integer('user_del')->nullable()->default(null);
 
             $table->foreign('hr_id')
                 ->references('hr_id')->on('hoja_ruta')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('derhr_id')
+                ->references('id')->on('derivacion')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

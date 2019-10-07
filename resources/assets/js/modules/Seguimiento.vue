@@ -10,7 +10,11 @@
         </span>
         <input type="text" class="form-control" placeholder="Busqueda" v-model="busquedaTareas" />
         <span class="input-group-append">
-          <a href="javascript:void(0)" class="input-group-text bg-success text-light" v-on:click="buscarTarea">
+          <a
+            href="javascript:void(0)"
+            class="input-group-text bg-success text-light"
+            v-on:click="buscarTarea"
+          >
             <i class="fa fa-search"></i>
             <small class="hidden-xs hidden-sm ml-1">Buscar</small>
           </a>
@@ -31,12 +35,12 @@
                 </span>
               </td>
               <td class="project-title" width="65%">
-                <a href="#detalleTarea" v-on:click="seleccionaTarea(tareaI)">
+                <router-link :to="'/Tarea/' + tareaI.id">
                   {{tareaI.attributes.tar_codigo}}
                   <small
                     class="block-with-text"
                   >{{tareaI.attributes.tar_descripcion}}</small>
-                </a>
+                </router-link>
               </td>
             </tr>
           </table>
@@ -70,42 +74,18 @@
             <span v-bind:class="classPriodidad(tareaI)">{{labelPrioridad(tareaI)}}</span>
           </span>
         </div>
-        <div class="col-md-3 col-xs-12 project-actions text-right" style="padding-top: 0.5em">
-          <span
-            v-if="tareaI.attributes.dias_otorgados>=0"
-            style="display: inline-block; float: left;"
-          >
-            <div>
-              <peity
-                v-bind:value="tareaI.attributes.dias_pasados"
-                v-bind:total="tareaI.attributes.dias_otorgados"
-              />
-            </div>
-            <small>{{tareaI.attributes.dias_otorgados ? Math.max(0, tareaI.attributes.dias_otorgados - tareaI.attributes.dias_pasados)+'d' : ''}}</small>
+        <div class="col-md-3 col-xs-12 project-actions text-left" style="padding-top: 0.5em">
+          <span class="d-inline-block">
+            <pie-svg :value="tiempoReloj(tareaI)"></pie-svg>
+            {{ diasPasados(tareaI) }}
           </span>
-          <!--
-          <a
-            v-if="esUsuarioGerente()"
-            href="javascript:void(0)"
-            class="btn btn-white btn-sm"
-            v-on:click="cancelarTarea(tareaI)"
-          >
-            <i class="fa fa-times"></i> Cancelar
-          </a>
-          <a
-            v-if="isOwnedByUser(tareaI)"
-            href="#asignarTarea"
-            class="btn btn-white btn-sm"
-            v-on:click="modificarTarea(tareaI)"
-          >
-            <i class="fa fa-pencil"></i> Modificar
-          </a>
-          -->
-          <a href="#detalleTarea" class="btn btn-white btn-sm" v-on:click="seleccionaTarea(tareaI)">
-            <i class="fa fa-folder"></i> Abrir
-          </a>
+          <span class="d-inline-block">
+            <router-link :to="'/Tarea/' + tareaI.id" class="btn btn-white btn-sm">
+              <i class="fa fa-folder"></i> Abrir
+            </router-link>
+          </span>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
           <hr />
         </div>
       </div>
@@ -114,6 +94,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 const apiBase = "/api/adm_tareas";
 const colores = {
   Completado: "badge badge-success",
@@ -138,6 +120,23 @@ const prioridades = {
 export default {
   path: "/Seguimiento",
   methods: {
+    seleccionaTarea() {},
+    tiempoReloj(tarea) {
+      return Math.min(
+        100,
+        Math.round(
+          (100 *
+            moment().diff(
+              moment(tarea.attributes.tar_fecha_derivacion),
+              "days"
+            )) /
+            tarea.relationships.derivacion.attributes.dias_plazo
+        )
+      );
+    },
+    diasPasados(tarea) {
+      return moment(tarea.attributes.tar_fecha_derivacion).fromNow();
+    },
     labelPrioridad(tarea) {
       return (
         prioridades[tarea.attributes.tar_prioridad] ||
@@ -174,7 +173,9 @@ export default {
   computed: {},
   data() {
     return {
-      tareas: new ApiArray("/api/tarea?sort=-tar_prioridad&per_page=7"),
+      tareas: new ApiArray(
+        "/api/tarea?sort=-tar_prioridad&per_page=7&include=derivacion"
+      ),
       busquedaTareas: ""
     };
   },

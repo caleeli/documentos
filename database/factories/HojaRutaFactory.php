@@ -9,7 +9,11 @@ $factory->define(Model::class,
         'gestion' => date('Y'),
         'fecha_recepcion' => date('Y-m-d'),
         'tipo_tarea' => 'EDC',
-        'tipo_hr' => 'externa'
+        'tipo_hr' => 'externa',
+        'referencia' => $faker->sentence(),
+        'procedencia' => $faker->sentence(),
+        'nro_de_control' => 'SCSL-' . $faker->numberBetween(100, 999),
+        'numero' => $faker->numberBetween(100, 999),
     ];
 });
 
