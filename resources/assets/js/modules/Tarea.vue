@@ -64,6 +64,24 @@
         <div class="card-body tab-content">
           <div id="active" class="tab-pane active" role="tabpanel">
             <div class="row">
+              <div class="col-3">
+                <div>
+                  <label>% de Avance</label>
+                  <div class="input-group mb-3">
+                    <input
+                      v-model="tarea.attributes.tar_avance"
+                      type="number"
+                      class="form-control"
+                      placeholder="%"
+                    />
+                    <div class="input-group-append">
+                      <a href="javascript:void(0)" class="input-group-text bg-success text-white" @click="saveTarea"><i class="fas fa-save"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-7">
                 <div v-for="comentario in tarea.relationships.comentarios" :key="comentario.id">
                   <div>
@@ -101,9 +119,11 @@
               <label>Calificación</label>
               <input class="form-control" v-model="tarea.attributes.tar_calificacion" />
             </div>
-            <hr>
+            <hr />
             <div>
-              <button type="button" class="btn btn-primary" @click="saveTarea"><i class="fas fa-save"></i> Guardar</button>
+              <button type="button" class="btn btn-primary" @click="saveTarea">
+                <i class="fas fa-save"></i> Guardar
+              </button>
             </div>
           </div>
         </div>
