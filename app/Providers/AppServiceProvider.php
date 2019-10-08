@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Bpmn\Manager;
+use App\Derivacion;
 use App\JDD\JDD;
+use App\Observers\DerivacionObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Derivacion::observe(DerivacionObserver::class);
     }
 
     /**

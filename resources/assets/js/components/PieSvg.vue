@@ -1,5 +1,5 @@
 <template>
-  <svg viewBox="0 0 64 64" class="pie-svg">
+  <svg viewBox="0 0 64 64" class="pie-svg" :style="style">
     <circle r="25%" cx="50%" cy="50%" :style="progress" />
   </svg>
 </template>
@@ -16,6 +16,9 @@ export default {
     }
   },
   computed: {
+    style() {
+      return `background:${this.background}`;
+    },
     progress() {
       return `stroke-dasharray: ${this.value} 99; stroke: ${this.color};`;
     }

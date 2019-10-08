@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Traits\AutoTableTrait;
+use App\Traits\StandardDateTimeTrait;
 use Illuminate\Database\Eloquent\Model as ModelBase;
 
 /**
@@ -11,8 +11,5 @@ use Illuminate\Database\Eloquent\Model as ModelBase;
  */
 class Model extends ModelBase
 {
-
-    //use AutoTableTrait;
-
-
+    use StandardDateTimeTrait;
 }

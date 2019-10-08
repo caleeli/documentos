@@ -33,11 +33,11 @@
           <dt>Última actualización:</dt>
           <dd>{{tarea.attributes.fecha_modificacion}}</dd>
           <dt>Tiempo asignado:</dt>
-          <dd>{{tarea.relationships.derivacion.attributes.dias_plazo}} días</dd>
-          <dt>Tiempo disponible:</dt>
+          <dd>{{tarea.relationships.derivacion.attributes.dias_plazo}} días, {{ diasPasados(tarea) }}</dd>
+          <dt>Tiempo cumplimiento:</dt>
           <dd>
             <pie-svg :value="tiempoReloj(tarea)"></pie-svg>
-            {{ diasPasados(tarea) }}
+            {{ tiempoDisponible(tarea) }}
           </dd>
         </dl>
       </div>
@@ -103,27 +103,9 @@
 
 <script>
 import moment from "moment";
+import {colores, iconos, colorPrioridades, prioridades} from "../ConstantesSeguimiento";
 
 const apiBase = "/api/adm_tareas";
-const colores = {
-  Completado: "badge badge-success",
-  default: "badge badge-warning"
-};
-const iconos = {
-  Completado: "fa fa-check",
-  default: "fa fa-clock"
-};
-const colorPrioridades = {
-  1: "badge badge-danger",
-  2: "badge badge-warning",
-  3: "badge badge-success",
-  default: "badge badge-light"
-};
-const prioridades = {
-  1: "Alta",
-  2: "Media",
-  3: "Baja"
-};
 
 export default {
   path: "/Tarea/:id",
@@ -156,6 +138,9 @@ export default {
     },
     diasPasados(tarea) {
       return moment(tarea.attributes.tar_fecha_derivacion).fromNow();
+    },
+    tiempoDisponible(tarea) {
+      return moment().to(moment(tarea.attributes.tar_fecha_derivacion).add(tarea.relationships.derivacion.attributes.dias_plazo, 'days'));
     },
     labelPrioridad(tarea) {
       return (

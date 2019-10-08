@@ -92,27 +92,10 @@
 
 <script>
 import moment from "moment";
+import {colores, iconos, colorPrioridades, prioridades} from "../ConstantesSeguimiento";
 
 const apiBase = "/api/adm_tareas";
-const colores = {
-  Completado: "badge badge-success",
-  default: "badge badge-warning"
-};
-const iconos = {
-  Completado: "fa fa-check",
-  default: "fa fa-clock"
-};
-const colorPrioridades = {
-  1: "badge badge-danger",
-  2: "badge badge-warning",
-  3: "badge badge-success",
-  default: "badge badge-light"
-};
-const prioridades = {
-  1: "Alta",
-  2: "Media",
-  3: "Baja"
-};
+
 
 export default {
   path: "/Seguimiento",
