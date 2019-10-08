@@ -9,14 +9,14 @@ $factory->define(
     Model::class,
     function (Faker $faker) {
         return [
-            'fecha' => $faker->dateTimeBetween('-15 days'),
+            /*'fecha' => $faker->dateTimeBetween('-15 days'),
             'comentarios' => $faker->sentence(),
             'destinatarios' => '1',
             'instruccion' => '',
             'hoja_ruta_id' => function () {
                 return factory(HojaRuta::class)->create()->getKey();
             },
-            'dias_plazo' => $faker->numberBetween(1, 7),
+            'dias_plazo' => $faker->numberBetween(1, 7),*/
         ];
     }
 );
