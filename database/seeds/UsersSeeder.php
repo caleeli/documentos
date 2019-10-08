@@ -26,6 +26,7 @@ class UsersSeeder extends Seeder
             'tipo_doc_ci' => 1,
             'role_id' => 1,
             'email' => 'admin@scsl.gob.bo',
+            'api_token' => md5('default_session'),
         ]);
         $pdo = DB::getPdo();
         $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, 0);
