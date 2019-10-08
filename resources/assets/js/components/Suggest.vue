@@ -58,6 +58,12 @@
             }
         },
         watch: {
+            value: {
+                immediate: true,
+                handler(value) {
+                    this.text = value;
+                }
+            },
             data() {
                 this.filter();
             },

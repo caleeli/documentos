@@ -55,7 +55,7 @@ class ApiController extends Controller
                               $filter, $raw=false, array $factoryStates = [])
     {
         $operation = new IndexOperation($route, $modelBase, $factoryStates);
-        $result = $operation->index($sort, $filter, $perPage);
+        $result = $operation->index($sort, $filter, $perPage, $fields ? explode(',', $fields) : []);
         if ($raw) {
             return $result;
         }

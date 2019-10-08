@@ -9,5 +9,8 @@
             return {
             };
         },
+        mounted() {
+            console.log('entroo');
+        }
     };
 </script>

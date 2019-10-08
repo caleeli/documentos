@@ -21,9 +21,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº NOTA CGE/SCEP:</label></div>
+                <div :class="colLabel"><label>Nº NOTA CGE/SCSL:</label></div>
                 <div :class="colField">
-                    <input class="form-control" type="text" v-model="data.attributes.nro_nota" />
+                    <input class="form-control" type="text" v-model="data.attributes.nro_nota" readonly placeholder="Se generará automaticamente al guardar" />
                     <error v-model="errores" property="errors.nro_nota"></error>
                 </div>
             </div>
@@ -42,10 +42,17 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Entidad o Empresa:</label></div>
+                <div :class="colLabel"><label>Gerencia/Subcontraloria:</label></div>
                 <div :class="colField">
-                    <input class="form-control" type="text" v-model="data.attributes.entidad_empresa" />
-                    <error v-model="errores" property="errors.entidad_empresa"></error>
+                    <suggest v-model="data.attributes.gerencia_subcontraloria"
+                             :data="gerenciasSubcontraloria"
+                             id-field="attributes.gerencia_subcontraloria"
+                             filter-by="attributes.gerencia_subcontraloria">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.gerencia_subcontraloria)" style="font-size: 1rem"></span>
+                        </template>
+                    </suggest>
+                    <error v-model="errores" property="errors.gerencia_subcontraloria"></error>
                 </div>
             </div>
             <div class="form-group row">
@@ -176,11 +183,11 @@
             saveHR() {
                 if (this.data.id) {
                     this.data.putToAPI(apiBase + "/" + this.data.id).then((response) => {
-                        this.$router.push({params: {id: response.data.data.id}});
+                        this.$router.push({path: "/NotaOficioBusqueda/comunicacion"});
                     });
                 } else {
                     this.data.postToAPI(apiBase).then((response) => {
-                        this.$router.push({params: {id: response.data.data.id}});
+                        this.$router.push({path: "/NotaOficioBusqueda/comunicacion"});
                     });
                 }
             },
@@ -194,6 +201,7 @@
                 data: new ApiObject(apiBase + '/' + this.getIdURL(), errores).loadFromAPI(),
                 errores: errores,
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
+                gerenciasSubcontraloria: new ApiArray(apiBase + '?fields=gerencia_subcontraloria&filter[]=groupby,"gerencia_subcontraloria"&per_page=-1'),
             };
         },
         watch: {

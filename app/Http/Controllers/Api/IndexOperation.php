@@ -19,12 +19,14 @@ class IndexOperation extends BaseOperation
     protected $sort;
     protected $filter;
     protected $perPage;
+    protected $fields;
 
-    public function index($sort, $filter, $perPage)
+    public function index($sort, $filter, $perPage, $fields)
     {
         $this->sort = $sort;
         $this->filter = $filter;
         $this->perPage = $perPage;
+        $this->fields = $fields;
         return $this->execute($this->model, null);
     }
 
@@ -62,9 +64,9 @@ class IndexOperation extends BaseOperation
 
     protected function isString($model, Model $target = null, $data)
     {
-        $result = $model::select();
-        return $this->addSorting($this->addFilter($result))
-                ->paginate($this->perPage)->getCollection();
+        $result = $model::select($this->fields);
+        $query = $this->addSorting($this->addFilter($result));
+        return $this->perPage != -1 ? $query->paginate($this->perPage)->getCollection() : $query->get();
     }
 
     protected function isArray($model, $target = null, $data)

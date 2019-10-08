@@ -28,7 +28,7 @@ class CreateComunicacionesInternasTable extends Migration
             $table->string('nro_nota', 80)->nullable()->default(null);
             $table->string('reiterativa', 80)->nullable()->default(null);
             $table->string('fecha_entrega', 80)->nullable()->default(null);
-            $table->string('entidad_empresa', 200)->nullable()->default(null);
+            $table->string('gerencia_subcontraloria', 200)->nullable()->default(null);
             $table->string('nombre_apellidos', 200)->nullable()->default(null);
             $table->string('cargo', 100)->nullable()->default(null);
             $table->mediumText('referencia')->nullable()->default(null);
@@ -42,6 +42,15 @@ class CreateComunicacionesInternasTable extends Migration
             $table->mediumText('referencia_recepcion')->nullable()->default(null);
             $table->string('fojas_recepcion', 80)->nullable()->default(null);
             $table->integer('gestion')->default('2018');
+
+            $table->timestamp('fecha_registro')->nullable();
+            $table->timestamp('fecha_modificacion')->nullable();
+            $table->timestamp('fecha_baja')->nullable();
+            $table->integer('user_add')->nullable()->default(null);
+            $table->integer('user_mod')->nullable()->default(null);
+            $table->integer('user_del')->nullable()->default(null);
+
+            $table->index(['gerencia_subcontraloria'], 'gerencia_subcontraloria');
         });
     }
 
