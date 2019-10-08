@@ -84,7 +84,11 @@ class Reporte extends Model
         $params = [];
         $query = [$queryBase];
         if (!empty($this->tipo)) {
-            $query[] = ' hoja_ruta.tipo_hr IN (' . "'" . implode("', '",$this->tipo) . "'" . ')';
+            //\Illuminate\Support\Facades\Log::info('valor tipo: ' . print_r($this->tipo, true));
+            if ($this->tipo[0] != ''){
+                $query[] = ' hoja_ruta.tipo_hr IN (' . "'" . implode("', '",$this->tipo) . "'" . ')';
+            }
+            
         }
         if (!empty($this->recepcion_desde)) {
             $query[] = ' hoja_ruta.fecha_recepcion >= :recepcion_desde';
@@ -164,8 +168,8 @@ class Reporte extends Model
         }
         $query = implode("\n and ", $query);
         $query .= ' order by derivacion.id';
-        \Illuminate\Support\Facades\Log::info('valor query: ' . print_r($query, true));
-        \Illuminate\Support\Facades\Log::info('valor params: ' . print_r($params, true));
+        /*\Illuminate\Support\Facades\Log::info('valor query: ' . print_r($query, true));
+        \Illuminate\Support\Facades\Log::info('valor params: ' . print_r($params, true));*/
         $stmt = $connection->prepare($query);
         //echo "\n",$query,"\n","\n","\n";
         foreach ($params as $k => $p) {
@@ -182,9 +186,9 @@ class Reporte extends Model
             $res[] = $row;
             $num++;
         }
-        \Illuminate\Support\Facades\Log::info('valor res: ' . print_r($res, true));
+        //\Illuminate\Support\Facades\Log::info('valor res: ' . print_r($res, true));
         DB::enableQueryLog();
-        \Illuminate\Support\Facades\Log::info('valor query: ' . print_r($stmt->queryString, true));
+        //\Illuminate\Support\Facades\Log::info('valor query: ' . print_r($stmt->queryString, true));
         return $res;
     }
 
@@ -218,6 +222,8 @@ class Reporte extends Model
         if (is_array($value)){
             if (count($value) > 0) {
                 $valor = implode (",", $value);
+            } else {
+                $valor = null;
             }
         }
         $this->attributes['tipo'] = $valor;
