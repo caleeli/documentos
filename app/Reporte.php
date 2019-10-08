@@ -166,6 +166,15 @@ class Reporte extends Model
             $query[] = ' hoja_ruta.tipo_tarea = :tipo_tarea';
             $params['tipo_tarea'] = $this->tipo_tarea;
         }
+
+        if (!empty($this->tipo_reporte)) {
+            if ($this->tipo_reporte == 'concluidos'){
+                $query[] = ' hoja_ruta.fecha_conclusion IS NOT NULL';    
+            } elseif ($this->tipo_reporte == 'pendientes'){
+                $query[] = ' hoja_ruta.fecha_conclusion IS NULL';
+            }
+        }
+
         $query = implode("\n and ", $query);
         $query .= ' order by derivacion.id';
         /*\Illuminate\Support\Facades\Log::info('valor query: ' . print_r($query, true));
