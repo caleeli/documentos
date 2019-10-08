@@ -64,7 +64,7 @@ class IndexOperation extends BaseOperation
 
     protected function isString($model, Model $target = null, $data)
     {
-        $result = $model::select($this->fields);
+        $result = $this->fields ? $model::select($this->fields) : $model::select();
         $query = $this->addSorting($this->addFilter($result));
         return $this->perPage != -1 ? $query->paginate($this->perPage)->getCollection() : $query->get();
     }
