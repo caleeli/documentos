@@ -77,7 +77,7 @@ abstract class BaseOperation
     private function createModel($class, array $states = [])
     {
         try {
-            return factory($class)->states($states)->make();
+            return new $class();
         } catch (InvalidArgumentException $withoutFactory) {
             if ($states) {
                 throw $withoutFactory;
