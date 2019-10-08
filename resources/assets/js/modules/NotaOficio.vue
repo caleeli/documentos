@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº NOTA CGE/SCEP:</label></div>
+                <div :class="colLabel"><label>Nº Nota SCSL:</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_nota" />
                     <error v-model="errores" property="errors.nro_nota"></error>
@@ -42,9 +42,18 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Entidad o Empresa:</label></div>
+                <div :class="colLabel"><label>Entidad:</label></div>
                 <div :class="colField">
-                    <input class="form-control" type="text" v-model="data.attributes.entidad_empresa" />
+                    <select-box :data="entidadesPersonas" v-model="data.attributes.entidad_empresa"
+                        id-field="attributes.ent_descripcion"
+                        filter-by="attributes.ent_clasificador,attributes.ent_descripcion,attributes.ent_sigla,attributes.per_nombres,attributes.per_apellidos">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.ent_clasificador)" class="badge" style="font-size: 1rem"></span>
+                            <span v-if="row.attributes.ent_descripcion" v-html="format(row.attributes.ent_descripcion)" style="font-size: 1rem"></span>
+                            <span v-if="row.attributes.ent_sigla" v-html="format(row.attributes.ent_sigla)" style="font-size: 1rem"></span>
+                            <span v-if="row.attributes.per_nombres" v-html="format(row.attributes.per_nombres + ' ' + row.attributes.per_apellidos)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
                     <error v-model="errores" property="errors.entidad_empresa"></error>
                 </div>
             </div>
@@ -188,10 +197,17 @@
                 return isNaN(this.$route.params.id) ? 'create' : this.$route.params.id;
             },
         },
+        computed: {
+            entidadesPersonas() {
+                return this.entidades.concat(this.personas);
+            },
+        },
         data() {
             const errores = {};
             return {
                 data: new ApiObject(apiBase + '/' + this.getIdURL(), errores).loadFromAPI(),
+                entidades: new ApiArray('/api/entidad?per_page=1000'),
+                personas: new ApiArray('/api/persona?per_page=1000'),
                 errores: errores,
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
             };

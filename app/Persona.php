@@ -12,9 +12,7 @@ class Persona extends Model
 {
 
     use SoftDeletes,
-        Notifiable,
         SaveUserTrait;
-    use AutoTableTrait;
 
     const CREATED_AT = 'fecha_registro';
     const UPDATED_AT = 'fecha_modificacion';
@@ -25,25 +23,16 @@ class Persona extends Model
     protected $primaryKey = 'per_id';
 
     protected $fillable = [
-        'per_id',
         'per_nombres',
         'per_apellidos',
         'per_ci_nit',
         'per_tipo_persona',
     ];
     protected $attributes = array(
-        'per_id' => '',
         'per_nombres' => '',
         'per_apellidos' => '',
         'per_ci_nit' => '',
         'per_tipo_persona' => '',
-    );
-    protected $casts = array(
-      'per_id' => '',
-      'per_nombres' => '',
-      'per_apellidos' => '',
-      'per_ci_nit' => '',
-      'per_tipo_persona' => '',
     );
     protected $appends = array(
       'nombre_completo',

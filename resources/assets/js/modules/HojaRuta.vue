@@ -386,7 +386,7 @@
                 erroresHojaRuta: erroresHojaRuta,
                 procedencias: new ApiArray('/api/empresas'),
                 entidades: new ApiArray('/api/entidad?per_page=1000'),
-                personas: new ApiArray('/api/persona'),
+                personas: new ApiArray('/api/persona?per_page=1000'),
                 destinatarios: new ApiArray('/api/users'),
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=7'),
                 comunicaciones: new ApiArray('/api/comunicaciones_internas?sort=-id&per_page=7'),
