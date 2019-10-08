@@ -6,14 +6,15 @@ use App\HojaRuta as Model;
 $factory->define(Model::class,
     function (Faker $faker) {
     return [
-        'gestion' => date('Y'),
+        'tipo_hr' => 'externa'
+        /*'gestion' => date('Y'),
         'fecha_recepcion' => date('Y-m-d'),
         'tipo_tarea' => 'SCSL-UR',
         'tipo_hr' => 'externa',
         'referencia' => $faker->sentence(),
         'procedencia' => $faker->sentence(),
         'nro_de_control' => 'SCSL-' . $faker->numberBetween(100, 999),
-        'numero' => $faker->numberBetween(100, 999),
+        'numero' => $faker->numberBetween(100, 999),*/
     ];
 });
 
