@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Traits\AutoTableTrait;
+use App\Traits\CorrelativoTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,8 +11,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class NotasOficio extends Model
 {
+    use CorrelativoTrait;
 
     protected $table = 'notas_oficio';
+    protected $correlativos = [
+        'nro_nota' => [],
+    ];
+
     public $timestamps = false;
     protected $fillable = [
         'hoja_de_ruta',
@@ -40,5 +45,4 @@ class NotasOficio extends Model
     protected $dispatchesEvents = [
         //'creating' => [self::class, 'creatingNota'],
     ];
-
 }
