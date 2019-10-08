@@ -21,7 +21,7 @@ class UsersSeeder extends Seeder
             'nombres' => 'Admin',
             'apellidos' => 'Admin',
             'username' => 'admin',
-            'password' => md5('admin'),
+            'password' => md5('administrador'),
             'numero_ci' => 123456,
             'tipo_doc_ci' => 1,
             'role_id' => 1,
