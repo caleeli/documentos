@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 class NotasOficio extends Model
 {
 
-    use AutoTableTrait;
-
     protected $table = 'notas_oficio';
     public $timestamps = false;
     protected $fillable = [

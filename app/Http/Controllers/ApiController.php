@@ -279,7 +279,7 @@ class ApiController extends Controller
         }
         $fields = explode(",", $requiredFields.','.$requiredIncludes);
         foreach ($fields as $field) {
-            if ($field && is_callable([$row, $field])) {
+            if ($field && in_array($field, get_class_methods($row))) {
                 $select = $this->doSelect($row, [$field], '', '', static::PER_PAGE, '', '');
                 $relationships[$field] = $select['data'];
             }

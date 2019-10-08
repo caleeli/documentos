@@ -112,7 +112,14 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Nº Hoja de Ruta:</label></div>
                 <div :class="colField">
-                    <input class="form-control" type="text" v-model="data.attributes.hoja_de_ruta_recepcion" />
+                    <select-box :data="hojasRuta" v-model="data.attributes.hoja_de_ruta_recepcion"
+                        id-field="attributes.nro_de_control"
+                        filter-by="attributes.nro_de_control,attributes.referencia">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.nro_de_control)" class="badge" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.referencia)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
                     <error v-model="errores" property="errors.hoja_de_ruta_recepcion"></error>
                 </div>
             </div>
@@ -185,11 +192,11 @@
             saveHR() {
                 if (this.data.id) {
                     this.data.putToAPI(apiBase + "/" + this.data.id).then((response) => {
-                        this.$router.push({params: {id: response.data.data.id}});
+                        this.$router.push({path: "/NotaOficioBusqueda/notas"});
                     });
                 } else {
                     this.data.postToAPI(apiBase).then((response) => {
-                        this.$router.push({params: {id: response.data.data.id}});
+                        this.$router.push({path: "/NotaOficioBusqueda/notas"});
                     });
                 }
             },
@@ -208,6 +215,7 @@
                 data: new ApiObject(apiBase + '/' + this.getIdURL(), errores).loadFromAPI(),
                 entidades: new ApiArray('/api/entidad?per_page=1000'),
                 personas: new ApiArray('/api/persona?per_page=1000'),
+                hojasRuta: new ApiArray('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=1000'),
                 errores: errores,
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
             };
