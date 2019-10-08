@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Carbon\Carbon;
+use DateTime;
 use InvalidArgumentException;
 
 trait StandardDateTimeTrait
@@ -19,7 +20,7 @@ trait StandardDateTimeTrait
         try {
             //Carbon::W3C is the default format used by moment.js
             //moment().format() --> 2018-10-08T06:54:02-04:00
-            $date = Carbon::createFromFormat(Carbon::W3C, $value);
+            $date = $value instanceof DateTime ? Carbon::instance($value) : Carbon::createFromFormat(Carbon::W3C, $value);
             if ($date->toW3cString() === $value) {
                 return $date;
             }

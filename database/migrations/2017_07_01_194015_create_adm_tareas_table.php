@@ -19,6 +19,7 @@ class CreateAdmTareasTable extends Migration
             $table->timestamp('tar_fecha_fin')->nullable();
             $table->string('tar_estado');
             $table->integer('tar_avance')->default(0);
+            $table->integer('tar_calificacion')->default(0);
             $table->integer('tar_prioridad')->default(3);
 
             $table->timestamp('fecha_registro')->nullable();

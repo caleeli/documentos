@@ -46,6 +46,8 @@
             <td v-html="(row.attributes.estado)"></td>
             <td><datetime type="date" v-model="row.attributes.fecha_conclusion" read-only empty-date="No Concluido" /></td>
             <td>
+            <a class="btn btn-primary" :href="'/imprime_hr/' + row.id +'/1'"><i class="fa fa-print"></i></a>
+            <a class="btn btn-primary" :href="'/imprime_hr/' + row.id +'/2'"><i class="fa fa-print"></i></a>
             <router-link class="btn btn-primary" :to="{path:'/HojaRuta/' + row.id}">Abrir</router-link>
             </td>
             </tr>

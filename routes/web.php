@@ -20,6 +20,7 @@ Route::group([
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/impresion_hr/{hojaRuta}/{pos}', 'ImpresionHRController@show')->name('impresion_hr');
 });
 
 Route::get('/reporte/{reporte}/html', 'ReporteController@html')->name('reportehtml');

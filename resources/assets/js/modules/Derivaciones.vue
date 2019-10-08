@@ -224,6 +224,12 @@
             };
         },
         watch: {
+            hojaRuta: {
+                deep: true,
+                handler() {
+                    this.derivaciones.loadFromAPI('/api/hoja_ruta/' + this.hojaRuta.id + '/derivacion');
+                }
+            }
         }
     };
 </script>

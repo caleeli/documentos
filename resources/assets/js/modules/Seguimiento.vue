@@ -77,7 +77,7 @@
             {{ diasPasados(tareaI) }}
           </span>
           <span class="d-inline-block">
-            <router-link :to="'/Tarea/' + tareaI.id" class="btn btn-white btn-sm">
+            <router-link :to="'/Tarea/' + tareaI.id" class="btn btn-primary btn-sm">
               <i class="fa fa-folder"></i> Abrir
             </router-link>
           </span>

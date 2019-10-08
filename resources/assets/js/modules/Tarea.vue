@@ -39,6 +39,8 @@
             <pie-svg :value="tiempoReloj(tarea)"></pie-svg>
             {{ tiempoDisponible(tarea) }}
           </dd>
+          <dt>Calificación:</dt>
+          <dd>{{tarea.attributes.tar_calificacion}}</dd>
         </dl>
       </div>
     </div>
@@ -94,7 +96,16 @@
               </div>
             </div>
           </div>
-          <div id="link" class="tab-pane" role="tabpanel"></div>
+          <div id="link" class="tab-pane" role="tabpanel">
+            <div>
+              <label>Calificación</label>
+              <input class="form-control" v-model="tarea.attributes.tar_calificacion" />
+            </div>
+            <hr>
+            <div>
+              <button type="button" class="btn btn-primary" @click="saveTarea"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -103,13 +114,21 @@
 
 <script>
 import moment from "moment";
-import {colores, iconos, colorPrioridades, prioridades} from "../ConstantesSeguimiento";
+import {
+  colores,
+  iconos,
+  colorPrioridades,
+  prioridades
+} from "../ConstantesSeguimiento";
 
 const apiBase = "/api/adm_tareas";
 
 export default {
   path: "/Tarea/:id",
   methods: {
+    saveTarea() {
+      this.tarea.putToAPI("/api/tarea/" + this.$route.params.id);
+    },
     comentar() {
       this.comentario.attributes.tar_id = this.tarea.id;
       this.comentario.attributes.com_fecha = this.com_fecha;
@@ -140,7 +159,12 @@ export default {
       return moment(tarea.attributes.tar_fecha_derivacion).fromNow();
     },
     tiempoDisponible(tarea) {
-      return moment().to(moment(tarea.attributes.tar_fecha_derivacion).add(tarea.relationships.derivacion.attributes.dias_plazo, 'days'));
+      return moment().to(
+        moment(tarea.attributes.tar_fecha_derivacion).add(
+          tarea.relationships.derivacion.attributes.dias_plazo,
+          "days"
+        )
+      );
     },
     labelPrioridad(tarea) {
       return (
