@@ -8,7 +8,7 @@ use App\Tarea as Model;
 $factory->define(
     Model::class,
     function (Faker $faker) {
-        $derivacion = factory(Derivacion::class)->make();
+        $derivacion = factory(Derivacion::class)->states('ejemplo')->make();
         return [
             'hr_id' => function () use ($derivacion) {
                 $derivacion->save();
