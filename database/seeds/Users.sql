@@ -48,4 +48,5 @@ INSERT INTO "adm_users" ("id", "username", "password", "nombres", "apellidos", "
 INSERT INTO "adm_users" ("id", "username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES(49, 'drojas', md5('6112491') , 'DANIEL ALFONSO', 'ROJAS CAHUPAZA' , '6112491',1,3);
 INSERT INTO "adm_users" ("id", "username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES(50, 'sprudencio', md5('3455506') , 'SILVIA ALEJANDRA', 'ALARCON PRUDENCIO' , '3455506',1,3);
 INSERT INTO "adm_users" ("id", "username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES(51, 'lgarafulich', md5('6755312') , 'LYNN KATHERINE', 'GARAFULICH ROMERO' , '6755312',1,3);
+INSERT INTO "adm_users" ("id", "username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES(52, 'usprueba', md5('usprueba') , 'USUARIO', 'PRUEBA' , '5655312',1,1);
 
