@@ -106,7 +106,7 @@
                     'anillados',
                     'legajo',
                     'ejemplar',
-                    'engrapad',
+                    'engrapado',
                     'cd',
                 ];
                 for (let index of tipos) {
@@ -115,7 +115,6 @@
                         anexoHojas.push(anexo + ' ' + index);
                     }
                 }
-                //this.value = anexoHojas.join(', ');
                 this.$emit('input', anexoHojas.join(', '));
             }
         },

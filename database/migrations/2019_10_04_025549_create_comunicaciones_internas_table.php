@@ -21,7 +21,6 @@ class CreateComunicacionesInternasTable extends Migration
     public function up()
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('hoja_de_ruta', 80)->nullable()->default(null);
             $table->string('fecha_emision', 80)->nullable()->default(null);

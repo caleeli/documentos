@@ -7,6 +7,15 @@ $factory->define(
     Model::class,
     function (Faker $faker) {
         return [
+        ];
+    }
+);
+
+$factory->state(
+    Model::class,
+    'create',
+    function (Faker $faker) {
+        return [
             'gestion' => date('Y'),
         ];
     }

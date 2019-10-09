@@ -47,6 +47,27 @@ class ComunicacionesInternas extends Model
         'fojas_recepcion',
         'gestion',
     ];
+    protected $attributes = [
+        'hoja_de_ruta' => null,
+        'fecha_emision' => '',
+        'nro_nota' => '',
+        'reiterativa' => '',
+        'fecha_entrega' => '',
+        'gerencia_subcontraloria' => '',
+        'nombre_apellidos' => '',
+        'cargo' => '',
+        'referencia' => '',
+        'dias' => '',
+        'retraso' => '',
+        'observaciones' => '',
+        'hoja_de_ruta_recepcion' => '',
+        'fecha_recepcion' => '',
+        'nro_nota_recepcion' => '',
+        'remitente_recepcion' => '',
+        'referencia_recepcion' => '',
+        'fojas_recepcion' => '',
+        'gestion' => '',
+    ];
     protected $appends = [
     ];
     protected $dispatchesEvents = [

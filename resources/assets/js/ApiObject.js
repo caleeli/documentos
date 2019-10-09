@@ -42,6 +42,7 @@ function ApiObject(url, errorsObject) {
             }
         }).catch(error => {
             this.listenErrors(error.response.data);
+            throw error;
         });
     };
     self.putToAPI = function(url) {

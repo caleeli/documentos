@@ -192,7 +192,7 @@
                 }
             },
             getIdURL() {
-                return isNaN(this.$route.params.id) ? 'create' : this.$route.params.id;
+                return isNaN(this.$route.params.id) ? 'create?factory=create' : this.$route.params.id;
             },
         },
         data() {
