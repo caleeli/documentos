@@ -35,7 +35,7 @@
                     </template>
                 </div>
             </div>
-            <div v-if="data.attributes.tipo_procedencia==='entidad' || !(data.attributes.tipo_procedencia)" class="form-group row">
+            <div v-if="data.attributes.tipo_procedencia==='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
                 <div :class="colLabel"><label>Entidad:</label></div>
                 <div :class="colField">
                     <select-box :data="entidades" v-model="data.attributes.procedencia"
@@ -300,7 +300,7 @@
                 if (this.data.id) {
                     this.data.putToAPI(this.getUrlBase() + "/" + this.data.id).then((response) => {
                         //this.$router.push({params: {id: response.data.data.id}});
-                        this.$router.push({path: '/HojaRutaReporte/interna', query:this.$route.query});
+                        this.$router.push({path: '/HojaRutaBusqueda', query:this.$route.query});
                     });
                 } else {
                     this.data.callMethod('getNumeroSecuencia',{'tipo' : this.data.attributes.tipo_hr})
@@ -308,7 +308,7 @@
                             this.data.attributes.numero = response.data.response;
                             this.data.postToAPI(this.getUrlBase()).then((response) => {
                                 //this.$router.push({params: {id: response.data.data.id}});
-                                this.$router.push({path: '/HojaRutaReporte/interna', query:this.$route.query});
+                                this.$router.push({path: '/HojaRutaBusqueda'});
                             });
                     });
                 }
