@@ -66,5 +66,8 @@
                 return page[this.type] + id;
             },
         },
+        mounted() {
+            this.data.loadFromAPI();
+        }
     };
 </script>

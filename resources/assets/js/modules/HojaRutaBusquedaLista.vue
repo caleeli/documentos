@@ -70,5 +70,8 @@
                 this.data.setSearchParams({'filter[]': 'where,tipo_hr,=,"' + this.type + '"'});
             }
         },*/
+        mounted() {
+            this.data.loadFromAPI();
+        }
     };
 </script>
