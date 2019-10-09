@@ -31,7 +31,7 @@ class LoadDefaultMenus extends Seeder
                 ['parent' => 400, 'name' => 'Registrar', 'route' => '/NotaOficio/notas'],
                 ['parent' => 400, 'name' => 'Búsqueda', 'route' => '/NotaOficioBusqueda/notas'],
                 ['parent' => 500, 'name' => 'Registrar', 'route' => '/Informe/create'],
-                ['parent' => 500, 'name' => 'Búsqueda', 'route' => '/NotaOficioBusqueda/informes'],
+                ['parent' => 500, 'name' => 'Búsqueda', 'route' => '/InformeBusqueda/informes'],
                 ['parent' => 600, 'name' => 'Registrar', 'route' => '/ComunicacionesInternas/comunicacion'],
                 ['parent' => 600, 'name' => 'Búsqueda', 'route' => '/NotaOficioBusqueda/comunicacion'],
             ]);

@@ -37,8 +37,8 @@ class LoadDefaultModules extends Seeder
                 ['parent' => 300, 'name' => 'Busqueda', 'icon' => '/images/busqueda-solicitud.svg', 'description' => 'Solicitudes y denuncia', 'route' => '/HojaRutaBusqueda/solicitud'],*/
                 ['parent' => 400, 'name' => 'Registrar', 'icon' => '/images/nota-oficio.svg', 'description' => 'Notas oficio', 'route' => '/NotaOficio/notas'],
                 ['parent' => 400, 'name' => 'Busqueda', 'icon' => '/images/busqueda-nota-oficio.svg', 'description' => 'Notas oficio', 'route' => '/NotaOficioBusqueda/notas'],
-                ['parent' => 500, 'name' => 'Registrar', 'icon' => '/images/informes.svg', 'description' => 'Informes', 'route' => '/ComunicacionesInternas/informes'],
-                ['parent' => 500, 'name' => 'Busqueda', 'icon' => '/images/busqueda-informes.svg', 'description' => 'Informes', 'route' => '/NotaOficioBusqueda/informes'],
+                ['parent' => 500, 'name' => 'Registrar', 'icon' => '/images/informes.svg', 'description' => 'Informes', 'route' => '/InformeBusqueda/informes'],
+                ['parent' => 500, 'name' => 'Busqueda', 'icon' => '/images/busqueda-informes.svg', 'description' => 'Informes', 'route' => '/InformeBusqueda/informes'],
                 ['parent' => 600, 'name' => 'Registrar', 'icon' => '/images/comunicacion.svg', 'description' => 'Comunicaciónes internas', 'route' => '/ComunicacionesInternas/comunicacion'],
                 ['parent' => 600, 'name' => 'Busqueda', 'icon' => '/images/busqueda-comunicacion.svg', 'description' => 'Comunicaciónes internas', 'route' => '/NotaOficioBusqueda/comunicacion'],
             ]);

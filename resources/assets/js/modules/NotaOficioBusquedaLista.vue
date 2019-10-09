@@ -41,6 +41,7 @@
     const apiBase = {
         notas: '/api/notas_oficio',
         comunicacion: '/api/comunicaciones_internas',
+        informes: '/api/informe',
     };
     const page = {
         notas: '/NotaOficio/',

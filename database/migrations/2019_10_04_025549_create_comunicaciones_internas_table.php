@@ -41,7 +41,7 @@ class CreateComunicacionesInternasTable extends Migration
             $table->string('remitente_recepcion', 200)->nullable()->default(null);
             $table->mediumText('referencia_recepcion')->nullable()->default(null);
             $table->string('fojas_recepcion', 80)->nullable()->default(null);
-            $table->integer('gestion')->default('2018');
+            $table->integer('gestion')->default(date('Y'));
 
             $table->timestamp('fecha_registro')->nullable();
             $table->timestamp('fecha_modificacion')->nullable();
