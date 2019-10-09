@@ -5,6 +5,8 @@ use App\Jobs\UpdateModels;
 use App\Observers\GenericObserver;
 use Illuminate\Support\Facades\Cache;
 use Nano\SchemaLive\AutoTableTrait as AutoTableTraitBase;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Column;
 
 /**
  * Description of AutoTable
@@ -12,6 +14,25 @@ use Nano\SchemaLive\AutoTableTrait as AutoTableTraitBase;
  */
 trait AutoTableTrait
 {
+    /**
+     * Sync the original attributes with the current.
+     *
+     * @return $this
+     */
+    public function syncOriginal()
+    {
+        if (empty($this->attributes)) {
+            $columns = $this->getConnection()->getDoctrineSchemaManager()->listTableColumns($this->getTable());
+            $this->attributes = [];
+            foreach($columns as $col) {
+                if (!$col->getAutoincrement()) {
+                    $this->attributes[$col->getName()] = $col->getDefault();
+                }
+            }
+        }
+        return parent::syncOriginal();
+    }
+
 //
 //    use ValidatedModelTrait;
 //    use AutoTableTraitBase;
