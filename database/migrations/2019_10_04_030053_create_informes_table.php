@@ -23,11 +23,11 @@ class CreateInformesTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->increments('nro_inf_id');
             $table->dateTime('fecha_entrega');
-            $table->string('nombre_destinatario', 200);
-            $table->string('nombre_remitente', 200);
+            $table->string('nombre_destinatario');
+            $table->string('nombre_remitente');
             $table->text('referencia');
             $table->integer('ref_hoja_ruta');
-            $table->string('nro_informe', 80)->nullable();
+            $table->string('nro_informe')->nullable();
             $table->string('gestion', 4)->default(date('Y'));
 
             $table->timestamp('fecha_registro')->nullable();

@@ -110,7 +110,14 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Nº Hoja de Ruta:</label></div>
                 <div :class="colField">
-                    <input class="form-control" type="text" v-model="data.attributes.hoja_de_ruta_recepcion" />
+                    <select-box :data="hojasRuta" v-model="data.attributes.hoja_de_ruta_recepcion"
+                        id-field="attributes.nro_de_control"
+                        filter-by="attributes.nro_de_control,attributes.referencia">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.nro_de_control)" class="badge" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.referencia)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
                     <error v-model="errores" property="errors.hoja_de_ruta_recepcion"></error>
                 </div>
             </div>
@@ -157,7 +164,6 @@
                 <div :class="colLabel"><label>Fojas/ Arch./ Anillados/ Legajos/ Otros:</label></div>
                 <div :class="colField">
                     <anexos v-model="data.attributes.fojas_recepcion"></anexos>
-                    <!-- input class="form-control" type="text" v-model="data.attributes.fojas_recepcion" /-->
                     <error v-model="errores" property="errors.fojas_recepcion"></error>
                 </div>
             </div>
@@ -201,6 +207,7 @@
                 data: new ApiObject(apiBase + '/' + this.getIdURL(), errores).loadFromAPI(),
                 errores: errores,
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
+                hojasRuta: new ApiArray('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=1000'),
                 gerenciasSubcontraloria: new ApiArray(apiBase + '?fields=gerencia_subcontraloria&filter[]=groupby,"gerencia_subcontraloria"&per_page=-1'),
             };
         },

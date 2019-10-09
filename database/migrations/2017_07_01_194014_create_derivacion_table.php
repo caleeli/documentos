@@ -23,11 +23,11 @@ class CreateDerivacionTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->increments('id');
             $table->date('fecha')->nullable()->default(null);
-            $table->char('comentarios', 255)->nullable()->default(null);
-            $table->char('instruccion', 255)->nullable()->default(null);
+            $table->string('comentarios')->nullable()->default(null);
+            $table->string('instruccion')->nullable()->default(null);
             $table->integer('hoja_ruta_id');
-            $table->string('destinatarios', 128)->nullable()->default(null);
-            $table->char('destinatario', 255)->nullable()->default(null);
+            $table->string('destinatarios')->nullable()->default(null);
+            $table->string('destinatario')->nullable()->default(null);
             $table->integer('dias_plazo')->nullable();
             $table->text('firma')->nullable()->default(null);
             $table->integer('user_add')->nullable()->default(null);

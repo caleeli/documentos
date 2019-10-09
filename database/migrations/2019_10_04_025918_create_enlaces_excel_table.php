@@ -21,12 +21,11 @@ class CreateEnlacesExcelTable extends Migration
     public function up()
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('origen', 100);
-            $table->string('origen_hoja', 100);
-            $table->string('destino', 100);
-            $table->string('destino_hoja', 100);
+            $table->string('origen');
+            $table->string('origen_hoja');
+            $table->string('destino');
+            $table->string('destino_hoja');
 
             $table->unique(["destino", "destino_hoja"], 'destino_destino_hoja');
         });
