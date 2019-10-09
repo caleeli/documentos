@@ -224,6 +224,9 @@
             '$route.params.id'() {
                 this.data.loadFromAPI(apiBase + '/' + this.getIdURL());
             }
+        },
+        mounted() {
+            this.data.loadFromAPI();
         }
     };
 </script>

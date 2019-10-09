@@ -100,6 +100,9 @@
             '$route.params.id'() {
                 this.persona.loadFromAPI(this.getUrlBase() + '/' + this.getIdURL());
             },
+        },
+        mounted() {
+            this.persona.loadFromAPI();
         }
     };
 </script>

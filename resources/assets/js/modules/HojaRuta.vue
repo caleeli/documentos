@@ -415,7 +415,7 @@
                 //mostrarPersona: false,
             };
         },
-        mounted(){
+        mounted() {
             this.personas.loadFromAPI();
             this.cargaInicial();
         },
