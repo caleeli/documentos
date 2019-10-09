@@ -187,13 +187,14 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Tipo de Hoja de Ruta:</label></div>
                 <div :class="colField">
-                    <template v-for="(tipo, index) in tipoHr">
+                    <template v-for="tipo in tipoHr">
                         <div class="row">
                             <div class="radio col-6">
                                 <label>
                                     <input type="radio" name="tipo_hr"
                                            :value="tipo.codigo"
-                                           v-model="data.attributes.tipo_hr">
+                                           v-model="data.attributes.tipo_hr"
+                                           :disabled="data.id">
                                     {{tipo.descripcion}}
                                 </label>
                             </div>
@@ -298,14 +299,16 @@
 
                 if (this.data.id) {
                     this.data.putToAPI(this.getUrlBase() + "/" + this.data.id).then((response) => {
-                        this.$router.push({params: {id: response.data.data.id}});
+                        //this.$router.push({params: {id: response.data.data.id}});
+                        this.$router.push({path: '/HojaRutaReporte/interna', query:this.$route.query});
                     });
                 } else {
                     this.data.callMethod('getNumeroSecuencia',{'tipo' : this.data.attributes.tipo_hr})
                         .then(response => {
                             this.data.attributes.numero = response.data.response;
                             this.data.postToAPI(this.getUrlBase()).then((response) => {
-                                this.$router.push({params: {id: response.data.data.id}});
+                                //this.$router.push({params: {id: response.data.data.id}});
+                                this.$router.push({path: '/HojaRutaReporte/interna', query:this.$route.query});
                             });
                     });
                 }
