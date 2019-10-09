@@ -15,8 +15,8 @@ class DerivacionObserver
     public function created(Derivacion $derivacion)
     {
         $tarea = $derivacion->tarea()->create([
-            'tar_codigo' => uniqid(),
-            'tar_descripcion' => $derivacion->comentarios,
+            'tar_codigo' => $derivacion->hoja_ruta->nro_de_control,
+            'tar_descripcion' => $derivacion->comentarios . ' - ' . $derivacion->instruccion,
             'tar_fecha_derivacion' => $derivacion->fecha,
             'tar_prioridad' => 2,
             'tar_estado' => 'Pendiente',

@@ -159,6 +159,8 @@ export default {
       busquedaTareas: ""
     };
   },
-  watch: {}
+  mounted() {
+    this.tareas.loadFromAPI();
+  },
 };
 </script>

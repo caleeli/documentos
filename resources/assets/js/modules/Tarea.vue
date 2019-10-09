@@ -9,8 +9,15 @@
           </dd>
           <div style="height: 4px;"></div>
           <dt>Prioridad:</dt>
-          <dd>
+          <dd v-if="!editPrioridad">
             <span v-bind:class="classPriodidad(tarea)">{{labelPrioridad(tarea)}}</span>
+            <a href="javascript:void(0)" @click="openPrioridad"><i class="fa fa-pen"></i></a>
+          </dd>
+          <dd v-if="editPrioridad">
+            <select v-model="tarea.attributes.tar_prioridad">
+              <option v-for="(prioridad,key) in prioridades" :value="key" :key="key">{{prioridad}}</option>
+            </select>
+            <a href="javascript:void(0)" @click="savePrioridad"><i class="fa fa-save"></i></a>
           </dd>
           <dt>Creado por:</dt>
           <dd>
@@ -146,6 +153,13 @@ const apiBase = "/api/adm_tareas";
 export default {
   path: "/Tarea/:id",
   methods: {
+    openPrioridad() {
+      this.editPrioridad = true;
+    },
+    savePrioridad() {
+      this.editPrioridad = false;
+      this.saveTarea();
+    },
     saveTarea() {
       this.tarea.putToAPI("/api/tarea/" + this.$route.params.id);
     },
@@ -239,10 +253,14 @@ export default {
         "/api/tarea/" + this.$route.params.id + "/comentarios/create"
       ),
       com_fecha: "",
-      com_texto: ""
+      com_texto: "",
+      prioridades,
+      editPrioridad: false,
     };
   },
-  watch: {}
+  mounted() {
+    this.tarea.loadFromAPI();
+  },
 };
 </script>
 
