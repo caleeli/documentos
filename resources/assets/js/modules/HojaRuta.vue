@@ -18,13 +18,6 @@
             </div>
             <error v-model="erroresHojaRuta" property="message"></error>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de recepción:</label></div>
-                <div :class="colField">
-                    <datetime type="date" v-model="data.attributes.fecha_recepcion" />
-                    <error v-model="erroresHojaRuta" property="errors.fecha_recepcion"></error>
-                </div>
-            </div>
-            <div class="form-group row">
                 <div :class="colLabel"><label>Procedencia:</label></div>
                 <div :class="colField">
                     <template v-for="(procedencia, index) in tipoProcedencia">
@@ -33,7 +26,7 @@
                                 <label>
                                     <input type="radio" name="tipo_procedencia"
                                            :value="procedencia.codigo"
-                                           v-model="tipoProcedenciaCheck"
+                                           v-model="data.attributes.tipo_procedencia"
                                            >
                                     {{procedencia.descripcion}}
                                 </label>
@@ -42,7 +35,7 @@
                     </template>
                 </div>
             </div>
-            <div v-if="tipoProcedenciaCheck==='ENT'" class="form-group row">
+            <div v-if="data.attributes.tipo_procedencia==='entidad' || !(data.attributes.tipo_procedencia)" class="form-group row">
                 <div :class="colLabel"><label>Entidad:</label></div>
                 <div :class="colField">
                     <select-box :data="entidades" v-model="data.attributes.procedencia"
@@ -57,7 +50,7 @@
                     <error v-model="erroresHojaRuta" property="errors.entidades"></error>
                 </div>
             </div>
-            <div v-if="tipoProcedenciaCheck!=='ENT'" class="form-group row">
+            <div v-if="data.attributes.tipo_procedencia!=='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
                 <div :class="colLabel"><label>Nombres y Apellidos:</label></div>
                 <div class="col-7">
                     <select-box :data="personas" v-model="data.attributes.procedencia"
@@ -75,7 +68,13 @@
                     <button type="button" class="btn btn-primary" @click="showPersona"><i class="fas fa-user-plus"></i></button>
                 </div>
             </div>          
-
+            <div class="form-group row">
+                <div :class="colLabel"><label>Fecha de recepción:</label></div>
+                <div :class="colField">
+                    <datetime type="date" v-model="data.attributes.fecha_recepcion" />
+                    <error v-model="erroresHojaRuta" property="errors.fecha_recepcion"></error>
+                </div>
+            </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Referencia:</label></div>
                 <div :class="colField">
@@ -144,19 +143,19 @@
                             <table class="anexos">
                                 <tr>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="getFjs" @input="setFjs">
+                                        <input class="form-control text-center" type="number" :value="anexoHojas.fjs" @input="setFjs">
                                         <small class="form-text text-muted">fjs</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="getArch" @input="setArch">
+                                        <input class="form-control text-center" type="number" :value="anexoHojas.arch" @input="setArch">
                                         <small class="form-text text-muted">arch</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="getAnillados" @input="setAnillados">
+                                        <input class="form-control text-center" type="number" :value="anexoHojas.anillados" @input="setAnillados">
                                         <small class="form-text text-muted">anillados</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="getLegajo" @input="setLegajo">
+                                        <input class="form-control text-center" type="number" :value="anexoHojas.legajo" @input="setLegajo">
                                         <small class="form-text text-muted">legajo</small>
                                     </td>
                                 </tr>
@@ -166,15 +165,15 @@
                             <table class="anexos">
                                 <tr>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="getEjemplar" @input="setEjemplar">
+                                        <input class="form-control text-center" type="number" :value="anexoHojas.ejemplar" @input="setEjemplar">
                                         <small class="form-text text-muted">ejemplar</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="getEngrapado" @input="setEngrapado">
+                                        <input class="form-control text-center" type="number" :value="anexoHojas.engrapado" @input="setEngrapado">
                                         <small class="form-text text-muted">engrapado</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="getCd" @input="setCd">
+                                        <input class="form-control text-center" type="number" :value="anexoHojas.cd" @input="setCd">
                                         <small class="form-text text-muted">cd</small>
                                     </td>
                                 </tr>
@@ -250,11 +249,6 @@
         //path: "/HojaRuta/:type/:id",
         path: "/HojaRuta/:id",
         computed: {
-            /*guardaPersona(value){
-               // this.mostrarPersona = !this.mostrarPersona;
-               console.log(value);
-                this.data.attributes.procedencia = value;
-            },*/
             getGuardarLabel(){
                 if (this.data.id) {
                     return 'Guardar Cambios';
@@ -302,7 +296,6 @@
                     }
                 });
 
-
                 if (this.data.id) {
                     this.data.putToAPI(this.getUrlBase() + "/" + this.data.id).then((response) => {
                         this.$router.push({params: {id: response.data.data.id}});
@@ -320,7 +313,7 @@
             },
             getIdURL() {
                 //return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type + '&include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
-                return isNaN(this.$route.params.id) ? 'create?&include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
+                return isNaN(this.$route.params.id) ? 'create?include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
             },
             setFjs(event) {
                 this.setAnexo('fjs', event.target.value);
@@ -344,39 +337,54 @@
                 this.setAnexo('cd', event.target.value);
             },
             getAnexo(index) {
-                let regexp = new RegExp("(\\d+)\\s+" + index);
-                let ma = this.data.attributes.anexo_hojas ? this.data.attributes.anexo_hojas.match(regexp) : null;
-                return ma ? ma[1] : "";
+                return this.anexoHojas[index];
             },
             setAnexo(anexoA, value) {
-                const anexoHojas = [];
-                const tipos = [
-                    'fjs',
-                    'arch',
-                    'anillados',
-                    'legajo',
-                    'ejemplar',
-                    'engrapad',
-                    'cd',
-                ];
-                for (let index of tipos) {
-                    let anexo = index == anexoA ? value : this.getAnexo(index);
-                    if (anexo) {
-                        anexoHojas.push(anexo + ' ' + index);
-                    }
-                }
-                this.data.attributes.anexo_hojas = anexoHojas.join(', ');
+                this.anexoHojas[anexoA] = value;
+                this.$set(this.data.attributes,'anexo_hojas',this.anexoToString());
             },
             getNumero(tipo) {
                 this.data.callMethod('getNumeroSecuencia',{'tipo' : tipo})
                     .then(response => {
-                       //return this.$set(this.data.attributes, 'numero', response.data.response);
                        return response.data.response;
                     });
             },
             showPersona() {
                 this.$router.push({path: '/Persona/create', query:this.$route.query});
-                //this.mostrarPersona = ! this.mostrarPersona;
+            },
+            anexoToString() {
+                let res = '';
+                for (const [key, value] of Object.entries(this.anexoHojas)) {
+                    res += value + ' ' + key + ', ';
+                }
+                if (res != ''){
+                    res = res.slice(0, -2);
+                }
+                return res;
+            },
+            initAnexos(){
+                this.anexoHojas["fjs"] = null;
+                this.anexoHojas["arch"] = null;
+                this.anexoHojas["anillados"] = null;
+                this.anexoHojas["legajo"] = null;
+                this.anexoHojas["ejemplar"] = null;
+                this.anexoHojas["engrapado"] = null;
+                this.anexoHojas["cd"] = null;
+            },
+            cargarAnexos() {
+                if (this.data.id) {
+                    let aux = this.data.attributes.anexo_hojas.split(", ");
+                    for (const [key, value] of Object.entries(aux)) {
+                        let anexo = value.split(" ");
+                        this.anexoHojas[anexo[1]] = anexo[0];
+                    }
+                }
+            },
+            cargaInicial(){
+                this.cargarAnexos();
+                if (this.data.id) {
+                    this.data.attributes.tipo_procedencia = 'entidad';
+                }
             }
         },
         data() {
@@ -392,20 +400,21 @@
                 comunicaciones: new ApiArray('/api/comunicaciones_internas?sort=-id&per_page=7'),
                 informes: new ApiArray('/api/informe?sort=-id&per_page=7'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases&sort=id'),
-                tipoProcedencia: [  {codigo: 'ENT', descripcion: 'Entidad'}, 
-                                    {codigo: 'NAT', descripcion: 'Persona Natural'}, 
-                                    {codigo: 'JUR', descripcion: 'Persona Jurídica'}
+                tipoProcedencia: [  {codigo: 'entidad', descripcion: 'Entidad'}, 
+                                    {codigo: 'natural', descripcion: 'Persona Natural'}, 
+                                    {codigo: 'juridica', descripcion: 'Persona Jurídica'}
                                 ],
-                tipoProcedenciaCheck: 'ENT',
                 tipoHr: [   {codigo: 'externa', descripcion: 'Externas'}, 
                             {codigo: 'interna', descripcion: 'Internas'}, 
                             {codigo: 'solicitud', descripcion: 'Solicitudes o Denuncias'}
                                 ],
+                anexoHojas: []
                 //mostrarPersona: false,
             };
         },
         mounted(){
             this.personas.loadFromAPI();
+            this.cargaInicial();
         },
         watch: {
             '$route.params.id'() {

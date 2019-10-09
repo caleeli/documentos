@@ -9,7 +9,7 @@
                         <label>
                             <input type="checkbox" name="tipo_busqueda"
                                    :value="tipo.attributes.sigla"
-                                   v-model="data.attributes.tipo">
+                                   v-model="tipoHR">
                             {{tipo.attributes.nombre}}
                         </label>
                     </div>
@@ -199,21 +199,25 @@
                         : this.type;
             },
             generarReporte() {
+                this.data.attributes.tipo = this.tipoHR;
                 this.data.postToAPI("/api/reporte").then((response) => {
                     this.$router.push({params: {id: response.data.data.id}});
                 });
             },
             generarPreview() {
+                this.data.attributes.tipo = this.tipoHR;
                 this.data.postToAPI("/api/reporte").then((response) => {
                     window.open('/reporte/' + response.data.data.id + '/html');
                 });
             },
             generarExcel() {
+                this.data.attributes.tipo = this.tipoHR;
                 this.data.postToAPI("/api/reporte").then((response) => {
                     window.open('/reporte/' + response.data.data.id + '/excel');
                 });
             },
             generarPDF() {
+                this.data.attributes.tipo = this.tipoHR;
                 this.data.postToAPI("/api/reporte").then((response) => {
                     window.open('/reporte/' + response.data.data.id + '/pdf');
                 });
@@ -258,6 +262,7 @@
                     {attributes: {sigla: 'concluidos', nombre: 'Concluidos'}},
                     {attributes: {sigla: 'destinatario', nombre: 'Destinatario'}},
                 ],
+                tipoHR: [],
             };
         },
         watch: {
