@@ -41,6 +41,7 @@ class HojaRuta extends Model
         "numero",
         "tipo_tarea",
         "subtipo_tarea",
+        "tipo_procedencia"
     ];
     protected $appends = [
         'fecha_derivacion',
