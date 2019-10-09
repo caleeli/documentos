@@ -1,6 +1,8 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UsersSeeder::class);
+        Auth::login(User::find(1));
         $this->call(ClasificacionHojasRutaSeeder::class);
         $this->call(InstruccionesSeeder::class);
         $this->call(SubClasificacionHojasRutaSeeder::class);

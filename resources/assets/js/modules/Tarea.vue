@@ -90,13 +90,15 @@
             </div>
             <div class="row">
               <div class="col-7">
+                <hr>
                 <div v-for="comentario in tarea.relationships.comentarios" :key="comentario.id">
                   <div>
                     <label>Fecha</label>
                     <datetime :read-only="true" v-model="comentario.attributes.com_fecha" />
                   </div>
                   <div>
-                    <label>Comentario</label>
+                    <avatar v-model="comentario.attributes.user_add" ></avatar><b>{{comentario.attributes.nombre_usuario}}</b>
+                    <label>comentó:</label>
                     <div v-html="comentario.attributes.com_texto" />
                   </div>
                   <hr />

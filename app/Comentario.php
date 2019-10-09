@@ -26,4 +26,12 @@ class Comentario extends Model
         'fecha_modificacion' => 'date',
         'fecha_baja' => 'date',
     ];
+    protected $appends = [
+        'nombre_usuario'
+    ];
+
+    public function getNombreUsuarioAttribute()
+    {
+        return $this->userAdd ? $this->userAdd->nombre_completo : '';
+    }
 }

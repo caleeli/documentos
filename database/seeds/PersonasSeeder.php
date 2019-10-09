@@ -1,9 +1,7 @@
 <?php
 
 use App\Persona;
-use App\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Auth;
 
 class PersonasSeeder extends Seeder
 {
@@ -14,7 +12,6 @@ class PersonasSeeder extends Seeder
      */
     public function run()
     {
-        Auth::login(User::find(1));
         factory(Persona::class, 15)->create();
     }
 }
