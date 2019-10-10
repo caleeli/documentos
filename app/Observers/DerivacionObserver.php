@@ -20,6 +20,7 @@ class DerivacionObserver
             'tar_fecha_derivacion' => $derivacion->fecha,
             'tar_prioridad' => 2,
             'tar_estado' => 'Pendiente',
+            'tar_creador_id' => $this->creadorDerivacion($derivacion),
         ]);
         $tarea->usuarios()->sync(explode(',', $derivacion->destinatarios));
     }
@@ -35,6 +36,7 @@ class DerivacionObserver
         if ($derivacion->tarea) {
             $derivacion->tarea->tar_fecha_derivacion = $derivacion->fecha;
             $derivacion->tarea->tar_descripcion = $derivacion->comentarios;
+            $derivacion->tarea->tar_creador_id = $this->creadorDerivacion($derivacion);
             $derivacion->tarea->usuarios()->sync(explode(',', $derivacion->destinatarios));
             $derivacion->tarea->save();
         } else {
@@ -73,5 +75,11 @@ class DerivacionObserver
     public function forceDeleted(Derivacion $derivacion)
     {
         //
+    }
+
+    private function creadorDerivacion(Derivacion $derivacion)
+    {
+        $destinatarios = $derivacion->hoja_ruta->derivacion()->first()->destinatarios;
+        return $destinatarios ? explode(',', $destinatarios)[0] : null;
     }
 }
