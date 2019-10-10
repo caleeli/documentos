@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Hoja de Ruta (*):</label></div>
+                <div :class="colLabel"><label>Nº Hoja de Ruta:</label></div>
                 <div :class="colField">
                     <select-box :data="hojasRuta" v-model="data.attributes.hoja_de_ruta_recepcion"
                         id-field="attributes.nro_de_control"
@@ -131,21 +131,21 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Nota (*):</label></div>
+                <div :class="colLabel"><label>Nº Nota:</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_nota_recepcion" />
                     <error v-model="errores" property="errors.nro_nota_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Remitente (*):</label></div>
+                <div :class="colLabel"><label>Remitente:</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.remitente_recepcion" />
                     <error v-model="errores" property="errors.remitente_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Asunto o Referencia (*):</label></div>
+                <div :class="colLabel"><label>Asunto o Referencia:</label></div>
                 <div :class="colField">
                     <text-box v-model="data.attributes.referencia_recepcion" :reference="referenciarNota">
                         <template slot="dropdown" slot-scope="{code,select}">
