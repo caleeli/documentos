@@ -7,42 +7,42 @@
             <error v-model="errores" property="message"></error>
 
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Hoja de Ruta:</label></div>
+                <div :class="colLabel"><label>Nº Hoja de Ruta (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.hoja_de_ruta" />
                     <error v-model="errores" property="errors.hoja_de_ruta"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de emisión:</label></div>
+                <div :class="colLabel"><label>Fecha de emisión (*):</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_emision" />
                     <error v-model="errores" property="errors.fecha_emision"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Nota SCSL:</label></div>
+                <div :class="colLabel"><label>Nº Nota SCSL (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_nota" readonly placeholder="Se generará automaticamente al guardar" />
                     <error v-model="errores" property="errors.nro_nota"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Reiterativa:</label></div>
+                <div :class="colLabel"><label>Reiterativa (*):</label></div>
                 <div :class="colField">
                     <select class="form-control" v-model="data.attributes.reiterativa"><option value="SI">SI</option> <option value="NO">NO</option></select>
                     <error v-model="errores" property="errors.reiterativa"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de entrega:</label></div>
+                <div :class="colLabel"><label>Fecha de entrega (*):</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_entrega" />
                     <error v-model="errores" property="errors.fecha_entrega"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Entidad:</label></div>
+                <div :class="colLabel"><label>Entidad (*):</label></div>
                 <div :class="colField">
                     <select-box :data="entidadesPersonas" v-model="data.attributes.entidad_empresa"
                         id-field="attributes.ent_descripcion"
@@ -58,21 +58,21 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nombre y apellidos:</label></div>
+                <div :class="colLabel"><label>Nombre y apellidos (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nombre_apellidos" />
                     <error v-model="errores" property="errors.nombre_apellidos"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Cargo:</label></div>
+                <div :class="colLabel"><label>Cargo (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.cargo" />
                     <error v-model="errores" property="errors.cargo"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Referencia:</label></div>
+                <div :class="colLabel"><label>Referencia (*):</label></div>
                 <div :class="colField">
                     <text-box v-model="data.attributes.referencia" :reference="referenciarNota">
                         <template slot="dropdown" slot-scope="{code,select}">
@@ -90,14 +90,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Días otorgados para respuesta:</label></div>
+                <div :class="colLabel"><label>Días otorgados para respuesta (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.dias" />
                     <error v-model="errores" property="errors.dias"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Días de retraso:</label></div>
+                <div :class="colLabel"><label>Días de retraso (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.retraso" />
                     <error v-model="errores" property="errors.retraso"></error>
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Hoja de Ruta:</label></div>
+                <div :class="colLabel"><label>Nº Hoja de Ruta (*):</label></div>
                 <div :class="colField">
                     <select-box :data="hojasRuta" v-model="data.attributes.hoja_de_ruta_recepcion"
                         id-field="attributes.nro_de_control"
@@ -124,28 +124,28 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de recepción:</label></div>
+                <div :class="colLabel"><label>Fecha de recepción (*):</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_recepcion" />
                     <error v-model="errores" property="errors.fecha_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Nota:</label></div>
+                <div :class="colLabel"><label>Nº Nota (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_nota_recepcion" />
                     <error v-model="errores" property="errors.nro_nota_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Remitente:</label></div>
+                <div :class="colLabel"><label>Remitente (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.remitente_recepcion" />
                     <error v-model="errores" property="errors.remitente_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Asunto o Referencia:</label></div>
+                <div :class="colLabel"><label>Asunto o Referencia (*):</label></div>
                 <div :class="colField">
                     <text-box v-model="data.attributes.referencia_recepcion" :reference="referenciarNota">
                         <template slot="dropdown" slot-scope="{code,select}">
@@ -163,7 +163,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fojas/ Arch./ Anillados/ Legajos/ Otros:</label></div>
+                <div :class="colLabel"><label>Fojas/ Arch./ Anillados/ Legajos/ Otros (*):</label></div>
                 <div :class="colField">
                     <anexos v-model="data.attributes.fojas_recepcion"></anexos>
                     <!-- input class="form-control" type="text" v-model="data.attributes.fojas_recepcion" /-->

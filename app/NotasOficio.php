@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Traits\AutoTableTrait;
 use App\Traits\CorrelativoTrait;
+use App\Traits\ValidatedModelTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -12,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 class NotasOficio extends Model
 {
     use CorrelativoTrait;
+    use AutoTableTrait;
+    use ValidatedModelTrait;
 
     protected $table = 'notas_oficio';
     protected $correlativos = [
@@ -45,4 +49,27 @@ class NotasOficio extends Model
     protected $dispatchesEvents = [
         //'creating' => [self::class, 'creatingNota'],
     ];
+
+    public function getRules()
+    {
+        return [
+            'hoja_de_ruta' => ['required'],
+            'fecha_emision' => ['required'],
+            'reiterativa' => ['required'],
+            'fecha_entrega' => ['required'],
+            'entidad_empresa' => ['required'],
+            'nombre_apellidos' => ['required'],
+            'cargo' => ['required'],
+            'referencia' => ['required'],
+            'dias' => ['required'],
+            'retraso' => ['required'],
+            'hoja_de_ruta_recepcion' => ['required'],
+            'fecha_recepcion' => ['required'],
+            'nro_nota_recepcion' => ['required'],
+            'remitente_recepcion' => ['required'],
+            'referencia_recepcion' => ['required'],
+            'fojas_recepcion' => ['required'],
+            'gestion' => ['required'],
+        ];
+    }
 }

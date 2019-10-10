@@ -10,7 +10,7 @@
 
       <div class="form-group row">
         <div :class="colLabel">
-          <label>Fecha entrega:</label>
+          <label>Fecha entrega (*):</label>
         </div>
         <div :class="colField">
           <datetime type="date" v-model="data.attributes.fecha_entrega" />
@@ -19,7 +19,7 @@
       </div>
       <div class="form-group row">
         <div :class="colLabel">
-          <label>N° Informe CGE/SCSL:</label>
+          <label>N° Informe CGE/SCSL (*):</label>
         </div>
         <div :class="colField">
           <input
@@ -34,7 +34,7 @@
       </div>
       <div class="form-group row">
         <div :class="colLabel">
-          <label>Nombre destinatario:</label>
+          <label>Nombre destinatario (*):</label>
         </div>
         <div :class="colField">
           <suggest
@@ -52,7 +52,7 @@
       </div>
       <div class="form-group row">
         <div :class="colLabel">
-          <label>Nombre remitente:</label>
+          <label>Nombre remitente (*):</label>
         </div>
         <div :class="colField">
           <suggest
@@ -70,7 +70,7 @@
       </div>
       <div class="form-group row">
         <div :class="colLabel">
-          <label>Referencia:</label>
+          <label>Referencia (*):</label>
         </div>
         <div :class="colField">
           <text-box v-model="data.attributes.referencia" :reference="referenciarNota">
@@ -94,7 +94,7 @@
       </div>
       <div class="form-group row">
         <div :class="colLabel">
-          <label>Hoja ruta:</label>
+          <label>Hoja ruta (*):</label>
         </div>
         <div :class="colField">
           <select-box
