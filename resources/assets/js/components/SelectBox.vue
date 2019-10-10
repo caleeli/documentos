@@ -62,7 +62,7 @@
                     return selected;
                 } else {
                     return this.data.find(item => {
-                        return value === String(this.getKey(item));
+                        return String(value) === String(this.getKey(item));
                     });
                 }
             }
