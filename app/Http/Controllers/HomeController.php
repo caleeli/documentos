@@ -41,8 +41,11 @@ class HomeController extends Controller
 
     private function listModules()
     {
+        $user = Auth::user();
         $links = [];
-        foreach(Module::where('parent', 0)->get() as $module) {
+        $where = Module::where('parent', 0);
+        $where = $user->role_id == '2' ? $where->where('id', '!=', '900') : $where;
+        foreach($where->get() as $module) {
             $link = [
                 'text' => $module->name,
                 'icon' => $module->icon,
