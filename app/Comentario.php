@@ -34,4 +34,8 @@ class Comentario extends Model
     {
         return $this->userAdd ? $this->userAdd->nombre_completo : '';
     }
+
+    public function setNombreUsuarioAttribute()
+    {
+    }
 }

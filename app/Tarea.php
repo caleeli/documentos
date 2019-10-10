@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\SaveUserTrait;
+use Illuminate\Support\Facades\Auth;
 
 class Tarea extends Model
 {
@@ -80,18 +81,18 @@ class Tarea extends Model
         return $this->belongsToMany('App\Tarea', 'enlace_tarea', 'tarea_id', 'enlace_tarea_id');
     }
 
-    public function scopeWhereUserAssigned($query, $userId, $ownerId)
+    public function scopeWhereUserAssigned($query, $userId = null, $ownerId = null)
     {
-        return $query->whereIn('id', function ($query) use ($userId, $ownerId) {
-            $query->select('tarea_id')
-                                ->from('tarea_user')
-                                ->where(function ($query) use ($userId, $ownerId) {
-                                    if ($ownerId != '1') {
-                                        $query->where('user_id', $userId)
-                                            ->orWhere('creador_id', $ownerId);
-                                    }
-                                });
-        });
+        if (Auth::id() == 1) {
+            return $query;
+        }
+        $userId = $userId ?: Auth::id();
+        $ownerId = $ownerId ?: Auth::id();
+        return $query->whereIn('tar_id', function ($query) use ($userId) {
+            $query->select('tarea_tar_id')
+                ->from('tarea_user')
+                ->where('user_id', $userId);
+        })->orWhere('tar_creador_id', $ownerId);
     }
 
     public function getDiasPasadosAttribute()

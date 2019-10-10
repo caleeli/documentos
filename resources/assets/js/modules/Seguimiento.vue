@@ -52,8 +52,7 @@
               class="progress-bar progress-bar-success"
             ></div>
           </div>
-          <span class="badge badge-success">1</span>
-          <span class="badge badge-light">2</span>
+          <span class="badge badge-light">{{tareaI.attributes.tar_avance}} %</span>
         </div>
         <div class="col-md-2 col-xs-5 project-user">
           <div v-for="(u,i) in tareaI.relationships.usuarios" :key="i">
@@ -61,9 +60,6 @@
             {{u.attributes.nombres+' '+u.attributes.apellidos}}
           </div>
         </div>
-        <!-- td class="project-owner">
-                                                                    <i class="fa fa-user-secret"></i> {{tareaI.relationships.creador.attributes.nombres+' '+tareaI.relationships.creador.attributes.apellidos}}
-        </td-->
         <div class="col-md-1 col-xs-3 text-right project-priority">
           <span class="d-inline-block text-center">
             <small>Prioridad</small>
@@ -71,8 +67,10 @@
             <span v-bind:class="classPriodidad(tareaI)">{{labelPrioridad(tareaI)}}</span>
           </span>
         </div>
-        <div class="col-md-3 col-xs-12 project-actions text-left" style="padding-top: 0.5em">
-          <span class="d-inline-block">
+        <div class="col-md-3 col-xs-12 project-actions text-left d-flex">
+          <span class="d-inline-block flex-grow-1">
+            <small>Asignado</small>
+            <br />
             <pie-svg :value="tiempoReloj(tareaI)"></pie-svg>
             {{ diasPasados(tareaI) }}
           </span>
@@ -92,10 +90,14 @@
 
 <script>
 import moment from "moment";
-import {colores, iconos, colorPrioridades, prioridades} from "../ConstantesSeguimiento";
+import {
+  colores,
+  iconos,
+  colorPrioridades,
+  prioridades
+} from "../ConstantesSeguimiento";
 
 const apiBase = "/api/adm_tareas";
-
 
 export default {
   path: "/Seguimiento",
@@ -154,13 +156,13 @@ export default {
   data() {
     return {
       tareas: new ApiArray(
-        "/api/tarea?sort=-tar_prioridad&per_page=7&include=derivacion,usuarios"
+        "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad&per_page=7&include=derivacion,usuarios"
       ),
       busquedaTareas: ""
     };
   },
   mounted() {
     this.tareas.loadFromAPI();
-  },
+  }
 };
 </script>

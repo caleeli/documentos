@@ -9,7 +9,7 @@ export default {
   props: {
     value: Number,
     background: {
-      default: "#299050"
+      default: "lightgreen"
     },
     color: {
       default: "#db2c2c"

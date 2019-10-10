@@ -1,5 +1,8 @@
 <template>
   <panel :name="titulo" class="panel-primary">
+    <template slot="actions">
+      <router-link class="btn btn-info btn-sm" :to="{path:'/Seguimiento'}">Volver</router-link>
+    </template>
     <div class="row" v-if="tarea.attributes">
       <div class="col-lg-5">
         <dl class="dl-horizontal">
@@ -9,15 +12,19 @@
           </dd>
           <div style="height: 4px;"></div>
           <dt>Prioridad:</dt>
-          <dd v-if="!editPrioridad">
+          <dd v-if="!editPrioridad || !editable">
             <span v-bind:class="classPriodidad(tarea)">{{labelPrioridad(tarea)}}</span>
-            <a href="javascript:void(0)" @click="openPrioridad"><i class="fa fa-pen"></i></a>
+            <a v-if="editable" href="javascript:void(0)" @click="openPrioridad">
+              <i class="fa fa-pen"></i>
+            </a>
           </dd>
-          <dd v-if="editPrioridad">
+          <dd v-if="editable && editPrioridad">
             <select v-model="tarea.attributes.tar_prioridad">
               <option v-for="(prioridad,key) in prioridades" :value="key" :key="key">{{prioridad}}</option>
             </select>
-            <a href="javascript:void(0)" @click="savePrioridad"><i class="fa fa-save"></i></a>
+            <a href="javascript:void(0)" @click="savePrioridad">
+              <i class="fa fa-save"></i>
+            </a>
           </dd>
           <dt>Creado por:</dt>
           <dd>
@@ -57,19 +64,28 @@
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
               <a
-                href="#active"
-                class="nav-link active"
+                href="#atencion"
+                class="nav-link"
+                :class="tabAtencion"
                 data-toggle="tab"
                 role="tab"
+                @click="tab='atencion'"
               >Atención a la derivación</a>
             </li>
             <li class="nav-item">
-              <a href="#link" class="nav-link" data-toggle="tab" role="tab">Evaluación del producto</a>
+              <a
+                href="#evaluacion"
+                class="nav-link"
+                :class="tabEvaluacion"
+                data-toggle="tab"
+                role="tab"
+                @click="tab='evaluacion'"
+              >Evaluación del producto</a>
             </li>
           </ul>
         </div>
         <div class="card-body tab-content">
-          <div id="active" class="tab-pane active" role="tabpanel">
+          <div id="atencion" class="tab-pane" :class="{active: tab === 'atencion'}" role="tabpanel">
             <div class="row">
               <div class="col-3">
                 <div>
@@ -79,10 +95,17 @@
                       v-model="tarea.attributes.tar_avance"
                       type="number"
                       class="form-control"
+                      :readonly="!editable"
                       placeholder="%"
                     />
-                    <div class="input-group-append">
-                      <a href="javascript:void(0)" class="input-group-text bg-success text-white" @click="saveTarea"><i class="fas fa-save"></i></a>
+                    <div class="input-group-append" v-if="editable">
+                      <a
+                        href="javascript:void(0)"
+                        class="input-group-text bg-success text-white"
+                        @click="saveTarea"
+                      >
+                        <i class="fas fa-save"></i>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -90,40 +113,52 @@
             </div>
             <div class="row">
               <div class="col-7">
-                <hr>
+                <hr />
                 <div v-for="comentario in tarea.relationships.comentarios" :key="comentario.id">
                   <div>
                     <label>Fecha</label>
                     <datetime :read-only="true" v-model="comentario.attributes.com_fecha" />
                   </div>
                   <div>
-                    <avatar v-model="comentario.attributes.user_add" ></avatar><b>{{comentario.attributes.nombre_usuario}}</b>
+                    <avatar v-model="comentario.attributes.user_add"></avatar>
+                    <b>{{comentario.attributes.nombre_usuario}}</b>
                     <label>comentó:</label>
                     <div v-html="comentario.attributes.com_texto" />
                   </div>
                   <hr />
                 </div>
-                <div>
+                <div v-if="editable">
                   <label>Fecha</label>
                   <datetime v-model="com_fecha" />
                 </div>
-                <div>
+                <div v-if="editable">
                   <label>Comentario</label>
                   <tinymce v-model="com_texto" plugins="table" height="10em" />
                 </div>
-                <button type="button" class="btn btn-primary" @click="comentar">Registrar</button>
+                <div v-if="editable">
+                  <br />
+                  <button type="button" class="btn btn-primary" @click="comentar">Registrar</button>
+                  <button type="button" class="btn btn-success" @click="completarTarea">
+                    <i class="fa fa-check-square"></i> Completado
+                  </button>
+                </div>
               </div>
               <div class="col-5">
                 <folder-viewer
                   :api="'/api/folder/tareas/' + tarea.id"
-                  :candelete="true"
-                  :canupload="true"
+                  :candelete="editable"
+                  :canupload="editable"
                   :target="'tareas/' + tarea.id"
                 ></folder-viewer>
               </div>
             </div>
           </div>
-          <div id="link" class="tab-pane" role="tabpanel">
+          <div
+            id="evaluacion"
+            class="tab-pane"
+            :class="{active: tab === 'evaluacion'}"
+            role="tabpanel"
+          >
             <div>
               <label>Calificación</label>
               <input class="form-control" v-model="tarea.attributes.tar_calificacion" />
@@ -151,10 +186,20 @@ import {
 } from "../ConstantesSeguimiento";
 
 const apiBase = "/api/adm_tareas";
+const Completado = "Completado";
 
 export default {
   path: "/Tarea/:id",
   methods: {
+    completarTarea() {
+      this.tarea.attributes.tar_fecha_fin = moment().format(
+        "YYYY-MM-DD HH:mm:ss"
+      );
+      this.tarea.attributes.tar_estado = Completado;
+      this.saveTarea().then(() => {
+        this.comentar();
+      });
+    },
     openPrioridad() {
       this.editPrioridad = true;
     },
@@ -163,7 +208,7 @@ export default {
       this.saveTarea();
     },
     saveTarea() {
-      this.tarea.putToAPI("/api/tarea/" + this.$route.params.id);
+      return this.tarea.putToAPI("/api/tarea/" + this.$route.params.id);
     },
     comentar() {
       this.comentario.attributes.tar_id = this.tarea.id;
@@ -236,6 +281,18 @@ export default {
     }
   },
   computed: {
+    editable() {
+      return this.tarea.attributes.tar_estado !== Completado;
+    },
+    tabEvaluacion() {
+      return (
+        (this.tarea.attributes.tar_estado === Completado ? "" : "disabled") +
+        (this.tab === "evaluacion" ? " active" : "")
+      );
+    },
+    tabAtencion() {
+      return this.tab === "atencion" ? " active" : "";
+    },
     titulo() {
       return this.tarea.attributes
         ? this.tarea.attributes.tar_codigo +
@@ -258,11 +315,22 @@ export default {
       com_texto: "",
       prioridades,
       editPrioridad: false,
+      tab: "atencion"
     };
   },
   mounted() {
     this.tarea.loadFromAPI();
   },
+  watch: {
+    "tarea.attributes": {
+      handler() {
+        this.tab =
+          this.tarea.attributes.tar_estado === Completado
+            ? "evaluacion"
+            : "atencion";
+      }
+    }
+  }
 };
 </script>
 
@@ -276,5 +344,8 @@ dd {
   display: inline-block;
   width: 60%;
   text-align: left;
+}
+.nav-link.disabled {
+  opacity: 0.5;
 }
 </style>
