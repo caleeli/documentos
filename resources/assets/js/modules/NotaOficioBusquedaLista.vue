@@ -1,5 +1,5 @@
 <template>
-    <panel :name="type.toLocaleUpperCase()" class="panel-primary">
+    <panel :name="titulo" class="panel-primary">
         <grid v-model="data"
               filter-by="attributes.hoja_de_ruta
               attributes.nro_nota
@@ -47,9 +47,19 @@
         notas: '/NotaOficio/',
         comunicacion: '/ComunicacionesInternas/',
     };
+    const titulo = {
+        'notas': 'Notas Oficio',
+        'informes': 'Informes',
+        'comunicacion': 'Comunicaciones Internas',
+    };
     export default {
         props: {
             type: String,
+        },
+        computed: {
+            titulo() {
+                return titulo[this.type];
+            }
         },
         data() {
             return {

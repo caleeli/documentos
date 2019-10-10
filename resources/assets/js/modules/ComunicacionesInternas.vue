@@ -1,5 +1,5 @@
 <template>
-    <panel v-if="data.attributes" name="Comunicación Interna/Informe" class="panel-primary">
+    <panel v-if="data.attributes" name="Comunicación Interna" class="panel-primary">
         <div class="container">
             <div class="row">
                 <div class="col-12"><h4>Comunicaciones Internas</h4> </div>

@@ -1,5 +1,5 @@
 <template>
-  <panel v-if="data.attributes" name="Notas Oficio" class="panel-primary">
+  <panel v-if="data.attributes" name="Informe" class="panel-primary">
     <div class="container">
       <div class="row">
         <div class="col-12">

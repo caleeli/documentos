@@ -1,5 +1,5 @@
 <template>
-  <panel :name="type.toLocaleUpperCase()" class="panel-primary">
+  <panel name="Informes" class="panel-primary">
     <grid
       v-model="data"
       filter-by="attributes.hoja_de_ruta
