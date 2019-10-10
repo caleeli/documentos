@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\SaveUserTrait;
+use App\Traits\ValidatedModelTrait;
 use Illuminate\Support\Facades\Auth;
 
 class Tarea extends Model
 {
     use SoftDeletes, Notifiable, SaveUserTrait;
+    use ValidatedModelTrait;
 
     const CREATED_AT = 'fecha_registro';
     const UPDATED_AT = 'fecha_modificacion';
@@ -30,6 +32,14 @@ class Tarea extends Model
         //0 => 'dias_pasados',
         //1 => 'ultima_asignacion',
     ];
+
+    public function getRules()
+    {
+        return [
+            'tar_avance' => ['int', 'max:100', 'min:0'],
+            'tar_calificacion' => ['int', 'max:100', 'min:0'],
+        ];
+    }
 
     public function usuarios()
     {

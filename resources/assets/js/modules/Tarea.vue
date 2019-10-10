@@ -98,6 +98,8 @@
                       type="number"
                       class="form-control"
                       :readonly="!editable"
+                      min="0"
+                      max="100"
                       placeholder="%"
                     />
                     <div class="input-group-append" v-if="editable">
@@ -163,11 +165,11 @@
           >
             <div>
               <label>Calificación</label>
-              <input class="form-control" v-model="tarea.attributes.tar_calificacion" />
+              <input class="form-control" v-model="tarea.attributes.tar_calificacion" type="number" min="0" max="100" />
             </div>
             <hr />
             <div>
-              <button type="button" class="btn btn-primary" @click="saveTarea">
+              <button type="button" class="btn btn-primary" @click="saveExitTarea">
                 <i class="fas fa-save"></i> Guardar
               </button>
             </div>
@@ -200,6 +202,7 @@ export default {
       this.tarea.attributes.tar_estado = Completado;
       this.saveTarea().then(() => {
         this.comentar();
+        this.$router.push({ path: "/Seguimiento" });
       });
     },
     openPrioridad() {
@@ -208,6 +211,11 @@ export default {
     savePrioridad() {
       this.editPrioridad = false;
       this.saveTarea();
+    },
+    saveExitTarea() {
+      this.tarea.putToAPI("/api/tarea/" + this.$route.params.id).then(() => {
+        this.$router.push({ path: "/Seguimiento" });
+      });
     },
     saveTarea() {
       return this.tarea.putToAPI("/api/tarea/" + this.$route.params.id);
@@ -325,11 +333,16 @@ export default {
   },
   watch: {
     "tarea.attributes": {
+      deep: true,
       handler() {
         this.tab =
           this.tarea.attributes.tar_estado === Completado
             ? "evaluacion"
             : "atencion";
+        const avance = Math.max(0, Math.min(100, this.tarea.attributes.tar_avance));
+        avance != this.tarea.attributes.tar_avance ? this.tarea.attributes.tar_avance = avance : null;
+        const calificacion = Math.max(0, Math.min(100, this.tarea.attributes.tar_calificacion));
+        calificacion != this.tarea.attributes.tar_calificacion ? this.tarea.attributes.tar_calificacion = calificacion : null;
       }
     }
   }

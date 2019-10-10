@@ -35,7 +35,7 @@ trait ValidatedModelTrait
         /* @var $v \Illuminate\Validation\Validator */
         $rules = [];
         foreach ($this->getRules() as $key => $val) {
-            if (!in_array('required', $val)) {
+            if (is_array($val) && !in_array('required', $val)) {
                 $val[] = 'nullable';
             }
             $rules[$key] = $val;
