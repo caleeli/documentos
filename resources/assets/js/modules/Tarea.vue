@@ -1,7 +1,9 @@
 <template>
   <panel :name="titulo" class="panel-primary">
     <template slot="actions">
-      <router-link class="btn btn-info btn-sm" :to="{path:'/Seguimiento'}">Volver</router-link>
+      <router-link class="btn btn-info btn-sm" :to="{path:'/Seguimiento'}">
+        <i class="fas fa-arrow-circle-left"></i> Volver
+      </router-link>
     </template>
     <div class="row" v-if="tarea.attributes">
       <div class="col-lg-5">
@@ -79,7 +81,7 @@
                 :class="tabEvaluacion"
                 data-toggle="tab"
                 role="tab"
-                @click="tab='evaluacion'"
+                @click="tarea.attributes.tar_estado==='Completado' ? tab='evaluacion' : null"
               >Evaluación del producto</a>
             </li>
           </ul>
