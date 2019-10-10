@@ -23,7 +23,7 @@
             <tr slot-scope="{row, options, format}">
                 <td v-html="format('SCSL&#x2011;' + row.attributes.numero)"></td>
                 <td v-html="format(row.attributes.nro_de_control)"></td>
-                <td v-html="format('SCSL&#x2011;' + row.attributes.tipo_tarea + '&#x2011;' + row.attributes.nro_de_control)"></td>
+                <td v-html="format(row.attributes.subtipo_tarea)"></td>
                 <td v-html="format(row.attributes.gestion)"></td>
                 <td v-html="format(row.attributes.tipo_hr_desc)"></td>
                 <td v-html="format(row.attributes.referencia)"></td>

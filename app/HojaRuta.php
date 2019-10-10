@@ -90,7 +90,8 @@ class HojaRuta extends Model
      */
     public function getEstadoAttribute()
     {
-        $derivacion = $this->getUltimaDerivacion();
+        return $this->fecha_conclusion ? 'CONCLUIDO' : 'PENDIENTE';
+        /*$derivacion = $this->getUltimaDerivacion();
         $users = Cache::get('users',
                 function() {
                 return User::get()->toArray();
@@ -98,7 +99,7 @@ class HojaRuta extends Model
         $user = $this->usuario_destinatario;
         $despachado = $user && $user['attributes']['numero_ci'] === User::EXTERNAL_CODE && !in_array($user['attributes']['username'],
                 User::RESERVED);
-        return $user && $user['attributes']['username'] === User::ARCHIVO ? 'ARCHIVO' : ( $despachado ? 'DESPACHADO' : 'PENDIENTE');
+        return $user && $user['attributes']['username'] === User::ARCHIVO ? 'ARCHIVO' : ( $despachado ? 'DESPACHADO' : 'PENDIENTE');*/
     }
 
     /**

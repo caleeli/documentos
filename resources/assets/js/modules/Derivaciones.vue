@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div class="container" v-if="derivacion.attributes">
-            <div class="row">
-                <div class="col-12">
-                    <br><hr>
-                    <h4>Derivaciones</h4>
-                </div>
+        <div class="row">
+            <div class="col-12">
+                <br><hr>
+                <h4>Derivaciones</h4>
             </div>
-            <error v-model="erroresDerivacion" property="message"></error>
+        </div>
+        <error v-model="erroresDerivacion" property="message"></error>
+        <div class="container" v-if="derivacion.attributes && pendiente">
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de derivación:</label></div>
                 <div :class="colField">
@@ -167,6 +167,9 @@
             type: String,
         },
         computed: {
+            pendiente() {
+                return !this.hojaRuta.attributes.fecha_conclusion;
+            },
             getInstruccionPorSigla() {
                 let sigla = this.hojaRuta.attributes.tipo_tarea;
                 let instruccion = this.instrucciones.filter(
@@ -206,7 +209,15 @@
                 this.derivacion.attributes.destinatario = nombres.join(', ');
             },
             terminarHojaRuta() {
-
+                this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
+                this.derivacion.postToAPI('/api/hoja_ruta' + '/' + this.hojaRuta.id + '/derivacion').then(() => {
+                        this.derivaciones.loadFromAPI();
+                        this.derivacion.loadFromAPI();
+                    });
+                this.hojaRuta.attributes.fecha_conclusion = moment().format('YYYY-MM-DD');
+                this.hojaRuta.putToAPI('/api/hoja_ruta/' + this.hojaRuta.id).then((response) => {
+                    this.$router.push({path: '/HojaRutaBusqueda'});
+                });
             },
             registrarDerivacion() {
                 this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;
