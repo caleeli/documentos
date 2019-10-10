@@ -28,6 +28,9 @@ class HojaRuta extends Model
     public $incrementing = true;
     public $timestamps = true;
     protected $table = 'hoja_ruta';
+    protected $attributes = [
+        'anexo_hojas' => '',
+    ];
     protected $fillable = [
         "fecha_recepcion",
         "referencia",

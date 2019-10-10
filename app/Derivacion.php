@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Rules\UntilToday;
+use App\Traits\AutoTableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Derivacion extends Model
 {
     use SoftDeletes;
+    use AutoTableTrait;
 
     public $timestamps = false;
     protected $table = 'derivacion';
@@ -49,5 +51,13 @@ class Derivacion extends Model
     public function tarea()
     {
         return $this->hasOne(Tarea::class, 'derhr_id');
+    }
+
+    public function setDestinatariosAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['destinatario'] = implode(', ', User::findMany(explode(',', $value))->pluck('nombre_completo')->toArray());
+        }
+        $this->attributes['destinatarios'] = $value;
     }
 }

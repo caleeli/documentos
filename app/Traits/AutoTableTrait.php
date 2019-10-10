@@ -1,12 +1,11 @@
 <?php
+
 namespace App\Traits;
 
 use App\Jobs\UpdateModels;
 use App\Observers\GenericObserver;
 use Illuminate\Support\Facades\Cache;
 use Nano\SchemaLive\AutoTableTrait as AutoTableTraitBase;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use Doctrine\DBAL\Schema\Column;
 
 /**
  * Description of AutoTable
@@ -24,13 +23,29 @@ trait AutoTableTrait
         if (empty($this->attributes)) {
             $columns = $this->getConnection()->getDoctrineSchemaManager()->listTableColumns($this->getTable());
             $this->attributes = [];
-            foreach($columns as $col) {
-                if (!$col->getAutoincrement()) {
-                    $this->attributes[$col->getName()] = $col->getDefault();
+            $reserved = [static::CREATED_AT, static::UPDATED_AT, 'user_add', 'user_mod', 'user_del'];
+            method_exists($this, 'getDeletedAtColumn') ? $reserved[]=$this->getDeletedAtColumn() : false;
+            foreach ($columns as $col) {
+                $colName = $col->getName();
+                if (!$col->getAutoincrement() && !in_array($colName, $reserved)) {
+                    $this->attributes[$col->getName()] = $col->getDefault() ?? $this->getDefaultByType($col->getType()->getName());
                 }
             }
         }
         return parent::syncOriginal();
+    }
+
+    private function getDefaultByType($type)
+    {
+        switch ($type) {
+            case 'date': return date('Y-m-d');
+            case 'datetime': return date('Y-m-d H:i:s');
+            case 'string': return '';
+            case 'text': return '';
+            case 'integer': return 0;
+            case 'float': return 0;
+            default: return '';
+        }
     }
 
 //

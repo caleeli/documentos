@@ -116,8 +116,8 @@
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format,remove}">
                             <!-- Used to render the selected items -->
-                            <template v-if="row instanceof Array">
-                                <span v-for="item in row" class="badge badge-light selected-item" v-html="format(item.attributes.nombre_completo)" @click="remove(item)"></span>
+                            <template v-if="remove">
+                                <span class="selected-item badge badge-light mr-1" v-html="format(row.attributes.nombre_completo)" @click="remove(row)"></span>
                             </template>
                             <!-- Used to render the items in the selection list -->
                             <template v-else>
@@ -376,7 +376,7 @@
             },
             cargarAnexos() {
                 if (this.data.id) {
-                    let aux = this.data.attributes.anexo_hojas.split(", ");
+                    let aux = (this.data.attributes.anexo_hojas || '').split(", ");
                     for (const [key, value] of Object.entries(aux)) {
                         let anexo = value.split(" ");
                         this.anexoHojas[anexo[1]] = anexo[0];

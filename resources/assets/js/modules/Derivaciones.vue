@@ -37,10 +37,15 @@
                 <div :class="colLabel"><label>Destinatario:</label></div>
                 <div :class="colField">
                     <select-box :data="destinatarios" v-model="derivacion.attributes.destinatarios"
+                        :multiple="true"
                         @change="seleccionaDestinatario"
+                        id-field="id"
                         filter-by="attributes.nombre_completo">
-                        <template slot-scope="{row,format}">
-                            <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                        <template slot-scope="{row,format,remove}">
+                            <span v-if="remove" class="selected-item badge badge-light mr-1">
+                                <span v-html="row.attributes.nombre_completo" style="font-size: 1rem" @click="remove(row)"></span>
+                            </span>
+                            <span v-else v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
                     <error v-model="erroresDerivacion" property="errors.destinatario"></error>
@@ -90,10 +95,15 @@
                 </td>
                 <td>
                 <select-box :data="destinatarios" v-model="row.attributes.destinatarios"
+                    :multiple="true"
                     @change="seleccionaEditDestinatario($event, row)"
+                    id-field="id"
                     filter-by="attributes.nombre_completo">
-                    <template slot-scope="{row,format}">
-                        <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
+                    <template slot-scope="{row,format,remove}">
+                        <span v-if="remove" class="selected-item badge badge-light mr-1">
+                            <span v-html="row.attributes.nombre_completo" style="font-size: 0.6rem" @click="remove(row)"></span>
+                        </span>
+                        <span v-else v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                     </template>
                 </select-box>
                 <error v-model="erroresDerivacionEdit" property="errors.destinatario"></error>
@@ -181,11 +191,19 @@
                     row.edit = false;
                 });
             },
-            seleccionaEditDestinatario(select, row) {
-                row.attributes.destinatario = select.attributes.nombre_completo;
+            seleccionaEditDestinatario(selected, row) {
+                const nombres = [];
+                selected.forEach((row) => {
+                    nombres.push(row.attributes.nombre_completo);
+                });
+                row.attributes.destinatario = nombres.join(', ');
             },
-            seleccionaDestinatario(row) {
-                this.derivacion.attributes.destinatario = row.attributes.nombre_completo;
+            seleccionaDestinatario(selected) {
+                const nombres = [];
+                selected.forEach((row) => {
+                    nombres.push(row.attributes.nombre_completo);
+                });
+                this.derivacion.attributes.destinatario = nombres.join(', ');
             },
             terminarHojaRuta() {
 
@@ -234,5 +252,10 @@
     };
 </script>
 
-<style lang="scss">
+<style scoped>
+    .selected-item {
+        font-size: 1rem;
+        pointer-events: all!important;
+        cursor: pointer;
+    }
 </style>

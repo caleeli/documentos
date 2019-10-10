@@ -1,11 +1,14 @@
 <template>
-    <div class="select-owner">
+    <div class="dropdown">
         <!-- Muestra el contenido definido en el slot cuando se tiene un valor seleccionado de la lista -->
-        <div v-if="selected && !inputFocus" class="selected-option"><slot :row="selected" :format="textValue" :remove="remove"></slot></div>
+        <div v-if="!multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot :row="selected" :format="textValue" :remove="remove"></slot></div>
+        <div v-if="multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot v-for="(row,i) in selected" :row="row" :format="textValue" :remove="remove"></slot></div>
         <!-- Muestra el valor textual cuando no se seleccion un valor de la lista de opciones -->
         <div v-if="!(selected && !inputFocus) && !inputFocus" class="selected-option">{{value}}</div>
+        <i class="fa fa-times select-box-clear text-muted" @click="clear"></i>
         <input  class="form-control selected-input dropdown-toggle" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false"
+                :placeholder="value ? '' : placeholder"
                 @focus="focus" @blur="blur" @click="click"
                 v-model="text">
         <ul class="dropdown-menu select-list">
@@ -24,7 +27,10 @@
             data: Array,
             value: null,
             filterBy: String,
-            idField: String,
+            idField: {
+                type: String,
+                default: 'id'
+            },
             multiple: {
                 type: Boolean,
                 default: false,
@@ -70,6 +76,12 @@
             }
         },
         methods: {
+            clear() {
+                this.$emit('input', this.multiple && this.value instanceof Array ? [] : '');
+                this.$nextTick(() => {
+                    this.$emit('change', this.selected);
+                });
+            },
             /**
              * Remove a selected item
              * @returns this
@@ -155,7 +167,9 @@
                     const selected = String(this.getKey(row));
                     value.indexOf(selected) === -1 ? value.push(selected) : null;
                     this.$emit('input', value.join(SEP));
-                    this.$emit('change', this.selected);
+                    this.$nextTick(() => {
+                        this.$emit('change', this.selected);
+                    });
                 } else {
                     this.$emit('input', String(this.getKey(row)));
                     this.$emit('change', row);
@@ -195,5 +209,10 @@
     }
     .select-list .dropdown-item {
         font-weight: normal;
+    }
+    .select-box-clear {
+        position: absolute;
+        margin-top: 1em;
+        right: 1em;
     }
 </style>
