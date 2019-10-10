@@ -90,14 +90,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Días otorgados para respuesta (*):</label></div>
+                <div :class="colLabel"><label>Días otorgados para respuesta:</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.dias" />
                     <error v-model="errores" property="errors.dias"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Días de retraso (*):</label></div>
+                <div :class="colLabel"><label>Días de retraso:</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.retraso" />
                     <error v-model="errores" property="errors.retraso"></error>
@@ -163,7 +163,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fojas/ Arch./ Anillados/ Legajos/ Otros (*):</label></div>
+                <div :class="colLabel"><label>Fojas/ Arch./ Anillados/ Legajos/ Otros:</label></div>
                 <div :class="colField">
                     <anexos v-model="data.attributes.fojas_recepcion"></anexos>
                     <!-- input class="form-control" type="text" v-model="data.attributes.fojas_recepcion" /-->

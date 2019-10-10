@@ -61,14 +61,14 @@ class NotasOficio extends Model
             'nombre_apellidos' => ['required'],
             'cargo' => ['required'],
             'referencia' => ['required'],
-            'dias' => ['required'],
-            'retraso' => ['required'],
+            //'dias' => ['required'],
+            //'retraso' => ['required'],
             'hoja_de_ruta_recepcion' => ['required'],
             'fecha_recepcion' => ['required'],
             'nro_nota_recepcion' => ['required'],
             'remitente_recepcion' => ['required'],
             'referencia_recepcion' => ['required'],
-            'fojas_recepcion' => ['required'],
+            //'fojas_recepcion' => ['required'],
             'gestion' => ['required'],
         ];
     }
