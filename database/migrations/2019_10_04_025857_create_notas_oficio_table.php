@@ -21,13 +21,12 @@ class CreateNotasOficioTable extends Migration
     public function up()
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('hoja_de_ruta')->nullable()->default(null);
-            $table->string('fecha_emision')->nullable()->default(null);
+            $table->date('fecha_emision')->nullable()->default(null);
             $table->string('nro_nota')->nullable()->default(null);
             $table->string('reiterativa')->nullable()->default(null);
-            $table->string('fecha_entrega')->nullable()->default(null);
+            $table->date('fecha_entrega')->nullable()->default(null);
             $table->string('entidad_empresa')->nullable()->default(null);
             $table->string('nombre_apellidos')->nullable()->default(null);
             $table->string('cargo')->nullable()->default(null);
@@ -36,7 +35,7 @@ class CreateNotasOficioTable extends Migration
             $table->string('retraso')->nullable()->default(null);
             $table->mediumText('observaciones')->nullable()->default(null);
             $table->string('hoja_de_ruta_recepcion')->nullable()->default(null);
-            $table->string('fecha_recepcion')->nullable()->default(null);
+            $table->date('fecha_recepcion')->nullable()->default(null);
             $table->string('nro_nota_recepcion')->nullable()->default(null);
             $table->string('remitente_recepcion')->nullable()->default(null);
             $table->mediumText('referencia_recepcion')->nullable()->default(null);
