@@ -20,8 +20,11 @@ $factory->state(Model::class, 'ejemplo',
         'tipo_tarea' => 'SCSL-UR',
         'referencia' => $faker->sentence(),
         'procedencia' => $faker->sentence(),
-        'nro_de_control' => 'SCSL-' . $faker->numberBetween(100, 999),
+        'nro_de_control' => $faker->numberBetween(100, 999),
         'numero' => $faker->numberBetween(100, 999),
+        'tipo_tarea' => 'UR',
+        'subtipo_tarea' => '1.1',
+        'tipo_procedencia' => 'entidad',
     ];
 });
 
