@@ -93,7 +93,7 @@ class Tarea extends Model
 
     public function scopeWhereUserAssigned($query, $userId = null, $ownerId = null)
     {
-        if (Auth::id() == 1) {
+        if (Auth::user()->role_id == 1) {
             return $query;
         }
         $userId = $userId ?: Auth::id();
