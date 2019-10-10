@@ -25,6 +25,15 @@ $factory->state(Model::class, 'ejemplo',
     ];
 });
 
+$factory->state(Model::class, 'create',
+    function (Faker $faker) {
+    return [
+        'tipo_hr' => 'externa',
+        'numero' => '',
+        'gestion' => date('Y'),
+    ];
+});
+
 $factory->state(Model::class, 'externa',
     function (Faker $faker) {
     return [

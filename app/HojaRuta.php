@@ -4,6 +4,7 @@ namespace App;
 
 use App\Rules\UntilToday;
 use App\Traits\SaveUserTrait;
+use App\Traits\ValidatedModelTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
@@ -19,6 +20,7 @@ class HojaRuta extends Model
 
     use SaveUserTrait;
     use SoftDeletes;
+    use ValidatedModelTrait;
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -29,6 +31,7 @@ class HojaRuta extends Model
     public $timestamps = true;
     protected $table = 'hoja_ruta';
     protected $attributes = [
+        'tipo_hr' => 'externa',
         'anexo_hojas' => '',
     ];
     protected $fillable = [
@@ -129,7 +132,19 @@ class HojaRuta extends Model
      */
     protected function getRules()
     {
-        $rules = parent::getRules();
+        $rules = [
+            "fecha_recepcion" => ['required'],
+            "referencia" => ['required'],
+            "procedencia" => ['required'],
+            "nro_de_control" => ['required'],
+            //"anexo_hojas" => ['required'],
+            "destinatario" => ['required'],
+            "tipo_hr" => ['required'],
+            "numero" => ['required'],
+            "tipo_tarea" => ['required'],
+            "subtipo_tarea" => ['required'],
+            "tipo_procedencia" => ['required'],
+        ];
         $rules['fecha_recepcion'][] = new UntilToday();
         $rules['fecha_conclusion'][] = new UntilToday();
 

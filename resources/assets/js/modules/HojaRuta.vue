@@ -18,7 +18,7 @@
             </div>
             <error v-model="erroresHojaRuta" property="message"></error>
             <div class="form-group row">
-                <div :class="colLabel"><label>Procedencia:</label></div>
+                <div :class="colLabel"><label>Procedencia (*):</label></div>
                 <div :class="colField">
                     <template v-for="(procedencia, index) in tipoProcedencia">
                         <div class="row">
@@ -33,10 +33,11 @@
                             </div>
                         </div>
                     </template>
+                    <error v-model="erroresHojaRuta" property="errors.tipo_procedencia"></error>
                 </div>
             </div>
             <div v-if="data.attributes.tipo_procedencia==='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
-                <div :class="colLabel"><label>Entidad:</label></div>
+                <div :class="colLabel"><label>Entidad (*):</label></div>
                 <div :class="colField">
                     <select-box :data="entidades" v-model="data.attributes.procedencia"
                         id-field="attributes.ent_descripcion"
@@ -51,7 +52,7 @@
                 </div>
             </div>
             <div v-if="data.attributes.tipo_procedencia!=='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
-                <div :class="colLabel"><label>Nombres y Apellidos:</label></div>
+                <div :class="colLabel"><label>Nombres y Apellidos (*):</label></div>
                 <div class="col-7">
                     <select-box :data="personas" v-model="data.attributes.procedencia"
                         id-field="attributes.nombre_completo"
@@ -69,14 +70,14 @@
                 </div>
             </div>          
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de recepción:</label></div>
+                <div :class="colLabel"><label>Fecha de recepción (*):</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_recepcion" />
                     <error v-model="erroresHojaRuta" property="errors.fecha_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Referencia:</label></div>
+                <div :class="colLabel"><label>Referencia (*):</label></div>
                 <div :class="colField">
                     <text-box v-model="data.attributes.referencia" tags="#@&" :reference="referenciar" :referenceUrl="urlReferencia">
                         <template slot="dropdown" slot-scope="{code,select,tag}">
@@ -110,7 +111,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Destinatario:</label></div>
+                <div :class="colLabel"><label>Destinatario (*):</label></div>
                 <div :class="colField">
                     <select-box :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
                         filter-by="attributes.nombre_completo">
@@ -129,7 +130,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>N° de control:</label></div>
+                <div :class="colLabel"><label>N° de control (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_de_control" />
                     <error v-model="erroresHojaRuta" property="errors.nro_de_control"></error>
@@ -185,7 +186,7 @@
             </div>
 
             <div class="form-group row">
-                <div :class="colLabel"><label>Tipo de Hoja de Ruta:</label></div>
+                <div :class="colLabel"><label>Tipo de Hoja de Ruta (*):</label></div>
                 <div :class="colField">
                     <template v-for="tipo in tipoHr">
                         <div class="row">
@@ -200,11 +201,12 @@
                             </div>
                         </div>
                     </template>
+                    <error v-model="erroresHojaRuta" property="errors.tipo_hr"></error>
                 </div>
             </div>
 
             <div class="form-group row">
-                <div :class="colLabel"><label>Clasificación:</label></div>
+                <div :class="colLabel"><label>Clasificación (*):</label></div>
                 <div :class="colField">
                     <template v-for="clasificacion in clasificacionHojasRuta">
                         <div class="row">
@@ -316,7 +318,7 @@
             },
             getIdURL() {
                 //return isNaN(this.$route.params.id) ? 'create?factory=' + this.$route.params.type + '&include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
-                return isNaN(this.$route.params.id) ? 'create?include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
+                return isNaN(this.$route.params.id) ? 'create?factory=create&include=userAdd,userMod' : this.$route.params.id + '?include=userAdd,userMod';
             },
             setFjs(event) {
                 this.setAnexo('fjs', event.target.value);
@@ -399,9 +401,9 @@
                 entidades: new ApiArray('/api/entidad?per_page=1000'),
                 personas: new ApiArray('/api/persona?per_page=1000'),
                 destinatarios: new ApiArray('/api/users'),
-                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=7'),
-                comunicaciones: new ApiArray('/api/comunicaciones_internas?sort=-id&per_page=7'),
-                informes: new ApiArray('/api/informe?sort=-id&per_page=7'),
+                notas: new ApiArray('/api/notas_oficio?per_page=7'),
+                comunicaciones: new ApiArray('/api/comunicaciones_internas?per_page=7'),
+                informes: new ApiArray('/api/informe?per_page=7'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases&sort=id'),
                 tipoProcedencia: [  {codigo: 'entidad', descripcion: 'Entidad'}, 
                                     {codigo: 'natural', descripcion: 'Persona Natural'}, 
