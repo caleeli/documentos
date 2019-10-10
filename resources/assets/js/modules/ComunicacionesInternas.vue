@@ -104,7 +104,7 @@
             <div class="row">
                 <div class="col-12">
                     <br><hr>
-                    <h4>Nota Recibida</h4>
+                    <h4>Comunicación Recibida</h4>
                 </div>
             </div>
             <div class="form-group row">
