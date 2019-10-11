@@ -7,42 +7,49 @@
             <error v-model="errores" property="message"></error>
 
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Hoja de Ruta:</label></div>
-                <div :class="colField">
-                    <input class="form-control" type="text" v-model="data.attributes.hoja_de_ruta" />
-                    <error v-model="errores" property="errors.hoja_de_ruta"></error>
+                <div :class="colLabel"><label>Nº Hoja de Ruta (*):</label></div>
+                <div :class="colField">                
+                    <select-box :data="hojasRuta" v-model="data.attributes.hoja_de_ruta_recepcion"
+                        id-field="attributes.nro_de_control"
+                        filter-by="attributes.nro_de_control,attributes.referencia">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.nro_de_control)" class="badge" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.referencia)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box>
+                    <error v-model="errores" property="errors.hoja_de_ruta_recepcion"></error>                    
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de emisión:</label></div>
+                <div :class="colLabel"><label>Fecha de emisión (*):</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_emision" />
                     <error v-model="errores" property="errors.fecha_emision"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº NOTA CGE/SCSL:</label></div>
+                <div :class="colLabel"><label>Nº Comunicación CGE/SCSL (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_nota" readonly placeholder="Se generará automaticamente al guardar" />
                     <error v-model="errores" property="errors.nro_nota"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Reiterativa:</label></div>
+                <div :class="colLabel"><label>Reiterativa (*):</label></div>
                 <div :class="colField">
                     <select class="form-control" v-model="data.attributes.reiterativa"><option value="SI">SI</option> <option value="NO">NO</option></select>
                     <error v-model="errores" property="errors.reiterativa"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de entrega:</label></div>
+                <div :class="colLabel"><label>Fecha de entrega (*):</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_entrega" />
                     <error v-model="errores" property="errors.fecha_entrega"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Gerencia/Subcontraloria:</label></div>
+                <div :class="colLabel"><label>Gerencia/Subcontraloria (*):</label></div>
                 <div :class="colField">
                     <suggest v-model="data.attributes.gerencia_subcontraloria"
                              :data="gerenciasSubcontraloria"
@@ -56,21 +63,21 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nombre y apellidos:</label></div>
+                <div :class="colLabel"><label>Nombre y apellidos (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nombre_apellidos" />
                     <error v-model="errores" property="errors.nombre_apellidos"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Cargo:</label></div>
+                <div :class="colLabel"><label>Cargo (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.cargo" />
                     <error v-model="errores" property="errors.cargo"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Referencia:</label></div>
+                <div :class="colLabel"><label>Referencia (*):</label></div>
                 <div :class="colField">
                     <text-box v-model="data.attributes.referencia" :reference="referenciarNota">
                         <template slot="dropdown" slot-scope="{code,select}">
@@ -122,14 +129,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de recepción:</label></div>
+                <div :class="colLabel"><label>Fecha de recepción (*):</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_recepcion" />
                     <error v-model="errores" property="errors.fecha_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Nota:</label></div>
+                <div :class="colLabel"><label>Nº Comunicación (*):</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_nota_recepcion" />
                     <error v-model="errores" property="errors.nro_nota_recepcion"></error>
