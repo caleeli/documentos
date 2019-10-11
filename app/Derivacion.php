@@ -41,7 +41,7 @@ class Derivacion extends Model
     protected function getRules()
     {
         $rules = [
-            'comentarios' => ['required'],
+            //'comentarios' => ['required'],
             'destinatarios' => ['required'],
         ];
         $rules['fecha'][] = new UntilToday();

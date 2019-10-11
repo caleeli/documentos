@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="radio col-6">
                                 <label>
-                                    <input type="radio" name="tipo_procedencia"
+                                    <input :disabled="!pendiente" type="radio" name="tipo_procedencia"
                                            :value="procedencia.codigo"
                                            v-model="data.attributes.tipo_procedencia"
                                            >
@@ -39,7 +39,7 @@
             <div v-if="data.attributes.tipo_procedencia==='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
                 <div :class="colLabel"><label>Entidad (*):</label></div>
                 <div :class="colField">
-                    <select-box :data="entidades" v-model="data.attributes.procedencia"
+                    <select-box :readonly="!pendiente" :data="entidades" v-model="data.attributes.procedencia"
                         id-field="attributes.ent_descripcion"
                         filter-by="attributes.ent_clasificador,attributes.ent_descripcion,attributes.ent_sigla">
                         <template slot-scope="{row,format}">
@@ -54,7 +54,7 @@
             <div v-if="data.attributes.tipo_procedencia!=='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
                 <div :class="colLabel"><label>Nombres y Apellidos (*):</label></div>
                 <div class="col-7">
-                    <select-box :data="personas" v-model="data.attributes.procedencia"
+                    <select-box :readonly="!pendiente" :data="personas" v-model="data.attributes.procedencia"
                         id-field="attributes.nombre_completo"
                         filter-by="attributes.per_nombres,attributes.per_apellidos,attributes.per_ci_nit">
                         <template slot-scope="{row,format}">
@@ -72,14 +72,14 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de recepción (*):</label></div>
                 <div :class="colField">
-                    <datetime type="date" v-model="data.attributes.fecha_recepcion" />
+                    <datetime :read-only="!pendiente" type="date" v-model="data.attributes.fecha_recepcion" />
                     <error v-model="erroresHojaRuta" property="errors.fecha_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Referencia (*):</label></div>
                 <div :class="colField">
-                    <text-box v-model="data.attributes.referencia" tags="#@&" :reference="referenciar" :referenceUrl="urlReferencia">
+                    <text-box :readonly="!pendiente" v-model="data.attributes.referencia" tags="#@&" :reference="referenciar" :referenceUrl="urlReferencia">
                         <template slot="dropdown" slot-scope="{code,select,tag}">
                             <grid-ajax v-if="tag==='#'" v-model="notas" :filter="code" :without-navbar="true"
                                        filter-by="id
@@ -113,7 +113,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario (*):</label></div>
                 <div :class="colField">
-                    <select-box :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
+                    <select-box :readonly="!pendiente" :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format,remove}">
                             <!-- Used to render the selected items -->
@@ -132,7 +132,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>N° de control (*):</label></div>
                 <div :class="colField">
-                    <input class="form-control" type="text" v-model="data.attributes.nro_de_control" />
+                    <input :readonly="!pendiente" class="form-control" type="text" v-model="data.attributes.nro_de_control" />
                     <error v-model="erroresHojaRuta" property="errors.nro_de_control"></error>
                 </div>
             </div>
@@ -144,19 +144,19 @@
                             <table class="anexos">
                                 <tr>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="anexoHojas.fjs" @input="setFjs">
+                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.fjs" @input="setFjs">
                                         <small class="form-text text-muted">fjs</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="anexoHojas.arch" @input="setArch">
+                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.arch" @input="setArch">
                                         <small class="form-text text-muted">arch</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="anexoHojas.anillados" @input="setAnillados">
+                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.anillados" @input="setAnillados">
                                         <small class="form-text text-muted">anillados</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="anexoHojas.legajo" @input="setLegajo">
+                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.legajo" @input="setLegajo">
                                         <small class="form-text text-muted">legajo</small>
                                     </td>
                                 </tr>
@@ -166,15 +166,15 @@
                             <table class="anexos">
                                 <tr>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="anexoHojas.ejemplar" @input="setEjemplar">
+                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.ejemplar" @input="setEjemplar">
                                         <small class="form-text text-muted">ejemplar</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="anexoHojas.engrapado" @input="setEngrapado">
+                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.engrapado" @input="setEngrapado">
                                         <small class="form-text text-muted">engrapado</small>
                                     </td>
                                     <td>
-                                        <input class="form-control text-center" type="number" :value="anexoHojas.cd" @input="setCd">
+                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.cd" @input="setCd">
                                         <small class="form-text text-muted">cd</small>
                                     </td>
                                 </tr>
@@ -195,7 +195,7 @@
                                     <input type="radio" name="tipo_hr"
                                            :value="tipo.codigo"
                                            v-model="data.attributes.tipo_hr"
-                                           :disabled="data.id">
+                                           :disabled="data.id || !pendiente">
                                     {{tipo.descripcion}}
                                 </label>
                             </div>
@@ -213,6 +213,7 @@
                             <div class="radio col-6">
                                 <label>
                                     <input type="radio" name="hoja_edit_tipo"
+                                           :disabled="!pendiente" 
                                            :value="clasificacion.attributes.sigla"
                                            v-model="data.attributes.tipo_tarea">
                                     {{clasificacion.attributes.nombre}}
@@ -221,10 +222,11 @@
                             <div class="col-6"
                                  v-show="data.attributes.tipo_tarea===clasificacion.attributes.sigla"
                                  v-if="clasificacion.relationships.subclases && clasificacion.relationships.subclases.length">
-                                <select class="form-control input-sm" v-model="data.attributes.subtipo_tarea">
+                                <select :disabled="!pendiente" class="form-control input-sm" v-model="data.attributes.subtipo_tarea">
                                     <option value=""></option>
                                     <option v-for="subclase in clasificacion.relationships.subclases"
-                                            :value="subclase.id">{{subclase.attributes.nombre}}</option>
+                                        :key="subclase.id"
+                                        :value="subclase.id">{{subclase.attributes.nombre}}</option>
                                 </select>
                             </div>
                         </div>
@@ -252,6 +254,9 @@
         //path: "/HojaRuta/:type/:id",
         path: "/HojaRuta/:id",
         computed: {
+            pendiente() {
+                return !this.data.attributes.fecha_conclusion;
+            },
             getGuardarLabel(){
                 if (this.data.id) {
                     return 'Guardar Cambios';

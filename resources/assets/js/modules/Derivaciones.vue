@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Comentarios (*):</label></div>
+                <div :class="colLabel"><label>Comentarios:</label></div>
                 <div :class="colField">
                     <text-box :readonly="!pendiente" v-model="derivacion.attributes.comentarios" :reference="referenciarNota">
                         <template slot="dropdown" slot-scope="{code,select}">
