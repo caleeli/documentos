@@ -7,18 +7,18 @@
             </div>
         </div>
         <error v-model="erroresDerivacion" property="message"></error>
-        <div class="container" v-if="derivacion.attributes && pendiente">
+        <div class="container" v-if="derivacion.attributes">
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de derivación:</label></div>
                 <div :class="colField">
-                    <datetime type="date" v-model="derivacion.attributes.fecha" />
+                    <datetime type="date" :read-only="!pendiente" v-model="derivacion.attributes.fecha" />
                     <error v-model="erroresDerivacion" property="errors.fecha"></error>
                 </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Comentarios</label></div>
                 <div :class="colField">
-                    <text-box v-model="derivacion.attributes.comentarios" :reference="referenciarNota">
+                    <text-box :readonly="!pendiente" v-model="derivacion.attributes.comentarios" :reference="referenciarNota">
                         <template slot="dropdown" slot-scope="{code,select}">
                             <grid v-model="notas" :filter="code" :without-navbar="true"
                                   filter-by="attributes.nro_nota
@@ -36,7 +36,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario:</label></div>
                 <div :class="colField">
-                    <select-box :data="destinatarios" v-model="derivacion.attributes.destinatarios"
+                    <select-box :readonly="!pendiente" :data="destinatarios" v-model="derivacion.attributes.destinatarios"
                         :multiple="true"
                         @change="seleccionaDestinatario"
                         id-field="id"
@@ -54,7 +54,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Instrucción</label></div>
                 <div :class="colField">
-                    <select-box :data="getInstruccionPorSigla" v-model="derivacion.attributes.instruccion" 
+                    <select-box :readonly="!pendiente" :data="getInstruccionPorSigla" v-model="derivacion.attributes.instruccion" 
                         id-field="attributes.nombre"
                         filter-by="attributes.sigla,attributes.nombre">
                         <template slot-scope="{row,format}">
@@ -67,15 +67,16 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Dias plazo:</label></div>
                 <div :class="colField">
-                    <input class="form-control" type="number" v-model="derivacion.attributes.dias_plazo" />
+                    <input :readonly="!pendiente" class="form-control" type="number" v-model="derivacion.attributes.dias_plazo" />
                     <error v-model="erroresDerivacion" property="errors.dias_plazo"></error>
                 </div>
             </div>
             <div class="form-group row">
                 <div :class="colLabel"></div>
                 <div :class="colField">
-                    <button type="button" class="btn btn-primary" @click="registrarDerivacion">Registrar</button>
-                    <button type="button" class="btn btn-primary" @click="terminarHojaRuta">Terminar</button>
+                    <button :disabled="!pendiente" type="button" class="btn btn-primary" @click="registrarDerivacion">Registrar</button>
+                    <button v-if="pendiente" type="button" class="btn btn-primary" @click="terminarHojaRuta">Terminar</button>
+                    <button v-if="!pendiente" type="button" class="btn btn-primary" @click="habilitarHojaRuta">Habilitar</button>
                 </div>
             </div>
         </div>
@@ -207,6 +208,12 @@
                     nombres.push(row.attributes.nombre_completo);
                 });
                 this.derivacion.attributes.destinatario = nombres.join(', ');
+            },
+            habilitarHojaRuta() {
+                this.hojaRuta.attributes.fecha_conclusion = null;
+                this.hojaRuta.putToAPI('/api/hoja_ruta/' + this.hojaRuta.id).then((response) => {
+                    this.$router.push({path: '/HojaRutaBusqueda'});
+                });
             },
             terminarHojaRuta() {
                 this.derivacion.attributes.hoja_ruta_id = this.hojaRuta.id;

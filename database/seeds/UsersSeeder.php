@@ -28,6 +28,17 @@ class UsersSeeder extends Seeder
             'email' => 'admin@scsl.gob.bo',
             'api_token' => md5('default_session'),
         ]);
+        DB::table('adm_users')->insert([
+            'nombres' => 'ARCHIVO',
+            'apellidos' => '',
+            'username' => 'archivo',
+            'password' => md5('administrador'),
+            'numero_ci' => 654321,
+            'tipo_doc_ci' => 1,
+            'role_id' => 1,
+            'email' => 'archivo@scsl.gob.bo',
+            'api_token' => md5('default_session'),
+        ]);
         $pdo = DB::getPdo();
         $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, 0);
         $pdo->exec(file_get_contents(__DIR__ . '/Users.sql'));

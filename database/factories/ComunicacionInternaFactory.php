@@ -17,6 +17,9 @@ $factory->state(
     function (Faker $faker) {
         return [
             'gestion' => date('Y'),
+            'fecha_emision' => date('Y-m-d'),
+            'fecha_entrega' => date('Y-m-d'),
+            'fecha_recepcion' => date('Y-m-d'),
         ];
     }
 );

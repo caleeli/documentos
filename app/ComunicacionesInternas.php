@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\CorrelativoTrait;
 use App\Traits\SaveUserTrait;
+use App\Traits\ValidatedModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,6 +17,7 @@ class ComunicacionesInternas extends Model
     use CorrelativoTrait;
     use SaveUserTrait;
     use SoftDeletes;
+    use ValidatedModelTrait;
 
     const CREATED_AT = 'fecha_registro';
     const UPDATED_AT = 'fecha_modificacion';
@@ -73,4 +75,21 @@ class ComunicacionesInternas extends Model
     protected $dispatchesEvents = [
         //'creating' => [self::class, 'creatingNota'],
     ];
+
+    public function getRules()
+    {
+        return [
+            'hoja_de_ruta' => ['required'],
+            'fecha_emision' => ['required'],
+            //'nro_nota' => ['required'],
+            'reiterativa' => ['required'],
+            'fecha_entrega' => ['required'],
+            'gerencia_subcontraloria' => ['required'],
+            'nombre_apellidos' => ['required'],
+            'cargo' => ['required'],
+            'referencia' => ['required'],
+            'fecha_recepcion' => ['required'],
+            'nro_nota_recepcion' => ['required'],
+        ];
+    }
 }

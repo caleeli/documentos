@@ -1,12 +1,12 @@
 <template>
-    <div class="dropdown">
+    <div class="dropdown" :class="{'box-disabled':readonly}">
         <!-- Muestra el contenido definido en el slot cuando se tiene un valor seleccionado de la lista -->
         <div v-if="!multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot :row="selected" :format="textValue" :remove="remove"></slot></div>
         <div v-if="multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot v-for="(row,i) in selected" :row="row" :format="textValue" :remove="remove"></slot></div>
         <!-- Muestra el valor textual cuando no se seleccion un valor de la lista de opciones -->
         <div v-if="!(selected && !inputFocus) && !inputFocus" class="selected-option">{{value}}</div>
         <i class="fa fa-times select-box-clear text-muted" @click="clear"></i>
-        <input  class="form-control selected-input dropdown-toggle" data-toggle="dropdown"
+        <input :readonly="readonly" class="form-control selected-input dropdown-toggle" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false"
                 :placeholder="value ? '' : placeholder"
                 @focus="focus" @blur="blur" @click="click"
@@ -32,6 +32,10 @@
                 default: 'id'
             },
             multiple: {
+                type: Boolean,
+                default: false,
+            },
+            readonly: {
                 type: Boolean,
                 default: false,
             },
@@ -199,6 +203,9 @@
         color: transparent;
         background-color: transparent;
     }
+    .selected-input:read-only {
+        background-color: #e9ecef;
+    }
     .selected-input:focus {
         color: inherit;
         background-color: inherit;
@@ -214,5 +221,8 @@
         position: absolute;
         margin-top: 1em;
         right: 1em;
+    }
+    .box-disabled {
+        pointer-events: none;
     }
 </style>

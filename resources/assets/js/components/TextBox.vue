@@ -1,6 +1,6 @@
 <template>
     <div class="text-box-wraper">
-        <textarea class="form-control input" rows="2" v-model="text" @keyup="update" @mouseup="update" @scroll="update"></textarea>
+        <textarea class="form-control input" rows="2" :readonly="readonly" v-model="text" @keyup="update" @mouseup="update" @scroll="update"></textarea>
         <div class="output"><span></span></div>
         <div class="links" @click="focus"><span v-html="textLinks"></span></div>
         <div class="dropdown-menu" :style="xy">
@@ -18,6 +18,10 @@
             tags: {
                 type: String,
                 default: '#',
+            },
+            readonly: {
+                type: Boolean,
+                default: false,
             },
         },
         computed: {
