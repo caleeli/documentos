@@ -7,6 +7,7 @@
                left: 0px;
                top: 0px;
                opacity: 0;"
+               :accept="accept"
                v-on:change="changeFile($event, multiplefile)"
                v-bind:multiple="multiplefile">
     </div>
@@ -18,7 +19,11 @@
         props: {
             "value": String,
             "target": String,
-            "multiplefile": Boolean
+            "multiplefile": Boolean,
+            "accept": {
+                type: String,
+                default: "application/pdf,application/vnd.ms-excel,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            }
         },
         data() {
             return {

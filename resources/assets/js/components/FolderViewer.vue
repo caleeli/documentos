@@ -8,7 +8,7 @@
             <span v-if="canupload" class="btn btn-primary btn-block" style="position: relative;">
               Subir archivo(s)
               <img src="/images/ajax-loader.gif" v-show="loading" />
-              <upload v-model="upload" v-bind:target="target" v-bind:multiplefile="true" />
+              <upload :accept="accept" v-model="upload" v-bind:target="target" v-bind:multiplefile="true" />
             </span>
           </div>
         </div>
@@ -84,7 +84,8 @@ export default {
     canupload: Boolean,
     col: String,
     mode: String,
-    refresh: null
+    refresh: null,
+    accept: null,
   },
   watch: {
     upload: function(value) {

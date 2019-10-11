@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Comentarios</label></div>
+                <div :class="colLabel"><label>Comentarios (*):</label></div>
                 <div :class="colField">
                     <text-box :readonly="!pendiente" v-model="derivacion.attributes.comentarios" :reference="referenciarNota">
                         <template slot="dropdown" slot-scope="{code,select}">
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Destinatario:</label></div>
+                <div :class="colLabel"><label>Destinatarios (*):</label></div>
                 <div :class="colField">
                     <select-box :readonly="!pendiente" :data="destinatarios" v-model="derivacion.attributes.destinatarios"
                         :multiple="true"
@@ -48,11 +48,11 @@
                             <span v-else v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
-                    <error v-model="erroresDerivacion" property="errors.destinatario"></error>
+                    <error v-model="erroresDerivacion" property="errors.destinatarios"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Instrucción</label></div>
+                <div :class="colLabel"><label>Instrucción:</label></div>
                 <div :class="colField">
                     <select-box :readonly="!pendiente" :data="getInstruccionPorSigla" v-model="derivacion.attributes.instruccion" 
                         id-field="attributes.nombre"
@@ -212,7 +212,6 @@
             habilitarHojaRuta() {
                 this.hojaRuta.attributes.fecha_conclusion = null;
                 this.hojaRuta.putToAPI('/api/hoja_ruta/' + this.hojaRuta.id).then((response) => {
-                    this.$router.push({path: '/HojaRutaBusqueda'});
                 });
             },
             terminarHojaRuta() {

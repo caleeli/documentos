@@ -4,6 +4,7 @@ namespace App;
 
 use App\Rules\UntilToday;
 use App\Traits\AutoTableTrait;
+use App\Traits\ValidatedModelTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -14,18 +15,19 @@ class Derivacion extends Model
 {
     use SoftDeletes;
     use AutoTableTrait;
+    use ValidatedModelTrait;
 
     public $timestamps = false;
     protected $table = 'derivacion';
     protected $fillable = [
-        "fecha",
-        "comentarios",
-        "destinatario",
-        "destinatarios",
-        "instruccion",
-        "dias_plazo",
-        "hoja_ruta_id",
-        "firma",
+        'fecha',
+        'comentarios',
+        'destinatario',
+        'destinatarios',
+        'instruccion',
+        'dias_plazo',
+        'hoja_ruta_id',
+        'firma',
     ];
     protected $casts = [
         'fecha' => 'date',
@@ -38,11 +40,14 @@ class Derivacion extends Model
      */
     protected function getRules()
     {
-        $rules = parent::getRules();
+        $rules = [
+            'comentarios' => ['required'],
+            'destinatarios' => ['required'],
+        ];
         $rules['fecha'][] = new UntilToday();
         return $rules;
     }
-    
+
     public function hoja_ruta()
     {
         return $this->belongsTo(HojaRuta::class, 'hoja_ruta_id', 'hr_id');
