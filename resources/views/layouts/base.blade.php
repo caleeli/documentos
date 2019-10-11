@@ -14,7 +14,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     @if(Auth::user())
-    <meta name="user-uid" content="{{ Auth::user()->getKey() }}">
+    <meta name="user-id" content="{{ Auth::user()->getKey() }}">
     <meta name="api-token" content="{{Auth::user()->api_token}}">
     <meta name="broadcaster-host" content="{{env('BROADCASTER_HOST')}}">
     <meta name="broadcaster-key" content="{{env('BROADCASTER_KEY')}}">

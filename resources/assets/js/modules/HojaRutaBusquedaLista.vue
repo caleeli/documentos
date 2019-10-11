@@ -48,7 +48,7 @@
             <td>
             <a class="btn btn-primary" :href="'/imprime_hr/' + row.id +'/1'" target="_blank"><i class="fa fa-print"></i></a>
             <a class="btn btn-primary" :href="'/imprime_hr/' + row.id +'/2'" target="_blank"><i class="fa fa-print"></i></a>
-            <router-link class="btn btn-primary" :to="{path:'/HojaRuta/' + row.id}">Abrir</router-link>
+            <router-link v-if="puedeAbrirHR" class="btn btn-primary" :to="{path:'/HojaRuta/' + row.id}">Abrir</router-link>
             </td>
             </tr>
         </grid-ajax>
@@ -65,11 +65,11 @@
                 data: new ApiArray('/api/hoja_ruta?sort=-hr_id&per_page=7')
             };
         },
-        /*watch: {
-            type() {
-                this.data.setSearchParams({'filter[]': 'where,tipo_hr,=,"' + this.type + '"'});
+        computed: {
+            puedeAbrirHR() {
+                return this.$root.user.attributes.role_id != 3;
             }
-        },*/
+        },
         mounted() {
             this.data.loadFromAPI();
         }

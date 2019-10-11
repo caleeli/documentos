@@ -14,6 +14,16 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVueTreeview from 'bootstrap-vue-treeview';
 
+/**
+ * Get meta tag value
+ * @param {string} name
+ * @returns {string}
+ */
+function meta(name) {
+    let tag = document.head.querySelector('meta[name="' + name + '"]');
+    return tag ? tag.content : null;
+}
+window.userId = meta('user-id') * 1;
 
 // Configure Vue
 Vue.prototype.window = window;
@@ -75,6 +85,7 @@ const app = new Vue({
     el: '#app',
     data() {
         return {
+            user: new ApiObject('/api/users/' + window.userId),
             notifications: [],
             topbar: {
                 notification: {
