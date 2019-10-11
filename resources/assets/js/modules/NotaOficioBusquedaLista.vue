@@ -27,7 +27,7 @@
                 <td v-html="format(row.attributes.nro_nota)"></td>
                 <td v-html="format(row.attributes.reiterativa)"></td>
                 <td><datetime type="date" v-model="row.attributes.fecha_entrega" read-only empty-date="no salió" ></datetime></td>
-                <td v-html="format(row.attributes.entidad_empresa)"></td>
+                <td v-html="format(row.attributes.entidad_empresa || row.attributes.gerencia_subcontraloria)"></td>
                 <td v-html="format(row.attributes.nombre_apellidos)"></td>
                 <td v-html="format(row.attributes.cargo)"></td>
                 <td v-html="format(row.attributes.dias)"></td>
