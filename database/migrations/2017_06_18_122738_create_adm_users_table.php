@@ -44,6 +44,7 @@ class CreateAdmUsersTable extends Migration
             $table->integer('usuario_abm_id')->unsigned()->nullable();
             $table->integer('posicion')->unsigned()->nullable();
             $table->string('api_token')->unsigned()->nullable();
+            $table->boolean('reservado')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -157,7 +157,7 @@ export default {
       notas: new ApiArray("/api/notas_oficio?sort=-id&per_page=2000"),
       hojasRuta: new ApiArray("/api/hoja_ruta?sort=-hr_id&per_page=2000"),
       usuariosUno: new ApiArray(
-        "/api/users?sort=apellidos,nombres&filter[]=where,role_id,1&per_page=2000"
+        "/api/users?sort=apellidos,nombres&filter[]=where,role_id,1&filter[]=whereNoReservado&per_page=2000"
       ),
       usuariosDosTres: new ApiArray(
         "/api/users?sort=apellidos,nombres&filter[]=where,role_id,2&filter[]=orWhere,role_id,3&per_page=2000"

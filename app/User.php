@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->nombres . ' ' . $this->apellidos;
     }
+
+    public function scopeWhereNoReservado($query)
+    {
+        return $query->where('reservado', 0);
+    }
 }
