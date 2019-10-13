@@ -88,8 +88,8 @@ class ComunicacionesInternas extends Model
             'nombre_apellidos' => ['required'],
             'cargo' => ['required'],
             'referencia' => ['required'],
-            'fecha_recepcion' => ['required'],
-            'nro_nota_recepcion' => ['required'],
+            //'fecha_recepcion' => ['required'],
+            //'nro_nota_recepcion' => ['required'],
         ];
     }
 }

@@ -129,14 +129,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de recepción (*):</label></div>
+                <div :class="colLabel"><label>Fecha de recepción:</label></div>
                 <div :class="colField">
                     <datetime type="date" v-model="data.attributes.fecha_recepcion" />
                     <error v-model="errores" property="errors.fecha_recepcion"></error>
                 </div>
             </div>
             <div class="form-group row">
-                <div :class="colLabel"><label>Nº Comunicación (*):</label></div>
+                <div :class="colLabel"><label>Nº Comunicación:</label></div>
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_nota_recepcion" />
                     <error v-model="errores" property="errors.nro_nota_recepcion"></error>
