@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Facade;
 /**
  * JDD Facade
  *
- * @author David Callizaya <davidcallizaya@gmail.com>
  *
  * @method \App\JDD\Module[] getModules() Get active modules
  */

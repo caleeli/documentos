@@ -6,7 +6,6 @@ use ReflectionClass;
 /**
  * Evalua expresiones escritas en los comentarios de las columnas
  *
- * @author David Callizaya <davidcallizaya@gmail.com>
  */
 class Executor
 {

@@ -9,7 +9,6 @@ use App\Facades\JDD;
 /**
  * Description of ListProcesses
  *
- * @author David Callizaya <davidcallizaya@gmail.com>
  */
 trait ListProcesses
 {

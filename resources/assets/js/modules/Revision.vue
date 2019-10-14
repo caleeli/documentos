@@ -130,7 +130,7 @@
                             let pos = $(this.$refs.parsed.$el.children.item(i)).position();
                             this.lines.push({
                                 top: pos.top,
-                                comments: [{header: 'david', body: 'este es un ejemplo de comentario'}],
+                                comments: [{header: 'angela', body: 'este es un ejemplo de comentario'}],
                             });
                         }
                     }

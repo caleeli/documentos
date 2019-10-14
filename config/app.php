@@ -107,7 +107,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'footer' => env('FOOTER', 'Site designed by <a href="mailto:davidcallizaya@gmail.com">David Callizaya</a>'),
+    'footer' => env('FOOTER', 'Site designed by <a href="mailto:angelitacc27@gmail.com">Angela Choque</a>'),
 
     /*
     |--------------------------------------------------------------------------

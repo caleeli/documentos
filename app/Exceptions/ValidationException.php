@@ -8,7 +8,6 @@ use Exception;
 /**
  * ValidationException with translation
  *
- * @author David Callizaya <davidcallizaya@gmail.com>
  */
 class ValidationException extends Base
 {

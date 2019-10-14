@@ -81,7 +81,7 @@ class IndexOperation extends BaseOperation
 
     /**
      *
-     * &filter[]=where,username,=,david
+     * &filter[]=where,username,=,"angela"
      * @param Builder $select
      * @return Builder
      */

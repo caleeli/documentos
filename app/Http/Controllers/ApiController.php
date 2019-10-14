@@ -22,7 +22,7 @@ class ApiController extends Controller
     const PER_PAGE = 500;
 
     /**
-     * /api/users?page=2&filter[]=where,username,=,"david"&fields=username,firstname&include=roles,phone&sort=username
+     * /api/users?page=2&filter[]=where,username,=,"angela"&fields=username,firstname&include=roles,phone&sort=username
      * 
      * /api/users/create?factory=inactive,admin
      *

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Event;
 /**
  * Validation observer
  *
- * @author David Callizaya <davidcallizaya@gmail.com>
  */
 class ValidatingObserver
 {

@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 /**
  * JDD
  *
- * @author David Callizaya <davidcallizaya@gmail.com>
  */
 class JDD
 {
