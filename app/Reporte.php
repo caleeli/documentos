@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\AutoTableTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -79,6 +80,7 @@ class Reporte extends Model
 
     private function runQueryFor($queryBase)
     {
+        $user = Auth::user();
         $connection = $this->getConnection()->getPdo();
         
         $params = [];
@@ -173,6 +175,10 @@ class Reporte extends Model
             } elseif ($this->tipo_reporte == 'pendientes'){
                 $query[] = ' hoja_ruta.fecha_conclusion IS NULL';
             }
+        }
+        if ($user->role_id == 3) {
+            $query[] = ' hoja_ruta.hr_id in (select distinct hoja_ruta_id from derivacion where destinatarios=:usuario_actual) ';
+            $params['usuario_actual'] = $user->getKey();
         }
 
         $query = implode("\n and ", $query);
