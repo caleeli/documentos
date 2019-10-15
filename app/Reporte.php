@@ -345,4 +345,15 @@ class Reporte extends Model
                 break;
         }
     }
+
+    /**
+     * Un usuario de rol 3 no puede generar reportes de otros destinatarios
+     *
+     * @param mixed $value
+     */
+    public function setDestinatarioAttribute($value)
+    {
+        $user = Auth::user();
+        $this->attributes['destinatario'] = $user->role_id == 3 ? $user->getKey() : $value;
+    }
 }

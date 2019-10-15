@@ -77,7 +77,7 @@
                     <error v-model="errores" property="errors.gestion_hasta"></error>
                 </div>
             </div>
-            <div class="form-group row">
+            <div v-if="puedeEscogerDestinatario" class="form-group row">
                 <div :class="colLabel"><label>Destinatario:</label></div>
                 <div :class="colField">
                     <select-box :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
@@ -180,6 +180,11 @@
     export default {
         props: {
             type: String,
+        },
+        computed: {
+            puedeEscogerDestinatario() {
+                return this.$root.user.attributes.role_id != 3;
+            }
         },
         methods: {
             clickRadio(attributes, name, value) {
