@@ -22,7 +22,7 @@ class LoadDefaultMenus extends Seeder
                 ['parent' => 0, 'id' => 500, 'name' => 'Informes', 'route' => '#'],
                 ['parent' => 0, 'id' => 600, 'name' => 'Comunicaciones internas', 'route' => '#'],
                 ['parent' => 0, 'id' => 700, 'name' => 'Reporte', 'route' => '/HojaRutaReporte/interna'],
-                ['parent' => 0, 'id' => 800, 'name' => 'Seguimiento', 'route' => '/Seguimiento'],
+                ['parent' => 0, 'id' => 900, 'name' => 'Seguimiento', 'route' => '/Seguimiento'],
             ]);
         DB::table('menu')
             ->insert([

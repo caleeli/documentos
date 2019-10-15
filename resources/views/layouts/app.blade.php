@@ -41,14 +41,14 @@
 
                 <div class="collapse navbar-collapse bg-light" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        @foreach(\App\Menu::where('parent', 0)->get() as $menu)
+                        @foreach(\App\Menu::whereIsRoot()->get() as $menu)
                             @if ($menu->route==='#')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{$menu->name}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @foreach(\App\Menu::where('parent', $menu->id)->get() as $submenu)
+                                    @foreach(\App\Menu::whereIsChildren($menu->id)->get() as $submenu)
                                     <router-link class="dropdown-item" to="{{$submenu->route}}">{{$submenu->name}}</router-link>
                                     @endforeach
                                 </div>
@@ -62,7 +62,7 @@
                     </ul>
                     <form class="form-inline my-2 my-lg-0" action="{{ route('logout') }}" method="POST">
                         {{ csrf_field() }}
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Salir</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Salir <avatar v-model="user"></avatar></button>
                     </form>
                 </div>
             </nav>

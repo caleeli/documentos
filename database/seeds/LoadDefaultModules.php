@@ -31,10 +31,6 @@ class LoadDefaultModules extends Seeder
             ->insert([
                 ['parent' => 100, 'name' => 'Registrar', 'icon' => '/images/hoja-de-ruta.svg', 'description' => 'Hoja de ruta', 'route' => '/HojaRuta/create'],
                 ['parent' => 100, 'name' => 'Busqueda', 'icon' => '/images/busqueda.svg', 'description' => 'Hoja de ruta', 'route' => '/HojaRutaBusqueda'],
-                /*['parent' => 200, 'name' => 'Registrar', 'icon' => '/images/hoja-de-ruta-interna.svg', 'description' => 'Hoja de ruta interna', 'route' => '/HojaRuta/interna/create'],
-                ['parent' => 200, 'name' => 'Busqueda', 'icon' => '/images/busqueda-interna.svg', 'description' => 'Hoja de ruta interna', 'route' => '/HojaRutaBusqueda/interna'],
-                ['parent' => 300, 'name' => 'Registrar', 'icon' => '/images/hoja-de-ruta-solicitud.svg', 'description' => 'Solicitudes y denuncia', 'route' => '/HojaRuta/solicitud/create'],
-                ['parent' => 300, 'name' => 'Busqueda', 'icon' => '/images/busqueda-solicitud.svg', 'description' => 'Solicitudes y denuncia', 'route' => '/HojaRutaBusqueda/solicitud'],*/
                 ['parent' => 400, 'name' => 'Registrar', 'icon' => '/images/nota-oficio.svg', 'description' => 'Notas oficio', 'route' => '/NotaOficio/notas'],
                 ['parent' => 400, 'name' => 'Busqueda', 'icon' => '/images/busqueda-nota-oficio.svg', 'description' => 'Notas oficio', 'route' => '/NotaOficioBusqueda/notas'],
                 ['parent' => 500, 'name' => 'Registrar', 'icon' => '/images/informes.svg', 'description' => 'Informes', 'route' => '/Informe/create'],

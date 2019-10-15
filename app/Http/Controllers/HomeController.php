@@ -52,7 +52,9 @@ class HomeController extends Controller
                 'description' => $module->description,
                 'href' => $module->route,
             ];
-            foreach (Module::where('parent', $module->id)->get() as $submodule) {
+            $where = Module::where('parent', $module->id);
+            $where = $user->role_id == '3' ? $where->where('name', '!=', 'Registrar') : $where;
+            foreach ($where->get() as $submodule) {
                 $link['links'][] = [
                     'text' => $submodule->name,
                     'icon' => $submodule->icon,
