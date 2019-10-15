@@ -9,7 +9,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Nº Hoja de Ruta (*):</label></div>
                 <div :class="colField">                
-                    <select-box :data="hojasRuta" v-model="data.attributes.hoja_de_ruta_recepcion"
+                    <select-box :data="hojasRuta" v-model="data.attributes.hoja_de_ruta"
                         id-field="attributes.nro_de_control"
                         filter-by="attributes.nro_de_control,attributes.referencia">
                         <template slot-scope="{row,format}">
@@ -17,7 +17,7 @@
                             <span v-html="format(row.attributes.referencia)" style="font-size: 1rem"></span>
                         </template>
                     </select-box>
-                    <error v-model="errores" property="errors.hoja_de_ruta_recepcion"></error>                    
+                    <error v-model="errores" property="errors.hoja_de_ruta"></error>                    
                 </div>
             </div>
             <div class="form-group row">
