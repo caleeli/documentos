@@ -7,7 +7,7 @@
         </style>
     </head>
     <body>
-        <img src="{{url('/images/logo128.png')}}" style="height:64px" >
+        <img src="{{url('/images/logo-banner.svg')}}" style="height:64px" >
         <table border='1' cellpadding='0' cellspacing='0'>
             <tr>
                 <th width="4%">#</th>
