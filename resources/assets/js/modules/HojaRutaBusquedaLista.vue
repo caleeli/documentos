@@ -8,7 +8,7 @@
               ">
             <template slot="header">
                 <th width="10%">Nro HR&#x2011;SCSL</th>
-                <th width="10%">Nro Hoja de Ruta</th>
+                <th width="10%">Nro de Control</th>
                 <th width="10%">Nro Clasificación</th>
                 <th width="5%">Gestión</th>
                 <th width="5%">Tipo HR</th>
