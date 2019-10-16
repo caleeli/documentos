@@ -33,13 +33,13 @@ INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('arios', md5('9887630') , 'ARIEL FELIPE', 'RIOS FLORES' , '9887630',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('cgonzales', md5('5997844') , 'CRISTIAM BEYMAR', 'GONZALES HERRERA' , '5997844',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('dcanelas', md5('5949692') , 'DIEGO AMERICO', 'CANELAS SANTIESTEBAN ' , '5949692',1,3);
-INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('elopez', md5('3470752') , 'EDGAR GUIDO', 'LOPEZ' , '3470752',1,2);
+INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('elopez', md5('3470752') , 'EDGAR GUIDO', 'LOPEZ' , '3470752',1,1);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('dyanarico', md5('5953714') , 'DAVID MODESTO', 'YANARICO CERDA' , '5953714',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('pluna', md5('2286533') , 'PABLO MANUEL', 'LUNA LANDAETA' , '2286533',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('pzambrana', md5('6948448') , 'PAMELA VIVIAN', 'ZAMBRANA MARCONI' , '6948448',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('rherrera', md5('3449126') , 'RODRIGO CESAR', 'HERRERA RODRIGUEZ' , '3449126',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('afuentes', md5('2280811') , 'ALEIDA', 'FUENTES SANCHEZ' , '2280811',1,3);
-INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('jlanda', md5('3818703') , 'JAVIER ALEJANDRO', 'LANDA MEDRANO' , '3818703',1,2);
+INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('jlanda', md5('3818703') , 'JAVIER ALEJANDRO', 'LANDA MEDRANO' , '3818703',1,1);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('jbarron', md5('6034233') , 'JAHEL', 'BARRON VEIZAGA' , '6034233',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('jguzman', md5('5957132') , 'JAVIER ROLANDO', 'GUZMAN' , '5957132',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('ggutierrez', md5('6171709') , 'GROVER LUIS', 'GUTIERREZ MARCA' , '6171709',1,3);
