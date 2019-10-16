@@ -12,10 +12,6 @@ class EmpresasSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('adm_empresas')
-            ->insert([
-                ['cod_empresa' => '291', 'nombre_empresa' => 'Administradora Boliviana de Carreteras', 'sigla_empresa' => 'ABC'],
-            ]);
         DB::insert(file_get_contents(__DIR__ . '/Entidades.sql'));
     }
 }

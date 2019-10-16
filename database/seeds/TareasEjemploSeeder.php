@@ -16,11 +16,11 @@ class TareasEjemploSeeder extends Seeder
      */
     public function run()
     {
-        $tarea = factory(Tarea::class)->create();
-        $tarea->usuarios()->sync([1]);
-        $comentario = factory(Comentario::class)->raw();
-        $tarea->comentarios()->create($comentario);
-        $comentario = factory(Comentario::class)->raw();
-        $tarea->comentarios()->create($comentario);
+        //$tarea = factory(Tarea::class)->create();
+        //$tarea->usuarios()->sync([1]);
+        //$comentario = factory(Comentario::class)->raw();
+        //$tarea->comentarios()->create($comentario);
+        //$comentario = factory(Comentario::class)->raw();
+        //$tarea->comentarios()->create($comentario);
     }
 }

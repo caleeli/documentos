@@ -12,6 +12,6 @@ class PersonasSeeder extends Seeder
      */
     public function run()
     {
-        factory(Persona::class, 15)->create();
+        //factory(Persona::class, 15)->create();
     }
 }
