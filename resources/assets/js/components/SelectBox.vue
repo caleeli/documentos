@@ -2,7 +2,7 @@
     <div class="dropdown" :class="{'box-disabled':readonly}">
         <!-- Muestra el contenido definido en el slot cuando se tiene un valor seleccionado de la lista -->
         <div v-if="!multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot :row="selected" :format="textValue" :remove="remove"></slot></div>
-        <div v-if="multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot v-for="(row,i) in selected" :row="row" :format="textValue" :remove="remove"></slot></div>
+        <div v-if="multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot v-for="(row,i) in selected" :row="row" :format="textValue" :remove="remove" :index="i"></slot></div>
         <!-- Muestra el valor textual cuando no se seleccion un valor de la lista de opciones -->
         <div v-if="!(selected && !inputFocus) && !inputFocus" class="selected-option">{{value}}</div>
         <i class="fa fa-times select-box-clear text-muted" @click="clear"></i>
@@ -13,7 +13,7 @@
                 v-model="text">
         <ul class="dropdown-menu select-list">
             <li v-for="(row, index) in dataFiltered" v-bind:value="getKey(row)" v-if="index<5" class="dropdown-item" @click="select(row)">
-            <slot :row="row" :format="format"></slot>
+            <slot :row="row" :format="format" :index="index"></slot>
             </li>
         </ul>
     </div>
@@ -55,13 +55,15 @@
                 return this.inputFocus ? text : value;
             },
             selected() {
+                this.data;
                 let value = this.multiple ? this.value ? this.value.split(SEP) : [] : this.value;
                 if (this.multiple) {
                     const selected = [];
                     value.forEach(id => {
-                        selected.push(this.data.find(item => {
+                        const item = this.data.find(item => {
                             return id === String(this.getKey(item));
-                        }));
+                        })
+                        item ? selected.push(item) : null;
                     });
                     return selected;
                 } else {

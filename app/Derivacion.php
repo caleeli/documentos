@@ -30,7 +30,7 @@ class Derivacion extends Model
         'firma',
     ];
     protected $casts = [
-        'fecha' => 'date',
+        'fecha' => 'datetime',
     ];
 
     /**

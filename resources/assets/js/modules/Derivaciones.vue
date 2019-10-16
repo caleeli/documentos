@@ -11,7 +11,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de derivación:</label></div>
                 <div :class="colField">
-                    <datetime type="date" :read-only="!pendiente" v-model="derivacion.attributes.fecha" />
+                    <datetime type="datetime" :date-on-hour ="true":read-only="!pendiente" v-model="derivacion.attributes.fecha" />
                     <error v-model="erroresDerivacion" property="errors.fecha"></error>
                 </div>
             </div>
@@ -249,7 +249,7 @@
             const erroresDerivacionEdit = {};
             return {
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
-                destinatarios: new ApiArray('/api/users'),
+                destinatarios: new ApiArray('/api/users?filter[]=whereNoReservado'),
                 derivacionEdit: new ApiObject('/api/derivacion/create', erroresDerivacionEdit),
                 derivacion: new ApiObject('/api/derivacion/create', erroresDerivacion),
                 erroresDerivacion: erroresDerivacion,

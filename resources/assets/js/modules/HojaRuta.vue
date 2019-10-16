@@ -405,7 +405,7 @@
                 procedencias: new ApiArray('/api/empresas'),
                 entidades: new ApiArray('/api/entidad?per_page=1000'),
                 personas: new ApiArray('/api/persona?per_page=1000'),
-                destinatarios: new ApiArray('/api/users?filter[]=whereNoReservado&per_page=1000'),
+                destinatarios: new ApiArray('/api/users?filter[]=whereNoReservado&filter[]=where,role_id,1&per_page=1000'),
                 notas: new ApiArray('/api/notas_oficio?per_page=7'),
                 comunicaciones: new ApiArray('/api/comunicaciones_internas?per_page=7'),
                 informes: new ApiArray('/api/informe?per_page=7'),
@@ -423,7 +423,6 @@
             };
         },
         mounted() {
-            this.personas.loadFromAPI();
             this.cargaInicial();
         },
         watch: {

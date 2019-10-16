@@ -12,6 +12,9 @@ function ApiArray(url, errorsObject) {
         self.loading = false;
         self.splice(0);
         for (var row of data) {
+            if (!row) {
+                console.log(data);
+            }
             self.push(row);
         }
     };

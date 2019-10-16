@@ -22,8 +22,8 @@ class Tarea extends Model
     protected $primaryKey = 'tar_id';
     protected $guarded = [];
     protected $casts = [
-        'tar_fecha_derivacion' => 'date',
-        'tar_fecha_fin' => 'date',
+        'tar_fecha_derivacion' => 'datetime',
+        'tar_fecha_fin' => 'datetime',
     ];
     protected $events = [
         //'saved' => 'App\\Events\\UserAdministration\\TareaSaved',

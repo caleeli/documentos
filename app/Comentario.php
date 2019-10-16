@@ -22,9 +22,9 @@ class Comentario extends Model
     protected $guarded = [];
     protected $casts = [
         //'com_fecha' => 'date',
-        'fecha_registro' => 'date',
-        'fecha_modificacion' => 'date',
-        'fecha_baja' => 'date',
+        'fecha_registro' => 'datetime',
+        'fecha_modificacion' => 'datetime',
+        'fecha_baja' => 'datetime',
     ];
     protected $appends = [
         'nombre_usuario'

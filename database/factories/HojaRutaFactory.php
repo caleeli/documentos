@@ -14,7 +14,7 @@ $factory->state(Model::class, 'ejemplo',
     function (Faker $faker) {
     return [
         'tipo_hr' => 'externa',
-        'destinatario' => '1',
+        'destinatario' => '3',
         'gestion' => date('Y'),
         'fecha_recepcion' => date('Y-m-d'),
         'tipo_tarea' => 'SCSL-UR',

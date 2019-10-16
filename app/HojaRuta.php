@@ -57,8 +57,8 @@ class HojaRuta extends Model
         'tipo_hr_desc',
     ];
     protected $casts = [
-        'fecha_recepcion' => 'date',
-        'fecha_conclusion' => 'date',
+        'fecha_recepcion' => 'datetime',
+        'fecha_conclusion' => 'datetime',
     ];
     protected $dates = ['deleted_at'];
 

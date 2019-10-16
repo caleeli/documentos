@@ -22,13 +22,13 @@ class CreateHojaRutaTable extends Migration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->increments('hr_id');
-            $table->date('fecha_recepcion')->nullable()->default(null);
+            $table->timestamp('fecha_recepcion')->nullable()->default(null);
             $table->string('referencia')->nullable()->default(null);
             $table->string('procedencia')->nullable()->default(null);
             $table->string('nro_de_control');
             $table->string('anexo_hojas')->nullable()->default(null);
             $table->string('destinatario')->nullable()->default(null);
-            $table->date('fecha_conclusion')->nullable()->default(null);
+            $table->timestamp('fecha_conclusion')->nullable()->default(null);
             $table->enum('tipo_hr', ['externa', 'interna', 'solicitud'])->nullable()->default('interna');
             $table->integer('gestion')->default(Date('Y'));
             $table->integer('numero');

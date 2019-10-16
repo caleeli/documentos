@@ -22,7 +22,7 @@ class CreateDerivacionTable extends Migration
     {
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->increments('id');
-            $table->date('fecha')->nullable()->default(null);
+            $table->timestamp('fecha')->nullable()->default(null);
             $table->string('comentarios')->nullable()->default(null);
             $table->string('instruccion')->nullable()->default(null);
             $table->integer('hoja_ruta_id');

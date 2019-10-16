@@ -33,8 +33,7 @@ class CreateAdmUsersTable extends Migration
             $table->string('calificacion')->nullable();
             $table->string('direccion')->nullable();
             $table->string('ubicacion')->nullable();
-            $table->date('fec_registro')->nullable();
-            $table->date('hora_registro')->nullable();
+            $table->timestamp('fec_registro')->nullable();
             $table->string('cod_mun')->nullable();
             $table->string('cod_prov')->nullable();
             $table->string('cod_zona')->nullable();

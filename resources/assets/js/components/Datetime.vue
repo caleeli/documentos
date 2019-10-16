@@ -32,11 +32,16 @@
             format: String,
             type: String, //date,time,datetime
             readOnly: Boolean,
+            dateOnHour: {
+                type: Boolean,
+                default: false,
+            },
             emptyDate: String
         },
         data() {
             return {
-                time: Date.now()
+                time: Date.now(),
+                interval: null,
             }
         },
         computed: {
@@ -89,8 +94,22 @@
                     }
                 });
             });
+            this.interval = setInterval(() => {
+                this.updateDateTime();
+            }, 1000);
+        },
+        destroyed() {
+            clearInterval(this.interval);
         },
         methods: {
+            updateDateTime() {
+                const now = new Date();
+                const date = moment(this.value);
+                if (!this.readOnly && this.value && date.isValid()) {
+                    date.set({hour: now.getHours(), minute: now.getMinutes()});
+                    this.$emit('input', date.format());
+                }
+            },
             clearDate() {
                 this.$emit('input', '');
             },
