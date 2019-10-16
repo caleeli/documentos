@@ -48,6 +48,7 @@
             <td>
             <a class="btn btn-primary" :href="'/imprime_hr/' + row.id +'/1'" target="_blank"><i class="fa fa-print"></i></a>
             <a class="btn btn-primary" :href="'/imprime_hr/' + row.id +'/2'" target="_blank"><i class="fa fa-print"></i></a>
+            <a class="btn btn-primary" :href="'/imprime_hr/' + row.id +'/3'" target="_blank"><i class="fa fa-print"></i></a>
             <router-link v-if="puedeAbrirHR" class="btn btn-primary" :to="{path:'/HojaRuta/' + row.id}">Abrir</router-link>
             </td>
             </tr>
