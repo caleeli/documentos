@@ -414,9 +414,9 @@
                                     {codigo: 'natural', descripcion: 'Persona Natural'}, 
                                     {codigo: 'juridica', descripcion: 'Persona Jurídica'}
                                 ],
-                tipoHr: [   {codigo: 'externa', descripcion: 'Externas'}, 
-                            {codigo: 'interna', descripcion: 'Internas'}, 
-                            {codigo: 'solicitud', descripcion: 'Solicitudes o Denuncias'}
+                tipoHr: [   {codigo: 'externa', descripcion: 'Celestes'}, 
+                            {codigo: 'interna', descripcion: 'Rosadas'}, 
+                            {codigo: 'solicitud', descripcion: 'Amarillas'}
                                 ],
                 anexoHojas: []
                 //mostrarPersona: false,
