@@ -26,6 +26,7 @@ class LoadDefaultModules extends Seeder
                 ['parent' => 0, 'id' => 700, 'name' => 'Reporte', 'icon' => '/images/reporte.svg', 'description' => 'Reportes de hojas de ruta, notas, etc.', 'route' => '/HojaRutaReporte/externa'],
                 //['parent' => 0, 'id' => 800, 'name' => 'Reporte Resumen', 'icon' => '/images/reporte-resumen.svg', 'description' => 'Resumen del reporte de hojas de ruta.', 'route' => '/HojaRutaReporteRapido'],
                 ['parent' => 0, 'id' => 900, 'name' => 'Seguimiento', 'icon' => '/images/seguimiento.svg', 'description' => 'Seguimiento de tareas.', 'route' => '/Seguimiento'],
+                ['parent' => 0, 'id' => 1000, 'name' => 'Cambiar contraseña', 'icon' => '/images/password.svg', 'description' => 'Cambiar contraseña de ingreso al sistema.', 'route' => '/cambiar_password'],
             ]);
         DB::table('modules')
             ->insert([

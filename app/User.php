@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $query->where('reservado', 0);
     }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = md5($value);
+    }
 }
