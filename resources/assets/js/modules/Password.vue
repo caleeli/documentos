@@ -64,7 +64,9 @@ export default {
     actualizar() {
       if (this.password === this.confirmar) {
         this.$root.user.attributes.password = this.password;
-        this.$root.user.putToAPI('/api/user/' + this.$root.user.id);
+        this.$root.user.putToAPI('/api/user/' + this.$root.user.id).then(()=> {
+          this.$router.push({path: "/"});
+        });
       }
     }
   }
