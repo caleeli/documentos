@@ -23,7 +23,7 @@ INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('fmarin', md5('4912426') , 'FERNANDO YAMIL', 'MARIN IBAÑEZ' , '4912426',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('sgallardo', md5('6035516') , 'SAMUEL HECTOR', 'GALLARDO CUEVAS' , '6035516',1,3);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('cespinoza', md5('4828814') , 'CORINA RAQUEL', 'ESPINOZA ARIÑEZ' , '4828814',1,3);
-INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('mmedrano', md5('2379547') , 'MARLENE MARGOTH', 'MEDRANO JIMENEZ' , '2379547',1,3);
+INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('mmedrano', md5('2379547') , 'MARLENE MARGOTH', 'MEDRANO JIMENEZ' , '2379574',1,2);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('marequipa', md5('3328746') , 'MIRIAM VIRGINIA', 'AREQUIPA TEJERINA' , '3328746',1,2);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('cpeñaloza', md5('4906321') , 'CLAUDIA MICAELA', 'PEÑALOZA BALDERRAMA' , '4906321',1,2);
 INSERT INTO "adm_users" ("username", "password", "nombres", "apellidos", "numero_ci", "tipo_doc_ci", "role_id") VALUES('ncalle', md5('4805783') , 'NILDA', 'CALLE MIRANDA' , '4805783',1,2);
