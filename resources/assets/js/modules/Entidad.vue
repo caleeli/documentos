@@ -9,7 +9,7 @@
       <error v-model="erroresentidad" property="message"></error>
       <div class="form-group row">
         <div :class="colLabel">
-          <label>Clasificador (*):</label>
+          <label>Clasificador:</label>
         </div>
         <div :class="colField">
           <input class="form-control" type="number" v-model="entidad.attributes.ent_clasificador" />
@@ -18,7 +18,7 @@
       </div>
       <div class="form-group row">
         <div :class="colLabel">
-          <label>Sigla (*):</label>
+          <label>Sigla:</label>
         </div>
         <div :class="colField">
           <input class="form-control" type="text" v-model="entidad.attributes.ent_sigla" />

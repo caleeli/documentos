@@ -55,8 +55,8 @@ class Entidad extends Model
     public function getRules()
     {
         return [
-            'ent_clasificador' => ['required', 'unique:adm_entidad'],
-            'ent_sigla' => ['required', 'unique:adm_entidad'],
+            'ent_clasificador' => ['unique:adm_entidad'],
+            'ent_sigla' => ['unique:adm_entidad'],
             'ent_descripcion' => ['required'],
         ];
     }
