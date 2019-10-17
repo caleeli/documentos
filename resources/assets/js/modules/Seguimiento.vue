@@ -1,24 +1,35 @@
 <template>
   <panel name="Seguimiento" class="panel-primary">
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-prepend">
-          <a href="javascript:void(0)" class="input-group-text" v-on:click="listarTareas">
-            <i class="fas fa-sync"></i>
-            <small class="hidden-xs hidden-sm ml-1">Recargar</small>
-          </a>
-        </span>
-        <input type="text" class="form-control" placeholder="Busqueda" v-model="busquedaTareas" />
-        <span class="input-group-append">
-          <a
-            href="javascript:void(0)"
-            class="input-group-text bg-success text-light"
-            v-on:click="buscarTarea"
+    <div class="d-flex">
+      <div class="form-group flex-grow-1">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Busqueda" v-model="search" />
+          <span class="input-group-append">
+            <a
+              href="javascript:void(0)"
+              class="input-group-text bg-light text-primary"
+              v-on:click="buscarTarea"
+            >
+              <i class="fa fa-search"></i>
+              <small class="hidden-xs hidden-sm ml-1">BUSCAR</small>
+            </a>
+          </span>
+        </div>
+      </div>
+      <div>
+        <div class="btn-group ml-4">
+          <button
+            class="btn btn-outline-secondary"
+            :disabled="page<2"
+            @click="page=Math.max(1,page-1)"
           >
-            <i class="fa fa-search"></i>
-            <small class="hidden-xs hidden-sm ml-1">Buscar</small>
-          </a>
-        </span>
+            <i class="fas fa-long-arrow-alt-left"></i> Previo
+          </button>
+          <button class="btn btn-outline-secondary" @click="page=page+1">
+            Siguiente
+            <i class="fas fa-long-arrow-alt-right"></i>
+          </button>
+        </div>
       </div>
     </div>
     <div>
@@ -31,7 +42,7 @@
                 <br />
                 <span v-bind:class="classEstado(tareaI)">
                   <i v-bind:class="iconoEstado(tareaI)"></i>
-                  <span class="hidden-xs hidden-sm hidden-md">{{ tareaI.attributes.tar_estado }}</span>
+                  <span class="hidden-xs hidden-sm hidden-md" v-html="format(tareaI.attributes.tar_estado)"></span>
                 </span>
               </td>
               <td class="project-title" width="65%">
@@ -39,7 +50,8 @@
                   {{tareaI.attributes.tar_codigo}}
                   <small
                     class="block-with-text"
-                  >{{tareaI.attributes.tar_descripcion}}</small>
+                    v-html="format(tareaI.attributes.tar_descripcion)"
+                  ></small>
                 </router-link>
               </td>
             </tr>
@@ -57,7 +69,7 @@
         <div class="col-md-2 col-xs-5 project-user">
           <div v-for="(u,i) in tareaI.relationships.usuarios" :key="i">
             <avatar :user="u" />
-            {{u.attributes.nombres+' '+u.attributes.apellidos}}
+            <span v-html="format(u.attributes.nombres+' '+u.attributes.apellidos)"></span>
           </div>
         </div>
         <div class="col-md-1 col-xs-3 text-right project-priority">
@@ -90,6 +102,7 @@
 
 <script>
 import moment from "moment";
+import ajaxFilter from "../mixins/ajaxFilter";
 import {
   colores,
   iconos,
@@ -101,7 +114,38 @@ const apiBase = "/api/adm_tareas";
 
 export default {
   path: "/Seguimiento",
+  mixins: [ajaxFilter],
   methods: {
+    textValue(value) {
+      return $("<i></i>")
+        .html(value)
+        .text();
+    },
+    format(input) {
+      let value = this.textValue(input);
+      if (!this.search) {
+        return value;
+      }
+      let text = this.search;
+      let length = text.length;
+      let res = "";
+      let u = -1;
+      let i;
+      while (
+        (i = value
+          .toLowerCase()
+          .localeIndexOf(text, "en", { sensitivity: "base" })) > -1
+      ) {
+        res += value.substr(0, i);
+        res += "<code>";
+        res += value.substr(i, length);
+        res += "</code>";
+        u = i + length;
+        value = value.substr(u);
+      }
+      res += value;
+      return res;
+    },
     seleccionaTarea() {},
     tiempoReloj(tarea) {
       return Math.min(
@@ -146,8 +190,9 @@ export default {
     classEstado(tarea) {
       return colores[tarea.attributes.tar_estado] || colores.default;
     },
-    listarTareas() {},
-    buscarTarea() {},
+    buscarTarea() {
+      this.updateFilter(this.tareas, this.search, this.filterBy);
+    },
     avancePasosPorcentaje() {
       return 1;
     }
@@ -158,8 +203,18 @@ export default {
       tareas: new ApiArray(
         "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad&per_page=7&include=derivacion,usuarios"
       ),
-      busquedaTareas: ""
+      page: 1,
+      search: "",
+      filterBy:
+        "attributes.tar_estado attributes.tar_descripcion relationships.usuarios.attributes.nombres relationships.usuarios.attributes.apellidos"
     };
+  },
+  watch: {
+    page(page) {
+      if (this.tareas.setPagingOptions instanceof Function) {
+        this.tareas.setPagingOptions(page, 7);
+      }
+    }
   },
   mounted() {
     this.tareas.loadFromAPI();

@@ -1,10 +1,12 @@
 <template>
     <panel :name="'Busqueda'" class="panel-primary">
         <grid-ajax v-model="data"
-              filter-by="attributes.numero
-              attributes.gestion
-              attributes.referencia
+              ref="grid"
+              filter-by="attributes.referencia
               attributes.procedencia
+              attributes.nro_de_control
+              attributes.subtipo_tarea
+              relationships.derivacion.attributes.destinatario
               ">
             <template slot="header">
                 <th width="10%">Nro HR&#x2011;SCSL</th>
@@ -21,21 +23,21 @@
                 <th></th>
             </template>
             <tr slot-scope="{row, options, format}">
-                <td v-html="format('SCSL&#x2011;' + row.attributes.numero)"></td>
+                <td v-html="('SCSL&#x2011;' + row.attributes.numero)"></td>
                 <td v-html="format(row.attributes.nro_de_control)"></td>
                 <td v-html="format(row.attributes.subtipo_tarea)"></td>
-                <td v-html="format(row.attributes.gestion)"></td>
+                <td v-html="(row.attributes.gestion)"></td>
                 <td v-html="format(row.attributes.tipo_hr_desc)"></td>
                 <td v-html="format(row.attributes.referencia)"></td>
                 <td v-html="format(row.attributes.procedencia)"></td>
                 <td>
                     <div v-if="row.attributes.usuario_destinatario && row.attributes.usuario_destinatario.attributes.nombres==='ARCHIVO'">
                         <avatar v-if="row.attributes.usuario_archivo" v-model="row.attributes.usuario_archivo" field="fotografia" />
-                        <span v-html="(row.attributes.usuario_archivo ? (row.attributes.usuario_archivo.attributes.nombres + ' ' + row.attributes.usuario_archivo.attributes.apellidos) : '')"></span>
+                        <span v-html="format(row.attributes.usuario_archivo ? (row.attributes.usuario_archivo.attributes.nombres + ' ' + row.attributes.usuario_archivo.attributes.apellidos) : '')"></span>
                     </div>
                     <template v-else-if="row.attributes.usuario_destinatario">
                         <avatar v-model="row.attributes.usuario_destinatario" field="fotografia" />
-                        <span v-html="(row.attributes.usuario_destinatario ? (row.attributes.usuario_destinatario.attributes.nombres + ' ' + row.attributes.usuario_destinatario.attributes.apellidos) : '')"></span>
+                        <span v-html="format(row.attributes.usuario_destinatario ? (row.attributes.usuario_destinatario.attributes.nombres + ' ' + row.attributes.usuario_destinatario.attributes.apellidos) : '')"></span>
                     </template>
                     <template v-else>
                         <i class="fas fa-user-secret" style="color: black"></i>
@@ -59,7 +61,6 @@
 <script>
     export default {
         props: {
-            //type: String,
         },
         data() {
             return {

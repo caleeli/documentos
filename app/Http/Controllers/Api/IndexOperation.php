@@ -109,11 +109,13 @@ class IndexOperation extends BaseOperation
                 $select = call_user_func_array([$select, $method], $params);
             }
         }
-        foreach ($relFilter as $relation => $relations) {
-            $select = $select->with([$relation => function ($select) use ($relations) {
-                    list($method, $params) = $relations;
-                    call_user_func_array([$select, $method], $params);
-                }]);
+        foreach ($relFilter as $relationName => $relations) {
+            foreach($relations as $relation) {
+                list($method, $params) = $relation;
+                $select = $select->$method($relationName, function ($select) use ($params) {
+                    call_user_func_array([$select, 'where'], $params);
+                });
+            }
         }
         return $select;
     }

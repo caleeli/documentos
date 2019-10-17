@@ -4,7 +4,7 @@
     <div class="col" v-if="filterBy">
       <div class="btn-group input-group">
         <input type="text" class="form-control" style="height: 31px;" v-model="search">
-        <button class="btn btn-outline-primary">
+        <button class="btn btn-outline-primary" @click="doFilter">
           <i class="fas fa-search"></i> Buscar
         </button>
       </div>
@@ -49,14 +49,10 @@ export default {
     watch: {
         filter () {
             this.search = this.filter;
-            this.doFilter();
-        },
-        search () {
-            this.doFilter();
         },
         page (page) {
-            if (this.value.setSearchParams instanceof Function) {
-                this.value.setSearchParams({page});
+            if (this.value.setPagingOptions instanceof Function) {
+                this.value.setPagingOptions(page, 7);
             }
         },
     },
@@ -76,10 +72,10 @@ export default {
                 const relationships = /\srelationships\.(\w+).attributes\.(\w+)/g;
                 let attr;
                 while(attr = attributes.exec(' ' + this.filterBy)) {
-                    filter.push(filter.length ? 'orWhere,' + attr[1] + ',like,' + value : 'where,' + attr[1] + ',like,' + value);
+                    filter.push(filter.length ? 'orWhere,' + attr[1] + ',ilike,' + value : 'where,' + attr[1] + ',ilike,' + value);
                 }
                 while(attr = relationships.exec(' ' + this.filterBy)) {
-                    filter.push('@' + attr[1] + ',' + (filter.length ? 'orWhere,' + attr[2] + ',like,' + value : 'where,' + attr[2] + ',like,' + value));
+                    filter.push('@' + attr[1] + ',' + (filter.length ? 'orWhereHas,' + attr[2] + ',ilike,' + value : 'whereHas,' + attr[2] + ',ilike,' + value));
                 }
                 this.value.setSearchParams({'filter[]' : filter});
             }
@@ -116,7 +112,6 @@ export default {
         }
     },
     mounted() {
-        this.doFilter = debounce(this.doFilter, 1000);
     }
 };
 </script>
