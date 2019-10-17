@@ -26,8 +26,6 @@
             class="form-control"
             type="text"
             v-model="data.attributes.nro_informe"
-            readonly
-            placeholder="Se generará automaticamente al guardar"
           />
           <error v-model="errores" property="errors.nro_informe"></error>
         </div>

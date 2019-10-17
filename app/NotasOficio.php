@@ -19,7 +19,7 @@ class NotasOficio extends Model
 
     protected $table = 'notas_oficio';
     protected $correlativos = [
-        'nro_nota' => [],
+        //'nro_nota' => [],
     ];
 
     public $timestamps = false;

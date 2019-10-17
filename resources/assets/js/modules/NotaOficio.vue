@@ -23,7 +23,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Nº Nota SCSL (*):</label></div>
                 <div :class="colField">
-                    <input class="form-control" type="text" v-model="data.attributes.nro_nota" readonly placeholder="Se generará automaticamente al guardar" />
+                    <input class="form-control" type="text" v-model="data.attributes.nro_nota" />
                     <error v-model="errores" property="errors.nro_nota"></error>
                 </div>
             </div>

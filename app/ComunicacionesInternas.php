@@ -26,7 +26,7 @@ class ComunicacionesInternas extends Model
     protected $primaryKey = 'id';
     protected $table = 'comunicaciones_internas';
     protected $correlativos = [
-        'nro_nota' => [],
+        //'nro_nota' => [],
     ];
     protected $fillable = [
         'hoja_de_ruta',

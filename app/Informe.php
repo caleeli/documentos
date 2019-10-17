@@ -23,7 +23,7 @@ class Informe extends Model
     protected $primaryKey = 'nro_inf_id';
     public $timestamps = true;
     protected $correlativos = [
-        'nro_informe' => [],
+        //'nro_informe' => [],
     ];
 
     protected $dates = ['fecha_registro', 'fecha_modificacion', 'fecha_baja'];
