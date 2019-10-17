@@ -37,14 +37,12 @@ class IndexOperation extends BaseOperation
 
     protected function isBelongsToMany(BelongsToMany $model, array $targets = null, $data)
     {
-        return $this->addSorting($this->addFilter($model))
-                ->paginate($this->perPage)->getCollection();
+        return $this->getPaginated($this->addSorting($this->addFilter($model)));
     }
 
     protected function isHasMany(HasMany $model, array $targets = null, $data)
     {
-        return $this->addSorting($this->addFilter($model))
-                ->paginate($this->perPage)->getCollection();
+        return $this->getPaginated($this->addSorting($this->addFilter($model)));
     }
 
     protected function isHasOne(HasOne $model, Model $target = null, $data)
@@ -66,7 +64,7 @@ class IndexOperation extends BaseOperation
     {
         $result = $this->fields ? $model::select($this->fields) : $model::select();
         $query = $this->addSorting($this->addFilter($result));
-        return $this->perPage != -1 ? $query->paginate($this->perPage)->getCollection() : $query->get();
+        return $this->perPage != -1 ? $this->getPaginated($query) : $query->get();
     }
 
     protected function isArray($model, $target = null, $data)
@@ -145,5 +143,18 @@ class IndexOperation extends BaseOperation
             $select->orderBy($sort, $dir);
         }
         return $select;
+    }
+
+    /**
+     * Get a paginated result
+     * If $this->perPage is less than 1 it will return all results
+     *
+     * @param mixed $select
+     *
+     * @return Collection
+     */
+    private function getPaginated($select)
+    {
+        return $this->perPage > 0 ? $select->paginate($this->perPage)->getCollection() : $select->get();
     }
 }

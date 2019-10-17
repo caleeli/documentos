@@ -47,7 +47,7 @@
               </td>
               <td class="project-title" width="65%">
                 <router-link :to="'/Tarea/' + tareaI.id">
-                  {{tareaI.attributes.tar_codigo}}
+                  <small class="block-with-text" v-html="format(tareaI.attributes.tar_codigo)"></small>
                   <small
                     class="block-with-text"
                     v-html="format(tareaI.attributes.tar_descripcion)"
@@ -206,7 +206,7 @@ export default {
       page: 1,
       search: "",
       filterBy:
-        "attributes.tar_estado attributes.tar_descripcion relationships.usuarios.attributes.nombres relationships.usuarios.attributes.apellidos"
+        "attributes.tar_codigo attributes.tar_estado attributes.tar_descripcion relationships.usuarios.attributes.nombres relationships.usuarios.attributes.apellidos"
     };
   },
   watch: {
