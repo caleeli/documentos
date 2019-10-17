@@ -38,7 +38,7 @@
             </div>
             <div v-if="data.attributes.tipo_procedencia==='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
                 <div :class="colLabel"><label>Entidad (*):</label></div>
-                <div :class="colField">
+                <div class="col-7">
                     <select-box :readonly="!pendiente" :data="entidades" v-model="data.attributes.procedencia"
                         id-field="attributes.ent_descripcion"
                         filter-by="attributes.ent_clasificador,attributes.ent_descripcion,attributes.ent_sigla">
@@ -49,6 +49,9 @@
                         </template>
                     </select-box>
                     <error v-model="erroresHojaRuta" property="errors.entidades"></error>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-primary" @click="showEntidad"><i class="fas fa-plus-square"></i></button>
                 </div>
             </div>
             <div v-if="data.attributes.tipo_procedencia!=='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
@@ -113,7 +116,8 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario (*):</label></div>
                 <div :class="colField">
-                    <select-box :readonly="!pendiente" :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
+                    <suggest :readonly="!pendiente" :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
+                        id-field="attributes.nombre_completo"
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format,remove}">
                             <!-- Used to render the selected items -->
@@ -125,7 +129,7 @@
                                 <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                             </template>
                         </template>
-                    </select-box>
+                    </suggest>
                     <error v-model="erroresHojaRuta" property="errors.destinatario"></error>
                 </div>
             </div>
@@ -359,6 +363,9 @@
                        return response.data.response;
                     });
             },
+            showEntidad() {
+                this.$router.push({path: '/Entidad/create', query:this.$route.query});
+            },
             showPersona() {
                 this.$router.push({path: '/Persona/create', query:this.$route.query});
             },
@@ -402,9 +409,9 @@
             return {
                 data: new ApiObject(this.getUrlBase() + '/' + this.getIdURL(), erroresHojaRuta).loadFromAPI(),
                 erroresHojaRuta: erroresHojaRuta,
-                procedencias: new ApiArray('/api/empresas'),
-                entidades: new ApiArray('/api/entidad?per_page=1000'),
-                personas: new ApiArray('/api/persona?per_page=1000'),
+                procedencias: new ApiArray('/api/empresas?per_page=1000'),
+                entidades: new ApiArray('/api/entidad?per_page=1000').loadFromAPI(),
+                personas: new ApiArray('/api/persona?per_page=1000').loadFromAPI(),
                 destinatarios: new ApiArray('/api/users?filter[]=whereNoReservado&filter[]=where,role_id,1&per_page=1000'),
                 notas: new ApiArray('/api/notas_oficio?per_page=7'),
                 comunicaciones: new ApiArray('/api/comunicaciones_internas?per_page=7'),

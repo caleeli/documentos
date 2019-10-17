@@ -52,8 +52,8 @@ class HojaRuta extends Model
     protected $appends = [
         'fecha_derivacion',
         'estado',
-        'usuario_destinatario',
-        'usuario_archivo',
+        //'usuario_destinatario',
+        //'usuario_archivo',
         'tipo_hr_desc',
     ];
     protected $casts = [
