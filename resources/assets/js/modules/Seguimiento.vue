@@ -201,7 +201,7 @@ export default {
   data() {
     return {
       tareas: new ApiArray(
-        "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad&per_page=7&include=derivacion,usuarios"
+        "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad,tar_id&per_page=7&include=derivacion,usuarios"
       ),
       page: 1,
       search: "",
