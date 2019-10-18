@@ -21,13 +21,12 @@ class AlterReportesTableDropEnum extends Migration
     public function up()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropColumn('tipo_reporte');
-            $table->dropColumn('tipo');
-           });
+            $table->dropColumn(['tipo_reporte', 'tipo']);
+        });
            Schema::table($this->tableName, function (Blueprint $table) {
             $table->string('tipo_reporte','100')->nullable();
             $table->string('tipo','100')->nullable();
-           });
+        });
     }
 
     /**
@@ -38,13 +37,11 @@ class AlterReportesTableDropEnum extends Migration
     public function down()
     {
         Schema::table($this->tableName, function (Blueprint $table) {
-            $table->dropColumn('tipo_reporte');
-            $table->dropColumn('tipo');
-           });
+            $table->dropColumn(['tipo_reporte', 'tipo']);
+        });
         Schema::table($this->tableName, function (Blueprint $table) {
             $table->enum('tipo_reporte', ['hoja_ruta', 'derivacion', 'detallada'])->default('hoja_ruta');
             $table->enum('tipo', ['externa', 'interna', 'solicitud', 'notas', 'comunicacion', 'informes'])->default('externa');
-           });
-        
+        });
     }
 }
