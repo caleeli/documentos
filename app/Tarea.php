@@ -4,14 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use App\Traits\SaveUserTrait;
 use App\Traits\ValidatedModelTrait;
 use Illuminate\Support\Facades\Auth;
 
 class Tarea extends Model
 {
-    use SoftDeletes, Notifiable, SaveUserTrait;
+    use SoftDeletes, SaveUserTrait;
     use ValidatedModelTrait;
 
     const CREATED_AT = 'fecha_registro';

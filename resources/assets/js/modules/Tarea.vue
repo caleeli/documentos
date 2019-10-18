@@ -16,7 +16,7 @@
           <dt>Prioridad:</dt>
           <dd v-if="!editPrioridad || !editable">
             <span v-bind:class="classPriodidad(tarea)">{{labelPrioridad(tarea)}}</span>
-            <a v-if="editable" href="javascript:void(0)" @click="openPrioridad">
+            <a v-if="editable && esRolUno" href="javascript:void(0)" @click="openPrioridad">
               <i class="fa fa-pen"></i>
             </a>
           </dd>
@@ -44,7 +44,7 @@
       </div>
       <div class="col-lg-7" id="cluster_info">
         <dl class="dl-horizontal">
-          <dt>Creación:</dt>
+          <dt>Fecha de Derivación:</dt>
           <dd>{{tarea.attributes.fecha_registro}}</dd>
           <dt>Última actualización:</dt>
           <dd>{{tarea.attributes.fecha_modificacion}}</dd>
@@ -88,7 +88,8 @@
         </div>
         <div class="card-body tab-content">
           <div id="atencion" class="tab-pane" :class="{active: tab === 'atencion'}" role="tabpanel">
-            <div class="row">
+            <!-- Ocultado con el ticket #43 -->
+            <div class="row" v-show="false">
               <div class="col-3">
                 <div>
                   <label>% de Avance</label>
@@ -116,7 +117,23 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-7">
+              <div class="col-3">
+                <div>
+                  <label>Recibidos</label>
+                  <atendido-recibido :editable="editable" v-model="tarea.attributes.tar_recibidos" @input="actualizarRecibidos" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <div>
+                  <label>Atendidos</label>
+                  <atendido-recibido :editable="editable" v-model="tarea.attributes.tar_atendidos" @input="actualizarAtendidos" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
                 <hr />
                 <div v-for="comentario in tarea.relationships.comentarios" :key="comentario.id">
                   <div>
@@ -147,14 +164,14 @@
                   </button>
                 </div>
               </div>
-              <div class="col-5">
+              <!-- <div div class="col-5">
                 <folder-viewer
                   :api="'/api/folder/tareas/' + tarea.id"
                   :candelete="editable"
                   :canupload="editable"
                   :target="'tareas/' + tarea.id"
                 ></folder-viewer>
-              </div>
+              </div> !-->
             </div>
           </div>
           <div
@@ -195,6 +212,12 @@ const Completado = "Completado";
 export default {
   path: "/Tarea/:id",
   methods: {
+    actualizarRecibidos() {
+      this.saveTarea();
+    },
+    actualizarAtendidos() {
+      this.saveTarea();
+    },
     completarTarea() {
       this.tarea.attributes.tar_fecha_fin = moment().format(
         "YYYY-MM-DD HH:mm:ss"
@@ -272,9 +295,6 @@ export default {
     isOwnedByUser(tarea) {
       return true;
     },
-    esUsuarioGerente() {
-      return true;
-    },
     usuariosAsignados(tarea) {
       return [];
     },
@@ -291,6 +311,9 @@ export default {
     }
   },
   computed: {
+    esRolUno() {
+      return this.$root.user.attributes.role_id == 1;
+    },
     editable() {
       return this.tarea.attributes.tar_estado !== Completado;
     },
