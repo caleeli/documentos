@@ -70,7 +70,7 @@
                 </div>
             </div>          
             <div v-if="data.attributes.tipo_procedencia==='interno'" class="form-group row">
-                <div :class="colLabel"><label>Entidad (*):</label></div>
+                <div :class="colLabel"><label>CGE Interno (*):</label></div>
                 <div :class="colField">
                     <select-box-add :readonly="!pendiente" :data="cgeInternos" v-model="data.attributes.procedencia"
                         id-field="attributes.cge_descripcion"
