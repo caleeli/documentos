@@ -21,7 +21,7 @@
                 <div :class="colLabel"><label>Procedencia (*):</label></div>
                 <div :class="colField">
                     <template v-for="(procedencia, index) in tipoProcedencia">
-                        <div class="row">
+                        <div class="row" :key="index">
                             <div class="radio col-6">
                                 <label>
                                     <input :disabled="!pendiente" type="radio" name="tipo_procedencia"
@@ -36,42 +36,53 @@
                     <error v-model="erroresHojaRuta" property="errors.tipo_procedencia"></error>
                 </div>
             </div>
-            <div v-if="data.attributes.tipo_procedencia==='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
+            <div v-if="data.attributes.tipo_procedencia==='entidad'" class="form-group row">
                 <div :class="colLabel"><label>Entidad (*):</label></div>
-                <div class="col-7">
-                    <select-box :readonly="!pendiente" :data="entidades" v-model="data.attributes.procedencia"
+                <div :class="colField">
+                    <select-box-add :readonly="!pendiente" :data="entidades" v-model="data.attributes.procedencia"
                         id-field="attributes.ent_descripcion"
-                        filter-by="attributes.ent_clasificador,attributes.ent_descripcion,attributes.ent_sigla">
+                        filter-by="attributes.ent_clasificador,attributes.ent_descripcion,attributes.ent_sigla"
+                        @add="showEntidad">
                         <template slot-scope="{row,format}">
                             <span v-html="format(row.attributes.ent_clasificador)" class="badge" style="font-size: 1rem"></span>
                             <span v-html="format(row.attributes.ent_descripcion)" style="font-size: 1rem"></span>
                             <span v-html="format(row.attributes.ent_sigla)" style="font-size: 1rem"></span>
                         </template>
-                    </select-box>
-                    <error v-model="erroresHojaRuta" property="errors.entidades"></error>
-                </div>
-                <div class="col-1">
-                    <button type="button" class="btn btn-primary" @click="showEntidad"><i class="fas fa-plus-square"></i></button>
+                    </select-box-add>
+                    <error v-model="erroresHojaRuta" property="errors.procedencia"></error>
                 </div>
             </div>
-            <div v-if="data.attributes.tipo_procedencia!=='entidad' && (data.attributes.tipo_procedencia)" class="form-group row">
+            <div v-if="data.attributes.tipo_procedencia==='natural' || data.attributes.tipo_procedencia==='juridica'" class="form-group row">
                 <div :class="colLabel"><label>Nombres y Apellidos (*):</label></div>
-                <div class="col-7">
-                    <select-box :readonly="!pendiente" :data="personas" v-model="data.attributes.procedencia"
+                <div :class="colField">
+                    <select-box-add :readonly="!pendiente" :data="personas" v-model="data.attributes.procedencia"
                         id-field="attributes.nombre_completo"
-                        filter-by="attributes.per_nombres,attributes.per_apellidos,attributes.per_ci_nit">
+                        filter-by="attributes.per_nombres,attributes.per_apellidos,attributes.per_ci_nit"
+                        add-icon="fas fa-user-plus"
+                        @add="showPersona">
                         <template slot-scope="{row,format}">
                             <span v-html="format(row.attributes.per_nombres)" class="badge" style="font-size: 1rem"></span>
                             <span v-html="format(row.attributes.per_apellidos)" style="font-size: 1rem"></span>
                             <span v-html="format(row.attributes.per_ci_nit)" style="font-size: 1rem"></span>
                         </template>
-                    </select-box>
-                    <error v-model="erroresHojaRuta" property="errors.persona"></error>
-                </div>
-                <div class="col-1">
-                    <button type="button" class="btn btn-primary" @click="showPersona"><i class="fas fa-user-plus"></i></button>
+                    </select-box-add>
+                    <error v-model="erroresHojaRuta" property="errors.procedencia"></error>
                 </div>
             </div>          
+            <div v-if="data.attributes.tipo_procedencia==='interno'" class="form-group row">
+                <div :class="colLabel"><label>Entidad (*):</label></div>
+                <div :class="colField">
+                    <select-box-add :readonly="!pendiente" :data="cgeInternos" v-model="data.attributes.procedencia"
+                        id-field="attributes.cge_descripcion"
+                        filter-by="attributes.cge_descripcion"
+                        @add="showCgeInterno">
+                        <template slot-scope="{row,format}">
+                            <span v-html="format(row.attributes.cge_descripcion)" style="font-size: 1rem"></span>
+                        </template>
+                    </select-box-add>
+                    <error v-model="erroresHojaRuta" property="errors.procedencia"></error>
+                </div>
+            </div>
             <div class="form-group row">
                 <div :class="colLabel"><label>Fecha de recepción (*):</label></div>
                 <div :class="colField">
@@ -363,6 +374,9 @@
                        return response.data.response;
                     });
             },
+            showCgeInterno() {
+                this.$router.push({path: '/CgeInterno/create', query:this.$route.query});
+            },
             showEntidad() {
                 this.$router.push({path: '/Entidad/create', query:this.$route.query});
             },
@@ -412,6 +426,7 @@
                 procedencias: new ApiArray('/api/empresas?per_page=1000'),
                 entidades: new ApiArray('/api/entidad?per_page=1000').loadFromAPI(),
                 personas: new ApiArray('/api/persona?per_page=1000').loadFromAPI(),
+                cgeInternos: new ApiArray('/api/cge_interno?per_page=1000').loadFromAPI(),
                 destinatarios: new ApiArray('/api/users?filter[]=whereNoReservado&filter[]=where,role_id,1&per_page=1000'),
                 notas: new ApiArray('/api/notas_oficio?per_page=7'),
                 comunicaciones: new ApiArray('/api/comunicaciones_internas?per_page=7'),
@@ -419,7 +434,8 @@
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases&sort=id'),
                 tipoProcedencia: [  {codigo: 'entidad', descripcion: 'Entidad'}, 
                                     {codigo: 'natural', descripcion: 'Persona Natural'}, 
-                                    {codigo: 'juridica', descripcion: 'Persona Jurídica'}
+                                    {codigo: 'juridica', descripcion: 'Persona Jurídica'},
+                                    {codigo: 'interno', descripcion: 'CGE Interno'},
                                 ],
                 tipoHr: [   {codigo: 'externa', descripcion: 'Celestes'}, 
                             {codigo: 'interna', descripcion: 'Rosadas'}, 
