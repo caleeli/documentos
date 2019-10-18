@@ -53,9 +53,9 @@ class FolderController extends Controller
                     $url = !empty($data['url']) ? $data['url'] : $url;
                 }
             }
-            if ($storage==='tareas' && strtolower($file->getExtension())==='pdf') {
-                $url = $this->urlPDFCommentsEditor($storage, $filename);
-            }
+            //if ($storage==='tareas' && strtolower($file->getExtension())==='pdf') {
+            //    $url = $this->urlPDFCommentsEditor($storage, $filename);
+            //}
             $list[] = [
                 'id'         => $id,
                 'attributes' => [
