@@ -31,7 +31,7 @@ class HojaRuta extends Model
     public $timestamps = true;
     protected $table = 'hoja_ruta';
     protected $attributes = [
-        'tipo_hr' => 'externa',
+        'tipo_hr' => 'celeste',
         'anexo_hojas' => '',
     ];
     protected $fillable = [
@@ -91,15 +91,6 @@ class HojaRuta extends Model
     public function getEstadoAttribute()
     {
         return $this->fecha_conclusion ? 'CONCLUIDO' : 'PENDIENTE';
-        /*$derivacion = $this->getUltimaDerivacion();
-        $users = Cache::get('users',
-                function() {
-                return User::get()->toArray();
-            });
-        $user = $this->usuario_destinatario;
-        $despachado = $user && $user['attributes']['numero_ci'] === User::EXTERNAL_CODE && !in_array($user['attributes']['username'],
-                User::RESERVED);
-        return $user && $user['attributes']['username'] === User::ARCHIVO ? 'ARCHIVO' : ( $despachado ? 'DESPACHADO' : 'PENDIENTE');*/
     }
 
     /**
@@ -169,7 +160,12 @@ class HojaRuta extends Model
 
     public function getTipoHrDescAttribute()
     {
-        return $this->tipo_hr === 'interna' ? 'Interna' : $this->tipo_hr === 'externa' ? 'Externa' : 'Solicitudes o denuncias';
+        $labels = [
+            'externa' => 'Celeste',
+            'interna' => 'Rosada',
+            'solicitud' => 'Amarilla',
+        ];
+        return $labels[$this->tipo_hr];
     }
 
 

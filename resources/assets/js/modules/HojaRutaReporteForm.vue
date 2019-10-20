@@ -252,9 +252,9 @@
                 destinatarios: new ApiArray('/api/users'),
                 clasificacionHojasRuta: new ApiArray('/api/hoja_ruta_clasificacion?include=subclases'),
                 tipos: [
-                    {attributes: {sigla: 'externa', nombre: 'HR Externa'}},
-                    {attributes: {sigla: 'interna', nombre: 'HR Interna'}},
-                    {attributes: {sigla: 'solicitud', nombre: 'Solicitud y/o Denuncias'}},
+                    {attributes: {sigla: 'externa', nombre: 'Celestes'}},
+                    {attributes: {sigla: 'interna', nombre: 'Rosadas'}},
+                    {attributes: {sigla: 'solicitud', nombre: 'Amarillas'}},
                     {attributes: {sigla: 'notas', nombre: 'Notas oficio'}},
                     {attributes: {sigla: 'comunicacion', nombre: 'Comunicación Interna'}},
                     {attributes: {sigla: 'informes', nombre: 'Informes'}},
