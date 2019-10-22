@@ -154,48 +154,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Anexo Hojas:</label></div>
                 <div :class="colField">
-                    <div class="row">
-                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 pr-0">
-                            <table class="anexos">
-                                <tr>
-                                    <td>
-                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.fjs" @input="setFjs">
-                                        <small class="form-text text-muted">fjs</small>
-                                    </td>
-                                    <td>
-                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.arch" @input="setArch">
-                                        <small class="form-text text-muted">arch</small>
-                                    </td>
-                                    <td>
-                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.anillados" @input="setAnillados">
-                                        <small class="form-text text-muted">anillados</small>
-                                    </td>
-                                    <td>
-                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.legajo" @input="setLegajo">
-                                        <small class="form-text text-muted">legajo</small>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-10 pl-sm-0">
-                            <table class="anexos">
-                                <tr>
-                                    <td>
-                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.ejemplar" @input="setEjemplar">
-                                        <small class="form-text text-muted">ejemplar</small>
-                                    </td>
-                                    <td>
-                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.engrapado" @input="setEngrapado">
-                                        <small class="form-text text-muted">engrapado</small>
-                                    </td>
-                                    <td>
-                                        <input :readonly="!pendiente" class="form-control text-center" type="number" :value="anexoHojas.cd" @input="setCd">
-                                        <small class="form-text text-muted">cd</small>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                    <anexos v-model="data.attributes.anexo_hojas" :pendiente="pendiente"></anexos>
                     <error v-model="erroresHojaRuta" property="errors.anexo_hojas"></error>
                 </div>
             </div>
