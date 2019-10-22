@@ -281,7 +281,12 @@ export default {
       );
     },
     diasPasados(tarea) {
-      return moment(tarea.attributes.tar_fecha_derivacion).fromNow();
+      const dias = moment().getBusinessDays(moment(tarea.attributes.tar_fecha_derivacion));
+      return (
+        (dias >= 0 ? "en " : "hace ") +
+        Math.abs(dias) +
+        (dias == 1 ? " día hábil" : " días hábiles")
+      );
     },
     tiempoDisponible(tarea) {
       const dias = moment().getBusinessDays(
