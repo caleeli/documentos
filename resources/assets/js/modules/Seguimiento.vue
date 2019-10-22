@@ -148,16 +148,13 @@ export default {
     },
     seleccionaTarea() {},
     tiempoReloj(tarea) {
+      const start = moment(tarea.attributes.tar_fecha_derivacion);
+      const end = start.addWorkdays(
+        tarea.relationships.derivacion.attributes.dias_plazo
+      );
       return Math.min(
         100,
-        Math.round(
-          (100 *
-            moment().diff(
-              moment(tarea.attributes.tar_fecha_derivacion),
-              "days"
-            )) /
-            tarea.relationships.derivacion.attributes.dias_plazo
-        )
+        Math.round(-100 * moment().diff(start) / start.diff(end))
       );
     },
     diasPasados(tarea) {

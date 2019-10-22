@@ -49,7 +49,7 @@
           <dt>Última actualización:</dt>
           <dd>{{tarea.attributes.fecha_modificacion}}</dd>
           <dt>Tiempo asignado:</dt>
-          <dd>{{tarea.relationships.derivacion.attributes.dias_plazo}} días, {{ diasPasados(tarea) }}</dd>
+          <dd>{{tarea.relationships.derivacion.attributes.dias_plazo}} días hábiles, {{ diasPasados(tarea) }}</dd>
           <dt>Tiempo cumplimiento:</dt>
           <dd>
             <pie-svg :value="tiempoReloj(tarea)"></pie-svg>
@@ -120,7 +120,11 @@
               <div class="col-3">
                 <div>
                   <label>Recibidos</label>
-                  <atendido-recibido :editable="editable" v-model="tarea.attributes.tar_recibidos" @input="actualizarRecibidos" />
+                  <atendido-recibido
+                    :editable="editable"
+                    v-model="tarea.attributes.tar_recibidos"
+                    @input="actualizarRecibidos"
+                  />
                 </div>
               </div>
             </div>
@@ -128,7 +132,11 @@
               <div class="col-3">
                 <div>
                   <label>Atendidos</label>
-                  <atendido-recibido :editable="editable" v-model="tarea.attributes.tar_atendidos" @input="actualizarAtendidos" />
+                  <atendido-recibido
+                    :editable="editable"
+                    v-model="tarea.attributes.tar_atendidos"
+                    @input="actualizarAtendidos"
+                  />
                 </div>
               </div>
             </div>
@@ -182,7 +190,13 @@
           >
             <div>
               <label>Calificación</label>
-              <input class="form-control" v-model="tarea.attributes.tar_calificacion" type="number" min="0" max="100" />
+              <input
+                class="form-control"
+                v-model="tarea.attributes.tar_calificacion"
+                type="number"
+                min="0"
+                max="100"
+              />
             </div>
             <hr />
             <div>
@@ -198,7 +212,7 @@
 </template>
 
 <script>
-import moment from "moment";
+import moment from "../moment";
 import {
   colores,
   iconos,
@@ -257,27 +271,28 @@ export default {
     },
     seleccionaTarea() {},
     tiempoReloj(tarea) {
+      const start = moment(tarea.attributes.tar_fecha_derivacion);
+      const end = start.addWorkdays(
+        tarea.relationships.derivacion.attributes.dias_plazo
+      );
       return Math.min(
         100,
-        Math.round(
-          (100 *
-            moment().diff(
-              moment(tarea.attributes.tar_fecha_derivacion),
-              "days"
-            )) /
-            tarea.relationships.derivacion.attributes.dias_plazo
-        )
+        Math.round(-100 * moment().diff(start) / start.diff(end))
       );
     },
     diasPasados(tarea) {
       return moment(tarea.attributes.tar_fecha_derivacion).fromNow();
     },
     tiempoDisponible(tarea) {
-      return moment().to(
-        moment(tarea.attributes.tar_fecha_derivacion).add(
-          tarea.relationships.derivacion.attributes.dias_plazo,
-          "days"
+      const dias = moment().getBusinessDays(
+        moment(tarea.attributes.tar_fecha_derivacion).addWorkdays(
+          tarea.relationships.derivacion.attributes.dias_plazo
         )
+      );
+      return (
+        (dias >= 0 ? "en " : "hace ") +
+        Math.abs(dias) +
+        (dias == 1 ? " día hábil" : " días hábiles")
       );
     },
     labelPrioridad(tarea) {
@@ -362,10 +377,20 @@ export default {
           this.tarea.attributes.tar_estado === Completado
             ? "evaluacion"
             : "atencion";
-        const avance = Math.max(0, Math.min(100, this.tarea.attributes.tar_avance));
-        avance != this.tarea.attributes.tar_avance ? this.tarea.attributes.tar_avance = avance : null;
-        const calificacion = Math.max(0, Math.min(100, this.tarea.attributes.tar_calificacion));
-        calificacion != this.tarea.attributes.tar_calificacion ? this.tarea.attributes.tar_calificacion = calificacion : null;
+        const avance = Math.max(
+          0,
+          Math.min(100, this.tarea.attributes.tar_avance)
+        );
+        avance != this.tarea.attributes.tar_avance
+          ? (this.tarea.attributes.tar_avance = avance)
+          : null;
+        const calificacion = Math.max(
+          0,
+          Math.min(100, this.tarea.attributes.tar_calificacion)
+        );
+        calificacion != this.tarea.attributes.tar_calificacion
+          ? (this.tarea.attributes.tar_calificacion = calificacion)
+          : null;
       }
     }
   }
