@@ -156,18 +156,18 @@
                   </div>
                   <hr />
                 </div>
-                <div v-if="editable">
+                <div>
                   <label>Fecha</label>
                   <datetime v-model="com_fecha" />
                 </div>
-                <div v-if="editable">
+                <div>
                   <label>Comentario</label>
                   <tinymce v-model="com_texto" plugins="table" height="10em" />
                 </div>
-                <div v-if="editable">
+                <div>
                   <br />
                   <button type="button" class="btn btn-primary" @click="comentar">Registrar</button>
-                  <button type="button" class="btn btn-success" @click="completarTarea">
+                  <button v-if="editable" type="button" class="btn btn-success" @click="completarTarea">
                     <i class="fa fa-check-square"></i> Completado
                   </button>
                 </div>
