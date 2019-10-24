@@ -6,12 +6,14 @@ use App\Derivacion;
 use App\HojaRuta;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class HojaRutaTest extends TestCase
 {
     use DatabaseMigrations;
+    use WithoutMiddleware;
 
     /**
      * @var User
@@ -21,8 +23,11 @@ class HojaRutaTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->create([
+            'api_token' => '123456',
+        ]);
         Auth::login($this->user);
+        $this->actingAs($this->user);
     }
 
     /**
@@ -61,5 +66,17 @@ class HojaRutaTest extends TestCase
         $derivacion->hoja_ruta->fecha_conclusion = $derivacion->hoja_ruta->fecha_recepcion;
         $derivacion->hoja_ruta->save();
         $this->assertEquals('CONCLUIDO', $derivacion->hoja_ruta->estado);
+    }
+
+    /**
+     * Verificacion del ticket #64
+     *
+     * @link https://github.com/caleeli/documentos/issues/64
+     */
+    public function testSelectParcial()
+    {
+        factory(HojaRuta::class, 25)->state('ejemplo')->create();
+        $response = $this->actingAs($this->user)->get('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=1000');
+        $this->assertCount(25, $response->json()['data']);
     }
 }

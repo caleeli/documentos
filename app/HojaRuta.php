@@ -165,7 +165,7 @@ class HojaRuta extends Model
             'interna' => 'Rosada',
             'solicitud' => 'Amarilla',
         ];
-        return $labels[$this->tipo_hr];
+        return isset($labels[$this->tipo_hr]) ? $labels[$this->tipo_hr] : $this->tipo_hr;
     }
 
 
