@@ -53,10 +53,10 @@
                 <div :class="colField">
                     <suggest v-model="data.attributes.gerencia_subcontraloria"
                              :data="gerenciasSubcontraloria"
-                             id-field="attributes.gerencia_subcontraloria"
-                             filter-by="attributes.gerencia_subcontraloria">
+                             id-field="attributes.cge_descripcion"
+                             filter-by="attributes.cge_descripcion">
                         <template slot-scope="{row,format}">
-                            <span v-html="format(row.attributes.gerencia_subcontraloria)" style="font-size: 1rem"></span>
+                            <span v-html="format(row.attributes.cge_descripcion)" style="font-size: 1rem"></span>
                         </template>
                     </suggest>
                     <error v-model="errores" property="errors.gerencia_subcontraloria"></error>
