@@ -10,34 +10,37 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "babel-plugin-syntax-dynamic-import": "6.18.0",
     "@fortawesome/fontawesome-free": "^5.2.0",
     "axios": "^0.18",
+    "babel-plugin-syntax-dynamic-import": "6.18.0",
     "bootstrap": "^4.0.0",
     "cross-env": "^5.1",
     "jquery": "^3.2",
     "laravel-echo": "^1.4.0",
-    "laravel-mix": "^2.0",
+    "laravel-mix": "^4.0",
+    "laravel-mix-bundle-analyzer": "^1.0.2",
     "lodash": "^4.17.4",
     "moment": "^2.22.2",
     "popper.js": "^1.12",
+    "resolve-url-loader": "^3.1.0",
+    "sass": "^1.23.1",
+    "sass-loader": "^7.3.1",
     "socket.io-client": "^2.1.1",
     "v-runtime-template": "^1.5.2",
-    "vue": "^2.5.7",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.1.3",
+    "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
-    "@handsontable/vue": "^3.1.0",
     "bootstrap-datepicker": "^1.8.0",
     "bootstrap-vue-treeview": "^1.0.8",
     "bootswatch": "^4.1.3",
     "chart.js": "^2.7.3",
     "clockpicker": "0.0.7",
-    "d3": "^5.7.0",
     "fs": "0.0.1-security",
     "glob": "^7.1.3",
     "handsontable": "^6.2.1",
     "locale-index-of": "^1.0.2",
+    "vue": "^2.6.10",
     "vue-chartjs": "^3.4.0",
     "vuex": "^3.1.0"
   }

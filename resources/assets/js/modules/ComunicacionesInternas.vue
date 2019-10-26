@@ -215,7 +215,7 @@
                 errores: errores,
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
                 hojasRuta: new ApiArray('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=1000'),
-                gerenciasSubcontraloria: new ApiArray(apiBase + '?fields=gerencia_subcontraloria&filter[]=groupby,"gerencia_subcontraloria"&per_page=-1'),
+                gerenciasSubcontraloria: new ApiArray('/api/cge_interno?fields=cge_descripcion'),
             };
         },
         watch: {

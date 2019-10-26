@@ -21,6 +21,7 @@
 </IfModule>
 <IfModule mod_expires.c>
   ExpiresActive on
+  ExpiresByType image/svg+xml "access 2 month"
   ExpiresByType image/jpg "access 2 month"
   ExpiresByType image/gif "access 2 month"
   ExpiresByType image/jpeg "access 2 month"

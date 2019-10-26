@@ -1,5 +1,12 @@
 
-window._ = require('lodash');
+window._ = {
+    get(object, dotPath) {
+        dotPath ? dotPath.split('.').forEach(key => {
+            object = object[key];
+        }) : null;
+        return object;
+    }
+};
 window.Popper = require('popper.js').default;
 
 /**

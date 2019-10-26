@@ -387,7 +387,7 @@ ul.most-watched li:last-child {
 .donut-chart-icon,
 .like-icon {
 	//background: url(../images/bar-chart-icon.png) no-repeat;
-	@include background("../images/bar-chart-icon.png");
+	@include background("../../images/bar-chart-icon.png");
 	height: 42px;
 	width: 48px;
 	position: absolute;
@@ -397,13 +397,13 @@ ul.most-watched li:last-child {
 
 .like-icon {
 	//background: url(../images/like-icon.png) no-repeat;
-	@include background("../images/like-icon.png");
+	@include background("../../images/like-icon.png");
 	height: 50px;
 }
 
 .donut-chart-icon {
   //background: url(../images/donut-chart-icon.png) no-repeat;
-	@include background("../images/donut-chart-icon.png");
+	@include background("../../images/donut-chart-icon.png");
 }
 
 .stack-order { position: relative; z-index: 5; }
@@ -412,7 +412,7 @@ ul.most-watched li:last-child {
 	////background-image:url(../images/loading.gif);
 	//background-position: center;
 	//background-repeat: no-repeat;
-	@include background("../images/loading.gif",center center, no-repeat, auto);
+	@include background("../../images/loading.gif",center center, no-repeat, auto);
 }
 
 

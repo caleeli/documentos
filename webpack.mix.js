@@ -1,4 +1,5 @@
 let mix = require('laravel-mix');
+require('laravel-mix-bundle-analyzer');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,11 +12,21 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css')
-   .sourceMaps()
-   .version();
 
-mix.webpackConfig({
-    devtool: 'inline-source-map'
-});
+if (!mix.inProduction()) {
+    //mix.bundleAnalyzer();
+    mix.js('resources/assets/js/app.js', 'public/js')
+        .extract()
+        .sass('resources/assets/sass/app.scss', 'public/css')
+        .sourceMaps()
+        .version();
+
+    mix.webpackConfig({
+        devtool: 'inline-source-map'
+    });
+} else {
+    mix.js('resources/assets/js/app.js', 'public/js')
+        .extract()
+        .sass('resources/assets/sass/app.scss', 'public/css')
+        .version();
+}

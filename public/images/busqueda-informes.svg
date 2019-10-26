@@ -1,1 +1,31 @@
-<svg width="512" height="448" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M464 0H48C21.5 0 0 21.5 0 48v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zm20 411.75c0 4.538-2.96 8.25-6.577 8.25H34.577C30.96 420 28 416.288 28 411.75V90h456v321.75z" fill="#4A90E2" fill-rule="nonzero"/><text fill="#FFF" font-family="Helvetica" font-size="37"><tspan x="27" y="62">BUQUEDA</tspan></text><rect stroke="#979797" fill="#FFF" x="337.5" y="98.5" width="63" height="42" rx="8"/><rect stroke="#979797" fill="#FFF" x="409.5" y="98.5" width="63" height="42" rx="8"/><text fill="#000" font-family="Helvetica" font-size="22"><tspan x="362.576" y="119">&lt;</tspan></text><text fill="#000" font-family="Helvetica" font-size="22"><tspan x="434.576" y="119">&gt;</tspan></text><path stroke="#3F51B5" fill="#000" d="M42.5 153.5h430v21h-430zm0 49h430v21h-430zm0 173h430v21h-430z"/><path stroke="#3F51B5" fill="#000" d="M42.5 153.5h17v243h-17zm413 0h17v243h-17zm-348 0h17v243h-17zm98 0h17v243h-17zm98 0h17v243h-17zm106 0h17v243h-17z"/><path stroke="#979797" fill="#D8D8D8" d="M42.5 98.5h260v42h-260z"/><path d="M296.501 132.615l-6.22-6.22a1.496 1.496 0 0 0-1.06-.436h-1.016a12.911 12.911 0 0 0 2.744-7.984c0-7.168-5.807-12.975-12.974-12.975-7.168 0-12.975 5.807-12.975 12.975 0 7.167 5.807 12.974 12.975 12.974 3.013 0 5.782-1.023 7.984-2.744v1.016c0 .4.156.78.437 1.06l6.219 6.22a1.49 1.49 0 0 0 2.114 0l1.766-1.765a1.504 1.504 0 0 0 .006-2.121zm-18.526-6.656a7.98 7.98 0 0 1-7.985-7.984 7.98 7.98 0 0 1 7.985-7.985 7.98 7.98 0 0 1 7.984 7.985 7.98 7.98 0 0 1-7.984 7.984z" fill="#4A4A4A" fill-rule="nonzero"/></g></svg>
+<svg width="512px" height="448px" viewBox="0 0 512 448" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="busqueda-informe">
+            <path d="M464,0 L48,0 C21.5,0 0,21.5 0,48 L0,400 C0,426.5 21.5,448 48,448 L464,448 C490.5,448 512,426.5 512,400 L512,48 C512,21.5 490.5,0 464,0 Z M484,411.75 C484,416.2875 481.040385,420 477.423077,420 L34.5769231,420 C30.9596154,420 28,416.2875 28,411.75 L28,90 L484,90 L484,411.75 Z" id="Shape" fill="#4A90E2" fill-rule="nonzero"></path>
+            <text id="BUQUEDA" fill="#FFFFFF" font-family="Helvetica" font-size="37" font-weight="normal">
+                <tspan x="27" y="62">BUQUEDA</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#979797" fill="#FFFFFF" x="337.5" y="98.5" width="63" height="42" rx="8"></rect>
+            <rect id="Rectangle" stroke="#979797" fill="#FFFFFF" x="409.5" y="98.5" width="63" height="42" rx="8"></rect>
+            <text id="&lt;" fill="#000000" font-family="Helvetica" font-size="22" font-weight="normal">
+                <tspan x="362.576172" y="119">&lt;</tspan>
+            </text>
+            <text id="&gt;" fill="#000000" font-family="Helvetica" font-size="22" font-weight="normal">
+                <tspan x="434.576172" y="119">&gt;</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="42.5" y="153.5" width="430" height="21"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="42.5" y="202.5" width="430" height="21"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="42.5" y="375.5" width="430" height="21"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="42.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="455.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="107.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="205.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="303.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#3F51B5" fill="#000000" x="409.5" y="153.5" width="17" height="243"></rect>
+            <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="42.5" y="98.5" width="260" height="42"></rect>
+            <g id="search-solid" transform="translate(265.000000, 105.000000)" fill="#4A4A4A" fill-rule="nonzero">
+                <path d="M31.5009747,27.6148148 L25.2818713,21.3957115 C25.0011696,21.1150097 24.6206628,20.9590643 24.2214425,20.9590643 L23.2046784,20.9590643 C24.9263158,18.757115 25.9493177,15.9875244 25.9493177,12.9746589 C25.9493177,5.80740741 20.1419103,0 12.9746589,0 C5.80740741,0 0,5.80740741 0,12.9746589 C0,20.1419103 5.80740741,25.9493177 12.9746589,25.9493177 C15.9875244,25.9493177 18.757115,24.9263158 20.9590643,23.2046784 L20.9590643,24.2214425 C20.9590643,24.6206628 21.1150097,25.0011696 21.3957115,25.2818713 L27.6148148,31.5009747 C28.2011696,32.0873294 29.1493177,32.0873294 29.7294347,31.5009747 L31.4947368,29.7356725 C32.0810916,29.1493177 32.0810916,28.2011696 31.5009747,27.6148148 Z M12.9746589,20.9590643 C8.56452242,20.9590643 4.99025341,17.3910331 4.99025341,12.9746589 C4.99025341,8.56452242 8.5582846,4.99025341 12.9746589,4.99025341 C17.3847953,4.99025341 20.9590643,8.5582846 20.9590643,12.9746589 C20.9590643,17.3847953 17.3910331,20.9590643 12.9746589,20.9590643 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

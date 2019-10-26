@@ -12,7 +12,7 @@ import VueRouter from 'vue-router';
 import TaskMixin from './mixins/task.js';
 import Vue from 'vue';
 import Vuex from 'vuex';
-import BootstrapVueTreeview from 'bootstrap-vue-treeview';
+//import BootstrapVueTreeview from 'bootstrap-vue-treeview';
 
 /**
  * Get meta tag value
@@ -36,7 +36,7 @@ Vue.prototype.dateFormat = function(date) {
 };
 Vue.use(Vuex);
 Vue.use(VueRouter);
-Vue.use(BootstrapVueTreeview);
+//Vue.use(BootstrapVueTreeview);
 
 // Configure global javascript objects
 window.Vue = Vue;
@@ -54,7 +54,7 @@ window.taskMixin = TaskMixin;
 const com = require.context('./components/', true, /\.(vue)$/i);
 com.keys().map(key => {
     const name = key.match(/\w+/)[0];
-    const component = Vue.component(name, com(key));
+    const component = Vue.component(name, com(key).default);
     return component;
 });
 
@@ -65,7 +65,7 @@ com.keys().map(key => {
 const routes = [];
 const req = require.context('./modules/', true, /\.(js|vue)$/i);
 req.keys().map(key => {
-    const def = req(key);
+    const def = req(key).default;
     const name = key.match(/\w+/)[0];
     const component = Vue.component(name, def);
     routes.push({path: def.path ? def.path : '/' + name, component: component});
