@@ -19,23 +19,33 @@ class Comentario extends Model
 
     protected $table = 'comentario';
     protected $primaryKey = 'com_id';
-    protected $guarded = [];
+    protected $fillable = ['com_texto', 'tar_id'];
     protected $casts = [
-        //'com_fecha' => 'date',
         'fecha_registro' => 'datetime',
         'fecha_modificacion' => 'datetime',
         'fecha_baja' => 'datetime',
     ];
+    protected $dates = [
+        'fecha_registro',
+        'fecha_modificacion',
+        'fecha_baja',
+    ];
+    protected $attributes = [
+        'com_texto' => '',
+    ];
     protected $appends = [
-        'nombre_usuario'
+        'nombre_usuario',
+        'usuario',
     ];
 
     public function getNombreUsuarioAttribute()
     {
-        return $this->userAdd ? $this->userAdd->nombre_completo : '';
+        $userAdd = $this->usuario;
+        return $userAdd ? $userAdd->nombre_completo : '';
     }
 
-    public function setNombreUsuarioAttribute()
+    public function getUsuarioAttribute()
     {
+        return $this->userAdd()->first();
     }
 }

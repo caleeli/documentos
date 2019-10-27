@@ -8,7 +8,6 @@ $factory->define(
     Model::class,
     function (Faker $faker) {
         return [
-            'com_fecha' => new Carbon(),
             'com_texto' => $faker->sentence(),
         ];
     }

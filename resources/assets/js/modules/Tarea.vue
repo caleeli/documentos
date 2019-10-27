@@ -143,31 +143,66 @@
             <div class="row">
               <div class="col-12">
                 <hr />
-                <div v-for="comentario in tarea.relationships.comentarios" :key="comentario.id">
-                  <div>
-                    <label>Fecha</label>
-                    <datetime :read-only="true" v-model="comentario.attributes.com_fecha" />
+                <div v-for="(comentario,index) in comentarios" :key="comentario.id">
+                  <div class="d-flex border-bottom mb-2" v-if="comentario.attributes">
+                    <div>
+                      <h2>
+                        <avatar v-model="comentario.attributes.usuario"></avatar>
+                      </h2>
+                    </div>
+                    <div>
+                      <div class="text-sm">
+                        <b>{{comentario.attributes.nombre_usuario}}</b>
+                        <datetime
+                          :read-only="true"
+                          :timeago="true"
+                          v-model="comentario.attributes.fecha_modificacion"
+                        />
+                        <label>comentó:</label>
+                      </div>
+                      <div class="d-flex">
+                        <a
+                          v-if="comentario.attributes.user_add == userId && comentarioEditado == -1"
+                          href="javascript:void(0)"
+                          @click="editComentario(index)"
+                        >
+                          <i class="fa fa-pen"></i>
+                        </a>
+                        <a
+                          v-else-if="comentario.attributes.user_add == userId && comentarioEditado == index"
+                          href="javascript:void(0)"
+                          @click="actualizaComentario(comentario)"
+                        >
+                          <i class="fa fa-save"></i>
+                        </a>
+                        <a v-else href="javascript:void(0)">
+                          <i class="fa fa-align-justify"></i>
+                        </a>
+                        <div v-if="comentarioEditado == index" class="pl-2">
+                          <tinymce
+                            v-model="comentario.attributes.com_texto"
+                            plugins="table"
+                            height="10em"
+                          />
+                        </div>
+                        <div v-else class="ml-2" v-html="comentario.attributes.com_texto" />
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <avatar v-model="comentario.attributes.user_add"></avatar>
-                    <b>{{comentario.attributes.nombre_usuario}}</b>
-                    <label>comentó:</label>
-                    <div v-html="comentario.attributes.com_texto" />
-                  </div>
-                  <hr />
                 </div>
-                <div>
-                  <label>Fecha</label>
-                  <datetime v-model="com_fecha" />
-                </div>
-                <div>
+                <div v-show="comentarioEditado==-1">
                   <label>Comentario</label>
                   <tinymce v-model="com_texto" plugins="table" height="10em" />
                 </div>
-                <div>
+                <div v-show="comentarioEditado==-1">
                   <br />
                   <button type="button" class="btn btn-primary" @click="comentar">Registrar</button>
-                  <button v-if="editable" type="button" class="btn btn-success" @click="completarTarea">
+                  <button
+                    v-if="editable"
+                    type="button"
+                    class="btn btn-success"
+                    @click="completarTarea"
+                  >
                     <i class="fa fa-check-square"></i> Completado
                   </button>
                 </div>
@@ -226,6 +261,25 @@ const Completado = "Completado";
 export default {
   path: "/Tarea/:id",
   methods: {
+    actualizaComentario(comentario) {
+      this.comentario.attributes.tar_id = this.tarea.id;
+      this.comentario.attributes.com_texto = comentario.attributes.com_texto;
+      this.comentario
+        .putToAPI(
+          "/api/tarea/" +
+            this.$route.params.id +
+            "/comentarios/" +
+            comentario.id
+        )
+        .then(() => {
+          this.tarea.loadFromAPI();
+          this.comentarios.loadFromAPI();
+          this.comentarioEditado = -1;
+        });
+    },
+    editComentario(index) {
+      this.comentarioEditado = index;
+    },
     actualizarRecibidos() {
       this.saveTarea();
     },
@@ -259,13 +313,12 @@ export default {
     },
     comentar() {
       this.comentario.attributes.tar_id = this.tarea.id;
-      this.comentario.attributes.com_fecha = this.com_fecha;
       this.comentario.attributes.com_texto = this.com_texto;
       this.comentario
         .postToAPI("/api/tarea/" + this.$route.params.id + "/comentarios")
         .then(() => {
           this.tarea.loadFromAPI();
-          this.com_fecha = "";
+          this.comentarios.loadFromAPI();
           this.com_texto = "";
         });
     },
@@ -277,11 +330,13 @@ export default {
       );
       return Math.min(
         100,
-        Math.round(-100 * moment().diff(start) / start.diff(end))
+        Math.round((-100 * moment().diff(start)) / start.diff(end))
       );
     },
     diasPasados(tarea) {
-      const dias = moment().getBusinessDays(moment(tarea.attributes.tar_fecha_derivacion));
+      const dias = moment().getBusinessDays(
+        moment(tarea.attributes.tar_fecha_derivacion)
+      );
       return (
         (dias >= 0 ? "en " : "hace ") +
         Math.abs(dias) +
@@ -331,6 +386,9 @@ export default {
     }
   },
   computed: {
+    userId() {
+      return window.userId;
+    },
     esRolUno() {
       return this.$root.user.attributes.role_id == 1;
     },
@@ -359,20 +417,24 @@ export default {
       tarea: new ApiObject(
         "/api/tarea/" +
           this.$route.params.id +
-          "?include=tar_creador,derivacion,usuarios,comentarios"
+          "?include=tar_creador,derivacion,usuarios"
+      ),
+      comentarios: new ApiObject(
+        "/api/tarea/" + this.$route.params.id + "/comentarios?sort=com_id"
       ),
       comentario: new ApiObject(
         "/api/tarea/" + this.$route.params.id + "/comentarios/create"
       ),
-      com_fecha: "",
       com_texto: "",
       prioridades,
       editPrioridad: false,
-      tab: "atencion"
+      tab: "atencion",
+      comentarioEditado: -1
     };
   },
   mounted() {
     this.tarea.loadFromAPI();
+    this.comentarios.loadFromAPI();
   },
   watch: {
     "tarea.attributes": {

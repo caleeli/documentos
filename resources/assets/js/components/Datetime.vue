@@ -30,6 +30,7 @@
         props: {
             value: String,
             format: String,
+            timeago: Boolean,
             type: String, //date,time,datetime
             readOnly: Boolean,
             dateOnHour: {
@@ -47,7 +48,7 @@
         computed: {
             dateFormated() {
                 const date = moment(this.value);
-                return this.value && date.isValid() ? date.format(this.getDateFormat()) : this.emptyDate;
+                return this.value && date.isValid() ? (this.timeago ? date.fromNow() : date.format(this.getDateFormat())) : this.emptyDate;
             },
             myClass() {
                 return this.readOnly ? 'text-nowrap' : 'form-control form-datetime';
