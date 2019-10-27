@@ -34,7 +34,7 @@
     </div>
     <div>
       <div class="row" v-for="(tareaI,id) in tareas" :key="id">
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-5 col-xs-12">
           <table width="100%">
             <tr>
               <td class="project-status" width="35%">
@@ -57,16 +57,7 @@
             </tr>
           </table>
         </div>
-        <div class="col-md-2 col-xs-4 project-completion">
-          <div class="progress progress-striped active m-b-sm">
-            <div
-              v-bind:style="{width: tareaI.attributes.tar_avance +'%'}"
-              class="progress-bar progress-bar-success"
-            ></div>
-          </div>
-          <span class="badge badge-light">{{tareaI.attributes.tar_avance}} %</span>
-        </div>
-        <div class="col-md-2 col-xs-5 project-user">
+        <div class="col-md-3 col-xs-5 project-user">
           <div v-for="(u,i) in tareaI.relationships.usuarios" :key="i">
             <avatar :user="u" />
             <span v-html="format(u.attributes.nombres+' '+u.attributes.apellidos)"></span>
