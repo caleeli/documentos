@@ -28,16 +28,32 @@
               <i class="fa fa-save"></i>
             </a>
           </dd>
-          <dt>Creado por:</dt>
-          <dd>
-            <avatar :user="tarea.relationships.tar_creador" />
-            {{tarea.relationships.tar_creador ? tarea.relationships.tar_creador.attributes.nombres + ' ' + tarea.relationships.tar_creador.attributes.apellidos : ''}}
-          </dd>
           <dt>Asignado a:</dt>
           <dd>
             <div v-for="usuario in tarea.relationships.usuarios" :key="usuario.id">
-              <avatar :user="usuario" />
-              {{usuario ? usuario.attributes.nombres + ' ' + usuario.attributes.apellidos : ''}}
+              <span>
+                <avatar :user="usuario" />
+                {{usuario ? usuario.attributes.nombre_completo : ''}}
+              </span>
+              <span v-if="!editable && calificando === usuario">
+                <input
+                  type="number"
+                  placeholder="calificación"
+                  aria-label="calificación"
+                  v-model="usuario.attributes.pivot.calificacion"
+                  max="100"
+                  min="0"
+                />
+                <a v-if="esRolUno" href="javascript:void(0)" @click="calificar(usuario)">
+                  <i class="fas fa-save"></i>
+                </a>
+              </span>
+              <span v-else-if="!editable" style="width: 50%;">
+                <span class="badge badge-info">Calificación: {{ usuario.attributes.pivot.calificacion }}</span>
+                <a href="javascript:void(0)" @click="editarCalificacion(usuario)">
+                  <i class="fas fa-pen"></i>
+                </a>
+              </span>
             </div>
           </dd>
         </dl>
@@ -261,6 +277,20 @@ const Completado = "Completado";
 export default {
   path: "/Tarea/:id",
   methods: {
+    editarCalificacion(usuario) {
+      this.calificando = usuario;
+    },
+    calificar(usuario) {
+      this.tarea
+        .callMethod("calificar", {
+          userId: usuario.id,
+          calificacion: usuario.attributes.pivot.calificacion
+        })
+        .then(() => {
+          this.tarea.loadFromAPI();
+          this.calificando = null;
+        });
+    },
     actualizaComentario(comentario) {
       this.comentario.attributes.tar_id = this.tarea.id;
       this.comentario.attributes.com_texto = comentario.attributes.com_texto;
@@ -414,6 +444,7 @@ export default {
   },
   data() {
     return {
+      calificando: null,
       tarea: new ApiObject(
         "/api/tarea/" +
           this.$route.params.id +

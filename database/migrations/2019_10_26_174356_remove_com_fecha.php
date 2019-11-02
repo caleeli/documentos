@@ -26,9 +26,7 @@ class RemoveComFecha extends Migration
     public function down()
     {
         Schema::table('comentario', function (Blueprint $table) {
-            Schema::table('comentario', function (Blueprint $table) {
-                $table->timestamp('com_fecha')->nullable();
-            });
+            $table->timestamp('com_fecha')->nullable();
         });
     }
 }

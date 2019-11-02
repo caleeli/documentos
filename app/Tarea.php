@@ -42,7 +42,7 @@ class Tarea extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withPivot('calificacion')->withTimestamps();
     }
 
     public function tar_creador()
@@ -152,5 +152,14 @@ class Tarea extends Model
     public function comentarios()
     {
         return $this->hasMany(Comentario::class, 'tar_id');
+    }
+
+    public function calificar($userId, $calificacion)
+    {
+        $asignaciones = $this->asignaciones()->where('user_id', $userId)->get();
+        foreach($asignaciones as $asignacion) {
+            $asignacion->calificacion = $calificacion;
+            $asignacion->save();
+        }
     }
 }
