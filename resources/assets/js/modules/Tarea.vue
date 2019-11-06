@@ -97,15 +97,25 @@
       <div class="col-lg-7" id="cluster_info">
         <dl class="dl-horizontal">
           <dt>Fecha de Derivación:</dt>
-          <dd>{{tarea.attributes.fecha_registro}}</dd>
-          <dt>Última actualización:</dt>
-          <dd>{{tarea.attributes.fecha_modificacion}}</dd>
-          <dt>Tiempo asignado:</dt>
-          <dd>{{ diasPasados(tarea) }}</dd>
-          <dt>Tiempo cumplimiento:</dt>
           <dd>
+            <datetime :read-only="true" v-model="tarea.attributes.fecha_registro" />
+          </dd>
+          <dt>Última actualización:</dt>
+          <dd>
+            <datetime :read-only="true" v-model="tarea.attributes.fecha_modificacion" />
+          </dd>
+          <dt v-if="tarea.attributes.tar_estado == 'Pendiente'">Tiempo asignado:</dt>
+          <dd
+            v-if="tarea.attributes.tar_estado == 'Pendiente'"
+          >{{ maxDiasPlazo(tarea) }}, {{ diasPasados(tarea) }}</dd>
+          <dt v-if="tarea.attributes.tar_estado == 'Pendiente'">Tiempo cumplimiento:</dt>
+          <dd v-if="tarea.attributes.tar_estado == 'Pendiente'">
             <pie-svg :value="tiempoReloj(tarea)"></pie-svg>
             {{ maxDiasPlazo(tarea) }} días hábiles
+          </dd>
+          <dt v-if="tarea.attributes.tar_estado != 'Pendiente'">Completado:</dt>
+          <dd v-if="tarea.attributes.tar_estado != 'Pendiente'">
+            <datetime :read-only="true" v-model="tarea.attributes.tar_fecha_fin" />
           </dd>
         </dl>
       </div>
@@ -393,7 +403,7 @@ export default {
     participa() {
       let participa = false;
       this.tarea.relationships.usuarios.forEach(user => {
-        participa = participa || (user.id == this.$root.user.id);
+        participa = participa || user.id == this.$root.user.id;
       });
       return participa;
     },
