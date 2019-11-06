@@ -1,5 +1,6 @@
 export const colores = {
-    Completado: "badge badge-success",
+    Aprobado: "badge badge-success",
+    Completado: "badge badge-primary",
     default: "badge badge-warning"
 };
 export const iconos = {

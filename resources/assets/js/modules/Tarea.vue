@@ -10,7 +10,20 @@
         <dl class="dl-horizontal">
           <dt>Estado:</dt>
           <dd>
-            <span class="badge badge-primary">{{tarea.attributes.tar_estado}}</span>
+            <span
+              class="badge"
+              :class="{'badge-warning': tarea.attributes.tar_estado == 'Pendiente',
+                'badge-primary': tarea.attributes.tar_estado == 'Completado',
+                'badge-success': tarea.attributes.tar_estado == 'Aprobado'}"
+            >{{tarea.attributes.tar_estado}}</span>
+            <a
+              class="btn-sm btn-success"
+              v-if="tarea.attributes.tar_estado == 'Completado' && esRolUno"
+              href="javascript:void(0)"
+              @click="aprobarTarea"
+            >
+              <i class="fa fa-check-square"></i> Aprobar
+            </a>
           </dd>
           <div style="height: 4px;"></div>
           <dt>Prioridad:</dt>
@@ -27,6 +40,11 @@
             <a href="javascript:void(0)" @click="savePrioridad">
               <i class="fa fa-save"></i>
             </a>
+          </dd>
+          <dt>Creado por:</dt>
+          <dd>
+            <avatar :user="tarea.relationships.tar_creador" />
+            {{tarea.relationships.tar_creador ? tarea.relationships.tar_creador.attributes.nombres + ' ' + tarea.relationships.tar_creador.attributes.apellidos : ''}}
           </dd>
           <dt>Asignado a:</dt>
           <dd>
@@ -49,10 +67,28 @@
                 </a>
               </span>
               <span v-else-if="!editable" style="width: 50%;">
-                <span class="badge badge-info">Calificación: {{ usuario.attributes.pivot.calificacion }}</span>
+                <span
+                  class="badge badge-info"
+                >Calificación: {{ usuario.attributes.pivot.calificacion }}</span>
                 <a href="javascript:void(0)" @click="editarCalificacion(usuario)">
                   <i class="fas fa-pen"></i>
                 </a>
+              </span>
+              <span v-if="editable && !usuario.attributes.pivot.fecha_conclusion">
+                <pie-svg :value="tiempoRelojUsuario(tarea, usuario)"></pie-svg>
+                {{ tiempoDisponibleUsuario(tarea, usuario) }}
+                <a
+                  class="btn-sm btn-success d-inline-block"
+                  v-if="esRolUno"
+                  href="javascript:void(0)"
+                  @click="completarTarea(usuario.id)"
+                >
+                  <i class="fa fa-check"></i> Completar
+                </a>
+              </span>
+              <span v-if="editable && usuario.attributes.pivot.fecha_conclusion">
+                <i class="fas fa-check-square text-success"></i>
+                <datetime :read-only="true" v-model="usuario.attributes.pivot.fecha_conclusion" />
               </span>
             </div>
           </dd>
@@ -65,14 +101,12 @@
           <dt>Última actualización:</dt>
           <dd>{{tarea.attributes.fecha_modificacion}}</dd>
           <dt>Tiempo asignado:</dt>
-          <dd>{{tarea.relationships.derivacion.attributes.dias_plazo}} días hábiles, {{ diasPasados(tarea) }}</dd>
+          <dd>{{ diasPasados(tarea) }}</dd>
           <dt>Tiempo cumplimiento:</dt>
           <dd>
             <pie-svg :value="tiempoReloj(tarea)"></pie-svg>
-            {{ tiempoDisponible(tarea) }}
+            {{ maxDiasPlazo(tarea) }} días hábiles
           </dd>
-          <dt>Calificación:</dt>
-          <dd>{{tarea.attributes.tar_calificacion}}</dd>
         </dl>
       </div>
     </div>
@@ -83,27 +117,16 @@
             <li class="nav-item">
               <a
                 href="#atencion"
-                class="nav-link"
-                :class="tabAtencion"
+                class="nav-link active"
                 data-toggle="tab"
                 role="tab"
                 @click="tab='atencion'"
               >Atención a la derivación</a>
             </li>
-            <li class="nav-item">
-              <a
-                href="#evaluacion"
-                class="nav-link"
-                :class="tabEvaluacion"
-                data-toggle="tab"
-                role="tab"
-                @click="tarea.attributes.tar_estado==='Completado' ? tab='evaluacion' : null"
-              >Evaluación del producto</a>
-            </li>
           </ul>
         </div>
         <div class="card-body tab-content">
-          <div id="atencion" class="tab-pane" :class="{active: tab === 'atencion'}" role="tabpanel">
+          <div id="atencion" class="tab-pane active" role="tabpanel">
             <!-- Ocultado con el ticket #43 -->
             <div class="row" v-show="false">
               <div class="col-3">
@@ -214,12 +237,12 @@
                   <br />
                   <button type="button" class="btn btn-primary" @click="comentar">Registrar</button>
                   <button
-                    v-if="editable"
+                    v-if="editable && participa"
                     type="button"
                     class="btn btn-success"
                     @click="completarTarea"
                   >
-                    <i class="fa fa-check-square"></i> Completado
+                    <i class="fa fa-check-square"></i> Completar
                   </button>
                 </div>
               </div>
@@ -233,29 +256,6 @@
               </div> !-->
             </div>
           </div>
-          <div
-            id="evaluacion"
-            class="tab-pane"
-            :class="{active: tab === 'evaluacion'}"
-            role="tabpanel"
-          >
-            <div>
-              <label>Calificación</label>
-              <input
-                class="form-control"
-                v-model="tarea.attributes.tar_calificacion"
-                type="number"
-                min="0"
-                max="100"
-              />
-            </div>
-            <hr />
-            <div>
-              <button type="button" class="btn btn-primary" @click="saveExitTarea">
-                <i class="fas fa-save"></i> Guardar
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -264,6 +264,7 @@
 
 <script>
 import moment from "../moment";
+import fechasTarea from "../mixins/fechasTarea";
 import {
   colores,
   iconos,
@@ -272,11 +273,21 @@ import {
 } from "../ConstantesSeguimiento";
 
 const apiBase = "/api/adm_tareas";
+const Pendiente = "Pendiente";
 const Completado = "Completado";
+const Aprobado = "Aprobado";
 
 export default {
   path: "/Tarea/:id",
+  mixins: [fechasTarea],
   methods: {
+    aprobarTarea() {
+      this.tarea.attributes.tar_estado = Aprobado;
+      this.saveTarea().then(() => {
+        this.tarea.loadFromAPI();
+        this.comentarios.loadFromAPI();
+      });
+    },
     editarCalificacion(usuario) {
       this.calificando = usuario;
     },
@@ -316,13 +327,8 @@ export default {
     actualizarAtendidos() {
       this.saveTarea();
     },
-    completarTarea() {
-      this.tarea.attributes.tar_fecha_fin = moment().format(
-        "YYYY-MM-DD HH:mm:ss"
-      );
-      this.tarea.attributes.tar_estado = Completado;
-      this.saveTarea().then(() => {
-        this.comentar();
+    completarTarea(userId = this.$root.user.id) {
+      this.tarea.callMethod("completarTarea", { user: userId }).then(() => {
         this.$router.push({ path: "/Seguimiento" });
       });
     },
@@ -353,38 +359,6 @@ export default {
         });
     },
     seleccionaTarea() {},
-    tiempoReloj(tarea) {
-      const start = moment(tarea.attributes.tar_fecha_derivacion);
-      const end = start.addWorkdays(
-        tarea.relationships.derivacion.attributes.dias_plazo
-      );
-      return Math.min(
-        100,
-        Math.round((-100 * moment().diff(start)) / start.diff(end))
-      );
-    },
-    diasPasados(tarea) {
-      const dias = moment().getBusinessDays(
-        moment(tarea.attributes.tar_fecha_derivacion)
-      );
-      return (
-        (dias >= 0 ? "en " : "hace ") +
-        Math.abs(dias) +
-        (dias == 1 ? " día hábil" : " días hábiles")
-      );
-    },
-    tiempoDisponible(tarea) {
-      const dias = moment().getBusinessDays(
-        moment(tarea.attributes.tar_fecha_derivacion).addWorkdays(
-          tarea.relationships.derivacion.attributes.dias_plazo
-        )
-      );
-      return (
-        (dias >= 0 ? "en " : "hace ") +
-        Math.abs(dias) +
-        (dias == 1 ? " día hábil" : " días hábiles")
-      );
-    },
     labelPrioridad(tarea) {
       return (
         prioridades[tarea.attributes.tar_prioridad] ||
@@ -416,6 +390,13 @@ export default {
     }
   },
   computed: {
+    participa() {
+      let participa = false;
+      this.tarea.relationships.usuarios.forEach(user => {
+        participa = participa || (user.id == this.$root.user.id);
+      });
+      return participa;
+    },
     userId() {
       return window.userId;
     },
@@ -423,13 +404,7 @@ export default {
       return this.$root.user.attributes.role_id == 1;
     },
     editable() {
-      return this.tarea.attributes.tar_estado !== Completado;
-    },
-    tabEvaluacion() {
-      return (
-        (this.tarea.attributes.tar_estado === Completado ? "" : "disabled") +
-        (this.tab === "evaluacion" ? " active" : "")
-      );
+      return this.tarea.attributes.tar_estado === Pendiente;
     },
     tabAtencion() {
       return this.tab === "atencion" ? " active" : "";
@@ -503,8 +478,9 @@ dt {
 }
 dd {
   display: inline-block;
-  width: 60%;
+  width: 69%;
   text-align: left;
+  vertical-align: text-top;
 }
 .nav-link.disabled {
   opacity: 0.5;

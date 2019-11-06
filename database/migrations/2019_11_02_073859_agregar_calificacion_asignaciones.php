@@ -15,6 +15,8 @@ class AgregarCalificacionAsignaciones extends Migration
     {
         Schema::table('tarea_user', function (Blueprint $table) {
             $table->dropColumn(['created_at', 'updated_at', 'deleted_at']);
+        });
+        Schema::table('tarea_user', function (Blueprint $table) {
             $table->integer('calificacion')->nullable();
             $table->timestamp('fecha_registro')->nullable();
             $table->timestamp('fecha_modificacion')->nullable();
@@ -34,6 +36,8 @@ class AgregarCalificacionAsignaciones extends Migration
     {
         Schema::table('tarea_user', function (Blueprint $table) {
             $table->dropColumn(['calificacion', 'fecha_registro', 'fecha_modificacion', 'fecha_baja', 'user_add', 'user_mod', 'user_del']);
+        });
+        Schema::table('tarea_user', function (Blueprint $table) {
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();

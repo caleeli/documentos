@@ -81,6 +81,7 @@ function ApiObject(url, errorsObject) {
             }
         }).catch(error => {
             this.listenErrors(error.response.data);
+            throw error.response.data;
         });
     };
     url ? storage = new ApiStorage(url, this) : null;

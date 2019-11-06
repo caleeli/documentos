@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\SaveUserTrait;
 use App\Traits\ValidatedModelTrait;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class Tarea extends Model
@@ -42,7 +43,8 @@ class Tarea extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany('App\User')->withPivot('calificacion')->withTimestamps();
+        return $this->belongsToMany('App\User')->withPivot(['calificacion', 'dias_plazo', 'fecha_registro', 'fecha_conclusion'])->withTimestamps()
+            ->orderBy('tarea_user.id', 'asc');
     }
 
     public function tar_creador()
@@ -161,5 +163,23 @@ class Tarea extends Model
             $asignacion->calificacion = $calificacion;
             $asignacion->save();
         }
+    }
+
+    public function completarTarea($user)
+    {
+        $response = [];
+        $asignaciones = $this->asignaciones()->where('user_id', $user)->whereNull('fecha_conclusion')->get();
+        foreach($asignaciones as $asignacion) {
+            $asignacion->fecha_conclusion = new Carbon();
+            $asignacion->save();
+            $response[] = $asignacion->toArray();
+        }
+        $pendientes = $this->asignaciones()->whereNull('fecha_conclusion')->count();
+        if ($pendientes === 0) {
+            $this->tar_estado = 'Completado';
+            $this->tar_fecha_fin = new Carbon();
+            $this->save();
+        }
+        return $response;
     }
 }
