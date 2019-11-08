@@ -168,5 +168,8 @@ class HojaRuta extends Model
         return isset($labels[$this->tipo_hr]) ? $labels[$this->tipo_hr] : $this->tipo_hr;
     }
 
-
+    public function tarea()
+    {
+        return $this->hasOne(Tarea::class, 'hr_id');
+    }
 }

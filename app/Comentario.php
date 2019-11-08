@@ -19,7 +19,7 @@ class Comentario extends Model
 
     protected $table = 'comentario';
     protected $primaryKey = 'com_id';
-    protected $fillable = ['com_texto', 'tar_id'];
+    protected $fillable = ['com_texto', 'tar_id', 'user_add', 'user_mod', 'fecha_registro', 'fecha_modificacion'];
     protected $casts = [
         'fecha_registro' => 'datetime',
         'fecha_modificacion' => 'datetime',

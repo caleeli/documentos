@@ -20,7 +20,7 @@ trait SaveUserTrait
     public static function bootSaveUserTrait()
     {
         static::creating(function ($model) {
-            $model->user_add = Auth::id();
+            $model->user_add = $model->user_add ?? $model->user_add ?: Auth::id();
         });
         static::updating(function ($model) {
             $model->user_mod = Auth::id();

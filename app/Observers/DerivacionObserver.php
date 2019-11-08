@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Derivacion;
+use App\User;
+use Illuminate\Support\Facades\DB;
 
 class DerivacionObserver
 {
@@ -14,15 +16,44 @@ class DerivacionObserver
      */
     public function created(Derivacion $derivacion)
     {
-        $tarea = $derivacion->tarea()->create([
+        $creadorId = $this->creadorDerivacion($derivacion);
+        $tarea = $derivacion->hoja_ruta->tarea;
+        $tarea = $tarea ?: $derivacion->hoja_ruta->tarea()->create([
             'tar_codigo' => $derivacion->hoja_ruta->nro_de_control,
-            'tar_descripcion' => $derivacion->comentarios . ' - ' . $derivacion->instruccion,
+            'tar_descripcion' => $derivacion->hoja_ruta->referencia,
             'tar_fecha_derivacion' => $derivacion->fecha,
             'tar_prioridad' => 2,
             'tar_estado' => 'Pendiente',
-            'tar_creador_id' => $this->creadorDerivacion($derivacion),
+            'tar_creador_id' => $creadorId,
         ]);
-        $tarea->usuarios()->sync(explode(',', $derivacion->destinatarios));
+        $usuarios = $tarea->usuarios;
+        $destinatarios = $derivacion->destinatarios ? explode(',', $derivacion->destinatarios) : [];
+        foreach ($destinatarios as $i => $destinatario) {
+            if (!is_numeric($destinatario)) {
+                $destinatario = User::where(DB::raw("CONCAT(nombres, ' ', apellidos)"), '=', $destinatario)->first();
+                $destinatarios[$i] = $destinatario ? $destinatario->getKey() : null;
+            }
+        }
+        foreach ($usuarios as $usuario) {
+            $index = array_search($usuario->getKey(), $destinatarios);
+            if ($index !== false) {
+                array_splice($destinatarios, $index, 1);
+            }
+        }
+        foreach ($destinatarios as $destinatario) {
+            $tarea->asignaciones()->create([
+                'user_id' => $destinatario,
+                'dias_plazo' => $derivacion->dias_plazo,
+                'user_add' => $creadorId,
+            ]);
+        }
+        //usuarios()->attach($destinatarios, ['dias_plazo' => $derivacion->dias_plazo]);
+        $comentario = $tarea->comentarios()->create([
+            'user_add' => $creadorId,
+            'com_texto' => $derivacion->comentarios . ' - ' . $derivacion->instruccion,
+        ]);
+        //$comentario->user_add = $creadorId;
+        //$comentario->save();
     }
 
     /**
@@ -79,7 +110,18 @@ class DerivacionObserver
 
     private function creadorDerivacion(Derivacion $derivacion)
     {
-        $destinatarios = $derivacion->hoja_ruta->derivacion()->first()->destinatarios;
-        return $destinatarios ? explode(',', $destinatarios)[0] : null;
+        $destinatarios = $derivacion->hoja_ruta->destinatario ? explode(',', $derivacion->hoja_ruta->destinatario) : [];
+        foreach ($destinatarios as $destinatario) {
+            if (!is_numeric($destinatario)) {
+                $destinatario = User::where(DB::raw("CONCAT(nombres, ' ', apellidos)"), '=', $destinatario)->first();
+                $destinatario = $destinatario ? $destinatario->getKey() : null;
+                if ($destinatario) {
+                    return $destinatario;
+                }
+            } else {
+                return $destinatario;
+            }
+        }
+        return null;
     }
 }

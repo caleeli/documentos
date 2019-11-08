@@ -42,16 +42,16 @@
                 <br />
                 <span v-bind:class="classEstado(tareaI)">
                   <i v-bind:class="iconoEstado(tareaI)"></i>
-                  <span class="hidden-xs hidden-sm hidden-md" v-html="format(tareaI.attributes.tar_estado)"></span>
+                  <span
+                    class="hidden-xs hidden-sm hidden-md"
+                    v-html="format(tareaI.attributes.tar_estado)"
+                  ></span>
                 </span>
               </td>
               <td class="project-title" width="65%">
                 <router-link :to="'/Tarea/' + tareaI.id">
                   <small class="block-with-text" v-html="format(tareaI.attributes.tar_codigo)"></small>
-                  <small
-                    class="block-with-text"
-                    v-html="format(tareaI.attributes.tar_descripcion)"
-                  ></small>
+                  <small class="block-with-text" v-html="format(tareaI.attributes.tar_descripcion)"></small>
                 </router-link>
               </td>
             </tr>
@@ -71,11 +71,19 @@
           </span>
         </div>
         <div class="col-md-3 col-xs-12 project-actions text-left d-flex">
-          <span class="d-inline-block flex-grow-1">
+          <span v-if="tareaI.attributes.tar_estado=='Pendiente'" class="d-inline-block flex-grow-1">
             <small>Asignado</small>
             <br />
             <pie-svg :value="tiempoReloj(tareaI)"></pie-svg>
             {{ diasPasados(tareaI) }}
+          </span>
+          <span v-else class="d-inline-block flex-grow-1">
+            <small>{{tareaI.attributes.tar_estado}}</small>
+            <br />
+            <datetime
+              :read-only="true"
+              v-model="tareaI.attributes.tar_fecha_fin"
+            />
           </span>
           <span class="d-inline-block">
             <router-link :to="'/Tarea/' + tareaI.id" class="btn btn-primary btn-sm">
@@ -94,6 +102,7 @@
 <script>
 import moment from "moment";
 import ajaxFilter from "../mixins/ajaxFilter";
+import fechasTarea from "../mixins/fechasTarea";
 import {
   colores,
   iconos,
@@ -105,7 +114,7 @@ const apiBase = "/api/adm_tareas";
 
 export default {
   path: "/Seguimiento",
-  mixins: [ajaxFilter],
+  mixins: [ajaxFilter, fechasTarea],
   methods: {
     textValue(value) {
       return $("<i></i>")
@@ -138,24 +147,6 @@ export default {
       return res;
     },
     seleccionaTarea() {},
-    tiempoReloj(tarea) {
-      const start = moment(tarea.attributes.tar_fecha_derivacion);
-      const end = start.addWorkdays(
-        tarea.relationships.derivacion.attributes.dias_plazo
-      );
-      return Math.min(
-        100,
-        Math.round(-100 * moment().diff(start) / start.diff(end))
-      );
-    },
-    diasPasados(tarea) {
-      const dias = moment().getBusinessDays(moment(tarea.attributes.tar_fecha_derivacion));
-      return (
-        (dias >= 0 ? "en " : "hace ") +
-        Math.abs(dias) +
-        (dias == 1 ? " día hábil" : " días hábiles")
-      );
-    },
     labelPrioridad(tarea) {
       return (
         prioridades[tarea.attributes.tar_prioridad] ||
@@ -194,7 +185,7 @@ export default {
   data() {
     return {
       tareas: new ApiArray(
-        "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad,tar_id&per_page=7&include=derivacion,usuarios"
+        "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios"
       ),
       page: 1,
       search: "",
