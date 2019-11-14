@@ -250,7 +250,7 @@
                     v-if="editable && participa"
                     type="button"
                     class="btn btn-success"
-                    @click="completarTarea"
+                    @click="completarTarea(userId)"
                   >
                     <i class="fa fa-check-square"></i> Completar
                   </button>
@@ -337,7 +337,7 @@ export default {
     actualizarAtendidos() {
       this.saveTarea();
     },
-    completarTarea(userId = this.$root.user.id) {
+    completarTarea(userId) {
       this.tarea.callMethod("completarTarea", { user: userId }).then(() => {
         this.$router.push({ path: "/Seguimiento" });
       });
