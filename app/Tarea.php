@@ -168,7 +168,7 @@ class Tarea extends Model
     public function completarTarea($user)
     {
         $response = [];
-        $asignaciones = $this->asignaciones()->where('user_id', $user)->whereNull('fecha_conclusion')->get();
+        $asignaciones = $this->asignaciones()->whereNull('fecha_conclusion')->get();
         foreach($asignaciones as $asignacion) {
             $asignacion->fecha_conclusion = new Carbon();
             $asignacion->save();
