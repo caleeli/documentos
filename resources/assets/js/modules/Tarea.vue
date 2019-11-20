@@ -66,7 +66,7 @@
                   <i class="fas fa-save"></i>
                 </a>
               </span>
-              <span v-else-if="!editable" style="width: 50%;">
+              <span v-else-if="!editable && esRolUno" style="width: 50%;">
                 <span
                   class="badge badge-info"
                 >Calificación: {{ usuario.attributes.pivot.calificacion }}</span>

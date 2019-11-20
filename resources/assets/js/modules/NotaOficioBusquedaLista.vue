@@ -1,10 +1,9 @@
 <template>
     <panel :name="titulo" class="panel-primary">
-        <grid v-model="data"
+        <grid-ajax v-model="data"
               filter-by="attributes.hoja_de_ruta
               attributes.nro_nota
               attributes.reiterativa
-              attributes.entidad_empresa
               attributes.nombre_apellidos
               attributes.cargo
               attributes.dias
@@ -33,7 +32,7 @@
                 <td v-html="format(row.attributes.dias)"></td>
             <td><router-link class="btn btn-primary" :to="{path: openPath(row.id)}">Abrir</router-link></td>
             </tr>
-        </grid>
+        </grid-ajax>
     </panel>
 </template>
 

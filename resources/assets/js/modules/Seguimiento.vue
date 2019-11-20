@@ -3,7 +3,7 @@
     <div class="d-flex">
       <div class="form-group flex-grow-1">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Busqueda" v-model="search" />
+          <input type="text" class="form-control" placeholder="Busqueda" v-model="search" v-on:keyup.13="buscarTarea" />
           <span class="input-group-append">
             <a
               href="javascript:void(0)"

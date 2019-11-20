@@ -2,11 +2,18 @@
 <div>
   <div class="row" v-if="!withoutNavbar">
     <div class="col" v-if="filterBy">
-      <div class="btn-group input-group">
-        <input type="text" class="form-control" style="height: 31px;" v-model="search">
-        <button class="btn btn-outline-primary" @click="doFilter">
-          <i class="fas fa-search"></i> Buscar
-        </button>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Busqueda" v-model="search" v-on:keyup.13="doFilter" />
+        <span class="input-group-append">
+          <a
+            href="javascript:void(0)"
+            class="input-group-text bg-light text-primary"
+            v-on:click="doFilter"
+          >
+            <i class="fa fa-search"></i>
+            <small class="hidden-xs hidden-sm ml-1">Buscar</small>
+          </a>
+        </span>
       </div>
     </div>
     <div class="col">
