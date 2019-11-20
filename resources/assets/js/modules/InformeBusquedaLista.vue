@@ -1,14 +1,12 @@
 <template>
   <panel name="Informes" class="panel-primary">
-    <grid
+    <grid-ajax
       v-model="data"
-      filter-by="attributes.hoja_de_ruta
-              attributes.nro_nota
-              attributes.reiterativa
-              attributes.entidad_empresa
-              attributes.nombre_apellidos
-              attributes.cargo
-              attributes.dias
+      filter-by="
+              attributes.nombre_destinatario
+              attributes.nombre_remitente
+              attributes.referencia
+              attributes.nro_informe
               "
     >
       <template slot="header">
@@ -33,7 +31,7 @@
           <router-link class="btn btn-primary" :to="{path: openPath(row.id)}">Abrir</router-link>
         </td>
       </tr>
-    </grid>
+    </grid-ajax>
   </panel>
 </template>
 
