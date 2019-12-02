@@ -2,10 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\AjaxFilterTrait;
 use App\Traits\SaveUserTrait;
 use App\Traits\ValidatedModelTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,6 +14,7 @@ class Tarea extends Model
 {
     use SoftDeletes, SaveUserTrait;
     use ValidatedModelTrait;
+    use AjaxFilterTrait;
 
     const CREATED_AT = 'fecha_registro';
     const UPDATED_AT = 'fecha_modificacion';

@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = md5($value);
     }
+
+    public function tareas()
+    {
+        return $this->belongsToMany(Tarea::class, 'tarea_user', 'user_id', 'tarea_tar_id');
+    }
 }

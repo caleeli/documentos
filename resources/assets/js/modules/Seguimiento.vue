@@ -175,7 +175,7 @@ export default {
       return colores[tarea.attributes.tar_estado] || colores.default;
     },
     buscarTarea() {
-      this.updateFilter(this.tareas, this.search, this.filterBy);
+      this.updateFilter(this.tareas, this.search, this.filterBy, ['whereUserAssigned']);
     },
     avancePasosPorcentaje() {
       return 1;

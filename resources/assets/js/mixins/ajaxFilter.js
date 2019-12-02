@@ -1,9 +1,8 @@
 export default {
     methods: {
-        updateFilter(array, search, filterBy) {
+        updateFilter(array, search, filterBy, filter = []) {
             if (array.setSearchParams instanceof Function) {
-                const filter = [];
-                const value = JSON.stringify('%' + search + '%');
+                /*const value = JSON.stringify('%' + search + '%');
                 const attributes = /\sattributes\.(\w+)/g;
                 const relationships = /\srelationships\.(\w+).attributes\.(\w+)/g;
                 let attr;
@@ -13,6 +12,18 @@ export default {
                 while(attr = relationships.exec(' ' + filterBy)) {
                     filter.push('@' + attr[1] + ',' + (filter.length ? 'orWhereHas,' + attr[2] + ',ilike,' + value : 'whereHas,' + attr[2] + ',ilike,' + value));
                 }
+                array.setSearchParams({'filter[]' : filter});*/
+                const attributes = /\sattributes\.(\w+)/g;
+                const relationships = /\srelationships\.(\w+).attributes\.(\w+)/g;
+                let attr;
+                const ajaxFilter = ['whereAjaxFilter', JSON.stringify(search)];
+                while(attr = attributes.exec(' ' + filterBy)) {
+                    ajaxFilter.push(attr[1]);
+                }
+                while(attr = relationships.exec(' ' + filterBy)) {
+                    ajaxFilter.push('@' + attr[1] + '.' + attr[2]);
+                }
+                filter.push(ajaxFilter.join(','));
                 array.setSearchParams({'filter[]' : filter});
             }
         },
