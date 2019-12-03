@@ -167,6 +167,11 @@ class Tarea extends Model
         }
     }
 
+    public function hojaRuta()
+    {
+        return $this->belongsTo(HojaRuta::class, 'hr_id');
+    }
+
     public function completarTarea($user)
     {
         $response = [];
@@ -175,6 +180,7 @@ class Tarea extends Model
             $asignacion->fecha_conclusion = new Carbon();
             $asignacion->save();
             $response[] = $asignacion->toArray();
+
         }
         $pendientes = $this->asignaciones()->whereNull('fecha_conclusion')->count();
         if ($pendientes === 0) {
@@ -182,6 +188,13 @@ class Tarea extends Model
             $this->tar_fecha_fin = new Carbon();
             $this->save();
         }
+        // Derivar hoja de ruta a propietario
+        $this->hojaRuta->derivacion()->create([
+            'fecha' => new Carbon(),
+            'comentarios' => 'Tarea #' . $this->tar_id . ' completada',
+            'destinatarios' => $this->tar_creador->id,
+            'destinatario' => $this->tar_creador->nombre_completo,
+        ]);
         return $response;
     }
 }
