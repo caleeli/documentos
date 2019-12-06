@@ -101,11 +101,13 @@ class Tarea extends Model
         }
         $userId = $userId ?: Auth::id();
         $ownerId = $ownerId ?: Auth::id();
-        return $query->whereIn('tar_id', function ($query) use ($userId) {
-            $query->select('tarea_tar_id')
+        return $query->where(function ($query) use ($userId, $ownerId) {
+            $query->whereIn('tar_id', function ($query) use ($userId, $ownerId) {
+                $query->select('tarea_tar_id')
                 ->from('tarea_user')
                 ->where('user_id', $userId);
-        })->orWhere('tar_creador_id', $ownerId);
+            })->orWhere('tar_creador_id', $ownerId);
+        });
     }
 
     public function getDiasPasadosAttribute()

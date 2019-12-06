@@ -24,7 +24,7 @@ export default {
                     ajaxFilter.push('@' + attr[1] + '.' + attr[2]);
                 }
                 filter.push(ajaxFilter.join(','));
-                array.setSearchParams({'filter[]' : filter});
+                array.setSearchParams({ 'filter[]': filter,'page': 1 });
             }
         },
     }
