@@ -175,7 +175,11 @@ export default {
       return colores[tarea.attributes.tar_estado] || colores.default;
     },
     buscarTarea() {
-      this.updateFilter(this.tareas, this.search, this.filterBy, ['whereUserAssigned']);
+      if (this.$route.query.estado) {
+        this.updateFilter(this.tareas, this.search, this.filterBy, ['whereUserAssigned','whereTarEstado,' + this.$route.query.estado]);
+      } else {
+        this.updateFilter(this.tareas, this.search, this.filterBy, ['whereUserAssigned']);
+      }
     },
     avancePasosPorcentaje() {
       return 1;
@@ -184,6 +188,7 @@ export default {
   computed: {},
   data() {
     return {
+      estado: "",
       tareas: new ApiArray(
         "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios"
       ),
@@ -197,6 +202,13 @@ export default {
     page(page) {
       if (this.tareas.setPagingOptions instanceof Function) {
         this.tareas.setPagingOptions(page, 7);
+      }
+    },
+    '$route.query.estado': {
+      immediate: true,
+      handler() {
+        this.estado = this.$route.query.estado || "";
+        this.buscarTarea();
       }
     }
   },

@@ -406,6 +406,7 @@
         },
         mounted() {
             this.cargaInicial();
+            this.data.loadFromAPI();
         },
         watch: {
             '$route.params.id'() {

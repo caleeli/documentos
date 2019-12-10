@@ -17,6 +17,22 @@ class Reporte extends Model
 
     public $timestamps = false;
     protected $table = 'reportes';
+    protected $attributes = [
+        'tipo' => '',
+        'recepcion_desde' => null,
+        'recepcion_hasta' => null,
+        'referencia' => '',
+        'procedencia' => '',
+        'nro_de_control' => '',
+        'conclusion_desde' => null,
+        'conclusion_hasta' => null,
+        'gestion_desde' => '',
+        'gestion_hasta' => '',
+        'destinatario' => '',
+        'tipo_tarea' => '',
+        'subtipo_tarea' => '',
+        'tipo_reporte' => '',
+    ];
     protected $fillable = [
         'tipo',
         'recepcion_desde',
@@ -78,7 +94,7 @@ class Reporte extends Model
     ");
     }
 
-    private function runQueryFor($queryBase)
+    private function runQueryFor($queryBase, &$query = '')
     {
         $user = Auth::user();
         $connection = $this->getConnection()->getPdo();
@@ -86,11 +102,9 @@ class Reporte extends Model
         $params = [];
         $query = [$queryBase];
         if (!empty($this->tipo)) {
-            //\Illuminate\Support\Facades\Log::info('valor tipo: ' . print_r($this->tipo, true));
             if ($this->tipo[0] != ''){
                 $query[] = ' hoja_ruta.tipo_hr IN (' . "'" . implode("', '",$this->tipo) . "'" . ')';
             }
-            
         }
         if (!empty($this->recepcion_desde)) {
             $query[] = ' hoja_ruta.fecha_recepcion >= :recepcion_desde';
@@ -168,6 +182,10 @@ class Reporte extends Model
             $query[] = ' hoja_ruta.tipo_tarea = :tipo_tarea';
             $params['tipo_tarea'] = $this->tipo_tarea;
         }
+        if (!empty($this->subtipo_tarea)) {
+            $query[] = ' hoja_ruta.subtipo_tarea = :subtipo_tarea';
+            $params['subtipo_tarea'] = $this->subtipo_tarea;
+        }
 
         if (!empty($this->tipo_reporte)) {
             if ($this->tipo_reporte == 'concluidos'){
@@ -202,7 +220,7 @@ class Reporte extends Model
             $num++;
         }
         //\Illuminate\Support\Facades\Log::info('valor res: ' . print_r($res, true));
-        DB::enableQueryLog();
+        //DB::enableQueryLog();
         //\Illuminate\Support\Facades\Log::info('valor query: ' . print_r($stmt->queryString, true));
         return $res;
     }
