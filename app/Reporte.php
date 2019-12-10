@@ -221,7 +221,7 @@ class Reporte extends Model
         }
         //\Illuminate\Support\Facades\Log::info('valor res: ' . print_r($res, true));
         //DB::enableQueryLog();
-        \Illuminate\Support\Facades\Log::info('valor query: ' . print_r($stmt->queryString, true));
+        //\Illuminate\Support\Facades\Log::info('valor query: ' . print_r($stmt->queryString, true));
         return $res;
     }
 
