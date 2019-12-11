@@ -78,15 +78,15 @@
                 </div>
             </div>
             <div v-if="puedeEscogerDestinatario" class="form-group row">
-                <div :class="colLabel"><label>Destinatario:</label></div>
+                <div :class="colLabel"><label>Destinatario oooooo:</label></div>
                 <div :class="colField">
                     <select-box :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format,remove}">
                             <!-- Used to render the selected items -->
-                            <template v-if="row instanceof Array">
-                                <span v-for="item in row" class="badge badge-light selected-item" v-html="format(item.attributes.nombre_completo)" @click="remove(item)"></span>
-                            </template>
+                            <span v-if="remove" class="selected-item badge badge-light mr-1">
+                                <span style="font-size: 1rem"><span v-html="row.attributes.nombre_completo"></span> <i class="fas fa-times" @click="remove(row)"></i></span>
+                            </span>
                             <!-- Used to render the items in the selection list -->
                             <template v-else>
                                 <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>

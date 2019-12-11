@@ -43,7 +43,7 @@
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format,remove}">
                             <span v-if="remove" class="selected-item badge badge-light mr-1">
-                                <span v-html="row.attributes.nombre_completo" style="font-size: 1rem" @click="remove(row)"></span>
+                                <span style="font-size: 1rem"><span v-html="row.attributes.nombre_completo"></span> <i class="fas fa-times" @click="remove(row)"></i></span>
                             </span>
                             <span v-else v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                         </template>
