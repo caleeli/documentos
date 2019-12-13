@@ -111,6 +111,12 @@ class Tarea extends Model
         });
     }
 
+    public function scopeWhereUserOwner($query, $userId = null)
+    {
+        $userId = $userId ?: Auth::id();
+        return $query->where('tar_creador_id', $userId);
+    }
+
     public function getDiasPasadosAttribute()
     {
         return $this->created_at->diff(\Carbon\Carbon::now())->days;

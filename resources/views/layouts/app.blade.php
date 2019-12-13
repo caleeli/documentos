@@ -63,7 +63,7 @@
                         @endforeach
                     </ul>
                     @if (Auth::user()->role_id == 1)
-                    <router-link class="btn btn-light my-2 my-sm-0" to="/Seguimiento?estado=Completado"><i class="fas fa-bell"></i> <span class="badge badge-warning">{{App\Tarea::whereTarEstado('Completado')->count()}}</span></router-link>
+                    <router-link class="btn btn-light my-2 my-sm-0" to="/Seguimiento?estado=Completado"><i class="fas fa-bell"></i> <span class="badge badge-warning">{{App\Tarea::whereTarEstado('Completado')->whereUserOwner()->count()}}</span></router-link>
                     @endif
                     <form class="form-inline my-2 my-lg-0" action="{{ route('logout') }}" method="POST">
                         {{ csrf_field() }}

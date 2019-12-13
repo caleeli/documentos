@@ -176,7 +176,7 @@ export default {
     },
     buscarTarea() {
       if (this.$route.query.estado) {
-        this.updateFilter(this.tareas, this.search, this.filterBy, ['whereUserAssigned','whereTarEstado,' + this.$route.query.estado]);
+        this.updateFilter(this.tareas, this.search, this.filterBy, ['whereUserOwner','whereTarEstado,' + this.$route.query.estado]);
       } else {
         this.updateFilter(this.tareas, this.search, this.filterBy, ['whereUserAssigned']);
       }
@@ -187,11 +187,15 @@ export default {
   },
   computed: {},
   data() {
+    let url;
+    if (this.$route.query.estado) {
+      url = "/api/tarea?filter[]=whereUserOwner&filter[]=whereTarEstado," + this.$route.query.estado + "&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios";
+    } else {
+      url = "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios";
+    }
     return {
       estado: "",
-      tareas: new ApiArray(
-        "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios"
-      ),
+      tareas: new ApiArray(url),
       page: 1,
       search: "",
       filterBy:
