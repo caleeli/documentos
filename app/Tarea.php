@@ -46,6 +46,7 @@ class Tarea extends Model
     public function usuarios()
     {
         return $this->belongsToMany('App\User')->withPivot(['calificacion', 'dias_plazo', 'fecha_registro', 'fecha_conclusion'])->withTimestamps()
+            ->whereNull('tarea_user.fecha_baja')
             ->orderBy('tarea_user.id', 'asc');
     }
 
@@ -198,5 +199,17 @@ class Tarea extends Model
             'destinatario' => $this->tar_creador->nombre_completo,
         ]);
         return $response;
+    }
+
+    /**
+     * Remove assignments
+     *
+     * @param array $users
+     *
+     * @return void
+     */
+    public function removeAssignment(array $users)
+    {
+        $this->asignaciones()->whereIn('user_id', $users)->delete();
     }
 }

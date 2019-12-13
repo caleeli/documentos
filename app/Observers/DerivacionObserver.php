@@ -83,7 +83,7 @@ class DerivacionObserver
      */
     public function deleted(Derivacion $derivacion)
     {
-        $derivacion->tarea->delete();
+        $derivacion->hoja_ruta->tarea->removeAssignment(explode(',', $derivacion->destinatarios));
     }
 
     /**

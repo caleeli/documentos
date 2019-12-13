@@ -53,11 +53,6 @@ class Derivacion extends Model
         return $this->belongsTo(HojaRuta::class, 'hoja_ruta_id', 'hr_id');
     }
 
-    public function tarea()
-    {
-        return $this->hasOne(Tarea::class, 'derhr_id');
-    }
-
     public function setDestinatariosAttribute($value)
     {
         if ($value) {
