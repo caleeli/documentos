@@ -24,7 +24,7 @@
             @foreach($res as $row)
             <tr>
                 <td>{{$row['num']}}</td>
-                <td>{{$row['tipo_hr']}}</td>
+                <td>{{App\Tarea::nombreTipoHR($row['tipo_hr'])}}</td>
                 <td>{{$row['numero']}}</td>
                 <td>{{$row['derivacion_fecha']}}</td>
                 <td>{{$row['referencia']}}</td>

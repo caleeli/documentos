@@ -228,4 +228,24 @@ class Tarea extends Model
     {
         return Tarea::whereTarEstado('Completado')->whereUserOwner()->count();
     }
+
+    /**
+     * Nombre del tipo de hoja de ruta
+     *
+     * @param string $tipo
+     *
+     * @return string
+     */
+    public static function nombreTipoHR($tipo)
+    {
+        $nombres = [
+            'externa' => 'Celestes',
+            'interna' => 'Rosadas',
+            'solicitud' => 'Amarillas',
+            'notas' => 'Notas oficio',
+            'comunicacion' => 'Comunicación Interna',
+            'informes' => 'Informes',
+        ];
+        return $nombres[$tipo] ?? $tipo;
+    }
 }
