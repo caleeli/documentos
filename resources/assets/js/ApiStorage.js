@@ -2,6 +2,7 @@ function ApiStorage(url, object) {
     if (ApiStorage.instances[url]) {
         var storage = ApiStorage.instances[url];
         storage.register(object);
+        storage.update();
         return storage;
     } else {
         ApiStorage.instances[url] = this;
