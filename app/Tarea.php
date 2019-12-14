@@ -217,6 +217,9 @@ class Tarea extends Model
     public function removeAssignment(array $users)
     {
         $this->asignaciones()->whereIn('user_id', $users)->delete();
+        if ($this->asignaciones()->count() == 0) {
+            $this->delete();
+        }
     }
 
     /**
