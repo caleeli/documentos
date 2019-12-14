@@ -176,6 +176,7 @@
                     this.$nextTick(() => {
                         this.$emit('change', this.selected);
                     });
+                    this.text = '';
                 } else {
                     this.$emit('input', String(this.getKey(row)));
                     this.$emit('change', row);
@@ -232,5 +233,6 @@
     }
     .adding input {
         height: 4em;
+        padding-bottom: 2em;
     }
 </style>

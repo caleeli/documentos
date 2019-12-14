@@ -127,7 +127,7 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario (*):</label></div>
                 <div :class="colField">
-                    <suggest :readonly="!pendiente" :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
+                    <suggest :readonly="!pendiente" :data="destinatarios" v-model="data.attributes.destinatario" :multiple="false"
                         id-field="attributes.nombre_completo"
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format,remove}">

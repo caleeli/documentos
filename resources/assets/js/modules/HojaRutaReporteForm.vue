@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div v-if="puedeEscogerDestinatario" class="form-group row">
-                <div :class="colLabel"><label>Destinatario oooooo:</label></div>
+                <div :class="colLabel"><label>Destinatario:</label></div>
                 <div :class="colField">
                     <select-box :data="destinatarios" v-model="data.attributes.destinatario" :multiple="true"
                         filter-by="attributes.nombre_completo">
