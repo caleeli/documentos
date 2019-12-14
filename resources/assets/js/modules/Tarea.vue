@@ -16,14 +16,16 @@
                 'badge-primary': tarea.attributes.tar_estado == 'Completado',
                 'badge-success': tarea.attributes.tar_estado == 'Aprobado'}"
             >{{tarea.attributes.tar_estado}}</span>
-            <a
-              class="btn-sm btn-success"
+            <button
+              class="btn-sm btn-bajo" :class="{'btn-success':!pendientesCalificacion, 'btn-secondary':pendientesCalificacion}"
               v-if="tarea.attributes.tar_estado == 'Completado' && esRolUno"
-              href="javascript:void(0)"
+              type="button"
+              :disabled="pendientesCalificacion > 0"
               @click="aprobarTarea"
             >
               <i class="fa fa-check-square"></i> Aprobar
-            </a>
+            </button>
+            {{ pendientesCalificacion ? `${pendientesCalificacion} pendiente${pendientesCalificacion>1?'s':''} de calificación` : ''}}
           </dd>
           <div style="height: 4px;"></div>
           <dt>Prioridad:</dt>
@@ -68,8 +70,8 @@
               </span>
               <span v-else-if="!editable && esRolUno" style="width: 50%;">
                 <span
-                  class="badge badge-info"
-                >Calificación: {{ usuario.attributes.pivot.calificacion }}</span>
+                  class="badge" :class="{'badge-info': usuario.attributes.pivot.calificacion, 'badge-warning': !usuario.attributes.pivot.calificacion}"
+                >Calificación: {{ usuario.attributes.pivot.calificacion || '?' }}</span>
                 <a href="javascript:void(0)" @click="editarCalificacion(usuario)">
                   <i class="fas fa-pen"></i>
                 </a>
@@ -291,11 +293,14 @@ export default {
   path: "/Tarea/:id",
   mixins: [fechasTarea],
   methods: {
+
     aprobarTarea() {
       this.tarea.attributes.tar_estado = Aprobado;
       this.saveTarea().then(() => {
-        this.tarea.loadFromAPI();
-        this.comentarios.loadFromAPI();
+        this.tarea.callMethod('contarPendientes', {}).then(response => {
+          this.$root.pendientesAprobar = response.data.response;
+        });
+        this.$router.push({ path: "/Seguimiento", query: { estado: 'Completado' } });
       });
     },
     editarCalificacion(usuario) {
@@ -400,6 +405,15 @@ export default {
     }
   },
   computed: {
+    pendientesCalificacion() {
+      let pendientes = 0;
+      this.tarea.relationships.usuarios.forEach(usuario => {
+        if (usuario.id != this.tarea.relationships.tar_creador.id) {
+          pendientes += usuario.attributes.pivot.calificacion ? 0 : 1;
+        }
+      });
+      return pendientes;
+    },
     participa() {
       let participa = false;
       this.tarea.relationships.usuarios.forEach(user => {
@@ -494,5 +508,8 @@ dd {
 }
 .nav-link.disabled {
   opacity: 0.5;
+}
+.btn-bajo {
+  padding: 0px 12px;
 }
 </style>

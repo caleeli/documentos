@@ -85,6 +85,7 @@ const app = new Vue({
     el: '#app',
     data() {
         return {
+            pendientesAprobar: window.pendientesAprobar,
             user: new ApiObject('/api/users/' + window.userId),
             notifications: [],
             topbar: {

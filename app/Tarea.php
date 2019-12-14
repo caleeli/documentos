@@ -218,4 +218,14 @@ class Tarea extends Model
     {
         $this->asignaciones()->whereIn('user_id', $users)->delete();
     }
+
+    /**
+     * Cuenta el numero de tareas pendientes del usuario actual
+     *
+     * @return int
+     */
+    public function contarPendientes()
+    {
+        return Tarea::whereTarEstado('Completado')->whereUserOwner()->count();
+    }
 }
