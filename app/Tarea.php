@@ -46,6 +46,7 @@ class Tarea extends Model
     public function usuarios()
     {
         return $this->belongsToMany('App\User')->withPivot(['calificacion', 'dias_plazo', 'fecha_registro', 'fecha_conclusion'])->withTimestamps()
+            ->whereNull('tarea_user.fecha_baja')
             ->orderBy('tarea_user.id', 'asc');
     }
 
@@ -108,6 +109,12 @@ class Tarea extends Model
                 ->where('user_id', $userId);
             })->orWhere('tar_creador_id', $ownerId);
         });
+    }
+
+    public function scopeWhereUserOwner($query, $userId = null)
+    {
+        $userId = $userId ?: Auth::id();
+        return $query->where('tar_creador_id', $userId);
     }
 
     public function getDiasPasadosAttribute()
@@ -198,5 +205,50 @@ class Tarea extends Model
             'destinatario' => $this->tar_creador->nombre_completo,
         ]);
         return $response;
+    }
+
+    /**
+     * Remove assignments
+     *
+     * @param array $users
+     *
+     * @return void
+     */
+    public function removeAssignment(array $users)
+    {
+        $this->asignaciones()->whereIn('user_id', $users)->delete();
+        if ($this->asignaciones()->count() == 0) {
+            $this->delete();
+        }
+    }
+
+    /**
+     * Cuenta el numero de tareas pendientes del usuario actual
+     *
+     * @return int
+     */
+    public function contarPendientes()
+    {
+        return Tarea::whereTarEstado('Completado')->whereUserOwner()->count();
+    }
+
+    /**
+     * Nombre del tipo de hoja de ruta
+     *
+     * @param string $tipo
+     *
+     * @return string
+     */
+    public static function nombreTipoHR($tipo)
+    {
+        $nombres = [
+            'externa' => 'Celestes',
+            'interna' => 'Rosadas',
+            'solicitud' => 'Amarillas',
+            'notas' => 'Notas oficio',
+            'comunicacion' => 'Comunicación Interna',
+            'informes' => 'Informes',
+        ];
+        return $nombres[$tipo] ?? $tipo;
     }
 }

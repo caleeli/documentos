@@ -2,6 +2,7 @@ function ApiStorage(url, object) {
     if (ApiStorage.instances[url]) {
         var storage = ApiStorage.instances[url];
         storage.register(object);
+        storage.update();
         return storage;
     } else {
         ApiStorage.instances[url] = this;
@@ -10,7 +11,8 @@ function ApiStorage(url, object) {
     var type;
     this.update = function() {
         notifyLoading(true);
-        window.axios.get(url)
+        const url2 = url + (url.match(/\?/) ? '&' : '?') + 'timestamp=' + new Date().getTime() ;
+        window.axios.get(url2)
                 .then(response => {
                     notifyLoading(false);
                     type = response.data.meta.type;

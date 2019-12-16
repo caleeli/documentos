@@ -1,8 +1,8 @@
 <template>
-    <div class="dropdown" :class="{'box-disabled':readonly}">
+    <div class="dropdown" :class="{'box-disabled':readonly, 'adding': inputFocus}">
         <!-- Muestra el contenido definido en el slot cuando se tiene un valor seleccionado de la lista -->
-        <div v-if="!multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot :row="selected" :format="textValue" :remove="remove"></slot></div>
-        <div v-if="multiple && selected && (!text || (text && !inputFocus))" class="selected-option"><slot v-for="(row,i) in selected" :row="row" :format="textValue" :remove="remove" :index="i"></slot></div>
+        <div v-if="!multiple && selected" class="selected-option"><slot :row="selected" :format="textValue" :remove="remove"></slot></div>
+        <div v-if="multiple && selected" class="selected-option"><slot v-for="(row,i) in selected" :row="row" :format="textValue" :remove="remove" :index="i"></slot></div>
         <!-- Muestra el valor textual cuando no se seleccion un valor de la lista de opciones -->
         <div v-if="!(selected && !inputFocus) && !inputFocus" class="selected-option">{{value}}</div>
         <i class="fa fa-times select-box-clear text-muted" @click="clear"></i>
@@ -176,6 +176,7 @@
                     this.$nextTick(() => {
                         this.$emit('change', this.selected);
                     });
+                    this.text = '';
                 } else {
                     this.$emit('input', String(this.getKey(row)));
                     this.$emit('change', row);
@@ -226,5 +227,12 @@
     }
     .box-disabled {
         pointer-events: none;
+    }
+    .adding .selected-option {
+        top: 2em;
+    }
+    .adding input {
+        height: 4em;
+        padding-bottom: 2em;
     }
 </style>

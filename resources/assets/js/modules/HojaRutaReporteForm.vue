@@ -84,9 +84,9 @@
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format,remove}">
                             <!-- Used to render the selected items -->
-                            <template v-if="row instanceof Array">
-                                <span v-for="item in row" class="badge badge-light selected-item" v-html="format(item.attributes.nombre_completo)" @click="remove(item)"></span>
-                            </template>
+                            <span v-if="remove" class="selected-item badge badge-light mr-1">
+                                <span style="font-size: 1rem"><span v-html="row.attributes.nombre_completo"></span> <i class="fas fa-times" @click="remove(row)"></i></span>
+                            </span>
                             <!-- Used to render the items in the selection list -->
                             <template v-else>
                                 <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
@@ -161,7 +161,7 @@
                 </template>
                 <tr slot-scope="{row, options, format}">
                     <td>{{row.num}}</td>
-                    <td>{{row.tipo_hr}}</td>
+                    <td>{{formatTipoHR(row.tipo_hr)}}</td>
                     <td>{{row.numero}}</td>
                     <td><datetime v-model="row.derivacion_fecha" :read-only="true" type="date"/></td>
                 <td>{{row.referencia}}</td>
@@ -187,6 +187,10 @@
             }
         },
         methods: {
+            formatTipoHR(tipo) {
+                const etiqueta = this.tipos.find(def => def.attributes.sigla == tipo);
+                return etiqueta ? etiqueta.attributes.nombre : tipo;
+            },
             clickRadio(attributes, name, value) {
                 if (attributes[name] === value) {
                     this.$set(attributes, name, '');
