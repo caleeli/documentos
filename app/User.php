@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'destinatario_hoja_ruta',
     ];
 
     /**
@@ -36,7 +36,8 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token'
     ];
     protected $casts = [
-        'fotografia' => 'array'
+        'fotografia' => 'array',
+        'destinatario_hoja_ruta' => 'boolean',
     ];
     protected $appends = [
         'nombre_completo'
