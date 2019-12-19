@@ -1,16 +1,16 @@
 <template>
     <panel v-if="data.attributes" :name="data.attributes.numero ? 'HOJA DE RUTA - N° SCSL - ' + data.attributes.numero : 'HOJA DE RUTA - N° SCSL' " class="panel-primary">
-           <template slot="actions">
-            <span v-if="data.attributes.created_at">
-                <i class="fas fa-user-plus"></i>
+        <template slot="actions">
+            <div v-if="data.attributes.created_at" style="margin-top: -1em;">
+                Creado por: <i class="fas fa-user-plus"></i>
                 <label v-if="data.relationships.userAdd">{{data.relationships.userAdd.attributes.nombre_completo}}</label>
                 {{moment(data.attributes.created_at + '+00:00').fromNow()}}
-            </span>
-            <span v-if="data.attributes.updated_at">
-                <i class="fas fa-user-edit"></i>
+            </div>
+            <div v-if="data.attributes.updated_at">
+                Editado por:<i class="fas fa-user-edit"></i>
                 <label v-if="data.relationships.userMod">{{data.relationships.userMod.attributes.nombre_completo}}</label>
                 {{moment(data.attributes.updated_at + '+00:00').fromNow()}}
-            </span>
+            </div>
         </template>
         <div class="container">
             <div class="row">
@@ -386,7 +386,7 @@
                 entidades: new ApiArray('/api/entidad?per_page=1000').loadFromAPI(),
                 personas: new ApiArray('/api/persona?per_page=1000').loadFromAPI(),
                 cgeInternos: new ApiArray('/api/cge_interno?per_page=1000').loadFromAPI(),
-                destinatarios: new ApiArray('/api/users?filter[]=whereNoReservado&filter[]=where,role_id,1&per_page=1000'),
+                destinatarios: new ApiArray('/api/users?filter[]=whereNoReservado&filter[]=where,role_id,1&filter[]=whereDestinatarioHojaRuta,1&per_page=1000'),
                 notas: new ApiArray('/api/notas_oficio?per_page=7'),
                 comunicaciones: new ApiArray('/api/comunicaciones_internas?per_page=7'),
                 informes: new ApiArray('/api/informe?per_page=7'),
