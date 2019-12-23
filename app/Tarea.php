@@ -170,7 +170,7 @@ class Tarea extends Model
     public function calificar($userId, $calificacion)
     {
         $asignaciones = $this->asignaciones()->where('user_id', $userId)->get();
-        foreach($asignaciones as $asignacion) {
+        foreach ($asignaciones as $asignacion) {
             $asignacion->calificacion = $calificacion;
             $asignacion->save();
         }
@@ -185,11 +185,10 @@ class Tarea extends Model
     {
         $response = [];
         $asignaciones = $this->asignaciones()->whereNull('fecha_conclusion')->get();
-        foreach($asignaciones as $asignacion) {
+        foreach ($asignaciones as $asignacion) {
             $asignacion->fecha_conclusion = new Carbon();
             $asignacion->save();
             $response[] = $asignacion->toArray();
-
         }
         $pendientes = $this->asignaciones()->whereNull('fecha_conclusion')->count();
         if ($pendientes === 0) {
@@ -217,6 +216,40 @@ class Tarea extends Model
     public function removeAssignment(array $users)
     {
         $this->asignaciones()->whereIn('user_id', $users)->delete();
+        if ($this->asignaciones()->count() == 0) {
+            $this->delete();
+        }
+    }
+
+    /**
+     * Actualiza la asignacion de usuarios a tarea
+     *
+     * @param array $users
+     * @param Derivacion $derivacion
+     *
+     * @return void
+     */
+    public function updateAssignment(array $users, Derivacion $derivacion)
+    {
+        // delete
+        $this->asignaciones()->whereNotIn('user_id', $users)->delete();
+        // add, update
+        $asignaciones = [];
+        foreach ($this->asignaciones()->get() as $asignacion) {
+            $asignaciones[$asignacion->user_id] = $asignacion;
+        }
+        foreach ($users as $user) {
+            if (isset($asignaciones[$user])) {
+                $asignaciones[$user]->dias_plazo = $derivacion->dias_plazo;
+                $asignaciones[$user]->save();
+            } else {
+                $this->asignaciones()->create([
+                    'user_id' => $user,
+                    'dias_plazo' => $derivacion->dias_plazo,
+                    'fecha_registro' => $derivacion->fecha,
+                ]);
+            }
+        }
         if ($this->asignaciones()->count() == 0) {
             $this->delete();
         }

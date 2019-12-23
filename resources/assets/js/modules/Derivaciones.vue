@@ -102,7 +102,7 @@
                     filter-by="attributes.nombre_completo">
                     <template slot-scope="{row,format,remove}">
                         <span v-if="remove" class="selected-item badge badge-light mr-1">
-                            <span v-html="row.attributes.nombre_completo" style="font-size: 0.6rem" @click="remove(row)"></span>
+                            <span style="font-size: 0.6rem"><span v-html="row.attributes.nombre_completo"></span> <i class="fa fa-times" @click="remove(row)"></i></span>
                         </span>
                         <span v-else v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                     </template>
@@ -192,6 +192,7 @@
             actualizaDerivacion(row) {
                 this.$set(this.derivacionEdit, 'attributes', row.attributes);
                 this.derivacionEdit.putToAPI('/api/derivacion/' + row.id).then(() => {
+                    this.derivaciones.loadFromAPI();
                     row.edit = false;
                 });
             },
