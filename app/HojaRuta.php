@@ -4,6 +4,7 @@ namespace App;
 
 use App\Rules\UntilToday;
 use App\Traits\SaveUserTrait;
+use App\Traits\TieneNroClasificacionTrait;
 use App\Traits\ValidatedModelTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +22,7 @@ class HojaRuta extends Model
     use SaveUserTrait;
     use SoftDeletes;
     use ValidatedModelTrait;
+    use TieneNroClasificacionTrait;
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -171,5 +173,10 @@ class HojaRuta extends Model
     public function tarea()
     {
         return $this->hasOne(Tarea::class, 'hr_id');
+    }
+
+    public function subclase()
+    {
+        return $this->belongsTo(HojaRutaSubClases::class, 'subtipo_tarea');
     }
 }

@@ -11,4 +11,8 @@ class HojaRutaSubClases extends Model
     public $incrementing = false;
     public $timestamps = false;
 
+    public function clasificacion()
+    {
+        return $this->belongsTo(HojaRutaClasificacion::class);
+    }
 }
