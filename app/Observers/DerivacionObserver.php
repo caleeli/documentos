@@ -56,6 +56,12 @@ class DerivacionObserver
         //$comentario->save();
     }
 
+    public function updating(Derivacion $derivacion)
+    {
+        // actualiza nombres de destinatarios
+        $derivacion->destinatarios = $derivacion->destinatarios;
+    }
+
     /**
      * Handle the derivacion "updated" event.
      *
@@ -64,12 +70,12 @@ class DerivacionObserver
      */
     public function updated(Derivacion $derivacion)
     {
-        if ($derivacion->tarea) {
-            $derivacion->tarea->tar_fecha_derivacion = $derivacion->fecha;
-            $derivacion->tarea->tar_descripcion = $derivacion->comentarios;
-            $derivacion->tarea->tar_creador_id = $this->creadorDerivacion($derivacion);
-            $derivacion->tarea->usuarios()->sync(explode(',', $derivacion->destinatarios));
-            $derivacion->tarea->save();
+        if ($derivacion->hoja_ruta->tarea) {
+            $derivacion->hoja_ruta->tarea->tar_fecha_derivacion = $derivacion->fecha;
+            $derivacion->hoja_ruta->tarea->tar_descripcion = $derivacion->hoja_ruta->referencia;
+            $derivacion->hoja_ruta->tarea->tar_creador_id = $this->creadorDerivacion($derivacion);
+            $derivacion->hoja_ruta->tarea->updateAssignment(explode(',', $derivacion->destinatarios), $derivacion);
+            $derivacion->hoja_ruta->tarea->save();
         } else {
             $this->created($derivacion);
         }

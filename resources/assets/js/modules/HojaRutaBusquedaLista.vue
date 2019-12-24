@@ -5,7 +5,7 @@
               filter-by="attributes.referencia
               attributes.procedencia
               attributes.nro_de_control
-              attributes.subtipo_tarea
+              attributes.nro_clasificacion
               relationships.derivacion.attributes.destinatario
               ">
             <template slot="header">
@@ -25,7 +25,7 @@
             <tr slot-scope="{row, options, format}">
                 <td v-html="('SCSL&#x2011;' + row.attributes.numero)"></td>
                 <td v-html="format(row.attributes.nro_de_control)"></td>
-                <td v-html="format(row.attributes.subtipo_tarea)"></td>
+                <td v-html="format(row.attributes.nro_clasificacion)"></td>
                 <td v-html="(row.attributes.gestion)"></td>
                 <td v-html="format(row.attributes.tipo_hr_desc)"></td>
                 <td v-html="format(row.attributes.referencia)"></td>

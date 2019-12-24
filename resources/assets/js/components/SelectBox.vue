@@ -5,8 +5,8 @@
         <div v-if="multiple && selected" class="selected-option"><slot v-for="(row,i) in selected" :row="row" :format="textValue" :remove="remove" :index="i"></slot></div>
         <!-- Muestra el valor textual cuando no se seleccion un valor de la lista de opciones -->
         <div v-if="!(selected && !inputFocus) && !inputFocus" class="selected-option">{{value}}</div>
-        <i class="fa fa-times select-box-clear text-muted" @click="clear"></i>
-        <input :readonly="readonly" class="form-control selected-input dropdown-toggle" data-toggle="dropdown"
+        <!-- i class="fa fa-times select-box-clear text-muted" @click="clear"></!-->
+        <input :readonly="readonly" class="selected-input dropdown-toggle" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false"
                 :placeholder="value ? '' : placeholder"
                 @focus="focus" @blur="blur" @click="click"
@@ -195,16 +195,19 @@
         position:relative;
     }
     .selected-option {
-        position: absolute;
+        //position: absolute;
         padding: 0.375rem 0.75rem;
         pointer-events: none;
         overflow: hidden;
-        white-space: nowrap;
+        //white-space: nowrap;
         width: 100%;
     }
     .selected-input {
         color: transparent;
-        background-color: transparent;
+        background-color: lightgray;
+        border:none;
+        width: 100%;
+        cursor: pointer;
     }
     .selected-input:read-only {
         background-color: #e9ecef;
@@ -229,10 +232,16 @@
         pointer-events: none;
     }
     .adding .selected-option {
-        top: 2em;
+        //top: 2em;
     }
     .adding input {
-        height: 4em;
-        padding-bottom: 2em;
+        //height: 4em;
+        //padding-bottom: 2em;
+    }
+    .dropdown {
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding-top: 0px;
+        padding-left: 0px;
     }
 </style>
