@@ -39,7 +39,7 @@ trait TieneNroClasificacionTrait
             $contador = HojaRuta::where('subtipo_tarea', $sub->sub_clase_id)->max('contador_clasificacion') ?: 1;
             foreach (HojaRuta::where('subtipo_tarea', $sub->sub_clase_id)->whereNull('nro_clasificacion')->orderBy('hr_id')->get() as $hoja) {
                 DB::table('hoja_ruta')->where('hr_id', $hoja->getKey())->update([
-                    'nro_clasificacion' => $sub->clasificacion->sigla . '-' . $sub->sigla . '-' . $contador,
+                    'nro_clasificacion' => $sub->sigla . '-' . $contador,
                     'contador_clasificacion' => $contador,
                 ]);
                 $contador++;
