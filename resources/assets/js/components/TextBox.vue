@@ -30,7 +30,7 @@
                 if (this.tags)
                     for (let i = 0; i < this.tags.length; i++) {
                         let exp = new RegExp(this.tags[i] + '(\\w+)\\s+[^)]+\\)|' + this.tags[i] + '(\\w+)');
-                        text = text.replace(exp, (ma, id1, id2) => '<a target="_blank" href="' + this.referenceUrl(ma.substr(0, 1), id1 || id2) + '" style="pointer-events:all;">' + ma + '</a>');
+                        text = text.replace(exp, (ma, id1, id2) => ma ? '<a target="_blank" href="' + this.referenceUrl(ma.substr(0, 1), id1 || id2) + '" style="pointer-events:all;">' + ma + '</a>' : '');
                     }
                 return text;
             },
