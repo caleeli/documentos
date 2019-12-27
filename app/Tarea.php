@@ -106,7 +106,8 @@ class Tarea extends Model
             $query->whereIn('tar_id', function ($query) use ($userId, $ownerId) {
                 $query->select('tarea_tar_id')
                 ->from('tarea_user')
-                ->where('user_id', $userId);
+                ->where('user_id', $userId)
+                ->whereNull('fecha_baja');
             })->orWhere('tar_creador_id', $ownerId);
         });
     }
