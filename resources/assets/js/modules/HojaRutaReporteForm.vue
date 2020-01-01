@@ -264,12 +264,10 @@
                     {attributes: {sigla: 'informes', nombre: 'Informes'}},
                 ],
                 tiposReporte: [
-                    /*{attributes: {sigla: 'hoja_ruta', nombre: 'Por Hoja de Ruta'}},
-                    {attributes: {sigla: 'derivacion', nombre: 'Por Derivación'}},
-                    {attributes: {sigla: 'detallada', nombre: 'Detallada'}},*/
-                    {attributes: {sigla: 'pendientes', nombre: 'Pendientes'}},
+                    {attributes: {sigla: 'Pendiente', nombre: 'Pendientes'}},
+                    {attributes: {sigla: 'Completado', nombre: 'Completados'}},
+                    {attributes: {sigla: 'Aprobado', nombre: 'Aprobados'}},
                     {attributes: {sigla: 'concluidos', nombre: 'Concluidos'}},
-                    {attributes: {sigla: 'destinatario', nombre: 'Destinatario'}},
                 ],
                 tipoHR: [],
             };
