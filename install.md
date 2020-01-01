@@ -1,3 +1,7 @@
+## Arquitectura general del sistema
+
+![Alt text](/resources/assets/images/Arquitectura-Hoja-de-Ruta.png?raw=true "Optional Title")
+
 ## Requisitos de instalación
 
 PostgreSQL 12, 11
@@ -12,9 +16,35 @@ Extensión PHP PDO
 Extensión PHP Tokenizer
 Extensión PHP XML
 
-## Instalación de composer
+## Descarga del proyecto de gitlab
 
-Primero se recomienda instalar el sistema de correspondencia en el siguiente directorio `/var/www/correspondencia`
+Se recomienda descargar el sistema de correspondencia en el siguiente directorio `/var/www/correspondencia` del repositorio
+principal.
+
+```
+cd /var/www
+git clone https://gitlab.contraloria.gob.bo/mrosales/correspondencia
+```
+
+Para descargar la version de desarrollo:
+
+```
+cd /var/www
+git clone -b develop https://gitlab.contraloria.gob.bo/mrosales/correspondencia
+```
+
+## Instalación de node/npm
+
+Debian contiene una versión de Node.js en sus repositorios predeterminados.
+Para instalarlo se debe ejecutar los siguientes comandos:
+
+```
+apt update
+apt install nodejs
+nodejs -v
+```
+
+## Instalación de composer
 
 El sistema de correspondencia utiliza Composer para gestionar sus dependencias, aseguraté de tener instalado Composer en tú servidor.
 
@@ -40,6 +70,20 @@ Dentro del directorio del proyecto de correspondencia ejecutar:
 
 ```
 composer install
+```
+
+## Instalar las dependencias y construcción de frond end
+
+Para descargar las dependencias del front end ejecute:
+
+```
+npm install
+```
+
+Para generara (o actualizar) el front end, ejecute:
+
+```
+npm run prod
 ```
 
 ## Configurar el sistema
