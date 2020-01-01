@@ -214,7 +214,7 @@
                     <button type="button" class="btn btn-primary" @click="saveHR">{{getGuardarLabel}}</button>
                 </div>
             </div>
-            <div class="row">
+            <div ref="derivacionesDiv" class="row">
                 <div class="col-12">
                     <derivaciones v-if="data.id" :hoja-ruta="data" :type="$route.params.type"></derivaciones>
                 </div>
@@ -281,15 +281,20 @@
                 if (this.data.id) {
                     this.data.putToAPI(this.getUrlBase() + "/" + this.data.id).then((response) => {
                         //this.$router.push({params: {id: response.data.data.id}});
-                        this.$router.push({path: '/HojaRutaBusqueda', query:this.$route.query});
+                        //this.$router.push({path: '/HojaRutaBusqueda', query:this.$route.query});
                     });
                 } else {
                     this.data.callMethod('getNumeroSecuencia',{'tipo' : this.data.attributes.tipo_hr})
                         .then(response => {
                             this.data.attributes.numero = response.data.response;
                             this.data.postToAPI(this.getUrlBase()).then((response) => {
-                                //this.$router.push({params: {id: response.data.data.id}});
-                                this.$router.push({path: '/HojaRutaBusqueda'});
+                                this.$router.push({params: {id: response.data.data.id}});
+                                this.$nextTick(() => {
+                                    setTimeout(() => {
+                                        this.$refs.derivacionesDiv.scrollIntoView();
+                                    }, 1000);
+                                });
+                                //this.$router.push({path: '/HojaRutaBusqueda'});
                             });
                     });
                 }
