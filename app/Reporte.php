@@ -89,6 +89,7 @@ class Reporte extends Model
        (select hoja_ruta_id, max(id) as id from derivacion group by hoja_ruta_id) ultimos
         inner join derivacion on (ultimos.id=derivacion.id)
         inner join hoja_ruta on (derivacion.hoja_ruta_id=hoja_ruta.hr_id)
+        left join tarea on (tarea.hr_id=hoja_ruta.hr_id)
      WHERE 
         1=1
     ");
@@ -190,8 +191,12 @@ class Reporte extends Model
         if (!empty($this->tipo_reporte)) {
             if ($this->tipo_reporte == 'concluidos'){
                 $query[] = ' hoja_ruta.fecha_conclusion IS NOT NULL';    
-            } elseif ($this->tipo_reporte == 'pendientes'){
-                $query[] = ' hoja_ruta.fecha_conclusion IS NULL';
+            } elseif ($this->tipo_reporte == 'Pendiente'){
+                $query[] = " tarea.tar_estado = 'Pendiente' ";
+            } elseif ($this->tipo_reporte == 'Aprobado'){
+                $query[] = " tarea.tar_estado = 'Aprobado' ";
+            } elseif ($this->tipo_reporte == 'Completado'){
+                $query[] = " tarea.tar_estado = 'Completado' ";
             }
         }
         if ($user->role_id == 3) {
