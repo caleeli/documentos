@@ -53,7 +53,7 @@ class RestoreData extends Command
         }
         fclose($f);
         DB::select(DB::raw('SET session_replication_role=\'origin\''));
-        DB::rollBack();
+        DB::commit();
     }
 
     /**
