@@ -55,13 +55,15 @@ function ApiStorage(url, object) {
         index > -1 ? observers.splice(index, 1) : null;
     }
     // Register to model-channel
-    window.Echo
+    if (window.Echo) {
+        window.Echo
             .channel('model-channel')
             .listen('ModelEvent', (e) => {
                 if (e.model === type) {
                     this.update();
                 }
             });
+    }
     // Initialize
     this.register(object);
     this.update();
