@@ -1,3 +1,28 @@
+## Objetivo y Finalidad del Software
+El objetivo es coadyuvar a la Subcontraloria de Servicios Legales con el control del registro de Hojas de Ruta de forma ordenada y fácil, además de realizar un seguimiento a las derivaciones. 
+Asimismo, se quiere obtener un reporte por fechas, áreas e incluso por tipo de tareas asignadas, que son un parámetro necesario para el llenado del sistema “SIPEO”.
+
+## Módulos y Funciones 
+Módulo: Registro Hoja de Ruta
+El formulario de registro de Hoja de Ruta clasifica el tipo de documento como rosada, celeste y amarilla, también considera la clasificación por gerencia o unidad, y esta a su vez, por tipo de trabajos propia de cada área. 
+Sobre el mismo registro se guardan las derivaciones con parámetros de tiempo para cada instrucción, mismo que se visualiza en el módulo de “Seguimiento”.
+
+Módulo: Seguimiento
+El seguimiento de tareas, asignadas por derivación, muestra una lista ordenada por fechas de derivación, el estado, prioridad, detalle de hoja de ruta, fecha de completado y un botón que abre la tarea sobre la que se registra los detalles de cumplimiento. Este módulo lleva una fase de completado y aprobación del trabajo, y al cabo de ambas se coloca un puntaje del trabajo. 
+
+Módulos: Notas Oficio, Informes y Comunicaciones Internas
+Este módulo enlaza la hoja de ruta con las notas, informes y comunicaciones internas que tengan relación, por medio de un hashtag (#). Este módulo también controla los días otorgados para respuesta a los documentos. 
+
+Módulo: Reportes
+Este módulo genera reportes por el tipo de documento, fechas de recepción, palabra clave de la referencia, es decir, todos los parámetros con los que se registra la hoja de ruta u otros documentos. Los reportes se pueden exportar a excel y pdf.
+
+Generador de reportes
+Los reportes pueden generarse en formato PDF y excel exportables, tanto para el reporte como para las hojas de ruta registradas.
+
+## Análisis y documentación
+backups, diagramas de flujo de procesos, modelo entidad-relacion, roles:
+https://sgsir.contraloria.gob.bo/nextcloud/index.php/apps/files/?dir=/Documents/Sistema de Correspondencia y Seguimiento SCSL 
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
