@@ -21,7 +21,10 @@ Route::group([
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/imprime_hr/{hojaRuta}/{pos}', 'ImpresionHRController@show')->name('impresion_hr');
-});
+  
+    Route::get('/backup', 'BackupController@index')->name('backup.index');
+    Route::get('/backup/download', 'BackupController@download')->name('backup.download');
+  });
 
 Route::get('/reporte/{reporte}/html', 'ReporteController@html')->name('reportehtml');
 Route::get('/reporte/{reporte}/excel', 'ReporteController@excel')->name('reporteexcel');
