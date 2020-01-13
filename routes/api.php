@@ -29,6 +29,9 @@ Route::get('/folder/{storage}/{path1?}/{path2?}/{path3?}/{path4?}/{path5?}/{path
 Route::delete('/folder/{storage}/{path1?}/{path2?}/{path3?}/{path4?}/{path5?}/{path6?}/{path7?}', array('as' => 'api', 'uses' => 'FolderController@remove'));
 Route::post('/uploaddocument/{disk}/{path1?}/{path2?}/{path3?}/{path4?}', array('as' => 'api', 'uses' => 'UploadFileController@uploadDocument'));
 
+Route::middleware('auth:api')->get('/system/config', 'SystemController@index');
+Route::middleware('auth:api')->post('/system/config', 'SystemController@store');
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/{module}/{model1?}/{id1?}/{model2?}/{id2?}/{model3?}/{id3?}/{model4?}/{id4?}/{model5?}/{id5?}',
         array('as' => 'api', 'uses' => 'ApiController@index'))/* ->middleware('auth:api') */;

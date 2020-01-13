@@ -49,6 +49,7 @@ function meta(name) {
  */
 let token = meta("csrf-token");
 let api_token = meta("api-token");
+window.logo = meta("logo");
 
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
