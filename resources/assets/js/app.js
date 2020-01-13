@@ -127,7 +127,7 @@ const app = new Vue({
                     },
                 ]
             },
-            logo128: '/images/logo-banner.svg',
+            logo128: window.logo,
             logo: '/images/logo.png'
         };
     },
