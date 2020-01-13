@@ -16,6 +16,7 @@ class HojaRutaClasificacion extends Model
 
     protected $table = 'hoja_ruta_clasificacion';
     protected $guarded = [];
+    public $timestamps = false;
 
     public function subclases()
     {
