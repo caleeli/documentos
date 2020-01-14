@@ -23,7 +23,8 @@ class BackupController extends Controller
             header('Content-Transfer-Encoding: Binary');
             header('Content-Disposition: attachment; filename=hrlegal.bak');
             Artisan::call('backup:data');
+        } else {
+            return 'No tiene los privilegios requeridos';
         }
-        return 'No tiene los privilegios requeridos';
     }
 }
