@@ -48,8 +48,12 @@ class RestoreData extends Command
         DB::beginTransaction();
         DB::select(DB::raw('SET session_replication_role=\'replica\''));
         while (($line = fgets($f)) !== false) {
-            list($method, $params) = json_decode($line, true);
-            call_user_func([$this, "fn$method"], ...$params);
+            try {
+                list($method, $params) = json_decode($line, true);
+                call_user_func([$this, "fn$method"], ...$params);
+            } catch (\Throwable $t) {
+                dd($params, $line);
+            }
         }
         fclose($f);
         DB::select(DB::raw('SET session_replication_role=\'origin\''));

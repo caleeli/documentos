@@ -23,6 +23,7 @@ class LoadDefaultMenus extends Seeder
                 ['parent' => 0, 'id' => 600, 'name' => 'Comunicaciones internas', 'route' => '#'],
                 ['parent' => 0, 'id' => 700, 'name' => 'Reporte', 'route' => '/HojaRutaReporte/interna'],
                 ['parent' => 0, 'id' => 900, 'name' => 'Seguimiento', 'route' => '/Seguimiento'],
+                ['parent' => 0, 'id' => 1100, 'name' => 'Administración', 'route' => '#'],
             ]);
         DB::table('menu')
             ->insert([
@@ -34,6 +35,10 @@ class LoadDefaultMenus extends Seeder
                 ['parent' => 500, 'name' => 'Búsqueda', 'route' => '/InformeBusqueda/informes'],
                 ['parent' => 600, 'name' => 'Registrar', 'route' => '/ComunicacionesInternas/comunicacion'],
                 ['parent' => 600, 'name' => 'Búsqueda', 'route' => '/NotaOficioBusqueda/comunicacion'],
+                ['parent' => 1100, 'id'=> '1101', 'name' => 'Usuarios', 'route' => '/admin/usuarios'],
+                ['parent' => 1100, 'id'=> '1102', 'name' => 'Clasificadores N1', 'route' => '/admin/clasificacion'],
+                ['parent' => 1100, 'id'=> '1103', 'name' => 'Clasificadores N2', 'route' => '/admin/subclasificacion'],
+                ['parent' => 1100, 'id'=> '1104', 'name' => 'Configuración', 'route' => '/admin/sistema'],
             ]);
     }
 

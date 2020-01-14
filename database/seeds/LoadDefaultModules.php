@@ -27,6 +27,7 @@ class LoadDefaultModules extends Seeder
                 //['parent' => 0, 'id' => 800, 'name' => 'Reporte Resumen', 'icon' => '/images/reporte-resumen.svg', 'description' => 'Resumen del reporte de hojas de ruta.', 'route' => '/HojaRutaReporteRapido'],
                 ['parent' => 0, 'id' => 900, 'name' => 'Seguimiento', 'icon' => '/images/seguimiento.svg', 'description' => 'Seguimiento de tareas.', 'route' => '/Seguimiento'],
                 ['parent' => 0, 'id' => 1000, 'name' => 'Cambiar contraseña', 'icon' => '/images/password.svg', 'description' => 'Cambiar contraseña de ingreso al sistema.', 'route' => '/cambiar_password'],
+                ['parent' => 0, 'id' => 1100, 'name' => 'Administración', 'icon' => '/images/carpetas.svg', 'description' => 'Administración del sistema.', 'route' => '/?item=1100'],
             ]);
         DB::table('modules')
             ->insert([
@@ -38,6 +39,10 @@ class LoadDefaultModules extends Seeder
                 ['parent' => 500, 'name' => 'Busqueda', 'icon' => '/images/busqueda-informes.svg', 'description' => 'Informes', 'route' => '/InformeBusqueda/informes'],
                 ['parent' => 600, 'name' => 'Registrar', 'icon' => '/images/comunicacion.svg', 'description' => 'Comunicaciónes internas', 'route' => '/ComunicacionesInternas/comunicacion'],
                 ['parent' => 600, 'name' => 'Busqueda', 'icon' => '/images/busqueda-comunicacion.svg', 'description' => 'Comunicaciónes internas', 'route' => '/NotaOficioBusqueda/comunicacion'],
+                ['parent' => 1100, 'id'=> '1101', 'name' => 'Usuarios', 'icon' => '/images/carpeta.svg', 'description' => 'Usuarios del sistema', 'route' => '/admin/usuarios'],
+                ['parent' => 1100, 'id'=> '1102', 'name' => 'Clasificadores principales', 'icon' => '/images/reporte-comunicacion.svg', 'description' => 'Clasificadores nivel 1', 'route' => '/admin/clasificacion'],
+                ['parent' => 1100, 'id'=> '1103', 'name' => 'Clasificadores secundarios', 'icon' => '/images/reporte-informes.svg', 'description' => 'Clasificadores nivel 2', 'route' => '/admin/subclasificacion'],
+                ['parent' => 1100, 'id'=> '1104', 'name' => 'Configuración', 'icon' => '/images/design.svg', 'description' => 'Configuración', 'route' => '/admin/sistema'],
             ]);
     }
 
