@@ -143,6 +143,7 @@
                     <button type="button" class="btn btn-primary" @click="generarPreview">Vista previa</button>
                     <button type="button" class="btn btn-primary" @click="generarExcel">Exportar Excel</button>
                     <button type="button" class="btn btn-primary" @click="generarPDF">Exportar PDF</button>
+                    <a href="javascript:void(0)" class="btn btn-warning" @click="limpiar">Limpiar</a>
                 </div>
             </div>
             <error v-model="reportErrors" property="message"></error>
@@ -187,6 +188,10 @@
             }
         },
         methods: {
+            limpiar() {
+                window.location.href = "/#/HojaRutaReporte/externa";
+                window.location.reload();
+            },
             formatTipoHR(tipo) {
                 const etiqueta = this.tipos.find(def => def.attributes.sigla == tipo);
                 return etiqueta ? etiqueta.attributes.nombre : tipo;

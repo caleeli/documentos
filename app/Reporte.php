@@ -77,6 +77,7 @@ class Reporte extends Model
         derivacion.destinatario,
         concat(hoja_ruta.nro_de_control,' / ',hoja_ruta.gestion) numero,
         hoja_ruta.hr_id,
+        hoja_ruta.nro_clasificacion,
         hoja_ruta.tipo_hr,
         hoja_ruta.referencia,
         hoja_ruta.procedencia,
@@ -84,7 +85,12 @@ class Reporte extends Model
         hoja_ruta.fecha_conclusion,
         derivacion.fecha as derivacion_fecha,
         derivacion.instruccion,
-        derivacion.comentarios
+        derivacion.comentarios,
+        hoja_ruta.anexo_hojas,
+        tarea.tar_estado,
+        tarea.tar_recibidos,
+        tarea.tar_atendidos,
+        tarea.tar_calificacion
      FROM
        (select hoja_ruta_id, max(id) as id from derivacion group by hoja_ruta_id) ultimos
         inner join derivacion on (ultimos.id=derivacion.id)

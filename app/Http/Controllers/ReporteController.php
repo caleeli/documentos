@@ -22,7 +22,7 @@ class ReporteController extends Controller
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         header("Cache-Control: private", false);
         $res = $reporte->generar();
-        return view('reportehtml', ['res' => $res]);
+        return view('reportehtml', ['res' => $res, 'reporte' => $reporte]);
     }
 
     public function pdf(Reporte $reporte)
@@ -30,7 +30,7 @@ class ReporteController extends Controller
         set_time_limit(0);
         ini_set('memory_limit', '2048M');
         $res = $reporte->generar();
-        $pdf = PDF::loadView('reportehtml', ['res' => $res])->setPaper('letter', 'landscape');
+        $pdf = PDF::loadView('reportehtml', ['res' => $res, 'reporte' => $reporte])->setPaper('letter', 'landscape');
         return $pdf->download('listado.pdf');
     }
 }
