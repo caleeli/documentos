@@ -2,10 +2,8 @@
 
 namespace App;
 
-use App\Traits\AutoTableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Description of Reporte
@@ -60,13 +58,13 @@ class Reporte extends Model
     {
         $entidad = new Entidad();
         $procedencias = [];
-        foreach ($entidad->procedencias() as $key=>$value){           
+        foreach ($entidad->procedencias() as $key => $value) {
             $procedencias[] = [
                 'id' => $key,
                 'attributes' => [
                     'nombre_completo' => $value->nombre_completo,
-                    ]
-                ];
+                ]
+            ];
         }
         return $procedencias;
     }
@@ -77,6 +75,7 @@ class Reporte extends Model
         derivacion.destinatario,
         concat(hoja_ruta.nro_de_control,' / ',hoja_ruta.gestion) numero,
         hoja_ruta.hr_id,
+        hoja_ruta.nro_clasificacion,
         hoja_ruta.tipo_hr,
         hoja_ruta.referencia,
         hoja_ruta.procedencia,
@@ -84,7 +83,12 @@ class Reporte extends Model
         hoja_ruta.fecha_conclusion,
         derivacion.fecha as derivacion_fecha,
         derivacion.instruccion,
-        derivacion.comentarios
+        derivacion.comentarios,
+        hoja_ruta.anexo_hojas,
+        tarea.tar_estado,
+        tarea.tar_recibidos,
+        tarea.tar_atendidos,
+        tarea.tar_calificacion
      FROM
        (select hoja_ruta_id, max(id) as id from derivacion group by hoja_ruta_id) ultimos
         inner join derivacion on (ultimos.id=derivacion.id)
@@ -99,12 +103,12 @@ class Reporte extends Model
     {
         $user = Auth::user();
         $connection = $this->getConnection()->getPdo();
-        
+
         $params = [];
         $query = [$queryBase];
         if (!empty($this->tipo)) {
-            if ($this->tipo[0] != ''){
-                $query[] = ' hoja_ruta.tipo_hr IN (' . "'" . implode("', '",$this->tipo) . "'" . ')';
+            if ($this->tipo[0] != '') {
+                $query[] = ' hoja_ruta.tipo_hr IN (' . "'" . implode("', '", $this->tipo) . "'" . ')';
             }
         }
         if (!empty($this->recepcion_desde)) {
@@ -189,19 +193,19 @@ class Reporte extends Model
         }
 
         if (!empty($this->tipo_reporte)) {
-            if ($this->tipo_reporte == 'concluidos'){
-                $query[] = ' hoja_ruta.fecha_conclusion IS NOT NULL';    
-            } elseif ($this->tipo_reporte == 'Pendiente'){
+            if ($this->tipo_reporte == 'concluidos') {
+                $query[] = ' hoja_ruta.fecha_conclusion IS NOT NULL';
+            } elseif ($this->tipo_reporte == 'Pendiente') {
                 $query[] = " tarea.tar_estado = 'Pendiente' ";
-            } elseif ($this->tipo_reporte == 'Aprobado'){
+            } elseif ($this->tipo_reporte == 'Aprobado') {
                 $query[] = " tarea.tar_estado = 'Aprobado' ";
-            } elseif ($this->tipo_reporte == 'Completado'){
+            } elseif ($this->tipo_reporte == 'Completado') {
                 $query[] = " tarea.tar_estado = 'Completado' ";
             }
         }
         if ($user->role_id == 3) {
-            $query[] = ' hoja_ruta.hr_id in (select distinct hoja_ruta_id from derivacion where destinatarios=:usuario_actual) ';
-            $params['usuario_actual'] = $user->getKey();
+            $query[] = ' hoja_ruta.hr_id in (select distinct hoja_ruta_id from derivacion where concat(\',\',destinatarios,\',\') like :usuario_actual) ';
+            $params['usuario_actual'] = ',' . $user->getKey() . ',';
         }
 
         $query = implode("\n and ", $query);
@@ -257,9 +261,9 @@ class Reporte extends Model
     public function setTipoAttribute($value)
     {
         $valor = $value;
-        if (is_array($value)){
+        if (is_array($value)) {
             if (count($value) > 0) {
-                $valor = implode (",", $value);
+                $valor = implode(',', $value);
             } else {
                 $valor = null;
             }
@@ -270,7 +274,7 @@ class Reporte extends Model
     public function getTipoAttribute($value)
     {
         if (!is_array($this->attributes['tipo'])) {
-            $valor = explode(",", $this->attributes['tipo']);
+            $valor = explode(',', $this->attributes['tipo']);
         } else {
             $valor = 'externa';
         }

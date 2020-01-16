@@ -11,28 +11,42 @@
         <table border='1' cellpadding='0' cellspacing='0'>
             <tr>
                 <th width="4%">#</th>
-                <th width="6%">Tipo</th>
-                <th width="8%">Nro Control</th>
-                <th width="10%">Fecha derivación</th>
+                <th width="6%">Tipo de HR</th>
+                <th width="7%">Nro de Control</th>
+                <th width="7%">Nro de Reg. Interno</th>
+                <th width="8%">Fecha recepción</th>
                 <th width="14%">Referencia</th>
+                <th width="8%">Fecha derivación</th>
                 <th width="14%">Destinatario</th>
                 <th width="14%">Procecendia</th>
-                <th width="10%">Fecha recepción</th>
-                <th width="10%">Conclusión</th>
-                <th width="10%">Instrucción</th>
+                <th>Adjunto</th>
+                <th>Estado</th>
+                <th>Última Instrucción</th>
+                @if($reporte->tipo_tarea === "UR")
+                <th>Cant. Recibidos</th>
+                <th>Cant. Atendidos</th>
+                <th>Calificación</th>
+                @endif
             </tr>
             @foreach($res as $row)
             <tr>
                 <td>{{$row['num']}}</td>
                 <td>{{App\Tarea::nombreTipoHR($row['tipo_hr'])}}</td>
                 <td>{{$row['numero']}}</td>
-                <td>{{$row['derivacion_fecha']}}</td>
+                <td>{{$row['nro_clasificacion']}}</td>
+                <td>{{$row['fecha_recepcion']}}</td>
                 <td>{{$row['referencia']}}</td>
+                <td>{{$row['derivacion_fecha']}}</td>
                 <td>{{$row['destinatario']}}</td>
                 <td>{{$row['procedencia']}}</td>
-                <td>{{$row['fecha_recepcion']}}</td>
-                <td>{{$row['fecha_conclusion']}}</td>
+                <td>{{$row['anexo_hojas']}}</td>
+                <td>{{$row['tar_estado']}}</td>
                 <td>{{$row['instruccion']}}</td>
+                @if($reporte->tipo_tarea === "UR")
+                <td>{{$row['tar_recibidos']}}</td>
+                <td>{{$row['tar_atendidos']}}</td>
+                <td>{{$row['tar_calificacion']}}</td>
+                @endif
             </tr>
             @endforeach
         </table>
