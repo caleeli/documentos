@@ -9,7 +9,7 @@
                         <label>
                             <input type="checkbox" name="tipo_busqueda"
                                    :value="tipo.attributes.sigla"
-                                   v-model="tipoHR">
+                                   v-model="tipoHRO[tipo.attributes.sigla]">
                             {{tipo.attributes.nombre}}
                         </label>
                     </div>
@@ -213,25 +213,21 @@
                         : this.type;
             },
             generarReporte() {
-                this.data.attributes.tipo = this.tipoHR;
                 this.data.postToAPI("/api/reporte").then((response) => {
                     this.$router.push({params: {id: response.data.data.id}});
                 });
             },
             generarPreview() {
-                this.data.attributes.tipo = this.tipoHR;
                 this.data.postToAPI("/api/reporte").then((response) => {
                     window.open('/reporte/' + response.data.data.id + '/html');
                 });
             },
             generarExcel() {
-                this.data.attributes.tipo = this.tipoHR;
                 this.data.postToAPI("/api/reporte").then((response) => {
                     window.open('/reporte/' + response.data.data.id + '/excel');
                 });
             },
             generarPDF() {
-                this.data.attributes.tipo = this.tipoHR;
                 this.data.postToAPI("/api/reporte").then((response) => {
                     window.open('/reporte/' + response.data.data.id + '/pdf');
                 });
@@ -274,10 +270,36 @@
                     {attributes: {sigla: 'Aprobado', nombre: 'Aprobados'}},
                     {attributes: {sigla: 'concluidos', nombre: 'Concluidos'}},
                 ],
-                tipoHR: [],
+                tipoHRO: {
+                    externa: false,
+                    interna: false,
+                    solicitud: false,
+                    notas: false,
+                    comunicacion: false,
+                    informes: false,
+                },
             };
         },
         watch: {
+            tipoHRO: {
+                deep: true,
+                handler(tipos) {
+                    const arrayTipos = [];
+                    Object.keys(tipos).forEach(tipo => tipos[tipo] ? arrayTipos.push(tipo) : null);
+                    if (JSON.stringify(arrayTipos) !== JSON.stringify(this.data.attributes.tipo)) {
+                        this.$set(this.data.attributes, 'tipo', arrayTipos);
+                    }
+                }
+            },
+            data: {
+                deep: true,
+                handler(data) {
+                    Object.keys(this.tipoHRO).forEach(tipo => this.tipoHRO[tipo] = false);
+                    this.data.attributes.tipo.forEach(tipo => {
+                        tipo ? this.tipoHRO[tipo] = true : null;
+                    });
+                }
+            },
             'type'() {
                 this.data.loadFromAPI('/api/reportes/' + this.getIdURL());
             }
