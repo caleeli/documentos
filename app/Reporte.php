@@ -203,10 +203,10 @@ class Reporte extends Model
                 $query[] = " tarea.tar_estado = 'Completado' ";
             }
         }
-        //if ($user->role_id == 3) {
-            $query[] = ' hoja_ruta.hr_id in (select distinct hoja_ruta_id from derivacion where destinatarios=:usuario_actual) ';
-            $params['usuario_actual'] = $user->getKey();
-        //}
+        if ($user->role_id == 3) {
+            $query[] = ' hoja_ruta.hr_id in (select distinct hoja_ruta_id from derivacion where concat(\',\',destinatarios,\',\') like :usuario_actual) ';
+            $params['usuario_actual'] = ',' . $user->getKey() . ',';
+        }
 
         $query = implode("\n and ", $query);
         $query .= ' order by derivacion.id';
