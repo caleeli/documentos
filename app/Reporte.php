@@ -2,10 +2,8 @@
 
 namespace App;
 
-use App\Traits\AutoTableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Description of Reporte
@@ -60,13 +58,13 @@ class Reporte extends Model
     {
         $entidad = new Entidad();
         $procedencias = [];
-        foreach ($entidad->procedencias() as $key=>$value){           
+        foreach ($entidad->procedencias() as $key => $value) {
             $procedencias[] = [
                 'id' => $key,
                 'attributes' => [
                     'nombre_completo' => $value->nombre_completo,
-                    ]
-                ];
+                ]
+            ];
         }
         return $procedencias;
     }
@@ -105,12 +103,12 @@ class Reporte extends Model
     {
         $user = Auth::user();
         $connection = $this->getConnection()->getPdo();
-        
+
         $params = [];
         $query = [$queryBase];
         if (!empty($this->tipo)) {
-            if ($this->tipo[0] != ''){
-                $query[] = ' hoja_ruta.tipo_hr IN (' . "'" . implode("', '",$this->tipo) . "'" . ')';
+            if ($this->tipo[0] != '') {
+                $query[] = ' hoja_ruta.tipo_hr IN (' . "'" . implode("', '", $this->tipo) . "'" . ')';
             }
         }
         if (!empty($this->recepcion_desde)) {
@@ -195,13 +193,13 @@ class Reporte extends Model
         }
 
         if (!empty($this->tipo_reporte)) {
-            if ($this->tipo_reporte == 'concluidos'){
-                $query[] = ' hoja_ruta.fecha_conclusion IS NOT NULL';    
-            } elseif ($this->tipo_reporte == 'Pendiente'){
+            if ($this->tipo_reporte == 'concluidos') {
+                $query[] = ' hoja_ruta.fecha_conclusion IS NOT NULL';
+            } elseif ($this->tipo_reporte == 'Pendiente') {
                 $query[] = " tarea.tar_estado = 'Pendiente' ";
-            } elseif ($this->tipo_reporte == 'Aprobado'){
+            } elseif ($this->tipo_reporte == 'Aprobado') {
                 $query[] = " tarea.tar_estado = 'Aprobado' ";
-            } elseif ($this->tipo_reporte == 'Completado'){
+            } elseif ($this->tipo_reporte == 'Completado') {
                 $query[] = " tarea.tar_estado = 'Completado' ";
             }
         }
@@ -263,9 +261,9 @@ class Reporte extends Model
     public function setTipoAttribute($value)
     {
         $valor = $value;
-        if (is_array($value)){
+        if (is_array($value)) {
             if (count($value) > 0) {
-                $valor = implode (",", $value);
+                $valor = implode(',', $value);
             } else {
                 $valor = null;
             }
@@ -276,7 +274,7 @@ class Reporte extends Model
     public function getTipoAttribute($value)
     {
         if (!is_array($this->attributes['tipo'])) {
-            $valor = explode(",", $this->attributes['tipo']);
+            $valor = explode(',', $this->attributes['tipo']);
         } else {
             $valor = 'externa';
         }
