@@ -3,23 +3,27 @@
         <style>
             body {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                font-size: 8pt;
+            }
+            table {
+                font-size: 8pt;
             }
         </style>
     </head>
     <body>
         <img src="{{url('/images/logo128.png')}}" style="height:64px" >
-        <table border='1' cellpadding='0' cellspacing='0'>
+        <table border='1' cellpadding='0' cellspacing='0' width="100%">
             <tr>
-                <th width="4%">#</th>
+                <th width="2%">#</th>
                 <th width="6%">Tipo de HR</th>
                 <th width="7%">Nro de Control</th>
                 <th width="7%">Nro de Reg. Interno</th>
-                <th width="8%">Fecha recepción</th>
-                <th width="14%">Referencia</th>
-                <th width="8%">Fecha derivación</th>
-                <th width="14%">Destinatario</th>
-                <th width="14%">Procecendia</th>
-                <th>Adjunto</th>
+                <th width="7%">Fecha recepción</th>
+                <th width="13%">Referencia</th>
+                <th width="7%">Fecha derivación</th>
+                <th width="13%">Destinatario</th>
+                <th width="13%">Procecendia</th>
+                <th width="9%">Adjunto</th>
                 <th>Estado</th>
                 <th>Última Instrucción</th>
                 @if($reporte->tipo_tarea === "UR")
