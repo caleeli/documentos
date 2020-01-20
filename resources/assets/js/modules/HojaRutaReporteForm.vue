@@ -28,6 +28,28 @@
                 </div>
             </div>
             <div class="form-group row">
+                <div :class="colLabel"><label>Fecha de derivación:</label></div>
+                <div :class="colField2">
+                    <datetime type="date" v-model="data.attributes.derivacion_desde" />
+                    <error v-model="errores" property="errors.derivacion_desde"></error>
+                </div>
+                <div :class="colField2">
+                    <datetime type="date" v-model="data.attributes.derivacion_hasta" />
+                    <error v-model="errores" property="errors.derivacion_hasta"></error>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div :class="colLabel"><label>Fecha de conclusión:</label></div>
+                <div :class="colField2">
+                    <datetime type="date" v-model="data.attributes.conclusion_desde" />
+                    <error v-model="errores" property="errors.conclusion_desde"></error>
+                </div>
+                <div :class="colField2">
+                    <datetime type="date" v-model="data.attributes.conclusion_hasta" />
+                    <error v-model="errores" property="errors.conclusion_hasta"></error>
+                </div>
+            </div>
+            <div class="form-group row">
                 <div :class="colLabel"><label>Palabra clave Referencia:</label></div>
                 <div :class="colField">
                     <input class="form-control" v-model="data.attributes.referencia">
@@ -53,17 +75,6 @@
                 <div :class="colField">
                     <input class="form-control" type="text" v-model="data.attributes.nro_de_control" />
                     <error v-model="errores" property="errors.nro_de_control"></error>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div :class="colLabel"><label>Fecha de conclusión:</label></div>
-                <div :class="colField2">
-                    <datetime type="date" v-model="data.attributes.conclusion_desde" />
-                    <error v-model="errores" property="errors.conclusion_desde"></error>
-                </div>
-                <div :class="colField2">
-                    <datetime type="date" v-model="data.attributes.conclusion_hasta" />
-                    <error v-model="errores" property="errors.conclusion_hasta"></error>
                 </div>
             </div>
             <div class="form-group row">

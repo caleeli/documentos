@@ -24,6 +24,8 @@ class Reporte extends Model
         'nro_de_control' => '',
         'conclusion_desde' => null,
         'conclusion_hasta' => null,
+        'derivacion_desde' => null,
+        'derivacion_hasta' => null,
         'gestion_desde' => '',
         'gestion_hasta' => '',
         'destinatario' => '',
@@ -40,6 +42,8 @@ class Reporte extends Model
         'nro_de_control',
         'conclusion_desde',
         'conclusion_hasta',
+        'derivacion_desde',
+        'derivacion_hasta',
         'gestion_desde',
         'gestion_hasta',
         'destinatario',
@@ -52,6 +56,8 @@ class Reporte extends Model
         'recepcion_hasta' => 'date',
         'conclusion_desde' => 'date',
         'conclusion_hasta' => 'date',
+        'derivacion_desde' => 'date',
+        'derivacion_hasta' => 'date',
     ];
 
     public function getProcedencias()
@@ -118,6 +124,14 @@ class Reporte extends Model
         if (!empty($this->recepcion_hasta)) {
             $query[] = ' hoja_ruta.fecha_recepcion <= :recepcion_hasta';
             $params['recepcion_hasta'] = $this->recepcion_hasta->format('Y-m-d');
+        }
+        if (!empty($this->derivacion_desde)) {
+            $query[] = ' derivacion.fecha >= :derivacion_desde';
+            $params['derivacion_desde'] = $this->derivacion_desde->format('Y-m-d');
+        }
+        if (!empty($this->derivacion_hasta)) {
+            $query[] = ' derivacion.fecha <= :derivacion_hasta';
+            $params['derivacion_hasta'] = $this->derivacion_hasta->format('Y-m-d');
         }
         if (!empty($this->referencia)) {
             $query[] = ' hoja_ruta.referencia like :referencia';
@@ -244,6 +258,18 @@ class Reporte extends Model
     {
         $datetime = explode('T', $value);
         $this->attributes['recepcion_hasta'] = empty($datetime[0]) ? null : $datetime[0];
+    }
+
+    public function setDerivacionDesdeAttribute($value)
+    {
+        $datetime = explode('T', $value);
+        $this->attributes['derivacion_desde'] = empty($datetime[0]) ? null : $datetime[0];
+    }
+
+    public function setDerivacionHastaAttribute($value)
+    {
+        $datetime = explode('T', $value);
+        $this->attributes['derivacion_hasta'] = empty($datetime[0]) ? null : $datetime[0];
     }
 
     public function setConclusionDesdeAttribute($value)

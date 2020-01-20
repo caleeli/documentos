@@ -11,7 +11,7 @@ class ReporteController extends Controller
     public function html(Reporte $reporte)
     {
         $res = $reporte->generar();
-        return view('reportehtml', ['res' => $res]);
+        return view('reportehtml', ['res' => $res, 'reporte' => $reporte]);
     }
 
     public function excel(Reporte $reporte)
