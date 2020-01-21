@@ -4,10 +4,21 @@
       v-model="data"
       class="w-100"
       filter-by="attributes.sigla
+              attributes.sub_clase_id
               attributes.nombre
               relationships.clasificacion.attributes.nombre
               "
     >
+      <template slot="toolbar">
+        <router-link
+          class="btn btn-outline-success"
+          :to="{path: '/admin/subclasificacion/0'}"
+        >
+          <i class="fa fa-plus"></i>
+          <small class="hidden-xs hidden-sm ml-1">Sub-Clasificación</small>
+        </router-link>
+        &nbsp;
+      </template>
       <template slot="header">
         <th width="10%">ID</th>
         <th width="25%">Nombre</th>

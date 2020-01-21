@@ -8,6 +8,16 @@
               attributes.apellidos
               "
     >
+      <template slot="toolbar">
+        <router-link
+          class="btn btn-outline-success"
+          :to="{path: '/admin/usuarios/0'}"
+        >
+          <i class="fa fa-plus"></i>
+          <small class="hidden-xs hidden-sm ml-1">Usuario</small>
+        </router-link>
+        &nbsp;
+      </template>
       <template slot="header">
         <th width="25%">Usuario</th>
         <th width="25%">Nombre</th>

@@ -18,7 +18,8 @@
     </div>
     <div class="col">
       <div class="btn-group float-right">
-        <button class="btn btn-outline-secondary" :disabled="page<2" @click="page=Math.max(1,page-1)">
+       <slot name="toolbar"></slot>
+       <button class="btn btn-outline-secondary" :disabled="page<2" @click="page=Math.max(1,page-1)">
           <i class="fas fa-long-arrow-alt-left"></i> Previo
         </button>
         <button class="btn btn-outline-secondary" :disabled="page>=lastPage" @click="page=Math.min(lastPage,page+1)">

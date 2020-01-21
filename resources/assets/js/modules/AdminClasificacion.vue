@@ -7,6 +7,16 @@
               attributes.nombre
               "
     >
+      <template slot="toolbar">
+        <router-link
+          class="btn btn-outline-success"
+          :to="{path: '/admin/clasificacion/0'}"
+        >
+          <i class="fa fa-plus"></i>
+          <small class="hidden-xs hidden-sm ml-1">Clasificación</small>
+        </router-link>
+        &nbsp;
+      </template>
       <template slot="header">
         <th width="30%">ID</th>
         <th width="30%">Nombre</th>
