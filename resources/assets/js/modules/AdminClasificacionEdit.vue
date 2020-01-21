@@ -6,6 +6,7 @@
       </a>
     </template>
     <form v-if="data.attributes">
+      <error v-model="errores" property="message"></error>
       <div class="form-group">
         <label for="nombre">Nombre</label>
         <input
@@ -53,7 +54,7 @@ export default {
   },
   methods: {
     save() {
-      if (this.$route.params.id) {
+      if (parseInt(this.$route.params.id)) {
         this.data
           .putToAPI(`/api/hoja_ruta_clasificacion/${this.$route.params.id}`)
           .then(() => {

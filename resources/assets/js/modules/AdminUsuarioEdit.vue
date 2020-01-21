@@ -6,6 +6,7 @@
       </a>
     </template>
     <form v-if="data.attributes">
+      <error v-model="errores" property="message"></error>
       <div class="form-group">
         <label for="username">Usuario</label>
         <input
@@ -41,6 +42,30 @@
           placeholder="Apellidos"
         />
         <error v-model="errores" property="nombres"></error>
+      </div>
+      <div class="form-group">
+        <label for="apellidos">Contraseña</label>
+        <input
+          v-model="data.attributes.password"
+          type="password"
+          class="form-control"
+          id="password"
+          aria-describedby="password"
+          placeholder="********"
+        />
+        <error v-model="errores" property="password"></error>
+      </div>
+      <div class="form-group">
+        <label for="apellidos">Número CI</label>
+        <input
+          v-model="data.attributes.numero_ci"
+          type="text"
+          class="form-control"
+          id="numero_ci"
+          aria-describedby="numero_ci"
+          placeholder="numero ci"
+        />
+        <error v-model="errores" property="numero_ci"></error>
       </div>
       <div class="form-group">
         <label for="role_id">Rol</label>
@@ -79,7 +104,7 @@ export default {
   },
   methods: {
     save() {
-      if (this.$route.params.id) {
+      if (parseInt(this.$route.params.id)) {
         this.data.putToAPI(`/api/users/${this.$route.params.id}`).then(() => {
           window.history.go(-1);
         });

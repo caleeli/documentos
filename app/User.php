@@ -9,8 +9,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
 
-    use Notifiable,
-        AutoTableTrait;
+    use Notifiable;
+    use AutoTableTrait;
 
     protected $table = 'adm_users';
 
@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'destinatario_hoja_ruta',
+        'username', 'nombres', 'apellidos', 'email', 'password', 'destinatario_hoja_ruta',
     ];
 
     /**
@@ -70,7 +70,9 @@ class User extends Authenticatable
 
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = md5($value);
+        if (strlen($value) !== 32) {
+            $this->attributes['password'] = md5($value);
+        }
     }
 
     public function tareas()

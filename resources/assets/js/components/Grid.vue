@@ -18,6 +18,7 @@
     </div>
     <div class="col">
       <div class="btn-group float-right">
+        <slot name="toolbar"></slot>
         <button class="btn btn-outline-secondary" :disabled="page<1" @click="page=Math.max(0,page-1)">
           <i class="fas fa-long-arrow-alt-left"></i> Previo
         </button>
