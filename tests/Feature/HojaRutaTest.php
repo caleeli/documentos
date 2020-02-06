@@ -76,7 +76,7 @@ class HojaRutaTest extends TestCase
     public function testSelectParcial()
     {
         factory(HojaRuta::class, 25)->state('ejemplo')->create();
-        $response = $this->actingAs($this->user)->get('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=1000');
+        $response = $this->actingAs($this->user)->get('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=10000');
         $this->assertCount(25, $response->json()['data']);
     }
 }

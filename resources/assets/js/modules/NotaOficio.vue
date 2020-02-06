@@ -213,9 +213,9 @@
             const errores = {};
             return {
                 data: new ApiObject(apiBase + '/' + this.getIdURL(), errores).loadFromAPI(),
-                entidades: new ApiArray('/api/entidad?per_page=1000'),
-                personas: new ApiArray('/api/persona?per_page=1000'),
-                hojasRuta: new ApiArray('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=1000'),
+                entidades: new ApiArray('/api/entidad?per_page=10000'),
+                personas: new ApiArray('/api/persona?per_page=10000'),
+                hojasRuta: new ApiArray('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=10000'),
                 errores: errores,
                 notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
             };

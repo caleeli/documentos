@@ -80,7 +80,7 @@ export default {
         errores
       ),
       clasificaciones: new ApiArray(
-        "/api/hoja_ruta_clasificacion?sort=nombre,sigla&per_page=100"
+        "/api/hoja_ruta_clasificacion?sort=nombre,sigla&per_page=10000"
       )
     };
   },
