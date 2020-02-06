@@ -213,8 +213,8 @@
             return {
                 data: new ApiObject(apiBase + '/' + this.getIdURL(), errores).loadFromAPI(),
                 errores: errores,
-                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=2000'),
-                hojasRuta: new ApiArray('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=1000'),
+                notas: new ApiArray('/api/notas_oficio?sort=-id&per_page=10000'),
+                hojasRuta: new ApiArray('/api/hoja_ruta?fields=nro_de_control,referencia&per_page=10000'),
                 gerenciasSubcontraloria: new ApiArray('/api/cge_interno?fields=cge_descripcion'),
             };
         },
