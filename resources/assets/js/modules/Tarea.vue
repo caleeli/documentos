@@ -258,14 +258,14 @@
                   </button>
                 </div>
               </div>
-              <!-- <div div class="col-5">
+              <div div class="col-12 ml-3">
                 <folder-viewer
                   :api="'/api/folder/tareas/' + tarea.id"
                   :candelete="editable"
                   :canupload="editable"
                   :target="'tareas/' + tarea.id"
                 ></folder-viewer>
-              </div> !-->
+              </div>
             </div>
           </div>
         </div>
