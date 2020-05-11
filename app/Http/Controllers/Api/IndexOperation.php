@@ -20,14 +20,21 @@ class IndexOperation extends BaseOperation
     protected $filter;
     protected $perPage;
     protected $fields;
+    protected $count;
 
-    public function index($sort, $filter, $perPage, $fields)
+    public function index($sort, $filter, $perPage, $fields, $count = false)
     {
         $this->sort = $sort;
         $this->filter = $filter;
         $this->perPage = $perPage;
         $this->fields = $fields;
+        $this->count = $count;
         return $this->execute($this->model, null);
+    }
+
+    public function count($sort, $filter, $perPage, $fields)
+    {
+        return $this->index($sort, $filter, $perPage, $fields, true);
     }
 
     protected function isBelongsTo(BelongsTo $model, Model $target = null, $data)
@@ -155,6 +162,10 @@ class IndexOperation extends BaseOperation
      */
     private function getPaginated($select)
     {
-        return $this->perPage > 0 ? $select->paginate($this->perPage)->getCollection() : $select->get();
+        if ($this->count) {
+            return $select->count();
+        } else {
+            return $this->perPage > 0 ? $select->paginate($this->perPage)->getCollection() : $select->get();
+        }
     }
 }

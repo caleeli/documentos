@@ -20,19 +20,48 @@
         <div class="btn-group ml-4">
           <button
             class="btn btn-outline-secondary"
+            :disabled="page == 1"
+            @click="setPage(1)"
+          >
+            1
+            <i class="fas fa-step-backward"></i>
+          </button>
+          <button
+            class="btn btn-outline-secondary"
             :disabled="page<2"
-            @click="page=Math.max(1,page-1)"
+            @click="setPage(Math.max(1,page-1))"
           >
             <i class="fas fa-long-arrow-alt-left"></i> Previo
           </button>
-          <button class="btn btn-outline-secondary" @click="page=page+1">
+          <button
+            v-for="p in pagesIndex" :key="`page-btn-${p}`"
+            :class="page == p ? 'btn btn-secondary' : 'btn btn-outline-secondary'"
+            :ref="page == p ? 'currentPage' : ''"
+            @click="setPage(p)"
+          >
+            {{ p }}
+          </button>
+          <button class="btn btn-outline-secondary" @click="setPage(page+1)">
             Siguiente
             <i class="fas fa-long-arrow-alt-right"></i>
           </button>
+          <button
+            class="btn btn-outline-secondary"
+            :disabled="page == meta.last_page"
+            @click="setPage(meta.last_page)"
+          >
+            <i class="fas fa-step-forward"></i>
+            {{ meta.last_page }}
+          </button>
         </div>
+        <center>
+          Total registros: 
+          <b>{{ meta.total }}</b>
+        </center>
       </div>
     </div>
-    <div>
+    <hr>
+    <div v-show="!loading">
       <div class="row" v-for="(tareaI,id) in tareas" :key="id">
         <div class="col-md-5 col-xs-12">
           <table width="100%">
@@ -109,13 +138,31 @@ import {
   colorPrioridades,
   prioridades
 } from "../ConstantesSeguimiento";
+import debounce from 'debounce';
 
 const apiBase = "/api/adm_tareas";
+
+const setPage = debounce((tareas, page) => {
+  tareas.setPagingOptions(page, 7);
+}, 500);
 
 export default {
   path: "/Seguimiento",
   mixins: [ajaxFilter, fechasTarea],
   methods: {
+    setPage(page) {
+      if (page == this.page) {
+        return;
+      }
+      this.loading = true;
+      this.page = page;
+      if (this.tareas.setPagingOptions instanceof Function) {
+        setPage(this.tareas, page);
+      }
+      if (this.$refs.currentPage) {
+        this.$refs.currentPage.focus();
+      }
+    },
     textValue(value) {
       return $("<i></i>")
         .html(value)
@@ -183,19 +230,38 @@ export default {
     },
     avancePasosPorcentaje() {
       return 1;
-    }
+    },
   },
-  computed: {},
+  computed: {
+    pagesIndex() {
+      const min = Math.max(1, Math.min(this.page - 1, this.meta.last_page - 2));
+      const max = Math.min(this.meta.last_page, min + 2);
+      const res = [];
+      for(let i = min; i <= max; i++) {
+        res.push(i);
+      }
+      return res;
+    },
+  },
   data() {
     let url;
     if (this.$route.query.estado) {
-      url = "/api/tarea?filter[]=whereUserOwner&filter[]=whereTarEstado," + this.$route.query.estado + "&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios";
+      url = "/api/tarea?meta=pagination&filter[]=whereUserOwner&filter[]=whereTarEstado," + this.$route.query.estado + "&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios";
     } else {
-      url = "/api/tarea?filter[]=whereUserAssigned&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios";
+      url = "/api/tarea?meta=pagination&filter[]=whereUserAssigned&sort=-tar_prioridad,tar_id&per_page=7&include=usuarios";
     }
+    const meta = {
+      type: '',
+      total: '',
+      per_page: '',
+      last_page: '',
+      page: '',
+    };
     return {
+      loading: true,
       estado: "",
-      tareas: new ApiArray(url),
+      tareas: new ApiArray(url, {}, meta),
+      meta,
       page: 1,
       search: "",
       filterBy:
@@ -203,10 +269,8 @@ export default {
     };
   },
   watch: {
-    page(page) {
-      if (this.tareas.setPagingOptions instanceof Function) {
-        this.tareas.setPagingOptions(page, 7);
-      }
+    'meta.loading'(loading) {
+      this.loading = loading;
     },
     '$route.query.estado': {
       immediate: true,

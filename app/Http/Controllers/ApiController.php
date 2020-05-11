@@ -61,6 +61,15 @@ class ApiController extends Controller
         }
         $type = $this->getType($operation->model);
         $meta = ['type' => $type];
+        $request = request();
+        $requestedMeta = $request['meta'] ? explode(',', $request['meta']) : [];
+        if (in_array('pagination', $requestedMeta)) {
+            $total = $operation->count($sort, $filter, $perPage, $fields ? explode(',', $fields) : []);
+            $meta['total'] = $total;
+            $meta['per_page'] = $request['per_page'];
+            $meta['last_page'] = ceil($total / $request['per_page']);
+            $meta['page'] = $request['page'];
+        }
         $data = $this->packResponse($result, $type, $fields, $include, true, $operation->model);
         return compact('meta', 'data');
     }

@@ -16,19 +16,19 @@ function ApiStorage(url, object) {
                 .then(response => {
                     notifyLoading(false);
                     type = response.data.meta.type;
-                    dispatch(response.data.data);
+                    dispatch(response.data.data, response.data.meta);
                 })
                 .catch(error => {
                     notifyLoading(false);
                     notifyErrors(error.response.data);
                 });
     }
-    function dispatch(data) {
+    function dispatch(data, meta) {
         observers.forEach((item) => {
-            item.listenStorage(data);
+            item.listenStorage(data, meta);
         });
         // Store
-        window.localStorage[url] = JSON.stringify(data);
+        //window.localStorage[url] = JSON.stringify({data, meta});
     }
     function notifyErrors(errors) {
         observers.forEach((item) => {
@@ -43,12 +43,13 @@ function ApiStorage(url, object) {
     this.register = function(item) {
         observers.push(item);
         // Load from local storage
-        try {
+        /*try {
             var string = window.localStorage[url];
-            string ? item.listenStorage(JSON.parse(string)) : null;
+            var json = JSON.parse(string);
+            string ? item.listenStorage(json.data, json.meta) : null;
         } catch (e) {
             console.log(e);
-        }
+        }*/
     }
     this.unregister = function(item) {
         var index = observers.indexOf(item);

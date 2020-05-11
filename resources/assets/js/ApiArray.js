@@ -1,14 +1,15 @@
-function ApiArray(url, errorsObject) {
+function ApiArray(url, errorsObject, metaObject) {
     var me = this;
     var self = new Array();
     var storage;
     self.loading = false;
     errorsObject = errorsObject === undefined ? {message: "", errors: []} : errorsObject;
+    metaObject = metaObject === undefined ? {} : metaObject;
     function cleanErrors() {
         Vue.set(errorsObject, 'message', "");
         Vue.set(errorsObject, 'errors', []);
     }
-    this.listenStorage = (data) => {
+    this.listenStorage = (data, meta) => {
         self.loading = false;
         self.splice(0);
         for (var row of data) {
@@ -17,6 +18,10 @@ function ApiArray(url, errorsObject) {
             }
             self.push(row);
         }
+        Object.keys(meta).forEach(a => {
+            metaObject[a] = meta[a];
+        });
+        metaObject.loading = false;
     };
     self.listenStorage = this.listenStorage;
     this.listenErrors = (error) => {
@@ -26,6 +31,7 @@ function ApiArray(url, errorsObject) {
     };
     this.listenLoading = (loading) => {
         self.loading = loading;
+        metaObject.loading = loading;
     };
     self.listenLoading = this.listenLoading;
     self.loadFromAPI = function(newURL) {
@@ -56,6 +62,7 @@ function ApiArray(url, errorsObject) {
                 purl.searchParams.set(key, params[key]);
             }
         });
+        purl.searchParams.set('page', 1);
         self.loadFromAPI(purl.pathname + purl.search);
         return this;
     };
