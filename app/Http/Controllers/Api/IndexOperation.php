@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Model;
 use App\Exceptions\NotFoundException;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Exceptions\InvalidApiCall;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 
 class IndexOperation extends BaseOperation
 {
-
     protected $createNewRows = false;
     protected $sort;
     protected $filter;
     protected $perPage;
     protected $fields;
-    protected $count;
+    protected $count = false;
 
     public function index($sort, $filter, $perPage, $fields, $count = false)
     {
@@ -71,7 +68,7 @@ class IndexOperation extends BaseOperation
     {
         $result = $this->fields ? $model::select($this->fields) : $model::select();
         $query = $this->addSorting($this->addFilter($result));
-        return $this->perPage != -1 ? $this->getPaginated($query) : $query->get();
+        return $this->perPage != -1 || $this->count ? $this->getPaginated($query) : $query->get();
     }
 
     protected function isArray($model, $target = null, $data)
@@ -97,7 +94,7 @@ class IndexOperation extends BaseOperation
         }
         $relFilter = [];
         foreach ($this->filter as $filter) {
-            $params = explode(",", $filter);
+            $params = explode(',', $filter);
             $method = array_shift($params);
             $relation = false;
             if (substr($method, 0, 1) === '@') {
@@ -115,7 +112,7 @@ class IndexOperation extends BaseOperation
             }
         }
         foreach ($relFilter as $relationName => $relations) {
-            foreach($relations as $relation) {
+            foreach ($relations as $relation) {
                 list($method, $params) = $relation;
                 $select = $select->$method($relationName, function ($select) use ($params) {
                     call_user_func_array([$select, 'where'], $params);

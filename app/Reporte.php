@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Description of Reporte
@@ -408,5 +409,51 @@ class Reporte extends Model
     {
         $user = Auth::user();
         $this->attributes['destinatario'] = $user->role_id == 3 ? $user->getKey() : $value;
+    }
+
+    public static function reporte1registrados()
+    {
+        return HojaRuta::select(DB::raw(
+                "TO_CHAR(fecha_recepcion, 'YYYY-MM') as periodo, count(*) as cantidad"
+            ))
+            ->groupBy(DB::raw("TO_CHAR(fecha_recepcion, 'YYYY-MM')"))
+            ->orderBy('periodo')
+            ->get();
+    }
+
+    public static function reporte1concluidas()
+    {
+        return HojaRuta::select(DB::raw(
+                "TO_CHAR(fecha_conclusion, 'YYYY-MM') as periodo, count(*) as cantidad"
+            ))
+            ->whereNotNull('fecha_conclusion')
+            ->groupBy(DB::raw("TO_CHAR(fecha_conclusion, 'YYYY-MM')"))
+            ->orderBy('periodo')
+            ->get();
+        return Tarea::select(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM') as periodo, count(*) as cantidad"))
+            ->groupBy(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM')"))
+            ->orderBy('periodo')
+            ->get();
+    }
+
+    public static function reporte1registrados_tarea()
+    {
+        return Tarea::select(DB::raw(
+                "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo, count(*) as cantidad"
+            ))
+            ->groupBy(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM')"))
+            ->orderBy('periodo')
+            ->get();
+    }
+
+    public static function reporte1concluidas_tarea()
+    {
+        return Tarea::select(DB::raw(
+                "TO_CHAR(tar_fecha_fin, 'YYYY-MM') as periodo, count(*) as cantidad"
+            ))
+            ->whereNotNull('tar_fecha_fin')
+            ->groupBy(DB::raw("TO_CHAR(tar_fecha_fin, 'YYYY-MM')"))
+            ->orderBy('periodo')
+            ->get();
     }
 }

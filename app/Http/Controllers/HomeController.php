@@ -64,6 +64,46 @@ class HomeController extends Controller
             }
             $links[$module->id] = $link;
         }
+        if ($user->role_id == 1) {
+            $links = $this->addNewReports($links);
+        }
+        return $links;
+    }
+
+    public function addNewReports($links)
+    {
+        $links['1200'] = [
+            'text' => 'Nuevos Reportes',
+            'icon' => '/images/reporte.svg',
+            'description' => 'Nuevos Reportes de hojas de ruta, notas, etc.',
+            'href' => '/?item=1200',
+            'links' => [
+                [
+                    'text' => 'Cantidad de Hojas de Ruta',
+                    'description' => 'Registrados en un periodo de tiempo',
+                    'icon' => '/images/reporte.svg',
+                    'href' => '/reporte1/registrados',
+                ],
+                [
+                    'text' => 'Cantidad de Hojas de Ruta',
+                    'description' => 'Concluidas en un periodo de tiempo',
+                    'icon' => '/images/reporte.svg',
+                    'href' => '/reporte1/concluidas',
+                ],
+                [
+                    'text' => 'Cantidad de Tareas',
+                    'description' => 'Asignadas en un periodo de tiempo',
+                    'icon' => '/images/reporte.svg',
+                    'href' => '/reporte1/tareas/asignadas',
+                ],
+                [
+                    'text' => 'Cantidad de Tareas',
+                    'description' => 'Concluidas en un periodo de tiempo',
+                    'icon' => '/images/reporte.svg',
+                    'href' => '/reporte1/tareas/concluidas',
+                ],
+            ],
+        ];
         return $links;
     }
 }
