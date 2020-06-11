@@ -411,11 +411,34 @@ class Reporte extends Model
         $this->attributes['destinatario'] = $user->role_id == 3 ? $user->getKey() : $value;
     }
 
+    public static function reporte1hr()
+    {
+        $registradas = self::reporte1registrados();
+        $concluidas = self::reporte1concluidas();
+        $rows = [];
+        foreach ($registradas as $row) {
+            $rows[$row['periodo']] = [
+                'periodo' => $row['periodo'],
+                'registradas' => $row['cantidad'],
+                'concluidas' => 0,
+            ];
+        }
+        foreach ($concluidas as $row) {
+            if (!$rows[$row['periodo']]) {
+                $rows[$row['periodo']]['periodo'] = $row['periodo'];
+                $rows[$row['periodo']]['registradas'] = 0;
+            }
+            $rows[$row['periodo']]['concluidas'] = $row['cantidad'];
+        }
+        ksort($rows);
+        return array_values($rows);
+    }
+
     public static function reporte1registrados()
     {
         return HojaRuta::select(DB::raw(
-                "TO_CHAR(fecha_recepcion, 'YYYY-MM') as periodo, count(*) as cantidad"
-            ))
+            "TO_CHAR(fecha_recepcion, 'YYYY-MM') as periodo, count(*) as cantidad"
+        ))
             ->groupBy(DB::raw("TO_CHAR(fecha_recepcion, 'YYYY-MM')"))
             ->orderBy('periodo')
             ->get();
@@ -424,23 +447,42 @@ class Reporte extends Model
     public static function reporte1concluidas()
     {
         return HojaRuta::select(DB::raw(
-                "TO_CHAR(fecha_conclusion, 'YYYY-MM') as periodo, count(*) as cantidad"
-            ))
+            "TO_CHAR(fecha_conclusion, 'YYYY-MM') as periodo, count(*) as cantidad"
+        ))
             ->whereNotNull('fecha_conclusion')
             ->groupBy(DB::raw("TO_CHAR(fecha_conclusion, 'YYYY-MM')"))
             ->orderBy('periodo')
             ->get();
-        return Tarea::select(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM') as periodo, count(*) as cantidad"))
-            ->groupBy(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM')"))
-            ->orderBy('periodo')
-            ->get();
+    }
+
+    public static function reporte1tareas()
+    {
+        $registradas = self::reporte1registrados_tarea();
+        $concluidas = self::reporte1concluidas_tarea();
+        $rows = [];
+        foreach ($registradas as $row) {
+            $rows[$row['periodo']] = [
+                'periodo' => $row['periodo'],
+                'registradas' => $row['cantidad'],
+                'concluidas' => 0,
+            ];
+        }
+        foreach ($concluidas as $row) {
+            if (!$rows[$row['periodo']]) {
+                $rows[$row['periodo']]['periodo'] = $row['periodo'];
+                $rows[$row['periodo']]['registradas'] = 0;
+            }
+            $rows[$row['periodo']]['concluidas'] = $row['cantidad'];
+        }
+        ksort($rows);
+        return array_values($rows);
     }
 
     public static function reporte1registrados_tarea()
     {
         return Tarea::select(DB::raw(
-                "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo, count(*) as cantidad"
-            ))
+            "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo, count(*) as cantidad"
+        ))
             ->groupBy(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM')"))
             ->orderBy('periodo')
             ->get();
@@ -449,8 +491,8 @@ class Reporte extends Model
     public static function reporte1concluidas_tarea()
     {
         return Tarea::select(DB::raw(
-                "TO_CHAR(tar_fecha_fin, 'YYYY-MM') as periodo, count(*) as cantidad"
-            ))
+            "TO_CHAR(tar_fecha_fin, 'YYYY-MM') as periodo, count(*) as cantidad"
+        ))
             ->whereNotNull('tar_fecha_fin')
             ->groupBy(DB::raw("TO_CHAR(tar_fecha_fin, 'YYYY-MM')"))
             ->orderBy('periodo')
@@ -460,11 +502,11 @@ class Reporte extends Model
     public static function reporte2bitacora_mensual()
     {
         return Tarea::select(DB::raw(
-                "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo,
+            "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo,
                 count(*) as asignados,
                 sum(case tar_estado when 'Completado' then 0 else 1 end) as pendientes,
                 sum(case tar_estado when 'Completado' then 1 else 0 end) as completados"
-            ))
+        ))
             ->whereNotNull('fecha_registro')
             ->groupBy(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM')"))
             ->orderBy('periodo')
@@ -474,11 +516,11 @@ class Reporte extends Model
     public static function reporte3mes()
     {
         return Tarea::select(DB::raw(
-                "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo,
+            "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo,
                 sum(case tar_estado when 'Aprobado' then 1 else 0 end) as aprobados,
                 sum(case tar_estado when 'Pendiente' then 1 else 0 end) as pendientes,
                 sum(case tar_estado when 'Completado' then 1 else 0 end) as completados"
-            ))
+        ))
             ->whereNotNull('fecha_registro')
             ->groupBy(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM')"))
             ->orderBy('periodo')
@@ -487,7 +529,8 @@ class Reporte extends Model
 
     public static function reporte3mes_usuario($periodo)
     {
-        return DB::select("
+        return DB::select(
+            "
             select 
                 1 as subreport,
                 (select concat(nombres, ' ', apellidos) from adm_users where id = tu.user_id) as usuario,
@@ -512,7 +555,8 @@ class Reporte extends Model
 
     public static function reporte3usuario()
     {
-        return DB::select("
+        return DB::select(
+            "
             select 
                 (select concat(nombres, ' ', apellidos) from adm_users where id = tu.user_id) as usuario,
                 tu.user_id,
@@ -537,7 +581,8 @@ class Reporte extends Model
 
     public static function reporte3usuario_mes($usuario)
     {
-        return DB::select("
+        return DB::select(
+            "
             select
                 1 as subreport,
                 TO_CHAR(ta.fecha_registro, 'YYYY-MM') as periodo,

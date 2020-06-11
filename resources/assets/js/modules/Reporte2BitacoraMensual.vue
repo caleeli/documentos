@@ -3,7 +3,7 @@
         <label v-if="error" class="alert alert-danger">{{ error }}</label>
         <reporte-tipo :data="data" :columns="columns">
             <template v-slot:col(periodo)="{row}">
-                {{ moment(`${row.periodo}-01`).format('MMMM / YYYY') }}
+                {{ moment(`${row.periodo}-01`).format('MMMM / YYYY').toUpperCase() }}
             </template>
         </reporte-tipo>
     </panel>
