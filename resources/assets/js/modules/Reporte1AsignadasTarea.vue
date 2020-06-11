@@ -1,5 +1,5 @@
 <template>
-    <panel name="Cantidad de Hojas de Ruta Registrados en un periodo de tiempo" class="panel-primary">
+    <panel name="Cantidad de Tareas Asignadas en un periodo de tiempo" class="panel-primary">
         <label v-if="error" class="alert alert-danger">{{ error }}</label>
         <reporte-tipo :data="data" :columns="columns"></reporte-tipo>
     </panel>
@@ -15,7 +15,7 @@
                 data: [],
                 columns: [
                     {key: 'periodo', label: 'Periodo'},
-                    {key: 'cantidad', label: 'Cantidad'},
+                    {key: 'cantidad', label: 'TAREAS ASIGNADAS'},
                 ],
             };
         },

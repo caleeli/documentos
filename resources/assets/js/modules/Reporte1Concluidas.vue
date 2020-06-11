@@ -15,7 +15,7 @@
                 data: [],
                 columns: [
                     {key: 'periodo', label: 'Periodo'},
-                    {key: 'cantidad', label: 'Cantidad'},
+                    {key: 'cantidad', label: 'HOJAS DE RUTA CONCLUIDAS'},
                 ],
             };
         },

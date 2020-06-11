@@ -1,5 +1,5 @@
 <template>
-    <panel name="Cantidad de Tareas Concluidas en un periodo de tiempo" class="panel-primary">
+    <panel name="Bitacora Mensual de Tareas" class="panel-primary">
         <label v-if="error" class="alert alert-danger">{{ error }}</label>
         <reporte-tipo :data="data" :columns="columns"></reporte-tipo>
     </panel>
@@ -7,22 +7,24 @@
 
 <script>
     export default {
-        path: "/reporte1/tareas/concluidas",
+        path: "/reporte2/bitacora/tareas",
         data() {
             return {
                 error: '',
                 reporte: new ApiObject('/api/reporte'),
                 data: [],
                 columns: [
-                    {key: 'periodo', label: 'Periodo'},
-                    {key: 'cantidad', label: 'TAREAS CONCLUIDAS'},
+                    {key: 'periodo', label: 'PERIODO'},
+                    {key: 'asignados', label: 'ASIGNADAS'},
+                    {key: 'completados', label: 'ATENDIDAS'},
+                    {key: 'pendientes', label: 'PENDIENTES'},
                 ],
             };
         },
         methods: {
             runReport() {
                 this.error = '';
-                this.reporte.callMethod('reporte1concluidas_tarea', {})
+                this.reporte.callMethod('reporte2bitacora_mensual', {})
                     .then(response => {
                        this.data = response.data.response;
                     })

@@ -456,4 +456,18 @@ class Reporte extends Model
             ->orderBy('periodo')
             ->get();
     }
+
+    public static function reporte2bitacora_mensual()
+    {
+        return Tarea::select(DB::raw(
+                "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo,
+                count(*) as asignados,
+                sum(case tar_estado when 'Completado' then 0 else 1 end) as pendientes,
+                sum(case tar_estado when 'Completado' then 1 else 0 end) as completados"
+            ))
+            ->whereNotNull('fecha_registro')
+            ->groupBy(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM')"))
+            ->orderBy('periodo')
+            ->get();
+    }
 }

@@ -79,28 +79,34 @@ class HomeController extends Controller
             'href' => '/?item=1200',
             'links' => [
                 [
-                    'text' => 'Cantidad de Hojas de Ruta',
+                    'text' => 'Hojas de Ruta Registradas',
                     'description' => 'Registrados en un periodo de tiempo',
                     'icon' => '/images/reporte.svg',
                     'href' => '/reporte1/registrados',
                 ],
                 [
-                    'text' => 'Cantidad de Hojas de Ruta',
+                    'text' => 'Hojas de Ruta Concluidas',
                     'description' => 'Concluidas en un periodo de tiempo',
                     'icon' => '/images/reporte.svg',
                     'href' => '/reporte1/concluidas',
                 ],
                 [
-                    'text' => 'Cantidad de Tareas',
+                    'text' => 'Tareas asignadas',
                     'description' => 'Asignadas en un periodo de tiempo',
                     'icon' => '/images/reporte.svg',
                     'href' => '/reporte1/tareas/asignadas',
                 ],
                 [
-                    'text' => 'Cantidad de Tareas',
+                    'text' => 'Tareas concluidas',
                     'description' => 'Concluidas en un periodo de tiempo',
                     'icon' => '/images/reporte.svg',
                     'href' => '/reporte1/tareas/concluidas',
+                ],
+                [
+                    'text' => 'Bitacora Mensual',
+                    'description' => 'Cantidades de tareas asignadas, atendidas, pendientes',
+                    'icon' => '/images/reporte.svg',
+                    'href' => '/reporte2/bitacora/tareas',
                 ],
             ],
         ];
