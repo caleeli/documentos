@@ -30,8 +30,15 @@
                     label-field="periodo"
                     :value-field="['pendientes','aprobados','completados']"
                     :colors="['salmon', 'lightblue', 'lightgreen']"
-                    type="bar"
+                    :type="mensual ? 'bar' : 'line'"
                     stacked
+                />
+                <chart-bar
+                    :data="data"
+                    title="CALIFICACIÓN"
+                    label-field="periodo"
+                    value-field="calificacion"
+                    :type="mensual ? 'bar' : 'line'"
                 />
             </div>
         </div>
