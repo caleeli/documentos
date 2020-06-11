@@ -108,6 +108,12 @@ class HomeController extends Controller
                     'icon' => '/images/reporte.svg',
                     'href' => '/reporte3usuario',
                 ],
+                [
+                    'text' => 'Reporte Asignación de Tareas',
+                    'description' => 'Reportes mensuales y semanales sobre las asignaciones de tareas',
+                    'icon' => '/images/reporte.svg',
+                    'href' => '/reporte4',
+                ],
             ],
         ];
         return $links;

@@ -606,4 +606,22 @@ class Reporte extends Model
             ]
         );
     }
+
+    public static function reporte4($mensual = true)
+    {
+        $format = $mensual ? 'YYYY-MM' : 'YYYY-WW';
+        return Tarea::select(DB::raw(
+            "TO_CHAR(fecha_registro, '{$format}') as periodo,
+                count(*) as asignados,
+                sum(case tar_estado when 'Aprobado' then 1 else 0 end) as aprobados,
+                sum(case tar_estado when 'Pendiente' then 1 else 0 end) as pendientes,
+                sum(case tar_estado when 'Completado' then 1 else 0 end) as completados,
+                avg(tar_calificacion) as calificacion
+            "
+        ))
+            ->whereNotNull('fecha_registro')
+            ->groupBy(DB::raw("TO_CHAR(fecha_registro, '{$format}')"))
+            ->orderBy('periodo')
+            ->get();
+    }
 }
