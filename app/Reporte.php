@@ -470,4 +470,95 @@ class Reporte extends Model
             ->orderBy('periodo')
             ->get();
     }
+
+    public static function reporte3mes()
+    {
+        return Tarea::select(DB::raw(
+                "TO_CHAR(fecha_registro, 'YYYY-MM') as periodo,
+                sum(case tar_estado when 'Aprobado' then 1 else 0 end) as aprobados,
+                sum(case tar_estado when 'Pendiente' then 1 else 0 end) as pendientes,
+                sum(case tar_estado when 'Completado' then 1 else 0 end) as completados"
+            ))
+            ->whereNotNull('fecha_registro')
+            ->groupBy(DB::raw("TO_CHAR(fecha_registro, 'YYYY-MM')"))
+            ->orderBy('periodo')
+            ->get();
+    }
+
+    public static function reporte3mes_usuario($periodo)
+    {
+        return DB::select("
+            select 
+                1 as subreport,
+                (select concat(nombres, ' ', apellidos) from adm_users where id = tu.user_id) as usuario,
+                sum(case ta.tar_estado when 'Aprobado' then 1 else 0 end) as aprobados,
+                sum(case ta.tar_estado when 'Pendiente' then 1 else 0 end) as pendientes,
+                sum(case ta.tar_estado when 'Completado' then 1 else 0 end) as completados
+            from
+                tarea_user as tu left join tarea as ta on (tu.tarea_tar_id = ta.tar_id)
+            where
+                tu.fecha_baja is null
+                and ta.fecha_baja is null
+                and ta.fecha_registro is not null
+                and TO_CHAR(ta.fecha_registro, 'YYYY-MM') = :periodo
+            group by
+                tu.user_id
+            ",
+            [
+                'periodo' => $periodo,
+            ]
+        );
+    }
+
+    public static function reporte3usuario()
+    {
+        return DB::select("
+            select 
+                (select concat(nombres, ' ', apellidos) from adm_users where id = tu.user_id) as usuario,
+                tu.user_id,
+                sum(case ta.tar_estado when 'Aprobado' then 1 else 0 end) as aprobados,
+                sum(case ta.tar_estado when 'Pendiente' then 1 else 0 end) as pendientes,
+                sum(case ta.tar_estado when 'Completado' then 1 else 0 end) as completados
+            from
+                tarea_user as tu left join tarea as ta on (tu.tarea_tar_id = ta.tar_id)
+            where
+                tu.fecha_baja is null
+                and ta.fecha_baja is null
+                and ta.fecha_registro is not null
+            group by
+                tu.user_id
+            order by
+                usuario
+            ",
+            [
+            ]
+        );
+    }
+
+    public static function reporte3usuario_mes($usuario)
+    {
+        return DB::select("
+            select
+                1 as subreport,
+                TO_CHAR(ta.fecha_registro, 'YYYY-MM') as periodo,
+                sum(case ta.tar_estado when 'Aprobado' then 1 else 0 end) as aprobados,
+                sum(case ta.tar_estado when 'Pendiente' then 1 else 0 end) as pendientes,
+                sum(case ta.tar_estado when 'Completado' then 1 else 0 end) as completados
+            from
+                tarea_user as tu left join tarea as ta on (tu.tarea_tar_id = ta.tar_id)
+            where
+                tu.fecha_baja is null
+                and ta.fecha_baja is null
+                and ta.fecha_registro is not null
+                and tu.user_id = :usuario
+            group by
+                TO_CHAR(ta.fecha_registro, 'YYYY-MM')
+            order by
+                periodo
+            ",
+            [
+                'usuario' => $usuario,
+            ]
+        );
+    }
 }

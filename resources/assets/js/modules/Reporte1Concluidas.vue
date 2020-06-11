@@ -1,7 +1,11 @@
 <template>
     <panel name="Cantidad de Hojas de Ruta Concluidas en un periodo de tiempo" class="panel-primary">
         <label v-if="error" class="alert alert-danger">{{ error }}</label>
-        <reporte-tipo :data="data" :columns="columns"></reporte-tipo>
+        <reporte-tipo :data="data" :columns="columns">
+            <template v-slot:col(periodo)="{row}">
+                {{ moment(`${row.periodo}-01`).format('MMMM / YYYY') }}
+            </template>
+        </reporte-tipo>
     </panel>
 </template>
 

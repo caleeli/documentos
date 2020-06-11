@@ -108,6 +108,18 @@ class HomeController extends Controller
                     'icon' => '/images/reporte.svg',
                     'href' => '/reporte2/bitacora/tareas',
                 ],
+                /*[
+                    'text' => 'Reporte 3 mensual',
+                    'description' => 'Supervisadas, pendientes, atendidas',
+                    'icon' => '/images/reporte.svg',
+                    'href' => '/reporte3',
+                ],*/
+                [
+                    'text' => 'Reporte 3 usuario / mensual',
+                    'description' => 'Supervisadas, pendientes, atendidas',
+                    'icon' => '/images/reporte.svg',
+                    'href' => '/reporte3usuario',
+                ],
             ],
         ];
         return $links;
