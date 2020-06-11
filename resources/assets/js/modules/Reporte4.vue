@@ -19,10 +19,19 @@
             <div>
                 <chart-bar
                     :data="data"
-                    :title="`ASIGNADOS ${mensual?' (POR MES)':' (POR SEMANA)'}`"
+                    :title="`ASIGNADAS ${mensual?' (POR MES)':' (POR SEMANA)'}`"
                     label-field="periodo"
                     value-field="asignados"
                     :type="mensual ? 'bar' : 'line'"
+                />
+                <chart-bar
+                    :data="data"
+                    :title="`ESTADO`"
+                    label-field="periodo"
+                    :value-field="['pendientes','aprobados','completados']"
+                    :colors="['salmon', 'lightblue', 'lightgreen']"
+                    type="bar"
+                    stacked
                 />
             </div>
         </div>

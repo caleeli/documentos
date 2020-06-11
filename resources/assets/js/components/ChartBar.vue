@@ -9,11 +9,21 @@ export default {
   props: {
     data: Array,
     labelField: String,
-    valueField: String,
+    valueField: null,
     title: String,
     type: {
       type: String,
       default: 'horizontalBar'
+    },
+    stacked: {
+      type: Boolean,
+      default: false,
+    },
+    colors: {
+      type: Array,
+      default() {
+        return ['beige', 'salmon', 'lightblue', 'lightgreen'];
+      },
     },
   },
   data() {
@@ -35,13 +45,24 @@ export default {
   },
   methods: {
     prepareData() {
+      this.chartData = {
+          labels: [],
+          datasets: [{
+              data: [],
+          }],
+      };
       this.chartData.labels.splice(0);
       this.data.forEach(row => {
         this.chartData.labels.push(row[this.labelField]);
       });
-      this.chartData.datasets[0].data.splice(0);
-      this.data.forEach(row => {
-        this.chartData.datasets[0].data.push(Number(row[this.valueField]));
+      const valueField = (this.valueField instanceof Array) ? this.valueField : [this.valueField];
+      this.chartData.datasets.splice(0);
+      valueField.forEach((field, index) => {
+        const data = [];
+        this.chartData.datasets.push({ backgroundColor: this.colors[index], data });
+        this.data.forEach(row => {
+          data.push(Number(row[field]));
+        });
       });
     },
     buildChart() {
@@ -63,6 +84,14 @@ export default {
               title: {
                   display: true,
                   text: this.title
+              },
+              scales: {
+                xAxes: [{
+                  stacked: this.stacked,
+                }],
+                yAxes: [{
+                  stacked: this.stacked,
+                }]
               }
           }
       });
