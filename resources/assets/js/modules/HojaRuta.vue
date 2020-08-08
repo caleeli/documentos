@@ -127,20 +127,20 @@
             <div class="form-group row">
                 <div :class="colLabel"><label>Destinatario (*):</label></div>
                 <div :class="colField">
-                    <suggest :readonly="!pendiente" :data="destinatarios" v-model="data.attributes.destinatario" :multiple="false"
+                    <select-box :readonly="!pendiente" :data="destinatarios" v-model="data.attributes.destinatario" :multiple="false"
                         id-field="attributes.nombre_completo"
                         filter-by="attributes.nombre_completo">
                         <template slot-scope="{row,format,remove}">
                             <!-- Used to render the selected items -->
                             <template v-if="remove">
-                                <span class="selected-item badge badge-light mr-1" v-html="format(row.attributes.nombre_completo)" @click="remove(row)"></span>
+                                <span class="selected-item badge badge-light mr-1" @click="remove(row)">{{ format(row.attributes.nombre_completo) }} <i class="fas fa-times-circle"></i></span>
                             </template>
                             <!-- Used to render the items in the selection list -->
                             <template v-else>
                                 <span v-html="format(row.attributes.nombre_completo)" style="font-size: 1rem"></span>
                             </template>
                         </template>
-                    </suggest>
+                    </select-box>
                     <error v-model="erroresHojaRuta" property="errors.destinatario"></error>
                 </div>
             </div>
