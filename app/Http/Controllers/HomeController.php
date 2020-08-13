@@ -43,8 +43,8 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $links = [];
-        $where = Module::where('parent', 0);
-        $where = $user->role_id == '2' ? $where->where('id', '!=', '900') : $where;
+        $where = Module::where('parent', 0)->whereAuth($user);
+        //$where = $user->role_id == '2' ? $where->where('id', '!=', '900') : $where;
         foreach($where->get() as $module) {
             $link = [
                 'text' => $module->name,
@@ -52,8 +52,8 @@ class HomeController extends Controller
                 'description' => $module->description,
                 'href' => $module->route,
             ];
-            $where = Module::where('parent', $module->id);
-            $where = $user->role_id == '3' ? $where->where('name', '!=', 'Registrar') : $where;
+            $where = Module::where('parent', $module->id)->whereAuth($user);
+            //$where = $user->role_id == '3' ? $where->where('name', '!=', 'Registrar') : $where;
             foreach ($where->get() as $submodule) {
                 $link['links'][] = [
                     'text' => $submodule->name,
