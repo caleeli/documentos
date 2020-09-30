@@ -159,8 +159,14 @@ export default {
       if (this.tareas.setPagingOptions instanceof Function) {
         setPage(this.tareas, page);
       }
-      if (this.$refs.currentPage) {
+      if (this.$refs.currentPage && this.$refs.currentPage.focus instanceof Function) {
         this.$refs.currentPage.focus();
+      } else if (this.$refs.currentPage instanceof Array) {
+        this.$refs.currentPage.forEach(cp => {
+          if (cp.focus instanceof Function) {
+            cp.focus();
+          }
+        })
       }
     },
     textValue(value) {
