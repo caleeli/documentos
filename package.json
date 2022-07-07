@@ -19,7 +19,7 @@
     "laravel-echo": "^1.4.0",
     "laravel-mix": "^4.0",
     "laravel-mix-bundle-analyzer": "^1.0.2",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "popper.js": "^1.12",
     "resolve-url-loader": "^3.1.0",
     "sass": "^1.23.1",
